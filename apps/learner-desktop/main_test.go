@@ -1,6 +1,11 @@
 package main
 
 import (
+	"context"
+	"errors"
+	"net"
+	"net/http"
+	"os"
 	"strings"
 	"testing"
 	"time"
@@ -123,4 +128,89 @@ func TestWaitForReadyTimeout(t *testing.T) {
 	if time.Since(start) < 300*time.Millisecond {
 		t.Fatalf("waitForReady returned too early")
 	}
+}
+
+func TestWaitForReadyRequiresHTTP200(t *testing.T) {
+	listener := mustListenForTest(t, "tcp4", "127.0.0.1:0")
+
+	server := &http.Server{Handler: http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusNoContent)
+	})}
+	go func() {
+		_ = server.Serve(listener)
+	}()
+	defer func() {
+		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+		defer cancel()
+		_ = server.Shutdown(ctx)
+	}()
+
+	err := waitForReady("http://"+listener.Addr().String(), 350*time.Millisecond)
+	if err == nil {
+		t.Fatalf("expected timeout when readiness endpoint does not return 200")
+	}
+	if !strings.Contains(err.Error(), "unexpected status") {
+		t.Fatalf("expected unexpected status error detail, got %v", err)
+	}
+}
+
+func TestResolveLaunchAddr(t *testing.T) {
+	t.Run("uses requested address when available", func(t *testing.T) {
+		freeListener := mustListenForTest(t, "tcp", "127.0.0.1:0")
+		freeAddr := freeListener.Addr().String()
+		_ = freeListener.Close()
+
+		resolved, fallbackUsed, err := resolveLaunchAddr(freeAddr)
+		if err != nil {
+			t.Fatalf("resolve launch addr: %v", err)
+		}
+		if fallbackUsed {
+			t.Fatalf("did not expect fallback for available address")
+		}
+		if resolved != freeAddr {
+			t.Fatalf("expected same address, got %q (wanted %q)", resolved, freeAddr)
+		}
+	})
+
+	t.Run("falls back when requested address is busy", func(t *testing.T) {
+		busyListener := mustListenForTest(t, "tcp", "127.0.0.1:0")
+		defer busyListener.Close()
+		busyAddr := busyListener.Addr().String()
+
+		resolved, fallbackUsed, err := resolveLaunchAddr(busyAddr)
+		if err != nil {
+			t.Fatalf("resolve launch addr fallback: %v", err)
+		}
+		if !fallbackUsed {
+			t.Fatalf("expected fallback to be used")
+		}
+		if resolved == busyAddr {
+			t.Fatalf("expected fallback address different from busy address %q", busyAddr)
+		}
+
+		checkListener := mustListenForTest(t, "tcp", resolved)
+		_ = checkListener.Close()
+	})
+
+	t.Run("errors when host or port missing", func(t *testing.T) {
+		if _, _, err := resolveLaunchAddr("127.0.0.1"); err == nil {
+			t.Fatalf("expected error for malformed address")
+		}
+	})
+}
+
+func mustListenForTest(t *testing.T, network, addr string) net.Listener {
+	t.Helper()
+
+	listener, err := net.Listen(network, addr)
+	if err == nil {
+		return listener
+	}
+
+	if errors.Is(err, os.ErrPermission) || strings.Contains(strings.ToLower(err.Error()), "operation not permitted") {
+		t.Skipf("skipping socket test; listen not permitted in this environment: %v", err)
+	}
+
+	t.Fatalf("listen %s %s: %v", network, addr, err)
+	return nil
 }
