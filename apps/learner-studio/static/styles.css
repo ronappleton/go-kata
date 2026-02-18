@@ -387,7 +387,6 @@ kbd {
   height: 100%;
 }
 
-.doc-view,
 #run-output,
 #mark-prompt {
   width: 100%;
@@ -405,7 +404,86 @@ kbd {
   padding: 14px;
   height: calc(100vh - 220px);
   overflow: auto;
-  white-space: pre-wrap;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-1);
+  color: var(--ink-0);
+  font-family: "IBM Plex Sans", "Fira Sans", "Segoe UI", sans-serif;
+  font-size: 0.93rem;
+  line-height: 1.55;
+}
+
+.markdown-render h1,
+.markdown-render h2,
+.markdown-render h3,
+.markdown-render h4,
+.markdown-render h5,
+.markdown-render h6 {
+  margin: 1.1em 0 0.45em;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.markdown-render h1 {
+  font-size: 1.45rem;
+}
+
+.markdown-render h2 {
+  font-size: 1.2rem;
+}
+
+.markdown-render h3 {
+  font-size: 1.05rem;
+}
+
+.markdown-render p {
+  margin: 0 0 0.7em;
+}
+
+.markdown-render ul,
+.markdown-render ol {
+  margin: 0 0 0.8em 1.2em;
+  padding: 0;
+}
+
+.markdown-render li {
+  margin: 0.2em 0;
+}
+
+.markdown-render a {
+  color: var(--brand);
+  text-decoration: underline;
+}
+
+.markdown-render code {
+  font-family: "JetBrains Mono", "Cascadia Code", "SFMono-Regular", monospace;
+  font-size: 0.84em;
+  background: color-mix(in srgb, var(--surface-2) 70%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.08em 0.35em;
+}
+
+.markdown-render pre {
+  margin: 0 0 0.8em;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--surface-2) 45%, var(--surface-1));
+  overflow: auto;
+}
+
+.markdown-render pre code {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: 0.84rem;
+}
+
+.markdown-render hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 0.95em 0;
 }
 
 .workbench-grid {

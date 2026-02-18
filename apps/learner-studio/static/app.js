@@ -665,7 +665,7 @@ async function loadKata(kataID) {
 
   el.kataTitle.textContent = `${kata.id} - ${kata.title}`;
   el.kataSubtitle.textContent = `${kata.category.title} - ${kata.focus}`;
-  el.readmeView.textContent = kata.readme;
+  el.readmeView.innerHTML = renderMarkdownDocument(kata.readme);
   setEditorValue("tests", kata.tests);
   setEditorValue("code", kata.code);
   clearSearch("tests");
@@ -1264,6 +1264,191 @@ function buildLineNumbers(source) {
 
 function escapeRegex(input) {
   return input.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function renderMarkdownDocument(markdown) {
+  const lines = String(markdown || "").replace(/\r\n?/g, "\n").split("\n");
+  const out = [];
+  let i = 0;
+  let inCode = false;
+  let codeLang = "";
+  let codeLines = [];
+  let paraLines = [];
+  let inUL = false;
+  let inOL = false;
+
+  function flushParagraph() {
+    if (paraLines.length === 0) {
+      return;
+    }
+    const text = paraLines.join(" ").trim();
+    if (text) {
+      out.push(`<p>${renderInlineMarkdown(text)}</p>`);
+    }
+    paraLines = [];
+  }
+
+  function closeLists() {
+    if (inUL) {
+      out.push("</ul>");
+      inUL = false;
+    }
+    if (inOL) {
+      out.push("</ol>");
+      inOL = false;
+    }
+  }
+
+  function flushCodeBlock() {
+    if (!inCode) {
+      return;
+    }
+    const langClass = codeLang ? ` class="language-${escapeAttribute(codeLang)}"` : "";
+    out.push(`<pre><code${langClass}>${escapeHTML(codeLines.join("\n"))}</code></pre>`);
+    inCode = false;
+    codeLang = "";
+    codeLines = [];
+  }
+
+  while (i < lines.length) {
+    const line = lines[i];
+    const trimmed = line.trim();
+
+    if (inCode) {
+      if (trimmed.startsWith("```")) {
+        flushCodeBlock();
+      } else {
+        codeLines.push(line);
+      }
+      i += 1;
+      continue;
+    }
+
+    const fenceMatch = trimmed.match(/^```([a-zA-Z0-9_-]+)?$/);
+    if (fenceMatch) {
+      flushParagraph();
+      closeLists();
+      inCode = true;
+      codeLang = (fenceMatch[1] || "").trim();
+      codeLines = [];
+      i += 1;
+      continue;
+    }
+
+    if (trimmed === "") {
+      flushParagraph();
+      closeLists();
+      i += 1;
+      continue;
+    }
+
+    if (/^(-{3,}|\*{3,}|_{3,})$/.test(trimmed)) {
+      flushParagraph();
+      closeLists();
+      out.push("<hr>");
+      i += 1;
+      continue;
+    }
+
+    const heading = trimmed.match(/^(#{1,6})\s+(.+)$/);
+    if (heading) {
+      flushParagraph();
+      closeLists();
+      const level = heading[1].length;
+      out.push(`<h${level}>${renderInlineMarkdown(heading[2])}</h${level}>`);
+      i += 1;
+      continue;
+    }
+
+    const ul = trimmed.match(/^[-*]\s+(.+)$/);
+    if (ul) {
+      flushParagraph();
+      if (inOL) {
+        out.push("</ol>");
+        inOL = false;
+      }
+      if (!inUL) {
+        out.push("<ul>");
+        inUL = true;
+      }
+      out.push(`<li>${renderInlineMarkdown(ul[1])}</li>`);
+      i += 1;
+      continue;
+    }
+
+    const ol = trimmed.match(/^\d+\.\s+(.+)$/);
+    if (ol) {
+      flushParagraph();
+      if (inUL) {
+        out.push("</ul>");
+        inUL = false;
+      }
+      if (!inOL) {
+        out.push("<ol>");
+        inOL = true;
+      }
+      out.push(`<li>${renderInlineMarkdown(ol[1])}</li>`);
+      i += 1;
+      continue;
+    }
+
+    paraLines.push(trimmed);
+    i += 1;
+  }
+
+  flushParagraph();
+  closeLists();
+  flushCodeBlock();
+  return out.join("\n");
+}
+
+function renderInlineMarkdown(input) {
+  let text = escapeHTML(input || "");
+  const codeTokens = [];
+
+  text = text.replace(/`([^`]+)`/g, (_, codeText) => {
+    const marker = `@@CODE_${codeTokens.length}@@`;
+    codeTokens.push(`<code>${codeText}</code>`);
+    return marker;
+  });
+
+  text = text.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, rawURL) => {
+    const href = sanitizeURL(rawURL);
+    return `<a href="${escapeAttribute(href)}" target="_blank" rel="noreferrer">${label}</a>`;
+  });
+
+  text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  text = text.replace(/(^|[\s(])\*([^*]+)\*(?=[\s).,!?]|$)/g, "$1<em>$2</em>");
+
+  codeTokens.forEach((token, idx) => {
+    text = text.replaceAll(`@@CODE_${idx}@@`, token);
+  });
+
+  return text;
+}
+
+function sanitizeURL(rawURL) {
+  const url = String(rawURL || "").trim();
+  if (
+    url.startsWith("https://") ||
+    url.startsWith("http://") ||
+    url.startsWith("mailto:") ||
+    url.startsWith("/") ||
+    url.startsWith("./") ||
+    url.startsWith("../") ||
+    url.startsWith("#")
+  ) {
+    return url;
+  }
+  return "#";
+}
+
+function escapeAttribute(input) {
+  return String(input)
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
 }
 
 function toggleModal(node, visible) {
