@@ -12,6 +12,7 @@ func Kata82() error
 ### Learning goal
 - Expected work: Implement `SSE Stream` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
 - Why: `SSE Stream` teaches service-edge correctness, where request/response semantics directly drive reliability.
+- When correct: `SSE Stream` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec

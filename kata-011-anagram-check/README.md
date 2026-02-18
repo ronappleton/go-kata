@@ -12,6 +12,7 @@ func IsAnagram(a, b string) bool
 ### Learning goal
 - Expected work: Implement `Anagram Check` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Anagram Check` teaches core implementation habits that compound across all later katas.
+- When correct: `Anagram Check` should satisfy the required behavior, including: `case-insensitive`; `ignore spaces/punctuation`; and `Unicode-safe via rune counts`.
 
 ## Rules / Expectations
 - case-insensitive

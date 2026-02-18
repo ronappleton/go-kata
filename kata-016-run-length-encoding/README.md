@@ -12,6 +12,7 @@ func RLEncode(s string) string
 ### Learning goal
 - Expected work: Implement `Run-Length Encoding` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Run-Length Encoding` teaches core implementation habits that compound across all later katas.
+- When correct: `Run-Length Encoding` should satisfy the required behavior, including: `encode runs as <char><count> where count>1`; `single chars stay as char only`; and `Unicode-safe`.
 
 ## Rules / Expectations
 - encode runs as <char><count> where count>1

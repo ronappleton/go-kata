@@ -12,6 +12,7 @@ func SignJWT(claims map[string]any, secret []byte, ttl time.Duration) (string, e
 ### Learning goal
 - Expected work: Implement `JWT Sign/Verify` with strict validation and byte-level correctness for all cryptographic operations.
 - Why: `JWT Sign/Verify` teaches security precision, where small mistakes can become real vulnerabilities.
+- When correct: `JWT Sign/Verify` should satisfy the required behavior, including: `HS256`; `include exp`; and `also implement VerifyJWT(token, secret)`.
 
 ## Rules / Expectations
 - HS256

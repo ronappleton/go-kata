@@ -12,6 +12,7 @@ func Kata98() error
 ### Learning goal
 - Expected work: Implement `Generics: Optional/Result` as a composable abstraction with explicit contracts and testable behavior.
 - Why: `Generics: Optional/Result` teaches maintainable design through explicit contracts and low coupling.
+- When correct: `Generics: Optional/Result` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec

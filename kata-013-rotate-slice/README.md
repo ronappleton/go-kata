@@ -12,6 +12,7 @@ func RotateLeft[T any](items []T, k int) []T
 ### Learning goal
 - Expected work: Implement `Rotate Slice` as a composable abstraction with explicit contracts and testable behavior.
 - Why: `Rotate Slice` teaches maintainable design through explicit contracts and low coupling.
+- When correct: `Rotate Slice` should satisfy the required behavior, including: `k can be > len`; `k can be negative (rotate right)`; and `nil => empty slice`.
 
 ## Rules / Expectations
 - k can be > len

@@ -12,6 +12,7 @@ func HashPassword(pw string) (string, error)
 ### Learning goal
 - Expected work: Implement `Password Hashing (bcrypt/argon2)` with strict validation and byte-level correctness for all cryptographic operations.
 - Why: `Password Hashing (bcrypt/argon2)` teaches security precision, where small mistakes can become real vulnerabilities.
+- When correct: `Password Hashing (bcrypt/argon2)` should satisfy the required behavior, including: `use bcrypt or argon2`; `also implement VerifyPassword(pw, hash) bool`; and `constant-time compare`.
 
 ## Rules / Expectations
 - use bcrypt or argon2

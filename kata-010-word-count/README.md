@@ -12,6 +12,7 @@ func WordCount(s string) map[string]int
 ### Learning goal
 - Expected work: Implement `Word Count` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Word Count` teaches core implementation habits that compound across all later katas.
+- When correct: `Word Count` should satisfy the required behavior, including: `split on whitespace`; `lowercase words`; and `empty => empty map (not nil)`.
 
 ## Rules / Expectations
 - split on whitespace

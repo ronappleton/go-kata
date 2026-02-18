@@ -12,6 +12,7 @@ type CounterWindow struct
 ### Learning goal
 - Expected work: Implement `Fixed-Window Metrics` with precise clock/window state updates so timing behavior remains deterministic in tests.
 - Why: `Fixed-Window Metrics` teaches temporal correctness, a common source of flaky and hard-to-debug behavior.
+- When correct: `Fixed-Window Metrics` should satisfy the required behavior, including: `Add(value)`; `Sum(last duration)`; and `thread-safe`.
 
 ## Rules / Expectations
 - Add(value)

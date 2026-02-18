@@ -12,6 +12,7 @@ func PasswordScore(pw string) int
 ### Learning goal
 - Expected work: Implement `Password Strength Scorer` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Password Strength Scorer` teaches core implementation habits that compound across all later katas.
+- When correct: `Password Strength Scorer` should satisfy the required behavior, including: `score 0-100`; `length + variety`; and `simple penalties`.
 
 ## Rules / Expectations
 - score 0-100

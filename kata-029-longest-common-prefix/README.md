@@ -12,6 +12,7 @@ func LongestCommonPrefix(items []string) string
 ### Learning goal
 - Expected work: Implement `Longest Common Prefix` by preserving core invariants and handling edge cases, not just happy-path output.
 - Why: `Longest Common Prefix` teaches complexity-aware correctness that impacts throughput and latency at scale.
+- When correct: `Longest Common Prefix` should satisfy the required behavior, including: `empty => empty`; `single => itself`; and `case-sensitive`.
 
 ## Rules / Expectations
 - empty => empty

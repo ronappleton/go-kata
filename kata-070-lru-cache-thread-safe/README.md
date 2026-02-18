@@ -12,6 +12,7 @@ func Kata70() error
 ### Learning goal
 - Expected work: Implement `LRU Cache (thread-safe)` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
 - Why: `LRU Cache (thread-safe)` teaches safe coordination patterns that prevent costly production race conditions.
+- When correct: `LRU Cache (thread-safe)` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec

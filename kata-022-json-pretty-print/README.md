@@ -12,6 +12,7 @@ func PrettyJSON(input []byte) ([]byte, error)
 ### Learning goal
 - Expected work: Implement `JSON Pretty Print` as strict input transformation logic that accepts valid data and rejects malformed input.
 - Why: `JSON Pretty Print` teaches strict boundary handling so malformed input cannot silently corrupt results.
+- When correct: `JSON Pretty Print` should satisfy the required behavior, including: `invalid json => error`; `indent 2 spaces`; and `stable formatting`.
 
 ## Rules / Expectations
 - invalid json => error

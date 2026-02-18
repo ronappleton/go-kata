@@ -12,6 +12,7 @@ func Kata95() error
 ### Learning goal
 - Expected work: Implement `Concurrent Test Harness` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
 - Why: `Concurrent Test Harness` teaches safe coordination patterns that prevent costly production race conditions.
+- When correct: `Concurrent Test Harness` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec

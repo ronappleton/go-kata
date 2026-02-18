@@ -12,6 +12,7 @@ func ParseCSVLine(line string) ([]string, error)
 ### Learning goal
 - Expected work: Implement `Parse CSV Line` as strict input transformation logic that accepts valid data and rejects malformed input.
 - Why: `Parse CSV Line` teaches strict boundary handling so malformed input cannot silently corrupt results.
+- When correct: `Parse CSV Line` should satisfy the required behavior, including: `commas separate fields`; `double quotes allow commas`; and `escaped quotes as "" inside quoted field`.
 
 ## Rules / Expectations
 - commas separate fields

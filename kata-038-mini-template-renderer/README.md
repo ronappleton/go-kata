@@ -12,6 +12,7 @@ func RenderTemplate(tpl string, vars map[string]string) string
 ### Learning goal
 - Expected work: Implement `Mini Template Renderer` as strict input transformation logic that accepts valid data and rejects malformed input.
 - Why: `Mini Template Renderer` teaches strict boundary handling so malformed input cannot silently corrupt results.
+- When correct: `Mini Template Renderer` should satisfy the required behavior, including: `placeholders {{key}}`; `missing => empty`; and `no recursion`.
 
 ## Rules / Expectations
 - placeholders {{key}}

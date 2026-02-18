@@ -12,6 +12,7 @@ type PubSub struct
 ### Learning goal
 - Expected work: Implement `Simple Pub/Sub` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
 - Why: `Simple Pub/Sub` teaches safe coordination patterns that prevent costly production race conditions.
+- When correct: `Simple Pub/Sub` should satisfy the required behavior, including: `Subscribe(topic) chan`; `Publish(topic,msg)`; and `Unsubscribe closes chan`.
 
 ## Rules / Expectations
 - Subscribe(topic) chan

@@ -12,6 +12,7 @@ func MinMax(nums []int) (min int, max int, err error)
 ### Learning goal
 - Expected work: Implement `Min/Max` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Min/Max` teaches core implementation habits that compound across all later katas.
+- When correct: `Min/Max` should satisfy the required behavior, including: `empty or nil => error`; `single element => min=max`; and `handles negatives`.
 
 ## Rules / Expectations
 - empty or nil => error

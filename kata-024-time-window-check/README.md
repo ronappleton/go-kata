@@ -12,6 +12,7 @@ func WithinWindow(t, start, end time.Time) bool
 ### Learning goal
 - Expected work: Implement `Time Window Check` with precise clock/window state updates so timing behavior remains deterministic in tests.
 - Why: `Time Window Check` teaches temporal correctness, a common source of flaky and hard-to-debug behavior.
+- When correct: `Time Window Check` should satisfy the required behavior, including: `inclusive start, exclusive end`; and `if start after end => false`.
 
 ## Rules / Expectations
 - inclusive start, exclusive end

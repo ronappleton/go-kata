@@ -12,6 +12,7 @@ func Retry(attempts int, baseDelay time.Duration, fn func() error) error
 ### Learning goal
 - Expected work: Implement `Retry with Backoff` with precise clock/window state updates so timing behavior remains deterministic in tests.
 - Why: `Retry with Backoff` teaches temporal correctness, a common source of flaky and hard-to-debug behavior.
+- When correct: `Retry with Backoff` should satisfy the required behavior, including: `attempts>=1`; `exponential backoff`; and `stop on success`.
 
 ## Rules / Expectations
 - attempts>=1

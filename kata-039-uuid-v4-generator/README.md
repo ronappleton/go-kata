@@ -12,6 +12,7 @@ func NewUUIDv4() (string, error)
 ### Learning goal
 - Expected work: Implement `UUID v4 Generator` with strict validation and byte-level correctness for all cryptographic operations.
 - Why: `UUID v4 Generator` teaches security precision, where small mistakes can become real vulnerabilities.
+- When correct: `UUID v4 Generator` should satisfy the required behavior, including: `RFC4122 version/variant bits`; and `format 8-4-4-4-12 lowercase`.
 
 ## Rules / Expectations
 - RFC4122 version/variant bits

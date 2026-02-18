@@ -12,6 +12,7 @@ func BuildQuery(params map[string][]string) string
 ### Learning goal
 - Expected work: Implement `HTTP Query Builder` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
 - Why: `HTTP Query Builder` teaches service-edge correctness, where request/response semantics directly drive reliability.
+- When correct: `HTTP Query Builder` should satisfy the required behavior, including: `keys sorted`; `values preserve given order`; and `proper escaping`.
 
 ## Rules / Expectations
 - keys sorted

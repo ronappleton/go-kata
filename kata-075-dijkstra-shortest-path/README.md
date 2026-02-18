@@ -12,6 +12,7 @@ func Kata75() error
 ### Learning goal
 - Expected work: Implement `Dijkstra Shortest Path` by preserving core invariants and handling edge cases, not just happy-path output.
 - Why: `Dijkstra Shortest Path` teaches complexity-aware correctness that impacts throughput and latency at scale.
+- When correct: `Dijkstra Shortest Path` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec

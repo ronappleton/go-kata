@@ -12,6 +12,7 @@ func BinarySearch[T ~int | ~int64 | ~float64 | ~string](sorted []T, target T) in
 ### Learning goal
 - Expected work: Implement `Binary Search` by preserving core invariants and handling edge cases, not just happy-path output.
 - Why: `Binary Search` teaches complexity-aware correctness that impacts throughput and latency at scale.
+- When correct: `Binary Search` should satisfy the required behavior, including: `return index or -1`; `empty => -1`; and `assumes sorted input`.
 
 ## Rules / Expectations
 - return index or -1

@@ -12,6 +12,7 @@ func Kata73() error
 ### Learning goal
 - Expected work: Implement `Merkle Tree` with strict validation and byte-level correctness for all cryptographic operations.
 - Why: `Merkle Tree` teaches security precision, where small mistakes can become real vulnerabilities.
+- When correct: `Merkle Tree` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec

@@ -12,6 +12,7 @@ func ReadLines(r io.Reader, maxLine int) ([]string, error)
 ### Learning goal
 - Expected work: Implement `Line-Oriented Reader` as strict input transformation logic that accepts valid data and rejects malformed input.
 - Why: `Line-Oriented Reader` teaches strict boundary handling so malformed input cannot silently corrupt results.
+- When correct: `Line-Oriented Reader` should satisfy the required behavior, including: `error if any line exceeds maxLine`; `keep line content only`; and `handles last line`.
 
 ## Rules / Expectations
 - error if any line exceeds maxLine

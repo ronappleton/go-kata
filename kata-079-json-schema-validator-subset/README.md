@@ -12,6 +12,7 @@ func Kata79() error
 ### Learning goal
 - Expected work: Implement `JSON Schema Validator (subset)` as strict input transformation logic that accepts valid data and rejects malformed input.
 - Why: `JSON Schema Validator (subset)` teaches strict boundary handling so malformed input cannot silently corrupt results.
+- When correct: `JSON Schema Validator (subset)` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec

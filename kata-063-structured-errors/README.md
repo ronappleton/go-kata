@@ -12,6 +12,7 @@ func Kata63() error
 ### Learning goal
 - Expected work: Implement `Structured Errors` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Structured Errors` teaches core implementation habits that compound across all later katas.
+- When correct: `Structured Errors` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec

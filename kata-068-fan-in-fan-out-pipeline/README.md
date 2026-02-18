@@ -12,6 +12,7 @@ func Pipeline[T any](ctx context.Context, in <-chan T, stages ...func(context.Co
 ### Learning goal
 - Expected work: Implement `Fan-in/Fan-out Pipeline` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
 - Why: `Fan-in/Fan-out Pipeline` teaches safe coordination patterns that prevent costly production race conditions.
+- When correct: `Fan-in/Fan-out Pipeline` should satisfy the required behavior, including: `compose stages in order`; `cancel cleanly`; and `close outputs`.
 
 ## Rules / Expectations
 - compose stages in order

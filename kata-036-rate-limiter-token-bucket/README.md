@@ -12,6 +12,7 @@ func NewTokenBucket(ratePerSec int, burst int) (*TokenBucket, error)
 ### Learning goal
 - Expected work: Implement `Rate Limiter (token bucket)` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
 - Why: `Rate Limiter (token bucket)` teaches safe coordination patterns that prevent costly production race conditions.
+- When correct: `Rate Limiter (token bucket)` should satisfy the required behavior, including: `Allow() bool`; `single-thread only here`; and `ratePerSec>=1, burst>=1`.
 
 ## Rules / Expectations
 - Allow() bool

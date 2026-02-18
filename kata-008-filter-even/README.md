@@ -12,6 +12,7 @@ func FilterEven(nums []int) []int
 ### Learning goal
 - Expected work: Implement `Filter Even` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Filter Even` teaches core implementation habits that compound across all later katas.
+- When correct: `Filter Even` should satisfy the required behavior, including: `preserve order`; `nil => empty slice`; and `do not mutate input`.
 
 ## Rules / Expectations
 - preserve order

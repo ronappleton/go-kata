@@ -12,6 +12,7 @@ func Kata71() error
 ### Learning goal
 - Expected work: Implement `Token Bucket (thread-safe)` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
 - Why: `Token Bucket (thread-safe)` teaches safe coordination patterns that prevent costly production race conditions.
+- When correct: `Token Bucket (thread-safe)` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec

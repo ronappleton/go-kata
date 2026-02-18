@@ -12,6 +12,7 @@ func DiffLines(a, b []string) []DiffOp
 ### Learning goal
 - Expected work: Implement `Diff (line-based)` by preserving core invariants and handling edge cases, not just happy-path output.
 - Why: `Diff (line-based)` teaches complexity-aware correctness that impacts throughput and latency at scale.
+- When correct: `Diff (line-based)` should satisfy the required behavior, including: `LCS-based diff`; `ops: Add/Del/Keep`; and `deterministic`.
 
 ## Rules / Expectations
 - LCS-based diff

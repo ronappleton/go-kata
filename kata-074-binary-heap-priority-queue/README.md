@@ -12,6 +12,7 @@ func Kata74() error
 ### Learning goal
 - Expected work: Implement `Binary Heap Priority Queue` by preserving core invariants and handling edge cases, not just happy-path output.
 - Why: `Binary Heap Priority Queue` teaches complexity-aware correctness that impacts throughput and latency at scale.
+- When correct: `Binary Heap Priority Queue` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec

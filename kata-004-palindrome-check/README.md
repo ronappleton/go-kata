@@ -12,6 +12,7 @@ func IsPalindrome(s string) bool
 ### Learning goal
 - Expected work: Implement `Palindrome Check` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Palindrome Check` teaches core implementation habits that compound across all later katas.
+- When correct: `Palindrome Check` should satisfy the required behavior, including: `case-insensitive`; `ignore non-letters/digits`; and `Unicode letters treated as letters (use unicode package)`.
 
 ## Rules / Expectations
 - case-insensitive

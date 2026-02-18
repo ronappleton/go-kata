@@ -12,6 +12,7 @@ func ParseINI(s string) (map[string]map[string]string, error)
 ### Learning goal
 - Expected work: Implement `INI Parser` as strict input transformation logic that accepts valid data and rejects malformed input.
 - Why: `INI Parser` teaches strict boundary handling so malformed input cannot silently corrupt results.
+- When correct: `INI Parser` should satisfy the required behavior, including: `sections [name]`; `key=value`; and `comments start with ; or #`.
 
 ## Rules / Expectations
 - sections [name]

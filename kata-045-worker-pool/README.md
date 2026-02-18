@@ -12,6 +12,7 @@ func RunPool(ctx context.Context, workers int, jobs <-chan Job) <-chan Result
 ### Learning goal
 - Expected work: Implement `Worker Pool` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
 - Why: `Worker Pool` teaches safe coordination patterns that prevent costly production race conditions.
+- When correct: `Worker Pool` should satisfy the required behavior, including: `cancels on ctx`; `close output when done`; and `no leaks`.
 
 ## Rules / Expectations
 - cancels on ctx

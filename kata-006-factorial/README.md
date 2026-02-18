@@ -12,6 +12,7 @@ func Factorial(n int) (int, error)
 ### Learning goal
 - Expected work: Implement `Factorial` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Factorial` teaches core implementation habits that compound across all later katas.
+- When correct: `Factorial` should satisfy the required behavior, including: `n<0 => error`; `0 => 1`; and `overflow => error`.
 
 ## Rules / Expectations
 - n<0 => error

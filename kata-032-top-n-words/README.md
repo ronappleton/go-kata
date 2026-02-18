@@ -12,6 +12,7 @@ func TopNWords(s string, n int) []string
 ### Learning goal
 - Expected work: Implement `Top N Words` by preserving core invariants and handling edge cases, not just happy-path output.
 - Why: `Top N Words` teaches complexity-aware correctness that impacts throughput and latency at scale.
+- When correct: `Top N Words` should satisfy the required behavior, including: `lowercase, split whitespace`; `ties sorted alphabetically`; and `n<=0 => empty slice`.
 
 ## Rules / Expectations
 - lowercase, split whitespace

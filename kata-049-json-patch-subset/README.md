@@ -12,6 +12,7 @@ func ApplyPatch(doc []byte, patch []byte) ([]byte, error)
 ### Learning goal
 - Expected work: Implement `JSON Patch (subset)` as strict input transformation logic that accepts valid data and rejects malformed input.
 - Why: `JSON Patch (subset)` teaches strict boundary handling so malformed input cannot silently corrupt results.
+- When correct: `JSON Patch (subset)` should satisfy the required behavior, including: `support add/replace/remove at top-level keys only`; and `invalid => error`.
 
 ## Rules / Expectations
 - support add/replace/remove at top-level keys only

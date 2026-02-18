@@ -12,6 +12,7 @@ func Caesar(s string, shift int) string
 ### Learning goal
 - Expected work: Implement `Caesar Cipher` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Caesar Cipher` teaches core implementation habits that compound across all later katas.
+- When correct: `Caesar Cipher` should satisfy the required behavior, including: `only shift A-Z and a-z`; `preserve case`; and `non-letters unchanged`.
 
 ## Rules / Expectations
 - only shift A-Z and a-z

@@ -12,6 +12,7 @@ func Reverse(s string) string
 ### Learning goal
 - Expected work: Implement `Reverse String` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Reverse String` teaches core implementation habits that compound across all later katas.
+- When correct: `Reverse String` should satisfy the required behavior, including: `must handle Unicode correctly (runes)`; `empty => empty`; and `palindrome unchanged`.
 
 ## Rules / Expectations
 - must handle Unicode correctly (runes)

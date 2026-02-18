@@ -12,6 +12,7 @@ func NewTrie() *Trie
 ### Learning goal
 - Expected work: Implement `Trie Autocomplete` by preserving core invariants and handling edge cases, not just happy-path output.
 - Why: `Trie Autocomplete` teaches complexity-aware correctness that impacts throughput and latency at scale.
+- When correct: `Trie Autocomplete` should satisfy the required behavior, including: `Insert(word)`; `Suggest(prefix, limit)`; and `lexicographic order`.
 
 ## Rules / Expectations
 - Insert(word)

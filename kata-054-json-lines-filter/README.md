@@ -12,6 +12,7 @@ func FilterJSONL(r io.Reader, w io.Writer, predicate func(map[string]any) bool) 
 ### Learning goal
 - Expected work: Implement `JSON Lines Filter` as strict input transformation logic that accepts valid data and rejects malformed input.
 - Why: `JSON Lines Filter` teaches strict boundary handling so malformed input cannot silently corrupt results.
+- When correct: `JSON Lines Filter` should satisfy the required behavior, including: `each line JSON object`; `write only matches`; and `skip blank lines`.
 
 ## Rules / Expectations
 - each line JSON object

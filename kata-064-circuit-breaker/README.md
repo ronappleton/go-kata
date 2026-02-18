@@ -12,6 +12,7 @@ func NewBreaker(failureThreshold int, resetAfter time.Duration) (*Breaker, error
 ### Learning goal
 - Expected work: Implement `Circuit Breaker` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
 - Why: `Circuit Breaker` teaches safe coordination patterns that prevent costly production race conditions.
+- When correct: `Circuit Breaker` should satisfy the required behavior, including: `Closed/Open/HalfOpen states`; `trip after threshold`; and `reset after duration`.
 
 ## Rules / Expectations
 - Closed/Open/HalfOpen states

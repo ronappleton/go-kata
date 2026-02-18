@@ -12,6 +12,7 @@ func MapReduce[T any, R any](items []T, workers int, mapFn func(T) R, reduceFn f
 ### Learning goal
 - Expected work: Implement `Concurrent MapReduce` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
 - Why: `Concurrent MapReduce` teaches safe coordination patterns that prevent costly production race conditions.
+- When correct: `Concurrent MapReduce` should satisfy the required behavior, including: `workers>=1`; `order not required`; and `handle empty items`.
 
 ## Rules / Expectations
 - workers>=1

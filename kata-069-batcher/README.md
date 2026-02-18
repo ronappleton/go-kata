@@ -12,6 +12,7 @@ func Batch[T any](ctx context.Context, in <-chan T, max int, every time.Duration
 ### Learning goal
 - Expected work: Implement `Batcher` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
 - Why: `Batcher` teaches safe coordination patterns that prevent costly production race conditions.
+- When correct: `Batcher` should satisfy the required behavior, including: `emit when max reached or timer fires`; `flush on close`; and `no empty batches`.
 
 ## Rules / Expectations
 - emit when max reached or timer fires

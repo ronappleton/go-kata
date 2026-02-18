@@ -12,6 +12,7 @@ func StartEchoServer(addr string) (stop func() error, err error)
 ### Learning goal
 - Expected work: Implement `TCP Echo Server` as resilient network code that handles partial I/O, disconnects, and cleanup safely.
 - Why: `TCP Echo Server` teaches socket-level robustness needed for long-running network services.
+- When correct: `TCP Echo Server` should satisfy the required behavior, including: `multiple clients`; `graceful stop`; and `per-connection goroutine`.
 
 ## Rules / Expectations
 - multiple clients

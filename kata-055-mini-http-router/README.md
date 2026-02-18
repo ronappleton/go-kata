@@ -12,6 +12,7 @@ func NewRouter() *Router
 ### Learning goal
 - Expected work: Implement `Mini HTTP Router` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
 - Why: `Mini HTTP Router` teaches service-edge correctness, where request/response semantics directly drive reliability.
+- When correct: `Mini HTTP Router` should satisfy the required behavior, including: `GET/POST register`; `path params /users/{id}`; and `404 not found`.
 
 ## Rules / Expectations
 - GET/POST register

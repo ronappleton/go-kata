@@ -12,6 +12,7 @@ func Kata80() error
 ### Learning goal
 - Expected work: Implement `Rate-limited HTTP Scraper` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
 - Why: `Rate-limited HTTP Scraper` teaches service-edge correctness, where request/response semantics directly drive reliability.
+- When correct: `Rate-limited HTTP Scraper` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec

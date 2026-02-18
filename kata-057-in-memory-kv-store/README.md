@@ -12,6 +12,7 @@ type KV struct
 ### Learning goal
 - Expected work: Implement `In-Memory KV Store` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `In-Memory KV Store` teaches core implementation habits that compound across all later katas.
+- When correct: `In-Memory KV Store` should satisfy the required behavior, including: `Set/Get/Delete/Keys`; and `thread-safe`.
 
 ## Rules / Expectations
 - Set/Get/Delete/Keys

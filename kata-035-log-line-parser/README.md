@@ -12,6 +12,7 @@ func ParseLogLine(line string) (map[string]string, error)
 ### Learning goal
 - Expected work: Implement `Log Line Parser` as strict input transformation logic that accepts valid data and rejects malformed input.
 - Why: `Log Line Parser` teaches strict boundary handling so malformed input cannot silently corrupt results.
+- When correct: `Log Line Parser` should satisfy the required behavior, including: `key=value pairs separated by spaces`; `values may be quoted`; and `duplicate keys last wins`.
 
 ## Rules / Expectations
 - key=value pairs separated by spaces

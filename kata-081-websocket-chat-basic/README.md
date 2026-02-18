@@ -12,6 +12,7 @@ func Kata81() error
 ### Learning goal
 - Expected work: Implement `Websocket Chat (basic)` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
 - Why: `Websocket Chat (basic)` teaches service-edge correctness, where request/response semantics directly drive reliability.
+- When correct: `Websocket Chat (basic)` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec

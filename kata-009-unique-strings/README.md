@@ -12,6 +12,7 @@ func Unique(items []string) []string
 ### Learning goal
 - Expected work: Implement `Unique Strings` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Unique Strings` teaches core implementation habits that compound across all later katas.
+- When correct: `Unique Strings` should satisfy the required behavior, including: `preserve first occurrence order`; `nil => empty slice`; and `case-sensitive`.
 
 ## Rules / Expectations
 - preserve first occurrence order

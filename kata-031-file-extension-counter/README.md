@@ -12,6 +12,7 @@ func CountExt(root string) (map[string]int, error)
 ### Learning goal
 - Expected work: Implement `File Extension Counter` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `File Extension Counter` teaches core implementation habits that compound across all later katas.
+- When correct: `File Extension Counter` should satisfy the required behavior, including: `walk dir recursively`; `count by extension (lowercased)`; and `skip directories`.
 
 ## Rules / Expectations
 - walk dir recursively

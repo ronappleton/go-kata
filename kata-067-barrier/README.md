@@ -12,6 +12,7 @@ func NewBarrier(parties int) (*Barrier, error)
 ### Learning goal
 - Expected work: Implement `Barrier` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
 - Why: `Barrier` teaches safe coordination patterns that prevent costly production race conditions.
+- When correct: `Barrier` should satisfy the required behavior, including: `Wait(ctx) error`; `reusable`; and `no leaks`.
 
 ## Rules / Expectations
 - Wait(ctx) error

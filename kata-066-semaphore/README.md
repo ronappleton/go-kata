@@ -12,6 +12,7 @@ func NewSemaphore(n int) (*Semaphore, error)
 ### Learning goal
 - Expected work: Implement `Semaphore` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
 - Why: `Semaphore` teaches safe coordination patterns that prevent costly production race conditions.
+- When correct: `Semaphore` should satisfy the required behavior, including: `Acquire(ctx) error`; `Release()`; and `no deadlocks`.
 
 ## Rules / Expectations
 - Acquire(ctx) error

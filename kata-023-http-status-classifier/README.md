@@ -12,6 +12,7 @@ func StatusClass(code int) string
 ### Learning goal
 - Expected work: Implement `HTTP Status Classifier` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
 - Why: `HTTP Status Classifier` teaches service-edge correctness, where request/response semantics directly drive reliability.
+- When correct: `HTTP Status Classifier` should satisfy the required behavior, including: `1xx informational`; `2xx success`; `3xx redirect`; `4xx client`; and `5xx server`.
 
 ## Rules / Expectations
 - 1xx informational

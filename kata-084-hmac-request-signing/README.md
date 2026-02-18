@@ -12,6 +12,7 @@ func SignRequest(method, path string, body []byte, secret []byte) string
 ### Learning goal
 - Expected work: Implement `HMAC Request Signing` with strict validation and byte-level correctness for all cryptographic operations.
 - Why: `HMAC Request Signing` teaches security precision, where small mistakes can become real vulnerabilities.
+- When correct: `HMAC Request Signing` should satisfy the required behavior, including: `canonicalize input`; `hex signature`; and `write VerifyRequest helper`.
 
 ## Rules / Expectations
 - canonicalize input

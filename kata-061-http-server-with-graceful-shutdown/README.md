@@ -12,6 +12,7 @@ func ServeGraceful(addr string, h http.Handler) (stop func(context.Context) erro
 ### Learning goal
 - Expected work: Implement `HTTP Server with Graceful Shutdown` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
 - Why: `HTTP Server with Graceful Shutdown` teaches service-edge correctness, where request/response semantics directly drive reliability.
+- When correct: `HTTP Server with Graceful Shutdown` should satisfy the required behavior, including: `start server`; `stop shuts down with context`; and `no leaked goroutines`.
 
 ## Rules / Expectations
 - start server

@@ -12,6 +12,7 @@ func SHA256File(path string) (string, error)
 ### Learning goal
 - Expected work: Implement `File Integrity Checker` with strict validation and byte-level correctness for all cryptographic operations.
 - Why: `File Integrity Checker` teaches security precision, where small mistakes can become real vulnerabilities.
+- When correct: `File Integrity Checker` should satisfy the required behavior, including: `stream file`; `hex digest`; and `error on read`.
 
 ## Rules / Expectations
 - stream file

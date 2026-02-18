@@ -12,6 +12,7 @@ func ExtractHeadings(md string) []string
 ### Learning goal
 - Expected work: Implement `Markdown Heading Extractor` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Markdown Heading Extractor` teaches core implementation habits that compound across all later katas.
+- When correct: `Markdown Heading Extractor` should satisfy the required behavior, including: `lines starting with #+space`; `return heading text`; and `preserve order`.
 
 ## Rules / Expectations
 - lines starting with #+space

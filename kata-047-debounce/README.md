@@ -12,6 +12,7 @@ func Debounce(d time.Duration, in <-chan struct{}) <-chan struct{}
 ### Learning goal
 - Expected work: Implement `Debounce` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
 - Why: `Debounce` teaches safe coordination patterns that prevent costly production race conditions.
+- When correct: `Debounce` should satisfy the required behavior, including: `emit after quiet period`; and `close output when input closes`.
 
 ## Rules / Expectations
 - emit after quiet period

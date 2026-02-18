@@ -12,6 +12,7 @@ func WithTimeoutDo(ctx context.Context, d time.Duration, fn func(context.Context
 ### Learning goal
 - Expected work: Implement `Context Timeout Wrapper` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Context Timeout Wrapper` teaches core implementation habits that compound across all later katas.
+- When correct: `Context Timeout Wrapper` should satisfy the required behavior, including: `fn called with derived ctx`; `returns ctx error on timeout`; and `propagates fn error`.
 
 ## Rules / Expectations
 - fn called with derived ctx

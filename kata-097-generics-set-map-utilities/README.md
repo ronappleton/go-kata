@@ -12,6 +12,7 @@ func Kata97() error
 ### Learning goal
 - Expected work: Implement `Generics: Set/Map Utilities` as a composable abstraction with explicit contracts and testable behavior.
 - Why: `Generics: Set/Map Utilities` teaches maintainable design through explicit contracts and low coupling.
+- When correct: `Generics: Set/Map Utilities` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec

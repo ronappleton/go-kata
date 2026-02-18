@@ -12,6 +12,7 @@ func MergeSorted(a, b []int) []int
 ### Learning goal
 - Expected work: Implement `Merge Two Sorted Lists` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Merge Two Sorted Lists` teaches core implementation habits that compound across all later katas.
+- When correct: `Merge Two Sorted Lists` should satisfy the required behavior, including: `result sorted`; `handles duplicates`; and `nil treated as empty`.
 
 ## Rules / Expectations
 - result sorted

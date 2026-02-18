@@ -12,6 +12,7 @@ func ConvertTemp(input string) (string, error)
 ### Learning goal
 - Expected work: Implement `Temperature Converter` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Temperature Converter` teaches core implementation habits that compound across all later katas.
+- When correct: `Temperature Converter` should satisfy the required behavior, including: `supports C/F/K suffix`; `output all 3 units with 2 decimals`; and `invalid => error`.
 
 ## Rules / Expectations
 - supports C/F/K suffix

@@ -12,6 +12,7 @@ func IsValidISBN10(s string) bool
 ### Learning goal
 - Expected work: Implement `ISBN-10 Validator` by preserving core invariants and handling edge cases, not just happy-path output.
 - Why: `ISBN-10 Validator` teaches complexity-aware correctness that impacts throughput and latency at scale.
+- When correct: `ISBN-10 Validator` should satisfy the required behavior, including: `allow hyphens/spaces`; `X allowed as last digit meaning 10`; and `must be 10 digits after stripping`.
 
 ## Rules / Expectations
 - allow hyphens/spaces

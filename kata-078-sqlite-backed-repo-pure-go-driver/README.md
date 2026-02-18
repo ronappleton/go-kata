@@ -12,6 +12,7 @@ func Kata78() error
 ### Learning goal
 - Expected work: Implement `SQLite-backed Repo (pure Go driver)` with clear repository boundaries and predictable transaction-aware persistence behavior.
 - Why: `SQLite-backed Repo (pure Go driver)` teaches persistence invariants that protect data integrity during failures.
+- When correct: `SQLite-backed Repo (pure Go driver)` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec

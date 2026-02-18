@@ -12,6 +12,7 @@ func NewContainer() *Container
 ### Learning goal
 - Expected work: Implement `Plugin-free DI Container` as a composable abstraction with explicit contracts and testable behavior.
 - Why: `Plugin-free DI Container` teaches maintainable design through explicit contracts and low coupling.
+- When correct: `Plugin-free DI Container` should satisfy the required behavior, including: `Register(name, ctor)`; `Resolve(name)`; and `singleton scope`.
 
 ## Rules / Expectations
 - Register(name, ctor)

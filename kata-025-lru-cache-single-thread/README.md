@@ -12,6 +12,7 @@ func NewLRU(capacity int) (*LRU, error)
 ### Learning goal
 - Expected work: Implement `LRU Cache (single-thread)` by preserving core invariants and handling edge cases, not just happy-path output.
 - Why: `LRU Cache (single-thread)` teaches complexity-aware correctness that impacts throughput and latency at scale.
+- When correct: `LRU Cache (single-thread)` should satisfy the required behavior, including: `capacity>0`; `Get/Put methods`; and `evict least recently used`.
 
 ## Rules / Expectations
 - capacity>0

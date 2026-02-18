@@ -12,6 +12,7 @@ func ArchiveTGZ(srcDir string, w io.Writer) error
 ### Learning goal
 - Expected work: Implement `Tar/Gzip Archiver` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Tar/Gzip Archiver` teaches core implementation habits that compound across all later katas.
+- When correct: `Tar/Gzip Archiver` should satisfy the required behavior, including: `recursive archive`; `preserve relative paths`; and `skip symlinks`.
 
 ## Rules / Expectations
 - recursive archive

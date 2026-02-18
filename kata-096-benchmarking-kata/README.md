@@ -12,6 +12,7 @@ func Concat(parts []string) string
 ### Learning goal
 - Expected work: Implement `Benchmarking Kata` as a composable abstraction with explicit contracts and testable behavior.
 - Why: `Benchmarking Kata` teaches maintainable design through explicit contracts and low coupling.
+- When correct: `Benchmarking Kata` should satisfy the required behavior, including: `write 2 benchmarks: naive vs builder`; `compare allocations`; and `document results in README`.
 
 ## Rules / Expectations
 - write 2 benchmarks: naive vs builder

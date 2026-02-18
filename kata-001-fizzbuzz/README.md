@@ -12,6 +12,7 @@ func FizzBuzz(n int) []string
 ### Learning goal
 - Expected work: Implement `FizzBuzz` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `FizzBuzz` teaches core implementation habits that compound across all later katas.
+- When correct: `FizzBuzz` should satisfy the required behavior, including: `n<=0 => empty slice (not nil)`; `multiples of 3 => Fizz`; `multiples of 5 => Buzz`; `both => FizzBuzz`; and `otherwise number string`.
 
 ## Rules / Expectations
 - n<=0 => empty slice (not nil)

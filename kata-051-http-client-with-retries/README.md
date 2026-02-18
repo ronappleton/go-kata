@@ -12,6 +12,7 @@ func DoWithRetries(client *http.Client, req *http.Request, attempts int) (*http.
 ### Learning goal
 - Expected work: Implement `HTTP Client with Retries` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
 - Why: `HTTP Client with Retries` teaches service-edge correctness, where request/response semantics directly drive reliability.
+- When correct: `HTTP Client with Retries` should satisfy the required behavior, including: `retry on 5xx + network errors`; `no retry on 4xx`; and `safe body handling`.
 
 ## Rules / Expectations
 - retry on 5xx + network errors

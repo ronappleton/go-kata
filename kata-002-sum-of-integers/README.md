@@ -12,6 +12,7 @@ func Sum(nums []int) int
 ### Learning goal
 - Expected work: Implement `Sum of Integers` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Sum of Integers` teaches core implementation habits that compound across all later katas.
+- When correct: `Sum of Integers` should satisfy the required behavior, including: `nil slice => 0`; `empty => 0`; and `works with negatives`.
 
 ## Rules / Expectations
 - nil slice => 0

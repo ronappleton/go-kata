@@ -12,6 +12,7 @@ type Stack[T any] struct
 ### Learning goal
 - Expected work: Implement `Stack` by preserving core invariants and handling edge cases, not just happy-path output.
 - Why: `Stack` teaches complexity-aware correctness that impacts throughput and latency at scale.
+- When correct: `Stack` should satisfy the required behavior, including: `Push, Pop, Peek, Len`; and `Pop/Peek on empty => ok false`.
 
 ## Rules / Expectations
 - Push, Pop, Peek, Len

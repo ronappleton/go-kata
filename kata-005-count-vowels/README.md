@@ -12,6 +12,7 @@ func CountVowels(s string) int
 ### Learning goal
 - Expected work: Implement `Count Vowels` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Count Vowels` teaches core implementation habits that compound across all later katas.
+- When correct: `Count Vowels` should satisfy the required behavior, including: `count a,e,i,o,u (case-insensitive)`; `treat vowels as ASCII set only`; and `empty => 0`.
 
 ## Rules / Expectations
 - count a,e,i,o,u (case-insensitive)

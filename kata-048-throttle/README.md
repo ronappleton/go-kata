@@ -12,6 +12,7 @@ func Throttle(d time.Duration, in <-chan struct{}) <-chan struct{}
 ### Learning goal
 - Expected work: Implement `Throttle` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
 - Why: `Throttle` teaches safe coordination patterns that prevent costly production race conditions.
+- When correct: `Throttle` should satisfy the required behavior, including: `max 1 event per period`; and `drop extras`.
 
 ## Rules / Expectations
 - max 1 event per period

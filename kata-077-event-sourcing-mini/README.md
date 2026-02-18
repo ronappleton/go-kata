@@ -12,6 +12,7 @@ func Kata77() error
 ### Learning goal
 - Expected work: Implement `Event Sourcing Mini` as a composable abstraction with explicit contracts and testable behavior.
 - Why: `Event Sourcing Mini` teaches maintainable design through explicit contracts and low coupling.
+- When correct: `Event Sourcing Mini` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec

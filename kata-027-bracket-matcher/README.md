@@ -12,6 +12,7 @@ func IsBalanced(s string) bool
 ### Learning goal
 - Expected work: Implement `Bracket Matcher` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Bracket Matcher` teaches core implementation habits that compound across all later katas.
+- When correct: `Bracket Matcher` should satisfy the required behavior, including: `supports (), {}, []`; `ignores other chars`; and `empty => true`.
 
 ## Rules / Expectations
 - supports (), {}, []

@@ -12,6 +12,7 @@ func RLDecode(s string) (string, error)
 ### Learning goal
 - Expected work: Implement `Run-Length Decoding` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Run-Length Decoding` teaches core implementation habits that compound across all later katas.
+- When correct: `Run-Length Decoding` should satisfy the required behavior, including: `invalid format => error`; `count can be multiple digits`; and `roundtrip with encode for valid inputs`.
 
 ## Rules / Expectations
 - invalid format => error

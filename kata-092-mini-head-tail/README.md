@@ -12,6 +12,7 @@ func Run(args []string, r io.Reader, w io.Writer) error
 ### Learning goal
 - Expected work: Implement `Mini head/tail` as a small UNIX-style command with predictable argument handling, streaming I/O, and explicit error returns.
 - Why: `Mini head/tail` teaches command-line contract discipline, where stable output and error behavior are critical for scripts and pipelines.
+- When correct: `Mini head/tail` should satisfy the required behavior, including: `implement subset of unix head/tail`; `no os.Exit`; and `return errors`.
 
 ## Rules / Expectations
 - implement subset of unix head/tail

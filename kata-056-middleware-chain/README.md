@@ -12,6 +12,7 @@ func Chain(h http.Handler, m ...func(http.Handler) http.Handler) http.Handler
 ### Learning goal
 - Expected work: Implement `Middleware Chain` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
 - Why: `Middleware Chain` teaches service-edge correctness, where request/response semantics directly drive reliability.
+- When correct: `Middleware Chain` should satisfy the required behavior, including: `applies in order given`; and `nil middleware ignored`.
 
 ## Rules / Expectations
 - applies in order given

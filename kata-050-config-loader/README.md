@@ -12,6 +12,7 @@ func LoadConfig(path string, envPrefix string) (map[string]string, error)
 ### Learning goal
 - Expected work: Implement `Config Loader` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Config Loader` teaches core implementation habits that compound across all later katas.
+- When correct: `Config Loader` should satisfy the required behavior, including: `load key=value lines`; `override with env`; and `trim spaces`.
 
 ## Rules / Expectations
 - load key=value lines

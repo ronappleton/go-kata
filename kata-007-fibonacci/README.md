@@ -12,6 +12,7 @@ func Fibonacci(n int) ([]int, error)
 ### Learning goal
 - Expected work: Implement `Fibonacci` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Fibonacci` teaches core implementation habits that compound across all later katas.
+- When correct: `Fibonacci` should satisfy the required behavior, including: `n<0 => error`; `n=0 => empty slice`; `n=1 => [0]`; and `sequence starts 0,1,...`.
 
 ## Rules / Expectations
 - n<0 => error

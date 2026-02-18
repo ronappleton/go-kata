@@ -12,6 +12,7 @@ func Kata62() error
 ### Learning goal
 - Expected work: Implement `Context-aware Logger` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Context-aware Logger` teaches core implementation habits that compound across all later katas.
+- When correct: `Context-aware Logger` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec

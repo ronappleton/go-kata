@@ -12,6 +12,7 @@ func DownloadAll(ctx context.Context, urls []string, workers int) (map[string][]
 ### Learning goal
 - Expected work: Implement `Concurrent File Downloader` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
 - Why: `Concurrent File Downloader` teaches service-edge correctness, where request/response semantics directly drive reliability.
+- When correct: `Concurrent File Downloader` should satisfy the required behavior, including: `limit concurrency`; `cancel on ctx`; and `return data per url`.
 
 ## Rules / Expectations
 - limit concurrency

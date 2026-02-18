@@ -12,6 +12,7 @@ func ToCamel(s string) string
 ### Learning goal
 - Expected work: Implement `Kebab/Snake → Camel` idiomatically with strong control-flow clarity and edge-case correctness.
 - Why: `Kebab/Snake → Camel` teaches core implementation habits that compound across all later katas.
+- When correct: `Kebab/Snake → Camel` should satisfy the required behavior, including: `input kebab-case or snake_case`; `output lowerCamelCase`; and `collapse multiple separators`.
 
 ## Rules / Expectations
 - input kebab-case or snake_case

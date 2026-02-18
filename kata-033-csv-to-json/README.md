@@ -12,6 +12,7 @@ func CSVToJSON(r io.Reader) ([]byte, error)
 ### Learning goal
 - Expected work: Implement `CSV to JSON` as strict input transformation logic that accepts valid data and rejects malformed input.
 - Why: `CSV to JSON` teaches strict boundary handling so malformed input cannot silently corrupt results.
+- When correct: `CSV to JSON` should satisfy the required behavior, including: `first row headers`; `JSON array of objects`; and `trim spaces`.
 
 ## Rules / Expectations
 - first row headers

@@ -12,6 +12,7 @@ type Counter struct
 ### Learning goal
 - Expected work: Implement `Safe Counter` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
 - Why: `Safe Counter` teaches safe coordination patterns that prevent costly production race conditions.
+- When correct: `Safe Counter` should satisfy the required behavior, including: `Inc/Add/Value`; and `race-free`.
 
 ## Rules / Expectations
 - Inc/Add/Value

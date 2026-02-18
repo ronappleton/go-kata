@@ -12,6 +12,7 @@ func ParseTags(v any, tagKey string) (map[string]string, error)
 ### Learning goal
 - Expected work: Implement `Reflection: Struct Tag Parser` as strict input transformation logic that accepts valid data and rejects malformed input.
 - Why: `Reflection: Struct Tag Parser` teaches strict boundary handling so malformed input cannot silently corrupt results.
+- When correct: `Reflection: Struct Tag Parser` should satisfy the required behavior, including: `struct only`; `map fieldName->tagValue`; and `skip empty tags`.
 
 ## Rules / Expectations
 - struct only

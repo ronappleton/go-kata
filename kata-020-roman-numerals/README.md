@@ -12,6 +12,7 @@ func ToRoman(n int) (string, error)
 ### Learning goal
 - Expected work: Implement `Roman Numerals` by preserving core invariants and handling edge cases, not just happy-path output.
 - Why: `Roman Numerals` teaches complexity-aware correctness that impacts throughput and latency at scale.
+- When correct: `Roman Numerals` should satisfy the required behavior, including: `1..3999 only`; `invalid => error`; and `use standard subtractive notation`.
 
 ## Rules / Expectations
 - 1..3999 only
