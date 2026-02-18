@@ -1,0 +1,102 @@
+# Kata Index
+
+- **001** — FizzBuzz _(focus: Basics: loops, conditionals, slices, strconv)_
+- **002** — Sum of Integers _(focus: Basics: loops, function, edge cases)_
+- **003** — Reverse String _(focus: Strings, runes vs bytes)_
+- **004** — Palindrome Check _(focus: Strings, normalization basics)_
+- **005** — Count Vowels _(focus: Loops, unicode, maps)_
+- **006** — Factorial _(focus: Recursion vs loop, overflow checks)_
+- **007** — Fibonacci _(focus: Iteration, slices)_
+- **008** — Filter Even _(focus: Slices, order, immutability)_
+- **009** — Unique Strings _(focus: Maps as sets, order preservation)_
+- **010** — Word Count _(focus: Strings, fields, maps)_
+- **011** — Anagram Check _(focus: Rune counts, normalization)_
+- **012** — Min/Max _(focus: Errors, edge cases)_
+- **013** — Rotate Slice _(focus: Generics, indexing)_
+- **014** — Binary Search _(focus: Algorithms, generics)_
+- **015** — Merge Two Sorted Lists _(focus: Two pointers)_
+- **016** — Run-Length Encoding _(focus: Strings.Builder, runes)_
+- **017** — Run-Length Decoding _(focus: Parsing, errors)_
+- **018** — Caesar Cipher _(focus: ASCII letters shifting)_
+- **019** — ISBN-10 Validator _(focus: Checksums)_
+- **020** — Roman Numerals _(focus: Greedy mapping)_
+- **021** — Parse CSV Line _(focus: Parsing quoted CSV)_
+- **022** — JSON Pretty Print _(focus: encoding/json)_
+- **023** — HTTP Status Classifier _(focus: Switch ranges)_
+- **024** — Time Window Check _(focus: time package)_
+- **025** — LRU Cache (single-thread) _(focus: Structs, maps, list)_
+- **026** — Stack _(focus: Data structures, generics)_
+- **027** — Bracket Matcher _(focus: Stacks, runes)_
+- **028** — Markdown Heading Extractor _(focus: Line scanning)_
+- **029** — Longest Common Prefix _(focus: Strings)_
+- **030** — Kebab/Snake → Camel _(focus: String transforms)_
+- **031** — File Extension Counter _(focus: os, filepath)_
+- **032** — Top N Words _(focus: Sorting, ties)_
+- **033** — CSV to JSON _(focus: I/O, encoding)_
+- **034** — Temperature Converter _(focus: Parsing floats)_
+- **035** — Log Line Parser _(focus: Key=value parsing)_
+- **036** — Rate Limiter (token bucket) _(focus: Time, structs)_
+- **037** — INI Parser _(focus: Sections, maps)_
+- **038** — Mini Template Renderer _(focus: Placeholders)_
+- **039** — UUID v4 Generator _(focus: crypto/rand)_
+- **040** — Password Strength Scorer _(focus: Rules)_
+- **041** — HTTP Query Builder _(focus: net/url)_
+- **042** — Context Timeout Wrapper _(focus: context)_
+- **043** — Retry with Backoff _(focus: time)_
+- **044** — Concurrent MapReduce _(focus: Goroutines, channels)_
+- **045** — Worker Pool _(focus: Concurrency patterns)_
+- **046** — Safe Counter _(focus: sync/atomic or mutex)_
+- **047** — Debounce _(focus: Time, channels)_
+- **048** — Throttle _(focus: Time, channels)_
+- **049** — JSON Patch (subset) _(focus: encoding/json)_
+- **050** — Config Loader _(focus: env + file)_
+- **051** — HTTP Client with Retries _(focus: net/http)_
+- **052** — TCP Echo Server _(focus: net)_
+- **053** — Line-Oriented Reader _(focus: bufio)_
+- **054** — JSON Lines Filter _(focus: Stream processing)_
+- **055** — Mini HTTP Router _(focus: net/http)_
+- **056** — Middleware Chain _(focus: net/http)_
+- **057** — In-Memory KV Store _(focus: Maps, RWMutex)_
+- **058** — Simple Pub/Sub _(focus: Fanout)_
+- **059** — Fixed-Window Metrics _(focus: Time buckets)_
+- **060** — Trie Autocomplete _(focus: Data structures)_
+- **061** — HTTP Server with Graceful Shutdown _(focus: net/http, context)_
+- **062** — Context-aware Logger _(focus: Advanced practice)_
+- **063** — Structured Errors _(focus: Advanced practice)_
+- **064** — Circuit Breaker _(focus: State machines, time)_
+- **065** — Concurrent File Downloader _(focus: Concurrency, net/http)_
+- **066** — Semaphore _(focus: Concurrency primitives)_
+- **067** — Barrier _(focus: Concurrency coordination)_
+- **068** — Fan-in/Fan-out Pipeline _(focus: Channels, composition)_
+- **069** — Batcher _(focus: Time, channels)_
+- **070** — LRU Cache (thread-safe) _(focus: Advanced practice)_
+- **071** — Token Bucket (thread-safe) _(focus: Advanced practice)_
+- **072** — Bloom Filter _(focus: Advanced practice)_
+- **073** — Merkle Tree _(focus: Advanced practice)_
+- **074** — Binary Heap Priority Queue _(focus: Advanced practice)_
+- **075** — Dijkstra Shortest Path _(focus: Advanced practice)_
+- **076** — A* Grid Pathfinding _(focus: Advanced practice)_
+- **077** — Event Sourcing Mini _(focus: Advanced practice)_
+- **078** — SQLite-backed Repo (pure Go driver) _(focus: Advanced practice)_
+- **079** — JSON Schema Validator (subset) _(focus: Advanced practice)_
+- **080** — Rate-limited HTTP Scraper _(focus: Advanced practice)_
+- **081** — Websocket Chat (basic) _(focus: Advanced practice)_
+- **082** — SSE Stream _(focus: Advanced practice)_
+- **083** — JWT Sign/Verify _(focus: crypto, encoding)_
+- **084** — HMAC Request Signing _(focus: crypto/hmac)_
+- **085** — Password Hashing (bcrypt/argon2) _(focus: crypto, security)_
+- **086** — File Integrity Checker _(focus: io, crypto/sha256)_
+- **087** — Tar/Gzip Archiver _(focus: archive/tar, compress/gzip)_
+- **088** — Diff (line-based) _(focus: Algorithms)_
+- **089** — Mini grep _(focus: CLI, IO)_
+- **090** — Mini wc _(focus: CLI, IO)_
+- **091** — Mini cut _(focus: CLI, IO)_
+- **092** — Mini head/tail _(focus: CLI, IO)_
+- **093** — Mini sort _(focus: CLI, IO)_
+- **094** — Mini uniq _(focus: CLI, IO)_
+- **095** — Concurrent Test Harness _(focus: Advanced practice)_
+- **096** — Benchmarking Kata _(focus: testing/benchmark)_
+- **097** — Generics: Set/Map Utilities _(focus: Advanced practice)_
+- **098** — Generics: Optional/Result _(focus: Advanced practice)_
+- **099** — Reflection: Struct Tag Parser _(focus: reflect)_
+- **100** — Plugin-free DI Container _(focus: Design)_
