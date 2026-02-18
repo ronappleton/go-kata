@@ -1,37 +1,85 @@
 {
   "id": "go-core-100",
-  "title": "Go Core 100",
-  "description": "A guided set of 100 Go katas grouped into category tracks for structured progression.",
+  "title": "Go Core Path: Zero-to-Senior (120 Katas)",
+  "description": "Structured Go learning from first-programming fundamentals to senior-level concurrency, reliability, and design.",
   "categories": [
     {
+      "id": "starter-programming-essentials",
+      "title": "Starter: Programming Essentials",
+      "description": "Zero-to-code foundations for learners new to programming and Go.",
+      "learning_goal": "Understand functions, conditionals, loops, and boundaries so you can turn plain rules into working code.",
+      "kata_ranges": [
+        {
+          "start": 101,
+          "end": 110
+        }
+      ]
+    },
+    {
+      "id": "starter-data-and-logic",
+      "title": "Starter: Data and Logic",
+      "description": "Practical beginner problems using slices, maps, structs, and search/filter logic.",
+      "learning_goal": "Build confidence with common data operations and predictable return contracts before tackling larger systems.",
+      "kata_ranges": [
+        {
+          "start": 111,
+          "end": 120
+        }
+      ]
+    },
+    {
       "id": "foundations",
-      "title": "Foundations",
-      "description": "Core syntax, control flow, and deterministic behavior.",
-      "learning_goal": "Convert plain-language requirements into clear, testable Go functions.",
+      "title": "Go Foundations",
+      "description": "Core syntax, control flow, and deterministic behavior with everyday coding patterns.",
+      "learning_goal": "Convert plain-language requirements into clear, testable Go functions that handle edge cases intentionally.",
       "kata_ranges": [
         {
           "start": 1,
+          "end": 10
+        }
+      ]
+    },
+    {
+      "id": "core-collections-and-algorithms",
+      "title": "Core Collections and Algorithms",
+      "description": "Slices, maps, generics, and algorithmic thinking for correctness under constraints.",
+      "learning_goal": "Use Go data structures and iteration patterns to solve problems without sacrificing readability or safety.",
+      "kata_ranges": [
+        {
+          "start": 11,
           "end": 20
         }
       ]
     },
     {
-      "id": "data-text-and-formatting",
-      "title": "Data, Text, and Formatting",
-      "description": "Parsing, transformation, data structures, and small algorithmic tasks.",
-      "learning_goal": "Build confidence with strict input contracts, transformations, and edge-case correctness.",
+      "id": "text-data-and-transformations",
+      "title": "Text, Data, and Transformations",
+      "description": "Parsing, formatting, and data transformation across structured and unstructured inputs.",
+      "learning_goal": "Design robust input/output behavior that is explicit about malformed data and contract guarantees.",
       "kata_ranges": [
         {
           "start": 21,
+          "end": 32
+        }
+      ]
+    },
+    {
+      "id": "file-time-and-config",
+      "title": "File, Time, and Config",
+      "description": "File handling, time-based behavior, and configuration safety in local systems.",
+      "learning_goal": "Handle operating-system boundaries and time-sensitive logic with predictable, testable behavior.",
+      "kata_ranges": [
+        {
+          "start": 33,
           "end": 40
         }
       ]
     },
     {
-      "id": "io-and-service-boundaries",
-      "title": "I/O and Service Boundaries",
-      "description": "HTTP, files, process boundaries, and composable service behavior.",
-      "learning_goal": "Treat external boundaries as contracts and return predictable behavior under failure.",
+      "id": "services-and-boundaries",
+      "title": "Services and Boundaries",
+      "description": "HTTP, networking, middleware, and service composition across unstable external boundaries.",
+      "learning_goal": "Treat I/O boundaries as contracts and return safe behavior under failure and partial success.",
       "kata_ranges": [
         {
           "start": 41,
@@ -42,8 +90,8 @@
     {
       "id": "concurrency-and-reliability",
       "title": "Concurrency and Reliability",
-      "description": "Concurrent coordination, cancellation, resilience patterns, and time-sensitive workflows.",
-      "learning_goal": "Design safe lifecycle ownership and resilient runtime behavior under load.",
+      "description": "Lifecycle ownership, cancellation, coordination primitives, and resilient runtime behavior.",
+      "learning_goal": "Build concurrent systems that stay correct under load, interruption, and timing variance.",
       "kata_ranges": [
         {
           "start": 61,
@@ -54,8 +102,8 @@
     {
       "id": "tooling-security-and-advanced-design",
       "title": "Tooling, Security, and Advanced Design",
-      "description": "CLI tools, cryptography, testing discipline, generics, reflection, and design patterns.",
-      "learning_goal": "Apply production-grade quality standards to interfaces, correctness, and maintainability.",
+      "description": "CLI tools, cryptography, testing discipline, performance, generics, reflection, and architecture.",
+      "learning_goal": "Apply production-grade quality standards and design tradeoff reasoning to senior-level Go solutions.",
       "kata_ranges": [
         {
           "start": 81,

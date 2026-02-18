@@ -6,9 +6,22 @@ const state = {
   activeTab: "docs",
   activeEditor: "code",
   theme: "light",
+  focusMode: false,
   dirty: false,
   formatting: false,
   autoFormatTimer: null,
+  learn: {
+    flashcards: [],
+    quiz: [],
+  },
+  flash: {
+    index: 0,
+    showingBack: false,
+  },
+  quiz: {
+    index: 0,
+    answers: {},
+  },
   search: {
     tests: { query: "", matches: [], index: -1 },
     code: { query: "", matches: [], index: -1 },
@@ -22,7 +35,9 @@ const el = {
   kataSubtitle: document.getElementById("kata-subtitle"),
   coachMessage: document.getElementById("coach-message"),
   nextRecommendation: document.getElementById("next-recommendation"),
+
   readmeView: document.getElementById("readme-view"),
+
   testsEditor: document.getElementById("tests-editor"),
   testsLines: document.getElementById("tests-lines"),
   testsHighlight: document.getElementById("tests-highlight"),
@@ -31,6 +46,7 @@ const el = {
   testsSearchNext: document.getElementById("tests-search-next"),
   testsSearchClear: document.getElementById("tests-search-clear"),
   testsSearchCount: document.getElementById("tests-search-count"),
+
   codeEditor: document.getElementById("code-editor"),
   codeLines: document.getElementById("code-lines"),
   codeHighlight: document.getElementById("code-highlight"),
@@ -39,31 +55,66 @@ const el = {
   codeSearchNext: document.getElementById("code-search-next"),
   codeSearchClear: document.getElementById("code-search-clear"),
   codeSearchCount: document.getElementById("code-search-count"),
+
   runOutput: document.getElementById("run-output"),
   failureInsights: document.getElementById("failure-insights"),
   dirtyIndicator: document.getElementById("dirty-indicator"),
+
   saveBtn: document.getElementById("save-btn"),
   runBtn: document.getElementById("run-btn"),
   markBtn: document.getElementById("mark-btn"),
   themeBtn: document.getElementById("theme-btn"),
+  focusBtn: document.getElementById("focus-btn"),
   formatCodeBtn: document.getElementById("format-code-btn"),
   formatTestsBtn: document.getElementById("format-tests-btn"),
+
   tabDocs: document.getElementById("tab-docs"),
   tabWorkbench: document.getElementById("tab-workbench"),
+  tabFlashcards: document.getElementById("tab-flashcards"),
+  tabQuiz: document.getElementById("tab-quiz"),
   panelDocs: document.getElementById("panel-docs"),
   panelWorkbench: document.getElementById("panel-workbench"),
+  panelFlashcards: document.getElementById("panel-flashcards"),
+  panelQuiz: document.getElementById("panel-quiz"),
+
+  flashPrevBtn: document.getElementById("flash-prev-btn"),
+  flashFlipBtn: document.getElementById("flash-flip-btn"),
+  flashNextBtn: document.getElementById("flash-next-btn"),
+  flashProgress: document.getElementById("flash-progress"),
+  flashSide: document.getElementById("flash-side"),
+  flashText: document.getElementById("flash-text"),
+  flashTag: document.getElementById("flash-tag"),
+
+  quizPrevBtn: document.getElementById("quiz-prev-btn"),
+  quizNextBtn: document.getElementById("quiz-next-btn"),
+  quizResetBtn: document.getElementById("quiz-reset-btn"),
+  quizProgress: document.getElementById("quiz-progress"),
+  quizPrompt: document.getElementById("quiz-prompt"),
+  quizOptions: document.getElementById("quiz-options"),
+  quizFeedback: document.getElementById("quiz-feedback"),
+  quizScore: document.getElementById("quiz-score"),
+
   resetTestsBtn: document.getElementById("reset-tests-btn"),
+
   passModal: document.getElementById("pass-modal"),
   passCloseBtn: document.getElementById("pass-close-btn"),
   passMarkBtn: document.getElementById("pass-mark-btn"),
   passNextHint: document.getElementById("pass-next-hint"),
   passNextBtn: document.getElementById("pass-next-btn"),
+
   markModal: document.getElementById("mark-modal"),
   markCloseBtn: document.getElementById("mark-close-btn"),
   markPath: document.getElementById("mark-path"),
   markPrompt: document.getElementById("mark-prompt"),
   copyPromptBtn: document.getElementById("copy-prompt-btn"),
   openChatGPTLink: document.getElementById("open-chatgpt-link"),
+};
+
+const TAB_META = {
+  docs: { button: el.tabDocs, panel: el.panelDocs },
+  workbench: { button: el.tabWorkbench, panel: el.panelWorkbench },
+  flashcards: { button: el.tabFlashcards, panel: el.panelFlashcards },
+  quiz: { button: el.tabQuiz, panel: el.panelQuiz },
 };
 
 const editors = {
@@ -96,6 +147,7 @@ boot();
 
 async function boot() {
   initTheme();
+  initFocusMode();
   wireEvents();
   setupSearch("tests");
   setupSearch("code");
@@ -103,6 +155,12 @@ async function boot() {
   setupEditor("code");
   renderSearchCount("tests");
   renderSearchCount("code");
+  renderFlashcard();
+  renderQuiz();
+
+  const savedTab = localStorage.getItem("learner-studio-tab") || "docs";
+  setTab(savedTab);
+
   await refreshTrack();
   const first = firstKataID();
   if (first) {
@@ -113,12 +171,25 @@ async function boot() {
 function wireEvents() {
   el.tabDocs.addEventListener("click", () => setTab("docs"));
   el.tabWorkbench.addEventListener("click", () => setTab("workbench"));
+  el.tabFlashcards.addEventListener("click", () => setTab("flashcards"));
+  el.tabQuiz.addEventListener("click", () => setTab("quiz"));
+
   el.saveBtn.addEventListener("click", onSave);
   el.runBtn.addEventListener("click", onRun);
   el.markBtn.addEventListener("click", onMark);
   el.themeBtn.addEventListener("click", toggleTheme);
+  el.focusBtn.addEventListener("click", toggleFocusMode);
+
   el.formatCodeBtn.addEventListener("click", () => onFormat("code"));
   el.formatTestsBtn.addEventListener("click", () => onFormat("tests"));
+
+  el.flashPrevBtn.addEventListener("click", () => moveFlashcard(-1));
+  el.flashNextBtn.addEventListener("click", () => moveFlashcard(1));
+  el.flashFlipBtn.addEventListener("click", flipFlashcard);
+
+  el.quizPrevBtn.addEventListener("click", () => moveQuiz(-1));
+  el.quizNextBtn.addEventListener("click", () => moveQuiz(1));
+  el.quizResetBtn.addEventListener("click", resetQuizAnswers);
 
   el.passCloseBtn.addEventListener("click", () => toggleModal(el.passModal, false));
   el.passModal.addEventListener("click", (event) => {
@@ -165,9 +236,9 @@ function wireEvents() {
 
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
 
-    if (ctrlOrMeta && event.key.toLowerCase() === "f") {
+    if (ctrlOrMeta && event.shiftKey && event.key.toLowerCase() === "m") {
       event.preventDefault();
-      focusSearch(state.activeEditor || "code");
+      toggleFocusMode();
       return;
     }
 
@@ -189,7 +260,13 @@ function wireEvents() {
       return;
     }
 
-    if (event.key === "F3") {
+    if (state.activeTab === "workbench" && ctrlOrMeta && event.key.toLowerCase() === "f") {
+      event.preventDefault();
+      focusSearch(state.activeEditor || "code");
+      return;
+    }
+
+    if (state.activeTab === "workbench" && event.key === "F3") {
       event.preventDefault();
       moveSearchMatch(state.activeEditor || "code", event.shiftKey ? -1 : 1);
     }
@@ -227,6 +304,7 @@ function setupSearch(name) {
 
 function setupEditor(name) {
   const editor = editors[name];
+
   editor.input.addEventListener("focus", () => {
     state.activeEditor = name;
   });
@@ -290,6 +368,27 @@ function applyTheme(theme) {
 
 function toggleTheme() {
   applyTheme(state.theme === "dark" ? "light" : "dark");
+}
+
+function initFocusMode() {
+  const stored = localStorage.getItem("learner-studio-focus-mode");
+  applyFocusMode(stored === "1");
+}
+
+function applyFocusMode(enabled) {
+  state.focusMode = Boolean(enabled);
+  document.body.classList.toggle("focus-mode", state.focusMode);
+  el.focusBtn.classList.toggle("active", state.focusMode);
+  el.focusBtn.textContent = state.focusMode ? "Exit focus" : "Focus mode";
+  localStorage.setItem("learner-studio-focus-mode", state.focusMode ? "1" : "0");
+
+  if (state.focusMode) {
+    setTab("workbench");
+  }
+}
+
+function toggleFocusMode() {
+  applyFocusMode(!state.focusMode);
 }
 
 function scheduleAutoFormat(target) {
@@ -389,13 +488,23 @@ function findMatches(source, query) {
   return matches;
 }
 
-function setTab(tab) {
+function setTab(requestedTab) {
+  let tab = requestedTab;
+  if (!TAB_META[tab]) {
+    tab = "docs";
+  }
+  if (state.focusMode && tab !== "workbench") {
+    tab = "workbench";
+  }
+
   state.activeTab = tab;
-  const docsActive = tab === "docs";
-  el.tabDocs.classList.toggle("active", docsActive);
-  el.tabWorkbench.classList.toggle("active", !docsActive);
-  el.panelDocs.classList.toggle("active", docsActive);
-  el.panelWorkbench.classList.toggle("active", !docsActive);
+  localStorage.setItem("learner-studio-tab", tab);
+
+  Object.entries(TAB_META).forEach(([key, meta]) => {
+    const active = key === tab;
+    meta.button.classList.toggle("active", active);
+    meta.panel.classList.toggle("active", active);
+  });
 }
 
 async function refreshTrack() {
@@ -490,6 +599,27 @@ async function loadKata(kataID) {
   renderDirtyState();
   renderButtons(true);
   renderTrack();
+
+  await loadLearningModes(kata.id);
+}
+
+async function loadLearningModes(kataID) {
+  try {
+    const payload = await api(`/api/learn?id=${encodeURIComponent(kataID)}`);
+    state.learn.flashcards = Array.isArray(payload.flashcards) ? payload.flashcards : [];
+    state.learn.quiz = Array.isArray(payload.quiz) ? payload.quiz : [];
+  } catch (error) {
+    state.learn.flashcards = [];
+    state.learn.quiz = [];
+    el.runOutput.textContent = `Learning modes unavailable: ${error.message || String(error)}`;
+  }
+
+  state.flash.index = 0;
+  state.flash.showingBack = false;
+  state.quiz.index = 0;
+  state.quiz.answers = {};
+  renderFlashcard();
+  renderQuiz();
 }
 
 function renderButtons(enabled) {
@@ -498,11 +628,160 @@ function renderButtons(enabled) {
   el.markBtn.disabled = !enabled;
   el.formatCodeBtn.disabled = !enabled;
   el.formatTestsBtn.disabled = !enabled;
+  el.focusBtn.disabled = false;
 }
 
 function renderDirtyState() {
   el.dirtyIndicator.textContent = state.dirty ? "Unsaved changes" : "Saved";
   el.dirtyIndicator.classList.toggle("dirty", state.dirty);
+}
+
+function renderFlashcard() {
+  const cards = state.learn.flashcards || [];
+  const total = cards.length;
+
+  if (total === 0) {
+    el.flashProgress.textContent = "0/0";
+    el.flashSide.textContent = "Front";
+    el.flashText.textContent = "Select a kata to load flashcards.";
+    el.flashTag.textContent = "";
+    el.flashPrevBtn.disabled = true;
+    el.flashNextBtn.disabled = true;
+    el.flashFlipBtn.disabled = true;
+    return;
+  }
+
+  if (state.flash.index >= total) {
+    state.flash.index = total - 1;
+  }
+  if (state.flash.index < 0) {
+    state.flash.index = 0;
+  }
+
+  const card = cards[state.flash.index];
+  const showingBack = state.flash.showingBack;
+  el.flashProgress.textContent = `${state.flash.index + 1}/${total}`;
+  el.flashSide.textContent = showingBack ? "Back" : "Front";
+  el.flashText.textContent = showingBack ? card.back : card.front;
+  el.flashTag.textContent = card.tag ? `Tag: ${card.tag}` : "";
+
+  el.flashPrevBtn.disabled = total <= 1;
+  el.flashNextBtn.disabled = total <= 1;
+  el.flashFlipBtn.disabled = false;
+}
+
+function moveFlashcard(direction) {
+  const cards = state.learn.flashcards || [];
+  if (cards.length === 0) {
+    return;
+  }
+  state.flash.index = (state.flash.index + direction + cards.length) % cards.length;
+  state.flash.showingBack = false;
+  renderFlashcard();
+}
+
+function flipFlashcard() {
+  if (!state.learn.flashcards || state.learn.flashcards.length === 0) {
+    return;
+  }
+  state.flash.showingBack = !state.flash.showingBack;
+  renderFlashcard();
+}
+
+function renderQuiz() {
+  const questions = state.learn.quiz || [];
+  const total = questions.length;
+
+  if (total === 0) {
+    el.quizProgress.textContent = "0/0";
+    el.quizPrompt.textContent = "Select a kata to load quiz questions.";
+    el.quizOptions.innerHTML = "";
+    el.quizFeedback.textContent = "";
+    el.quizScore.textContent = "";
+    el.quizPrevBtn.disabled = true;
+    el.quizNextBtn.disabled = true;
+    el.quizResetBtn.disabled = true;
+    return;
+  }
+
+  if (state.quiz.index >= total) {
+    state.quiz.index = total - 1;
+  }
+  if (state.quiz.index < 0) {
+    state.quiz.index = 0;
+  }
+
+  const question = questions[state.quiz.index];
+  const selected = state.quiz.answers[state.quiz.index];
+
+  el.quizProgress.textContent = `${state.quiz.index + 1}/${total}`;
+  el.quizPrompt.textContent = question.prompt;
+  el.quizOptions.innerHTML = "";
+
+  question.options.forEach((option, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "quiz-option";
+    btn.textContent = option;
+
+    if (selected !== undefined) {
+      if (idx === question.answer_index) {
+        btn.classList.add("correct");
+      }
+      if (selected === idx && idx !== question.answer_index) {
+        btn.classList.add("wrong");
+      }
+    }
+
+    btn.addEventListener("click", () => {
+      state.quiz.answers[state.quiz.index] = idx;
+      renderQuiz();
+    });
+
+    el.quizOptions.appendChild(btn);
+  });
+
+  if (selected === undefined) {
+    el.quizFeedback.textContent = "Choose one option, then move to the next question.";
+  } else if (selected === question.answer_index) {
+    el.quizFeedback.textContent = `Correct. ${question.explanation}`;
+  } else {
+    const correct = question.options[question.answer_index] || "(missing option)";
+    el.quizFeedback.textContent = `Not yet. Correct answer: ${correct}. ${question.explanation}`;
+  }
+
+  const answered = Object.keys(state.quiz.answers).length;
+  let correctCount = 0;
+  Object.entries(state.quiz.answers).forEach(([idxRaw, selectedIdx]) => {
+    const idx = Number(idxRaw);
+    if (questions[idx] && questions[idx].answer_index === selectedIdx) {
+      correctCount += 1;
+    }
+  });
+
+  el.quizScore.textContent = `Score: ${correctCount}/${total} correct (${answered} answered)`;
+  el.quizPrevBtn.disabled = state.quiz.index <= 0;
+  el.quizNextBtn.disabled = state.quiz.index >= total - 1;
+  el.quizResetBtn.disabled = false;
+}
+
+function moveQuiz(direction) {
+  if (!state.learn.quiz || state.learn.quiz.length === 0) {
+    return;
+  }
+  state.quiz.index += direction;
+  if (state.quiz.index < 0) {
+    state.quiz.index = 0;
+  }
+  if (state.quiz.index >= state.learn.quiz.length) {
+    state.quiz.index = state.learn.quiz.length - 1;
+  }
+  renderQuiz();
+}
+
+function resetQuizAnswers() {
+  state.quiz.answers = {};
+  state.quiz.index = 0;
+  renderQuiz();
 }
 
 function formatProgress(progress) {

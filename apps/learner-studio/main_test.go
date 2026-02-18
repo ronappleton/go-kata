@@ -71,6 +71,41 @@ func TestKataEndpoint(t *testing.T) {
 	}
 }
 
+func TestLearnEndpoint(t *testing.T) {
+	server := mustTestServer(t)
+	req := httptest.NewRequest(http.MethodGet, "/api/learn?id=001", nil)
+	rec := httptest.NewRecorder()
+
+	server.routes().ServeHTTP(rec, req)
+	if rec.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d body=%s", rec.Code, rec.Body.String())
+	}
+
+	var payload learnResponse
+	if err := json.Unmarshal(rec.Body.Bytes(), &payload); err != nil {
+		t.Fatalf("decode response: %v", err)
+	}
+
+	if payload.KataID != "001" {
+		t.Fatalf("unexpected kata id: %s", payload.KataID)
+	}
+	if len(payload.Flashcards) == 0 {
+		t.Fatalf("expected flashcards")
+	}
+	if len(payload.Quiz) == 0 {
+		t.Fatalf("expected quiz questions")
+	}
+
+	for _, q := range payload.Quiz {
+		if len(q.Options) < 2 {
+			t.Fatalf("expected at least 2 options, got %d for %s", len(q.Options), q.ID)
+		}
+		if q.AnswerIndex < 0 || q.AnswerIndex >= len(q.Options) {
+			t.Fatalf("answer index out of range for %s", q.ID)
+		}
+	}
+}
+
 func TestRunEndpointIncludesCoachingFields(t *testing.T) {
 	server := mustTestServer(t)
 	body := `{"kata_id":"001","save_before_run":false,"timeout_seconds":30}`

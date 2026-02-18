@@ -26,6 +26,7 @@
         </div>
         <div class="actions">
           <button id="theme-btn" class="btn ghost" title="Toggle dark mode">Dark mode</button>
+          <button id="focus-btn" class="btn ghost" title="Toggle focus mode">Focus mode</button>
           <button id="save-btn" class="btn ghost" disabled>Save</button>
           <button id="run-btn" class="btn primary" disabled>Run Tests</button>
           <button id="mark-btn" class="btn accent" disabled>Ask AI to Mark</button>
@@ -43,8 +44,10 @@
       <div class="tabs">
         <button id="tab-docs" class="tab active">Documentation</button>
         <button id="tab-workbench" class="tab">Workbench</button>
+        <button id="tab-flashcards" class="tab">Flashcards</button>
+        <button id="tab-quiz" class="tab">Quiz</button>
       </div>
-      <p class="shortcut-hint">Shortcuts: <kbd>Ctrl/Cmd+S</kbd> Save, <kbd>Ctrl/Cmd+Enter</kbd> Run tests, <kbd>Alt+Shift+F</kbd> Format both, <kbd>Ctrl/Cmd+F</kbd> Find in editor, <kbd>Tab</kbd> insert tab, <kbd>Esc</kbd> close modal</p>
+      <p class="shortcut-hint">Shortcuts: <kbd>Ctrl/Cmd+S</kbd> Save, <kbd>Ctrl/Cmd+Enter</kbd> Run tests, <kbd>Alt+Shift+F</kbd> Format both, <kbd>Ctrl/Cmd+Shift+M</kbd> Focus mode, <kbd>Ctrl/Cmd+F</kbd> Find in editor, <kbd>Tab</kbd> insert tab, <kbd>Esc</kbd> close modal</p>
 
       <section id="panel-docs" class="panel docs-panel active">
         <pre id="readme-view" class="doc-view"></pre>
@@ -101,6 +104,41 @@
             Run tests to get focused feedback on the first behavior gap.
           </div>
         </div>
+      </section>
+
+      <section id="panel-flashcards" class="panel flashcards-panel">
+        <div class="mode-head">
+          <h3>Flashcards</h3>
+          <div class="mode-actions">
+            <button id="flash-prev-btn" class="btn tiny">Prev</button>
+            <button id="flash-flip-btn" class="btn tiny">Flip</button>
+            <button id="flash-next-btn" class="btn tiny">Next</button>
+            <span id="flash-progress" class="pill">0/0</span>
+          </div>
+        </div>
+        <div id="flash-card" class="flash-card">
+          <p id="flash-side" class="flash-side">Front</p>
+          <p id="flash-text" class="flash-text">Select a kata to load flashcards.</p>
+        </div>
+        <p id="flash-tag" class="flash-tag"></p>
+      </section>
+
+      <section id="panel-quiz" class="panel quiz-panel">
+        <div class="mode-head">
+          <h3>Knowledge Check (MCQ)</h3>
+          <div class="mode-actions">
+            <button id="quiz-prev-btn" class="btn tiny">Prev</button>
+            <button id="quiz-next-btn" class="btn tiny">Next</button>
+            <button id="quiz-reset-btn" class="btn tiny">Reset</button>
+            <span id="quiz-progress" class="pill">0/0</span>
+          </div>
+        </div>
+        <div class="quiz-card">
+          <p id="quiz-prompt" class="quiz-prompt">Select a kata to load quiz questions.</p>
+          <div id="quiz-options" class="quiz-options"></div>
+          <p id="quiz-feedback" class="quiz-feedback"></p>
+        </div>
+        <p id="quiz-score" class="quiz-score"></p>
       </section>
     </main>
   </div>
