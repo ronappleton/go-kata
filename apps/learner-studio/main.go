@@ -1,14 +1,17 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"embed"
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"io/fs"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -102,6 +105,17 @@ type runRequest struct {
 	Tests          *string `json:"tests,omitempty"`
 	SaveBeforeRun  bool    `json:"save_before_run"`
 	TimeoutSeconds int     `json:"timeout_seconds"`
+}
+
+type formatRequest struct {
+	KataID string  `json:"kata_id"`
+	Code   *string `json:"code,omitempty"`
+	Tests  *string `json:"tests,omitempty"`
+}
+
+type formatResponse struct {
+	Code  string `json:"code"`
+	Tests string `json:"tests"`
 }
 
 type runResponse struct {
@@ -202,6 +216,7 @@ func (s *studioServer) routes() http.Handler {
 	mux.HandleFunc("/api/track", s.handleTrack)
 	mux.HandleFunc("/api/kata", s.handleKata)
 	mux.HandleFunc("/api/save", s.handleSave)
+	mux.HandleFunc("/api/format", s.handleFormat)
 	mux.HandleFunc("/api/run", s.handleRun)
 	mux.HandleFunc("/api/mark", s.handleMark)
 
@@ -464,6 +479,49 @@ func (s *studioServer) handleRun(w http.ResponseWriter, r *http.Request) {
 		Progress:        state.Attempts[kata.ID],
 	}
 	writeJSON(w, http.StatusOK, resp)
+}
+
+func (s *studioServer) handleFormat(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		writeError(w, http.StatusMethodNotAllowed, "method not allowed")
+		return
+	}
+
+	var req formatRequest
+	if err := decodeJSON(r, &req); err != nil {
+		writeError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if _, _, ok := s.track.FindKata(req.KataID); !ok {
+		writeError(w, http.StatusNotFound, "kata not found")
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(r.Context(), 8*time.Second)
+	defer cancel()
+
+	code := derefOrEmpty(req.Code)
+	tests := derefOrEmpty(req.Tests)
+
+	formattedCode, codeErr := formatGoSource(ctx, code)
+	formattedTests, testsErr := formatGoSource(ctx, tests)
+	if codeErr != nil || testsErr != nil {
+		errs := []string{}
+		if codeErr != nil {
+			errs = append(errs, fmt.Sprintf("code: %v", codeErr))
+		}
+		if testsErr != nil {
+			errs = append(errs, fmt.Sprintf("tests: %v", testsErr))
+		}
+		writeError(w, http.StatusBadRequest, "format failed: "+strings.Join(errs, "; "))
+		return
+	}
+
+	writeJSON(w, http.StatusOK, formatResponse{
+		Code:  formattedCode,
+		Tests: formattedTests,
+	})
 }
 
 func (s *studioServer) handleMark(w http.ResponseWriter, r *http.Request) {
@@ -732,6 +790,32 @@ func clip(input string, max int) string {
 		return trimmed[:max]
 	}
 	return trimmed[:max-3] + "..."
+}
+
+func formatGoSource(ctx context.Context, src string) (string, error) {
+	cmd := exec.CommandContext(ctx, "gofmt")
+	cmd.Stdin = strings.NewReader(src)
+
+	var stdout bytes.Buffer
+	var stderr bytes.Buffer
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+
+	if err := cmd.Run(); err != nil {
+		errText := strings.TrimSpace(stderr.String())
+		if errText == "" {
+			errText = err.Error()
+		}
+		return "", errors.New(errText)
+	}
+	return stdout.String(), nil
+}
+
+func derefOrEmpty(v *string) string {
+	if v == nil {
+		return ""
+	}
+	return *v
 }
 
 func fatalf(format string, args ...any) {

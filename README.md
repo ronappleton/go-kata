@@ -1,4 +1,5 @@
 # Golang Katas 1–100 (Zero → Hero)
+[![Operability](https://github.com/ronappleton/golang-katas-1-100/actions/workflows/operability.yml/badge.svg)](https://github.com/ronappleton/golang-katas-1-100/actions/workflows/operability.yml)
 
 Structured Go practice for developers coming from other languages.
 
@@ -25,6 +26,9 @@ A learning IDE flow:
 - category progress and milestones
 - tabbed docs + workbench
 - tests left, code right
+- dark mode toggle for long sessions
+- syntax highlighting in test/code editors
+- auto-format + keyboard shortcuts for quick loops
 - run tests, pass modal, AI marking
 - next recommended kata guidance
 
@@ -67,6 +71,10 @@ Run full operability smoke checks:
 ```bash
 ./scripts/test_operability.sh
 ```
+
+CI runs the same script on pushes and pull requests via:
+
+- `.github/workflows/operability.yml`
 
 ## Project structure
 

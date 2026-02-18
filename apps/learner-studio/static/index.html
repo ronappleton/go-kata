@@ -25,6 +25,7 @@
           <p id="kata-subtitle">Use the sidebar to start.</p>
         </div>
         <div class="actions">
+          <button id="theme-btn" class="btn ghost" title="Toggle dark mode">Dark mode</button>
           <button id="save-btn" class="btn ghost" disabled>Save</button>
           <button id="run-btn" class="btn primary" disabled>Run Tests</button>
           <button id="mark-btn" class="btn accent" disabled>Ask AI to Mark</button>
@@ -43,6 +44,7 @@
         <button id="tab-docs" class="tab active">Documentation</button>
         <button id="tab-workbench" class="tab">Workbench</button>
       </div>
+      <p class="shortcut-hint">Shortcuts: <kbd>Ctrl/Cmd+S</kbd> Save, <kbd>Ctrl/Cmd+Enter</kbd> Run tests, <kbd>Alt+Shift+F</kbd> Format both, <kbd>Tab</kbd> insert tab, <kbd>Esc</kbd> close modal</p>
 
       <section id="panel-docs" class="panel docs-panel active">
         <pre id="readme-view" class="doc-view"></pre>
@@ -52,17 +54,25 @@
         <div class="workbench-grid">
           <div class="pane">
             <div class="pane-head">
-              <h3>Tests (Reference)</h3>
+              <h3>Tests</h3>
+              <button id="format-tests-btn" class="btn tiny">Format</button>
               <button id="reset-tests-btn" class="btn tiny">Reload</button>
             </div>
-            <textarea id="tests-editor" spellcheck="false" readonly></textarea>
+            <div class="editor-wrap">
+              <pre id="tests-highlight" class="highlight-layer"></pre>
+              <textarea id="tests-editor" class="highlight-input" spellcheck="false"></textarea>
+            </div>
           </div>
           <div class="pane">
             <div class="pane-head">
               <h3>Code (Your Solution)</h3>
+              <button id="format-code-btn" class="btn tiny">Format</button>
               <span id="dirty-indicator" class="pill">Saved</span>
             </div>
-            <textarea id="code-editor" spellcheck="false" placeholder="Select a kata to start coding..."></textarea>
+            <div class="editor-wrap">
+              <pre id="code-highlight" class="highlight-layer"></pre>
+              <textarea id="code-editor" class="highlight-input" spellcheck="false" placeholder="Select a kata to start coding..."></textarea>
+            </div>
           </div>
         </div>
         <div class="result-wrap">

@@ -4,7 +4,10 @@ const state = {
   selectedKata: null,
   nextRecommended: null,
   activeTab: "docs",
+  theme: "light",
   dirty: false,
+  formatting: false,
+  autoFormatTimer: null,
 };
 
 const el = {
@@ -16,13 +19,18 @@ const el = {
   nextRecommendation: document.getElementById("next-recommendation"),
   readmeView: document.getElementById("readme-view"),
   testsEditor: document.getElementById("tests-editor"),
+  testsHighlight: document.getElementById("tests-highlight"),
   codeEditor: document.getElementById("code-editor"),
+  codeHighlight: document.getElementById("code-highlight"),
   runOutput: document.getElementById("run-output"),
   failureInsights: document.getElementById("failure-insights"),
   dirtyIndicator: document.getElementById("dirty-indicator"),
   saveBtn: document.getElementById("save-btn"),
   runBtn: document.getElementById("run-btn"),
   markBtn: document.getElementById("mark-btn"),
+  themeBtn: document.getElementById("theme-btn"),
+  formatCodeBtn: document.getElementById("format-code-btn"),
+  formatTestsBtn: document.getElementById("format-tests-btn"),
   tabDocs: document.getElementById("tab-docs"),
   tabWorkbench: document.getElementById("tab-workbench"),
   panelDocs: document.getElementById("panel-docs"),
@@ -41,10 +49,22 @@ const el = {
   openChatGPTLink: document.getElementById("open-chatgpt-link"),
 };
 
+const editors = {
+  tests: { input: el.testsEditor, layer: el.testsHighlight },
+  code: { input: el.codeEditor, layer: el.codeHighlight },
+};
+
+const GO_KEYWORDS = /\b(package|import|func|return|if|else|for|range|switch|case|default|type|struct|interface|map|chan|select|go|defer|var|const|break|continue|fallthrough)\b/g;
+const GO_TYPES = /\b(int|int8|int16|int32|int64|uint|uint8|uint16|uint32|uint64|uintptr|float32|float64|string|bool|byte|rune|error|any)\b/g;
+const GO_NUMBERS = /\b(\d+(?:\.\d+)?)\b/g;
+
 boot();
 
 async function boot() {
+  initTheme();
   wireEvents();
+  setupEditor("tests");
+  setupEditor("code");
   await refreshTrack();
   const first = firstKataID();
   if (first) {
@@ -58,7 +78,16 @@ function wireEvents() {
   el.saveBtn.addEventListener("click", onSave);
   el.runBtn.addEventListener("click", onRun);
   el.markBtn.addEventListener("click", onMark);
+  el.themeBtn.addEventListener("click", toggleTheme);
+  el.formatCodeBtn.addEventListener("click", () => onFormat("code"));
+  el.formatTestsBtn.addEventListener("click", () => onFormat("tests"));
+
   el.passCloseBtn.addEventListener("click", () => toggleModal(el.passModal, false));
+  el.passModal.addEventListener("click", (event) => {
+    if (event.target === el.passModal) {
+      toggleModal(el.passModal, false);
+    }
+  });
   el.passMarkBtn.addEventListener("click", async () => {
     toggleModal(el.passModal, false);
     await onMark();
@@ -71,17 +100,121 @@ function wireEvents() {
     await loadKata(state.nextRecommended.kata_id);
     setTab("docs");
   });
+
   el.markCloseBtn.addEventListener("click", () => toggleModal(el.markModal, false));
+  el.markModal.addEventListener("click", (event) => {
+    if (event.target === el.markModal) {
+      toggleModal(el.markModal, false);
+    }
+  });
   el.copyPromptBtn.addEventListener("click", copyPrompt);
   el.resetTestsBtn.addEventListener("click", onResetFromDisk);
 
-  el.codeEditor.addEventListener("input", () => {
+  document.addEventListener("keydown", async (event) => {
+    if (event.key === "Escape") {
+      if (!el.markModal.classList.contains("hidden")) {
+        toggleModal(el.markModal, false);
+      }
+      if (!el.passModal.classList.contains("hidden")) {
+        toggleModal(el.passModal, false);
+      }
+      return;
+    }
+
+    if (!state.selectedKataID) {
+      return;
+    }
+
+    const ctrlOrMeta = event.ctrlKey || event.metaKey;
+
+    if (ctrlOrMeta && event.key.toLowerCase() === "s") {
+      event.preventDefault();
+      await onSave();
+      return;
+    }
+
+    if (ctrlOrMeta && event.key === "Enter") {
+      event.preventDefault();
+      await onRun();
+      return;
+    }
+
+    if (event.altKey && event.shiftKey && event.key.toLowerCase() === "f") {
+      event.preventDefault();
+      await onFormat("both");
+    }
+  });
+}
+
+function setupEditor(name) {
+  const editor = editors[name];
+  editor.input.addEventListener("input", () => {
     if (!state.selectedKata) {
       return;
     }
     state.dirty = true;
     renderDirtyState();
+    refreshHighlight(name);
   });
+
+  editor.input.addEventListener("scroll", () => syncScroll(name));
+
+  editor.input.addEventListener("keydown", (event) => {
+    if (event.key !== "Tab" || event.ctrlKey || event.metaKey || event.altKey) {
+      return;
+    }
+    event.preventDefault();
+    const node = editor.input;
+    const start = node.selectionStart;
+    const end = node.selectionEnd;
+    const current = node.value;
+    node.value = `${current.slice(0, start)}\t${current.slice(end)}`;
+    node.selectionStart = start + 1;
+    node.selectionEnd = start + 1;
+    node.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+
+  editor.input.addEventListener("blur", () => {
+    if (!state.selectedKata || !state.dirty) {
+      return;
+    }
+    scheduleAutoFormat(name);
+  });
+
+  refreshHighlight(name);
+}
+
+function syncScroll(name) {
+  const editor = editors[name];
+  editor.layer.scrollTop = editor.input.scrollTop;
+  editor.layer.scrollLeft = editor.input.scrollLeft;
+}
+
+function initTheme() {
+  const stored = localStorage.getItem("learner-studio-theme");
+  const preferred = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  applyTheme(stored || preferred);
+}
+
+function applyTheme(theme) {
+  state.theme = theme === "dark" ? "dark" : "light";
+  document.body.setAttribute("data-theme", state.theme);
+  localStorage.setItem("learner-studio-theme", state.theme);
+  el.themeBtn.textContent = state.theme === "dark" ? "Light mode" : "Dark mode";
+}
+
+function toggleTheme() {
+  applyTheme(state.theme === "dark" ? "light" : "dark");
+}
+
+function scheduleAutoFormat(target) {
+  if (state.autoFormatTimer) {
+    clearTimeout(state.autoFormatTimer);
+  }
+
+  state.autoFormatTimer = setTimeout(async () => {
+    await formatEditors({ silent: true, target });
+  }, 180);
 }
 
 function setTab(tab) {
@@ -106,12 +239,14 @@ function renderTrack() {
 
   el.trackSummary.textContent = `${state.track.overall_done}/${state.track.overall_total} complete (${state.track.overall_percent}%)`;
   el.coachMessage.textContent = state.track.coach_message || "Keep sessions focused: one kata, one reflection.";
+
   if (state.track.next_recommended) {
     const next = state.track.next_recommended;
-    el.nextRecommendation.textContent = `Recommended next: ${next.kata_id} — ${next.kata_title}. ${next.reason}`;
+    el.nextRecommendation.textContent = `Recommended next: ${next.kata_id} - ${next.kata_title}. ${next.reason}`;
   } else {
     el.nextRecommendation.textContent = "Track complete. Pick a kata to refactor for readability and edge-case tests.";
   }
+
   el.categoryList.innerHTML = "";
 
   state.track.categories.forEach((category) => {
@@ -170,11 +305,11 @@ async function loadKata(kataID) {
   state.selectedKata = kata;
   state.dirty = false;
 
-  el.kataTitle.textContent = `${kata.id} — ${kata.title}`;
-  el.kataSubtitle.textContent = `${kata.category.title} · ${kata.focus}`;
+  el.kataTitle.textContent = `${kata.id} - ${kata.title}`;
+  el.kataSubtitle.textContent = `${kata.category.title} - ${kata.focus}`;
   el.readmeView.textContent = kata.readme;
-  el.testsEditor.value = kata.tests;
-  el.codeEditor.value = kata.code;
+  setEditorValue("tests", kata.tests);
+  setEditorValue("code", kata.code);
   el.runOutput.textContent = formatProgress(kata.progress);
   renderFailureInsights([]);
   renderDirtyState();
@@ -186,6 +321,8 @@ function renderButtons(enabled) {
   el.saveBtn.disabled = !enabled;
   el.runBtn.disabled = !enabled;
   el.markBtn.disabled = !enabled;
+  el.formatCodeBtn.disabled = !enabled;
+  el.formatTestsBtn.disabled = !enabled;
 }
 
 function renderDirtyState() {
@@ -215,7 +352,7 @@ function formatProgress(progress) {
 
 function renderFailureInsights(insights) {
   if (!insights || insights.length === 0) {
-    el.failureInsights.innerHTML = `<div class="insight-card"><strong>No focused issues yet</strong>Run tests to surface the first mismatch, then fix one thing at a time.</div>`;
+    el.failureInsights.innerHTML = `<div class="insight-card"><strong>No focused issues yet</strong><div>Run tests to surface the first mismatch, then fix one thing at a time.</div></div>`;
     return;
   }
 
@@ -258,23 +395,25 @@ function formatInsightKind(kind) {
 
 async function onSave() {
   ensureSelectedKata();
+  await formatEditors({ silent: true, target: "both" });
 
   await api("/api/save", {
     method: "POST",
     body: JSON.stringify({
       kata_id: state.selectedKataID,
-      code: el.codeEditor.value,
-      tests: el.testsEditor.value,
+      code: editors.code.input.value,
+      tests: editors.tests.input.value,
     }),
   });
 
   state.dirty = false;
   renderDirtyState();
-  el.runOutput.textContent = "Saved.\nRun tests to validate behavior.";
+  el.runOutput.textContent = "Saved and formatted. Run tests to validate behavior.";
 }
 
 async function onRun() {
   ensureSelectedKata();
+  await formatEditors({ silent: true, target: "both" });
 
   el.runOutput.textContent = "Running tests...";
 
@@ -282,8 +421,8 @@ async function onRun() {
     method: "POST",
     body: JSON.stringify({
       kata_id: state.selectedKataID,
-      code: el.codeEditor.value,
-      tests: el.testsEditor.value,
+      code: editors.code.input.value,
+      tests: editors.tests.input.value,
       save_before_run: true,
       timeout_seconds: 90,
     }),
@@ -310,7 +449,7 @@ async function onRun() {
 
   state.nextRecommended = result.next_recommended || state.nextRecommended;
   if (state.nextRecommended) {
-    el.passNextHint.textContent = `Recommended next: ${state.nextRecommended.kata_id} — ${state.nextRecommended.kata_title}`;
+    el.passNextHint.textContent = `Recommended next: ${state.nextRecommended.kata_id} - ${state.nextRecommended.kata_title}`;
     el.passNextBtn.disabled = false;
   } else {
     el.passNextHint.textContent = "You completed the current track. Great work.";
@@ -337,11 +476,119 @@ async function onMark() {
   toggleModal(el.markModal, true);
 }
 
+async function onFormat(side) {
+  ensureSelectedKata();
+  const target = side === "both" ? "both" : side;
+  const changed = await formatEditors({ silent: false, target });
+  if (changed) {
+    state.dirty = true;
+    renderDirtyState();
+    el.runOutput.textContent = side === "both"
+      ? "Formatted code and tests."
+      : `Formatted ${side}.`;
+  } else {
+    el.runOutput.textContent = "Already formatted.";
+  }
+}
+
 async function onResetFromDisk() {
   ensureSelectedKata();
   await loadKata(state.selectedKataID);
   el.runOutput.textContent = "Reloaded from disk.";
   renderFailureInsights([]);
+}
+
+async function formatEditors({ silent = false, target = "both" } = {}) {
+  if (!state.selectedKataID || state.formatting) {
+    return false;
+  }
+
+  const formatCode = target === "both" || target === "code";
+  const formatTests = target === "both" || target === "tests";
+  if (!formatCode && !formatTests) {
+    return false;
+  }
+
+  const payload = { kata_id: state.selectedKataID };
+  if (formatCode) {
+    payload.code = editors.code.input.value;
+  }
+  if (formatTests) {
+    payload.tests = editors.tests.input.value;
+  }
+
+  state.formatting = true;
+  try {
+    const response = await api("/api/format", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+
+    let changed = false;
+    if (formatCode && typeof response.code === "string" && response.code !== editors.code.input.value) {
+      setEditorValue("code", response.code);
+      changed = true;
+    }
+    if (formatTests && typeof response.tests === "string" && response.tests !== editors.tests.input.value) {
+      setEditorValue("tests", response.tests);
+      changed = true;
+    }
+
+    return changed;
+  } catch (error) {
+    if (!silent) {
+      el.runOutput.textContent = `Format error: ${error.message || String(error)}`;
+    }
+    return false;
+  } finally {
+    state.formatting = false;
+  }
+}
+
+function setEditorValue(name, value) {
+  const editor = editors[name];
+  editor.input.value = value || "";
+  refreshHighlight(name);
+}
+
+function refreshHighlight(name) {
+  const editor = editors[name];
+  const source = editor.input.value || "";
+  editor.layer.innerHTML = `${highlightGo(source)}\n`;
+  syncScroll(name);
+}
+
+function highlightGo(source) {
+  if (!source) {
+    return "";
+  }
+
+  let escaped = escapeHTML(source).replace(/\r/g, "");
+  const tokens = [];
+
+  escaped = escaped.replace(/(`[^`]*`|"(?:\\.|[^"\\])*"|\/\/[^\n]*)/g, (match) => {
+    const type = match.startsWith("//") ? "comment" : "string";
+    const idx = tokens.push({ type, text: match }) - 1;
+    return `@@TOK_${idx}_@@`;
+  });
+
+  escaped = escaped
+    .replace(GO_KEYWORDS, '<span class="tok-keyword">$1</span>')
+    .replace(GO_TYPES, '<span class="tok-type">$1</span>')
+    .replace(GO_NUMBERS, '<span class="tok-number">$1</span>');
+
+  escaped = escaped.replace(/@@TOK_(\d+)_@@/g, (_, rawIndex) => {
+    const token = tokens[Number(rawIndex)];
+    if (!token) {
+      return "";
+    }
+    if (token.type === "comment") {
+      return `<span class="tok-comment">${token.text}</span>`;
+    }
+    return `<span class="tok-string">${token.text}</span>`;
+  });
+
+  return escaped;
 }
 
 function toggleModal(node, visible) {
@@ -383,7 +630,7 @@ async function api(path, options = {}) {
 }
 
 function escapeHTML(input) {
-  return input
+  return String(input)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");

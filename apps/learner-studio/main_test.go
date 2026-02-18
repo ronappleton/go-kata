@@ -95,6 +95,30 @@ func TestRunEndpointIncludesCoachingFields(t *testing.T) {
 	}
 }
 
+func TestFormatEndpoint(t *testing.T) {
+	server := mustTestServer(t)
+	body := `{"kata_id":"001","code":"package kata001\nfunc  X( )int{return 1}\n","tests":"package kata001\nimport \"testing\"\nfunc TestX( t *testing.T){}"}`
+	req := httptest.NewRequest(http.MethodPost, "/api/format", strings.NewReader(body))
+	rec := httptest.NewRecorder()
+	req.Header.Set("Content-Type", "application/json")
+
+	server.routes().ServeHTTP(rec, req)
+	if rec.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d body=%s", rec.Code, rec.Body.String())
+	}
+
+	var payload formatResponse
+	if err := json.Unmarshal(rec.Body.Bytes(), &payload); err != nil {
+		t.Fatalf("decode response: %v", err)
+	}
+	if !strings.Contains(payload.Code, "func X() int") {
+		t.Fatalf("expected formatted code, got:\n%s", payload.Code)
+	}
+	if !strings.Contains(payload.Tests, "func TestX(t *testing.T)") {
+		t.Fatalf("expected formatted tests, got:\n%s", payload.Tests)
+	}
+}
+
 func mustTestServer(t *testing.T) *studioServer {
 	t.Helper()
 

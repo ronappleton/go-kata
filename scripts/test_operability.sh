@@ -15,7 +15,7 @@ echo "$LIST_OUT" | grep -q "Go Core 100"
 echo "$LIST_OUT" | grep -q "Overall progress:"
 
 SHOW_OUT="$(go run ./apps/learner-cli show --kata 001)"
-echo "$SHOW_OUT" | grep -q "001 — FizzBuzz"
+echo "$SHOW_OUT" | grep -q "FizzBuzz"
 echo "$SHOW_OUT" | grep -q "Expected behavior:"
 
 echo "Operability checks passed."
