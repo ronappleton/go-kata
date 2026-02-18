@@ -172,6 +172,9 @@ func TestResetBuggyEndpoint(t *testing.T) {
 	if payload.Code == "" || payload.Tests == "" {
 		t.Fatalf("expected code/tests in response")
 	}
+	if strings.Contains(payload.Code, "//go:build ignore") {
+		t.Fatalf("expected stripped code, got build tags in payload")
+	}
 }
 
 func TestFormatEndpoint(t *testing.T) {

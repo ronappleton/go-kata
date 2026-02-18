@@ -1,3 +1,6 @@
+//go:build ignore
+// +build ignore
+
 package kata
 
 // ClampPercentage currently fails to clamp negative values.

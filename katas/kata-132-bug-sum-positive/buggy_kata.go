@@ -1,3 +1,6 @@
+//go:build ignore
+// +build ignore
+
 package kata
 
 // SumPositive currently sums all values, including negatives.

@@ -1,3 +1,6 @@
+//go:build ignore
+// +build ignore
+
 package kata
 
 // FirstNonEmpty currently returns the first item even if empty.

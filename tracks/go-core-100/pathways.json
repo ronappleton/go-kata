@@ -17,7 +17,8 @@
         "Documentation",
         "Flashcards",
         "Workbench",
-        "Quiz"
+        "Quiz",
+        "Reflection"
       ],
       "level_outcome": "You can implement small-to-medium Go functions with clear contracts, edge-case coverage, and readable tests."
     },
@@ -35,7 +36,8 @@
         "Documentation",
         "Workbench",
         "Bug Hunt",
-        "Quiz"
+        "Quiz",
+        "Reflection"
       ],
       "level_outcome": "You can build and debug boundary-heavy Go code with explicit error handling and reliable runtime behavior."
     },
@@ -54,7 +56,8 @@
         "Workbench",
         "Bug Hunt",
         "Flashcards",
-        "Quiz"
+        "Quiz",
+        "Reflection"
       ],
       "level_outcome": "You can design, debug, and evolve senior-level Go solutions with strong operational and maintainability standards."
     }

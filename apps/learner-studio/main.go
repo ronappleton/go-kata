@@ -833,7 +833,7 @@ func (s *studioServer) handleResetBuggy(w http.ResponseWriter, r *http.Request) 
 	}
 
 	buggyCodePath := filepath.Join(kata.Dir, "buggy_kata.go")
-	buggyCode, err := os.ReadFile(buggyCodePath)
+	rawBuggyCode, err := os.ReadFile(buggyCodePath)
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			writeError(w, http.StatusBadRequest, "buggy starter not available for this kata")
@@ -842,6 +842,7 @@ func (s *studioServer) handleResetBuggy(w http.ResponseWriter, r *http.Request) 
 		writeError(w, http.StatusInternalServerError, fmt.Sprintf("read buggy starter: %v", err))
 		return
 	}
+	buggyCode := stripIgnoreBuildTags(rawBuggyCode)
 
 	s.mu.Lock()
 	defer s.mu.Unlock()
@@ -862,6 +863,14 @@ func (s *studioServer) handleResetBuggy(w http.ResponseWriter, r *http.Request) 
 		Code:  string(buggyCode),
 		Tests: string(tests),
 	})
+}
+
+func stripIgnoreBuildTags(data []byte) []byte {
+	const tagPrefix = "//go:build ignore\n// +build ignore\n\n"
+	if strings.HasPrefix(string(data), tagPrefix) {
+		return []byte(strings.TrimPrefix(string(data), tagPrefix))
+	}
+	return data
 }
 
 func (s *studioServer) handleSave(w http.ResponseWriter, r *http.Request) {
