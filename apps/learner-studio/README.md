@@ -1,67 +1,63 @@
-# Learner Studio (Web MVP)
+# Learner Studio
 
-Local browser-based learning IDE for this kata repo.
+Local learning IDE for Go katas, optimized for understanding and iteration.
 
-## Features
+## What it is
+Learner Studio gives the learner one place to read the contract, edit tests and code side-by-side, run diagnostics, and reflect before moving on.
 
-- category + progress sidebar
-- category milestone feedback
-- tabbed layout:
-  - `Documentation` tab (kata README)
-  - `Workbench` tab (tests left, code right)
-- theme toggle with persisted dark mode
-- syntax-highlighted Go editors (tests + solution panels)
-- synced line numbers in both editors
-- in-editor search with next/previous match navigation
-- auto-format on blur for each editor plus manual format buttons
-- save/run keyboard shortcuts for fast practice loops
-- `Run Tests` button wired to `go test -json`
-- pass modal with `Ask AI to Mark` flow
-- next recommended kata guidance after each run
-- focused failure insights (expected vs actual cues)
-- AI marking packet generation for ChatGPT handoff
+## Learning modes
+- `Documentation`: task, intent, rules, prior reading
+- `Workbench`: tests on left, implementation on right
+- `Flashcards`: recall behavior before coding
+- `Quiz`: MCQ checks on contract understanding
+- `Bug Hunt`: debug-first workflow for bug katas
+- `Reflection`: save what failed first, what fixed it, and what to carry forward
 
-## Workflow Tips
+## Key UX features
+- light + dark mode
+- focus mode (workbench-only layout)
+- syntax highlighting, line numbers, in-editor search
+- auto-format and keyboard shortcuts
+- pathway progress + next-kata recommendations
+- pass modal + AI marking handoff
 
-- Edit tests and solution side-by-side to keep behavior contracts explicit.
-- Use `Run Tests` often; the `Failure Insights` panel is designed for one-fix-at-a-time learning.
-- Use `Format` before reviewing code quality so feedback focuses on logic, not spacing.
-- Generate an AI marking packet after a pass to get reflection prompts, not just a pass/fail.
+## Screenshots
 
-## Shortcuts
+### Documentation (light/dark)
+| Light | Dark |
+|---|---|
+| ![Docs light](assets/screenshots/learner-studio-docs-light.svg) | ![Docs dark](assets/screenshots/learner-studio-docs-dark.svg) |
 
-- `Ctrl/Cmd+S`: save current kata files
-- `Ctrl/Cmd+Enter`: run tests
-- `Alt+Shift+F`: format both editors
-- `Ctrl/Cmd+F`: focus search for current editor
-- `F3` / `Shift+F3`: next/previous search match
-- `Tab`: insert a tab in editor
-- `Esc`: close open modal
+### Workbench (light/dark)
+| Light | Dark |
+|---|---|
+| ![Workbench light](assets/screenshots/learner-studio-workbench-light.svg) | ![Workbench dark](assets/screenshots/learner-studio-workbench-dark.svg) |
 
-## API Endpoints (UI)
-
-- `GET /api/track`: category progress + recommendation
-- `GET /api/kata?id=<id>`: load kata readme/code/tests/progress
-- `POST /api/format`: gofmt current editor content
-- `POST /api/save`: persist `kata.go` and `kata_test.go`
-- `POST /api/run`: run tests and return coaching/failure insights
-- `POST /api/mark`: generate prompt packet for AI review
+### Active modes
+| Flashcards | Quiz | Focus mode |
+|---|---|---|
+| ![Flashcards](assets/screenshots/learner-studio-flashcards-light.svg) | ![Quiz](assets/screenshots/learner-studio-quiz-light.svg) | ![Focus mode dark](assets/screenshots/learner-studio-focus-dark.svg) |
 
 ## Run
-
 From repo root:
 
 ```bash
 go run ./apps/learner-studio
 ```
 
-Then open:
+Open:
 
 ```text
 http://127.0.0.1:7777
 ```
 
-## Notes
-
-- Progress is stored in `.learning/progress.json`
-- AI marking prompts are written to `.learning/marking/`
+## Useful endpoints
+- `GET /api/track`
+- `GET /api/pathways`
+- `GET /api/kata?id=<id>`
+- `GET /api/learn?id=<id>`
+- `POST /api/format`
+- `POST /api/save`
+- `POST /api/run`
+- `POST /api/reset-buggy`
+- `POST /api/mark`

@@ -30,15 +30,28 @@ type launchSpec struct {
 	args []string
 }
 
+type launchMode string
+
+const (
+	launchModeAuto     launchMode = "auto"
+	launchModeEmbedded launchMode = "embedded"
+	launchModeExternal launchMode = "external"
+)
+
 func main() {
 	repoFlag := flag.String("repo", ".", "Path to kata repository root")
 	addrFlag := flag.String("addr", defaultDesktopAddr, "Learner Studio bind address")
 	serverBinFlag := flag.String("server-bin", "", "Path to learner studio server binary (optional)")
+	modeFlag := flag.String("mode", string(launchModeAuto), "Desktop launch mode: auto, embedded, external")
 	flag.Parse()
 
 	repoRoot, err := filepath.Abs(*repoFlag)
 	if err != nil {
 		fatalf("resolve repo root: %v", err)
+	}
+	mode, err := parseLaunchMode(*modeFlag)
+	if err != nil {
+		fatalf("invalid launch mode: %v", err)
 	}
 
 	serverCmd, err := buildServerCommand(repoRoot, *addrFlag, strings.TrimSpace(*serverBinFlag))
@@ -63,6 +76,24 @@ func main() {
 		fatalf("wait for learner studio: %v", err)
 	}
 
+	useEmbedded, err := shouldUseEmbeddedMode(mode)
+	if err != nil {
+		_ = stopServer(serverCmd, serverExited)
+		fatalf("select launch mode: %v", err)
+	}
+
+	if useEmbedded {
+		fmt.Printf("Learner Studio embedded desktop launching (%s)\n", baseURL)
+		if err := openEmbeddedWindow(baseURL); err != nil {
+			_ = stopServer(serverCmd, serverExited)
+			fatalf("launch embedded webview: %v", err)
+		}
+		if err := stopServer(serverCmd, serverExited); err != nil {
+			fatalf("stop learner studio server: %v", err)
+		}
+		return
+	}
+
 	if err := launchDesktopWindow(baseURL); err != nil {
 		_ = stopServer(serverCmd, serverExited)
 		fatalf("launch desktop window: %v", err)
@@ -84,6 +115,32 @@ func main() {
 
 	if err := stopServer(serverCmd, serverExited); err != nil {
 		fatalf("stop learner studio server: %v", err)
+	}
+}
+
+func parseLaunchMode(raw string) (launchMode, error) {
+	mode := launchMode(strings.ToLower(strings.TrimSpace(raw)))
+	switch mode {
+	case launchModeAuto, launchModeEmbedded, launchModeExternal:
+		return mode, nil
+	default:
+		return "", fmt.Errorf("unsupported mode %q (expected auto|embedded|external)", raw)
+	}
+}
+
+func shouldUseEmbeddedMode(mode launchMode) (bool, error) {
+	switch mode {
+	case launchModeAuto:
+		return embeddedModeAvailable(), nil
+	case launchModeEmbedded:
+		if !embeddedModeAvailable() {
+			return false, errors.New("embedded mode requested but this build does not include native webview support; rebuild with -tags desktop_webview")
+		}
+		return true, nil
+	case launchModeExternal:
+		return false, nil
+	default:
+		return false, fmt.Errorf("unhandled launch mode %q", mode)
 	}
 }
 

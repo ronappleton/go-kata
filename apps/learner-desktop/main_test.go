@@ -48,6 +48,44 @@ func TestResolveServerInvocation(t *testing.T) {
 	})
 }
 
+func TestParseLaunchMode(t *testing.T) {
+	mode, err := parseLaunchMode("auto")
+	if err != nil || mode != launchModeAuto {
+		t.Fatalf("expected auto mode, got mode=%q err=%v", mode, err)
+	}
+
+	mode, err = parseLaunchMode("EXTERNAL")
+	if err != nil || mode != launchModeExternal {
+		t.Fatalf("expected external mode, got mode=%q err=%v", mode, err)
+	}
+
+	if _, err := parseLaunchMode("unknown"); err == nil {
+		t.Fatalf("expected error for unsupported mode")
+	}
+}
+
+func TestShouldUseEmbeddedMode(t *testing.T) {
+	useEmbedded, err := shouldUseEmbeddedMode(launchModeAuto)
+	if err != nil {
+		t.Fatalf("unexpected error for auto mode: %v", err)
+	}
+	if useEmbedded {
+		t.Fatalf("expected auto to be false in non-webview build")
+	}
+
+	useEmbedded, err = shouldUseEmbeddedMode(launchModeExternal)
+	if err != nil {
+		t.Fatalf("unexpected error for external mode: %v", err)
+	}
+	if useEmbedded {
+		t.Fatalf("expected external mode to disable embedded launch")
+	}
+
+	if _, err := shouldUseEmbeddedMode(launchModeEmbedded); err == nil {
+		t.Fatalf("expected error for embedded mode without native webview support")
+	}
+}
+
 func TestLaunchCandidates(t *testing.T) {
 	url := "http://127.0.0.1:17777"
 

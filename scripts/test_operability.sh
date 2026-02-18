@@ -20,5 +20,7 @@ echo "$SHOW_OUT" | grep -q "Expected behavior:"
 
 echo "==> Running desktop launcher compile smoke check"
 go run ./apps/learner-desktop -h >/dev/null 2>&1
+echo "==> Checking native launcher script exists"
+test -x ./scripts/run_desktop_native.sh
 
 echo "Operability checks passed."
