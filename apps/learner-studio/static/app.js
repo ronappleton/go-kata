@@ -2,6 +2,7 @@ const state = {
   track: null,
   selectedKataID: null,
   selectedKata: null,
+  nextRecommended: null,
   activeTab: "docs",
   dirty: false,
 };
@@ -11,10 +12,13 @@ const el = {
   categoryList: document.getElementById("category-list"),
   kataTitle: document.getElementById("kata-title"),
   kataSubtitle: document.getElementById("kata-subtitle"),
+  coachMessage: document.getElementById("coach-message"),
+  nextRecommendation: document.getElementById("next-recommendation"),
   readmeView: document.getElementById("readme-view"),
   testsEditor: document.getElementById("tests-editor"),
   codeEditor: document.getElementById("code-editor"),
   runOutput: document.getElementById("run-output"),
+  failureInsights: document.getElementById("failure-insights"),
   dirtyIndicator: document.getElementById("dirty-indicator"),
   saveBtn: document.getElementById("save-btn"),
   runBtn: document.getElementById("run-btn"),
@@ -27,6 +31,8 @@ const el = {
   passModal: document.getElementById("pass-modal"),
   passCloseBtn: document.getElementById("pass-close-btn"),
   passMarkBtn: document.getElementById("pass-mark-btn"),
+  passNextHint: document.getElementById("pass-next-hint"),
+  passNextBtn: document.getElementById("pass-next-btn"),
   markModal: document.getElementById("mark-modal"),
   markCloseBtn: document.getElementById("mark-close-btn"),
   markPath: document.getElementById("mark-path"),
@@ -57,6 +63,14 @@ function wireEvents() {
     toggleModal(el.passModal, false);
     await onMark();
   });
+  el.passNextBtn.addEventListener("click", async () => {
+    if (!state.nextRecommended?.kata_id) {
+      return;
+    }
+    toggleModal(el.passModal, false);
+    await loadKata(state.nextRecommended.kata_id);
+    setTab("docs");
+  });
   el.markCloseBtn.addEventListener("click", () => toggleModal(el.markModal, false));
   el.copyPromptBtn.addEventListener("click", copyPrompt);
   el.resetTestsBtn.addEventListener("click", onResetFromDisk);
@@ -81,6 +95,7 @@ function setTab(tab) {
 
 async function refreshTrack() {
   state.track = await api("/api/track");
+  state.nextRecommended = state.track.next_recommended || null;
   renderTrack();
 }
 
@@ -90,6 +105,13 @@ function renderTrack() {
   }
 
   el.trackSummary.textContent = `${state.track.overall_done}/${state.track.overall_total} complete (${state.track.overall_percent}%)`;
+  el.coachMessage.textContent = state.track.coach_message || "Keep sessions focused: one kata, one reflection.";
+  if (state.track.next_recommended) {
+    const next = state.track.next_recommended;
+    el.nextRecommendation.textContent = `Recommended next: ${next.kata_id} — ${next.kata_title}. ${next.reason}`;
+  } else {
+    el.nextRecommendation.textContent = "Track complete. Pick a kata to refactor for readability and edge-case tests.";
+  }
   el.categoryList.innerHTML = "";
 
   state.track.categories.forEach((category) => {
@@ -103,6 +125,11 @@ function renderTrack() {
       <span class="category-progress">${category.done}/${category.total} (${category.percent}%)</span>
     `;
     card.appendChild(head);
+
+    const milestone = document.createElement("p");
+    milestone.className = "category-milestone";
+    milestone.textContent = `${category.milestone_label}: ${category.milestone_message}`;
+    card.appendChild(milestone);
 
     const list = document.createElement("div");
     list.className = "kata-list";
@@ -149,6 +176,7 @@ async function loadKata(kataID) {
   el.testsEditor.value = kata.tests;
   el.codeEditor.value = kata.code;
   el.runOutput.textContent = formatProgress(kata.progress);
+  renderFailureInsights([]);
   renderDirtyState();
   renderButtons(true);
   renderTrack();
@@ -183,6 +211,49 @@ function formatProgress(progress) {
     lines.push(progress.last_output_tail);
   }
   return lines.join("\n");
+}
+
+function renderFailureInsights(insights) {
+  if (!insights || insights.length === 0) {
+    el.failureInsights.innerHTML = `<div class="insight-card"><strong>No focused issues yet</strong>Run tests to surface the first mismatch, then fix one thing at a time.</div>`;
+    return;
+  }
+
+  el.failureInsights.innerHTML = "";
+  insights.forEach((item) => {
+    const card = document.createElement("div");
+    card.className = "insight-card";
+
+    let pair = "";
+    if (item.expected || item.actual) {
+      pair = `
+        <div class="pair">
+          ${item.expected ? `<div><b>Expected:</b> ${escapeHTML(item.expected)}</div>` : ""}
+          ${item.actual ? `<div><b>Actual:</b> ${escapeHTML(item.actual)}</div>` : ""}
+        </div>
+      `;
+    }
+
+    card.innerHTML = `
+      <strong>${escapeHTML(formatInsightKind(item.kind))}</strong>
+      <div>${escapeHTML(item.summary || "Behavior mismatch detected.")}</div>
+      ${pair}
+    `;
+    el.failureInsights.appendChild(card);
+  });
+}
+
+function formatInsightKind(kind) {
+  switch (kind) {
+    case "mismatch":
+      return "Value mismatch";
+    case "test":
+      return "Failing test";
+    case "panic":
+      return "Runtime panic";
+    default:
+      return "Feedback";
+  }
 }
 
 async function onSave() {
@@ -224,6 +295,9 @@ async function onRun() {
   const lines = [];
   lines.push(result.passed ? "PASS" : "FAIL");
   lines.push(`Duration: ${result.duration_ms}ms`);
+  if (result.coach_hint) {
+    lines.push(`Coach hint: ${result.coach_hint}`);
+  }
   if (result.failed_tests && result.failed_tests.length > 0) {
     lines.push(`Failing tests: ${result.failed_tests.join(", ")}`);
   }
@@ -232,6 +306,16 @@ async function onRun() {
     lines.push(result.output_tail);
   }
   el.runOutput.textContent = lines.join("\n");
+  renderFailureInsights(result.failure_insights || []);
+
+  state.nextRecommended = result.next_recommended || state.nextRecommended;
+  if (state.nextRecommended) {
+    el.passNextHint.textContent = `Recommended next: ${state.nextRecommended.kata_id} — ${state.nextRecommended.kata_title}`;
+    el.passNextBtn.disabled = false;
+  } else {
+    el.passNextHint.textContent = "You completed the current track. Great work.";
+    el.passNextBtn.disabled = true;
+  }
 
   await refreshTrack();
   if (result.passed) {
@@ -257,6 +341,7 @@ async function onResetFromDisk() {
   ensureSelectedKata();
   await loadKata(state.selectedKataID);
   el.runOutput.textContent = "Reloaded from disk.";
+  renderFailureInsights([]);
 }
 
 function toggleModal(node, visible) {

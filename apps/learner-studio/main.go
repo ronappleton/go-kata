@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"sync"
 	"time"
@@ -38,24 +39,30 @@ type studioServer struct {
 }
 
 type trackResponse struct {
-	ID             string                     `json:"id"`
-	Title          string                     `json:"title"`
-	Description    string                     `json:"description"`
-	OverallDone    int                        `json:"overall_done"`
-	OverallTotal   int                        `json:"overall_total"`
-	OverallPercent int                        `json:"overall_percent"`
-	Categories     []trackCategorySummaryItem `json:"categories"`
+	ID              string                     `json:"id"`
+	Title           string                     `json:"title"`
+	Description     string                     `json:"description"`
+	OverallDone     int                        `json:"overall_done"`
+	OverallTotal    int                        `json:"overall_total"`
+	OverallPercent  int                        `json:"overall_percent"`
+	CoachMessage    string                     `json:"coach_message"`
+	NextRecommended *nextKataRecommendation    `json:"next_recommended,omitempty"`
+	Categories      []trackCategorySummaryItem `json:"categories"`
 }
 
 type trackCategorySummaryItem struct {
-	ID           string                 `json:"id"`
-	Title        string                 `json:"title"`
-	Description  string                 `json:"description"`
-	LearningGoal string                 `json:"learning_goal"`
-	Done         int                    `json:"done"`
-	Total        int                    `json:"total"`
-	Percent      int                    `json:"percent"`
-	Katas        []trackKataSummaryItem `json:"katas"`
+	ID                string                 `json:"id"`
+	Title             string                 `json:"title"`
+	Description       string                 `json:"description"`
+	LearningGoal      string                 `json:"learning_goal"`
+	Done              int                    `json:"done"`
+	Total             int                    `json:"total"`
+	Percent           int                    `json:"percent"`
+	MilestoneLabel    string                 `json:"milestone_label"`
+	MilestoneMessage  string                 `json:"milestone_message"`
+	NextTargetPercent int                    `json:"next_target_percent"`
+	RemainingToNext   int                    `json:"remaining_to_next"`
+	Katas             []trackKataSummaryItem `json:"katas"`
 }
 
 type trackKataSummaryItem struct {
@@ -98,11 +105,14 @@ type runRequest struct {
 }
 
 type runResponse struct {
-	Passed      bool                  `json:"passed"`
-	DurationMS  int64                 `json:"duration_ms"`
-	FailedTests []string              `json:"failed_tests"`
-	OutputTail  string                `json:"output_tail"`
-	Progress    progress.KataProgress `json:"progress"`
+	Passed          bool                    `json:"passed"`
+	DurationMS      int64                   `json:"duration_ms"`
+	FailedTests     []string                `json:"failed_tests"`
+	OutputTail      string                  `json:"output_tail"`
+	FailureInsights []failureInsight        `json:"failure_insights"`
+	CoachHint       string                  `json:"coach_hint"`
+	NextRecommended *nextKataRecommendation `json:"next_recommended,omitempty"`
+	Progress        progress.KataProgress   `json:"progress"`
 }
 
 type markRequest struct {
@@ -118,6 +128,24 @@ type markResponse struct {
 type errorResponse struct {
 	Error string `json:"error"`
 }
+
+type nextKataRecommendation struct {
+	KataID        string `json:"kata_id"`
+	KataTitle     string `json:"kata_title"`
+	CategoryID    string `json:"category_id"`
+	CategoryTitle string `json:"category_title"`
+	Reason        string `json:"reason"`
+}
+
+type failureInsight struct {
+	Kind     string `json:"kind"`
+	Summary  string `json:"summary"`
+	Expected string `json:"expected,omitempty"`
+	Actual   string `json:"actual,omitempty"`
+}
+
+var expectedGotPattern = regexp.MustCompile(`(?i)expected[: ]+(.+?)[,; ]+got[: ]+(.+)$`)
+var goTestPrefixPattern = regexp.MustCompile(`^[^:]+:\d+:\s*`)
 
 func main() {
 	repoRootFlag := flag.String("repo", ".", "Path to kata repository root")
@@ -232,6 +260,8 @@ func (s *studioServer) handleTrack(w http.ResponseWriter, r *http.Request) {
 	if resp.OverallTotal > 0 {
 		resp.OverallPercent = int((float64(resp.OverallDone) / float64(resp.OverallTotal)) * 100)
 	}
+	resp.CoachMessage = coachMessage(resp.OverallDone, resp.OverallTotal)
+	resp.NextRecommended = s.nextRecommendation(state)
 
 	for _, category := range s.track.Categories {
 		item := trackCategorySummaryItem{
@@ -258,6 +288,7 @@ func (s *studioServer) handleTrack(w http.ResponseWriter, r *http.Request) {
 		if item.Total > 0 {
 			item.Percent = int((float64(item.Done) / float64(item.Total)) * 100)
 		}
+		item.MilestoneLabel, item.MilestoneMessage, item.NextTargetPercent, item.RemainingToNext = categoryMilestone(item.Done, item.Total)
 
 		resp.Categories = append(resp.Categories, item)
 	}
@@ -408,11 +439,13 @@ func (s *studioServer) handleRun(w http.ResponseWriter, r *http.Request) {
 	}
 
 	attemptedAt := time.Now().UTC()
+	outputTail := tailLines(runResult.RawOutput, defaultOutputTailLines)
+	failureInsights := extractFailureInsights(outputTail)
 	state, err := s.store.RecordAttempt(kata.ID, progress.AttemptResult{
 		Passed:      runResult.Passed,
 		Duration:    duration,
 		FailedTests: runResult.FailedTests,
-		OutputTail:  tailLines(runResult.RawOutput, defaultOutputTailLines),
+		OutputTail:  outputTail,
 		RanAt:       attemptedAt,
 	})
 	if err != nil {
@@ -421,11 +454,14 @@ func (s *studioServer) handleRun(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resp := runResponse{
-		Passed:      runResult.Passed,
-		DurationMS:  duration.Milliseconds(),
-		FailedTests: append([]string(nil), runResult.FailedTests...),
-		OutputTail:  tailLines(runResult.RawOutput, defaultOutputTailLines),
-		Progress:    state.Attempts[kata.ID],
+		Passed:          runResult.Passed,
+		DurationMS:      duration.Milliseconds(),
+		FailedTests:     append([]string(nil), runResult.FailedTests...),
+		OutputTail:      outputTail,
+		FailureInsights: failureInsights,
+		CoachHint:       coachHint(runResult.Passed, runResult.FailedTests, failureInsights),
+		NextRecommended: s.nextRecommendation(state),
+		Progress:        state.Attempts[kata.ID],
 	}
 	writeJSON(w, http.StatusOK, resp)
 }
@@ -523,6 +559,179 @@ func tailLines(input string, maxLines int) string {
 		return strings.Join(lines, "\n")
 	}
 	return strings.Join(lines[len(lines)-maxLines:], "\n")
+}
+
+func coachMessage(done, total int) string {
+	if total == 0 {
+		return "Track ready. Start with one kata and complete the full loop: read, code, test, reflect."
+	}
+	if done == 0 {
+		return "Start small: complete one kata end-to-end before moving on."
+	}
+	if done >= total {
+		return "Track complete. Revisit a weak category and refactor one kata for readability and tests."
+	}
+	return fmt.Sprintf("You have %d/%d complete. Keep focus: one kata per session, then review what you learned.", done, total)
+}
+
+func categoryMilestone(done, total int) (label, message string, nextTargetPercent, remainingToNext int) {
+	if total <= 0 {
+		return "No katas", "This category has no katas configured.", 0, 0
+	}
+
+	percent := int((float64(done) / float64(total)) * 100)
+	thresholds := []int{25, 50, 75, 100}
+	nextTargetPercent = 100
+	for _, threshold := range thresholds {
+		if percent < threshold {
+			nextTargetPercent = threshold
+			break
+		}
+	}
+
+	targetCount := int((float64(nextTargetPercent) / 100.0) * float64(total))
+	if targetCount < 1 {
+		targetCount = 1
+	}
+	if targetCount > total {
+		targetCount = total
+	}
+	remainingToNext = targetCount - done
+	if remainingToNext < 0 {
+		remainingToNext = 0
+	}
+
+	switch {
+	case percent == 0:
+		label = "Start line"
+		message = "Complete your first kata in this category to establish momentum."
+	case percent < 25:
+		label = "Early momentum"
+		message = "Good start. Keep the same category to build pattern recognition."
+	case percent < 50:
+		label = "Building consistency"
+		message = "You are stacking wins. Tighten tests around edge cases."
+	case percent < 75:
+		label = "Solid core"
+		message = "Halfway and stable. Focus on failure paths and clarity."
+	case percent < 100:
+		label = "Finishing strong"
+		message = "You are close. Polish behavior contracts and naming quality."
+	default:
+		label = "Category complete"
+		message = "Great work. Move to the next category and keep the same discipline."
+		nextTargetPercent = 100
+		remainingToNext = 0
+	}
+
+	return label, message, nextTargetPercent, remainingToNext
+}
+
+func (s *studioServer) nextRecommendation(state progress.State) *nextKataRecommendation {
+	for _, category := range s.track.Categories {
+		for _, kata := range category.Katas {
+			if state.Attempts[kata.ID].Passes > 0 {
+				continue
+			}
+			return &nextKataRecommendation{
+				KataID:        kata.ID,
+				KataTitle:     kata.Title,
+				CategoryID:    category.ID,
+				CategoryTitle: category.Title,
+				Reason:        fmt.Sprintf("Next best step: %s in %s. %s", kata.Title, category.Title, category.LearningGoal),
+			}
+		}
+	}
+	return nil
+}
+
+func coachHint(passed bool, failedTests []string, insights []failureInsight) string {
+	if passed {
+		return "Nice pass. Capture one sentence about what changed, then move to the next kata."
+	}
+	if len(failedTests) == 0 {
+		return "Start with the first failure line. Make one small fix, run again, repeat."
+	}
+	if len(insights) > 0 {
+		return "Focus on the first mismatch only. Get that passing before touching anything else."
+	}
+	return "Use the failing test names as your map. Fix in order, smallest behavior gap first."
+}
+
+func extractFailureInsights(output string) []failureInsight {
+	lines := strings.Split(output, "\n")
+	insights := make([]failureInsight, 0, 6)
+	seen := map[string]bool{}
+
+	add := func(item failureInsight) {
+		key := item.Kind + "|" + item.Summary + "|" + item.Expected + "|" + item.Actual
+		if seen[key] || item.Summary == "" {
+			return
+		}
+		seen[key] = true
+		insights = append(insights, item)
+	}
+
+	for i := 0; i < len(lines) && len(insights) < 6; i++ {
+		line := strings.TrimSpace(lines[i])
+		if line == "" {
+			continue
+		}
+		normalized := strings.TrimSpace(goTestPrefixPattern.ReplaceAllString(line, ""))
+		lower := strings.ToLower(normalized)
+
+		if strings.HasPrefix(normalized, "--- FAIL:") {
+			add(failureInsight{Kind: "test", Summary: clip(normalized, 140)})
+			continue
+		}
+		if strings.Contains(lower, "panic:") {
+			add(failureInsight{Kind: "panic", Summary: clip(normalized, 140)})
+			continue
+		}
+
+		if strings.HasPrefix(lower, "got:") || strings.HasPrefix(lower, "actual:") {
+			actual := strings.TrimSpace(strings.SplitN(normalized, ":", 2)[1])
+			expected := ""
+			if i+1 < len(lines) {
+				next := strings.TrimSpace(lines[i+1])
+				next = strings.TrimSpace(goTestPrefixPattern.ReplaceAllString(next, ""))
+				nextLower := strings.ToLower(next)
+				if strings.HasPrefix(nextLower, "want:") || strings.HasPrefix(nextLower, "expected:") {
+					expected = strings.TrimSpace(strings.SplitN(next, ":", 2)[1])
+				}
+			}
+			add(failureInsight{
+				Kind:     "mismatch",
+				Summary:  "Expected and actual values do not match.",
+				Expected: clip(expected, 120),
+				Actual:   clip(actual, 120),
+			})
+			continue
+		}
+
+		match := expectedGotPattern.FindStringSubmatch(normalized)
+		if len(match) == 3 {
+			add(failureInsight{
+				Kind:     "mismatch",
+				Summary:  "Expected and actual values do not match.",
+				Expected: clip(strings.TrimSpace(match[1]), 120),
+				Actual:   clip(strings.TrimSpace(match[2]), 120),
+			})
+		}
+	}
+
+	return insights
+}
+
+func clip(input string, max int) string {
+	trimmed := strings.TrimSpace(input)
+	if max <= 0 || len(trimmed) <= max {
+		return trimmed
+	}
+	if max <= 3 {
+		return trimmed[:max]
+	}
+	return trimmed[:max-3] + "..."
 }
 
 func fatalf(format string, args ...any) {

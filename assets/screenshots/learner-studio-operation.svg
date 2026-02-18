@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860">
+  <defs>
+    <linearGradient id="appBg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f1f5ff"/>
+      <stop offset="100%" stop-color="#fff7ed"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1400" height="860" fill="#dbeafe"/>
+  <rect x="20" y="20" width="1360" height="820" rx="20" fill="url(#appBg)"/>
+
+  <rect x="44" y="44" width="332" height="772" rx="16" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="66" y="84" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="28" fill="#0f172a" font-weight="700">Learner Studio</text>
+  <text x="66" y="110" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="15" fill="#475569">14/100 complete (14%)</text>
+
+  <rect x="66" y="136" width="288" height="146" rx="12" fill="#f8fbff" stroke="#bfdbfe"/>
+  <text x="82" y="164" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="16" fill="#1e3a8a" font-weight="700">Foundations</text>
+  <text x="82" y="186" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#475569">7/20 complete (35%)</text>
+  <text x="82" y="208" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="12" fill="#334155">Milestone: Building consistency</text>
+  <rect x="82" y="222" width="256" height="22" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="92" y="237" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="12" fill="#0f172a">001  FizzBuzz ✓</text>
+  <rect x="82" y="248" width="256" height="22" rx="8" fill="#dbeafe" stroke="#93c5fd"/>
+  <text x="92" y="263" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="12" fill="#0f172a">002  Sum of Integers</text>
+
+  <rect x="66" y="300" width="288" height="90" rx="12" fill="#f8fbff" stroke="#bfdbfe"/>
+  <text x="82" y="326" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="16" fill="#1e3a8a" font-weight="700">Concurrency and Reliability</text>
+  <text x="82" y="348" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#475569">0/20 complete (0%)</text>
+
+  <rect x="398" y="44" width="958" height="772" rx="16" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="428" y="84" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="26" fill="#0f172a" font-weight="700">001 — FizzBuzz</text>
+  <text x="428" y="108" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="14" fill="#475569">Foundations · Basics: loops, conditionals, slices, strconv</text>
+
+  <rect x="950" y="58" width="92" height="34" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="980" y="80" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#0f172a">Save</text>
+  <rect x="1050" y="58" width="118" height="34" rx="8" fill="#0b5fff"/>
+  <text x="1074" y="80" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#ffffff">Run Tests</text>
+  <rect x="1178" y="58" width="154" height="34" rx="8" fill="#f97316"/>
+  <text x="1204" y="80" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#ffffff">Ask AI to Mark</text>
+
+  <rect x="428" y="126" width="900" height="78" rx="12" fill="#eef5ff" stroke="#bfdbfe"/>
+  <text x="448" y="152" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="15" fill="#1e3a8a" font-weight="700">Learning Coach</text>
+  <text x="448" y="176" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#334155">You have 14/100 complete. Keep focus: one kata per session, then review what you learned.</text>
+  <text x="448" y="196" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#1d4ed8">Recommended next: 002 — Sum of Integers.</text>
+
+  <rect x="428" y="218" width="146" height="34" rx="16" fill="#dbeafe" stroke="#93c5fd"/>
+  <text x="460" y="240" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#1e3a8a">Documentation</text>
+  <rect x="582" y="218" width="124" height="34" rx="16" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="617" y="240" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#334155">Workbench</text>
+
+  <rect x="428" y="264" width="436" height="338" rx="12" fill="#fbfdff" stroke="#cbd5e1"/>
+  <text x="448" y="288" font-family="JetBrains Mono, Menlo, monospace" font-size="13" fill="#0f172a">README.md</text>
+  <text x="448" y="312" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#475569">### Learning goal</text>
+  <text x="448" y="334" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#475569">- What you are building...</text>
+  <text x="448" y="356" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#475569">- Definition of done...</text>
+  <text x="448" y="378" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#475569">### Tips</text>
+  <text x="448" y="400" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#475569">- Write tests from rules first.</text>
+
+  <rect x="876" y="264" width="452" height="338" rx="12" fill="#fbfdff" stroke="#cbd5e1"/>
+  <text x="896" y="288" font-family="JetBrains Mono, Menlo, monospace" font-size="13" fill="#0f172a">Last Test Run</text>
+  <text x="896" y="312" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#16a34a">PASS</text>
+  <text x="896" y="334" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#475569">Coach hint: capture one sentence about what changed.</text>
+
+  <rect x="428" y="616" width="900" height="180" rx="12" fill="#ffffff" stroke="#cbd5e1"/>
+  <text x="448" y="642" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="15" fill="#0f172a" font-weight="700">Failure Insights</text>
+  <rect x="448" y="656" width="860" height="120" rx="10" fill="#f8fbff" stroke="#dbeafe"/>
+  <text x="468" y="684" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#1e3a8a" font-weight="700">Value mismatch</text>
+  <text x="468" y="706" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="12" fill="#334155">Expected: Fizz</text>
+  <text x="468" y="726" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="12" fill="#334155">Actual: Buzz</text>
+  <text x="468" y="748" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="12" fill="#334155">Focus on this first mismatch only, then rerun.</text>
+</svg>

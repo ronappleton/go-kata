@@ -118,6 +118,15 @@ body {
   color: var(--ink-2);
 }
 
+.category-milestone {
+  margin-top: 7px;
+  padding: 6px 8px;
+  border-radius: 9px;
+  background: #eef5ff;
+  color: #1f3f83;
+  font-size: 0.78rem;
+}
+
 .kata-list {
   margin-top: 8px;
   display: grid;
@@ -156,8 +165,8 @@ body {
 
 .main {
   padding: 18px;
-  display: grid;
-  grid-template-rows: auto auto 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 14px;
   min-height: calc(100vh - 40px);
 }
@@ -183,6 +192,31 @@ body {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+}
+
+.coach-strip {
+  border: 1px solid #cde0ff;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f3f8ff, #fff8f2);
+}
+
+.coach-card {
+  padding: 10px 12px;
+}
+
+.coach-card h3 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.coach-card p {
+  margin: 6px 0 0;
+  color: var(--ink-1);
+  font-size: 0.88rem;
+}
+
+.next-recommendation {
+  color: #1d4ed8 !important;
 }
 
 .tabs {
@@ -292,6 +326,32 @@ body {
   max-height: 220px;
   overflow: auto;
   white-space: pre-wrap;
+}
+
+.insights-list {
+  display: grid;
+  gap: 8px;
+}
+
+.insight-card {
+  border: 1px solid #dce9ff;
+  background: #f8fbff;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.84rem;
+}
+
+.insight-card strong {
+  display: block;
+  margin-bottom: 3px;
+  color: #1e40af;
+}
+
+.insight-card .pair {
+  margin-top: 6px;
+  font-family: "JetBrains Mono", "Cascadia Code", "SFMono-Regular", monospace;
+  font-size: 0.79rem;
+  color: #334155;
 }
 
 .pill {

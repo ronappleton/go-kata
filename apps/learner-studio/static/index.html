@@ -31,6 +31,14 @@
         </div>
       </header>
 
+      <section class="coach-strip">
+        <div class="coach-card">
+          <h3>Learning Coach</h3>
+          <p id="coach-message">Loading guidance...</p>
+          <p id="next-recommendation" class="next-recommendation"></p>
+        </div>
+      </section>
+
       <div class="tabs">
         <button id="tab-docs" class="tab active">Documentation</button>
         <button id="tab-workbench" class="tab">Workbench</button>
@@ -61,6 +69,12 @@
           <h3>Last Test Run</h3>
           <pre id="run-output">No run yet.</pre>
         </div>
+        <div class="result-wrap">
+          <h3>Failure Insights</h3>
+          <div id="failure-insights" class="insights-list">
+            Run tests to get focused feedback on the first behavior gap.
+          </div>
+        </div>
       </section>
     </main>
   </div>
@@ -69,7 +83,9 @@
     <div class="modal-card">
       <h3 id="pass-title">Well done</h3>
       <p>Your tests passed. Generate an AI review packet for coaching feedback.</p>
+      <p id="pass-next-hint" class="next-recommendation"></p>
       <div class="modal-actions">
+        <button id="pass-next-btn" class="btn accent">Open Next Recommended Kata</button>
         <button id="pass-mark-btn" class="btn primary">Generate AI Marking Packet</button>
         <button id="pass-close-btn" class="btn ghost">Close</button>
       </div>
