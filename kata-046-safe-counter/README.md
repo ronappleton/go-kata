@@ -10,10 +10,15 @@ type Counter struct
 ```
 
 ### Learning goal
-- What you are practicing: Build `Safe Counter` with safe coordination so concurrent work finishes cleanly under load.
-- Why it matters: You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
-- How this grows your Go skills: This builds mental models for goroutines, channels, cancellation, and synchronization.
-- When correct: When your solution is correct, it should satisfy: `Inc/Add/Value`; and `race-free`.
+- What you are building: Build `Safe Counter` as a reliable contract. Focus: sync/atomic or mutex.
+- Why this matters in real projects: Concurrency bugs are expensive. You are learning to prevent them by design.
+- How this grows your Go skills: You practice ownership, cancellation, synchronization, and leak-free shutdown.
+- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: inc/add/value; and race-free.
+
+### Tips
+- Decide ownership first: who starts, stops, and closes.
+- Test cancellation and shutdown before throughput.
+- Run `go test -race ./...` regularly.
 
 ## Rules / Expectations
 - Inc/Add/Value
@@ -26,8 +31,8 @@ type Counter struct
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is focused practice in sync/atomic or mutex through `Safe Counter`.
-- You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
+- Core lesson: own lifecycle and shutdown before chasing throughput.
+- After this kata, you should be able to explain who starts, who stops, and who closes every path.
 
 ## What you must submit for marking
 - `kata.go`

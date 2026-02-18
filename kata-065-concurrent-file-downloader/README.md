@@ -10,10 +10,15 @@ func DownloadAll(ctx context.Context, urls []string, workers int) (map[string][]
 ```
 
 ### Learning goal
-- What you are practicing: Build `Concurrent File Downloader` as production-style HTTP boundary code with clear request handling and response behavior.
-- Why it matters: You will use this in APIs and services where request/response correctness directly affects reliability.
-- How this grows your Go skills: This builds confidence at service edges: inputs, status codes, retries, and shutdown behavior.
-- When correct: When your solution is correct, it should satisfy: `limit concurrency`; `cancel on ctx`; and `return data per url`.
+- What you are building: Build `func DownloadAll(ctx context.Context, urls []string, workers int) (map[string][]byte, error)` as a reliable contract. Focus: Concurrency, net/http.
+- Why this matters in real projects: HTTP boundaries are product behavior. Callers depend on exact semantics.
+- How this grows your Go skills: You practice context-aware request handling and stable status/error contracts.
+- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: limit concurrency; cancel on ctx; and return data per url.
+
+### Tips
+- Pin boundary behavior with `httptest`.
+- Cover both success and failure responses.
+- Test retries/timeouts with targeted cases.
 
 ## Rules / Expectations
 - limit concurrency
@@ -28,8 +33,8 @@ func DownloadAll(ctx context.Context, urls []string, workers int) (map[string][]
 - [Go sync package](https://pkg.go.dev/sync)
 
 ## What this kata is about (and why it matters)
-- This kata is focused practice in Concurrency, net/http through `Concurrent File Downloader`.
-- You will use this in APIs and services where request/response correctness directly affects reliability.
+- Core lesson: treat request/response behavior as a hard contract.
+- After this kata, you should be able to justify status/error choices at the service boundary.
 
 ## What you must submit for marking
 - `kata.go`

@@ -10,10 +10,15 @@ func Retry(attempts int, baseDelay time.Duration, fn func() error) error
 ```
 
 ### Learning goal
-- What you are practicing: Build `Retry with Backoff` with precise time/window logic so behavior is stable and testable.
-- Why it matters: You will use this in rate limits, retries, and scheduling logic that often causes subtle bugs.
-- How this grows your Go skills: This builds precision around clocks, windows, and repeatable time-based tests.
-- When correct: When your solution is correct, it should satisfy: `attempts>=1`; `exponential backoff`; and `stop on success`.
+- What you are building: Build `func Retry(attempts int, baseDelay time.Duration, fn func() error) error` as a reliable contract. Focus: time.
+- Why this matters in real projects: Time logic gets flaky fast. Precision here prevents hard-to-reproduce bugs.
+- How this grows your Go skills: You practice boundary testing at just-before/at/just-after moments.
+- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: attempts>=1; exponential backoff; and stop on success.
+
+### Tips
+- Test just-before, at, and just-after boundaries.
+- Keep clock math in one place.
+- Prefer deterministic tests over sleeps.
 
 ## Rules / Expectations
 - attempts>=1
@@ -27,8 +32,8 @@ func Retry(attempts int, baseDelay time.Duration, fn func() error) error
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is focused practice in time through `Retry with Backoff`.
-- You will use this in rate limits, retries, and scheduling logic that often causes subtle bugs.
+- Core lesson: model time explicitly and test boundaries directly.
+- After this kata, you should be able to test temporal boundaries without flaky sleeps.
 
 ## What you must submit for marking
 - `kata.go`

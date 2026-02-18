@@ -10,10 +10,15 @@ func NewBreaker(failureThreshold int, resetAfter time.Duration) (*Breaker, error
 ```
 
 ### Learning goal
-- What you are practicing: Build `Circuit Breaker` with safe coordination so concurrent work finishes cleanly under load.
-- Why it matters: You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
-- How this grows your Go skills: This builds mental models for goroutines, channels, cancellation, and synchronization.
-- When correct: When your solution is correct, it should satisfy: `Closed/Open/HalfOpen states`; `trip after threshold`; and `reset after duration`.
+- What you are building: Build `func NewBreaker(failureThreshold int, resetAfter time.Duration) (*Breaker, error)` as a reliable contract. Focus: State machines, time.
+- Why this matters in real projects: Concurrency bugs are expensive. You are learning to prevent them by design.
+- How this grows your Go skills: You practice ownership, cancellation, synchronization, and leak-free shutdown.
+- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: closed/open/halfopen states; trip after threshold; and reset after duration.
+
+### Tips
+- Decide ownership first: who starts, stops, and closes.
+- Test cancellation and shutdown before throughput.
+- Run `go test -race ./...` regularly.
 
 ## Rules / Expectations
 - Closed/Open/HalfOpen states
@@ -27,8 +32,8 @@ func NewBreaker(failureThreshold int, resetAfter time.Duration) (*Breaker, error
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is focused practice in State machines, time through `Circuit Breaker`.
-- You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
+- Core lesson: own lifecycle and shutdown before chasing throughput.
+- After this kata, you should be able to explain who starts, who stops, and who closes every path.
 
 ## What you must submit for marking
 - `kata.go`

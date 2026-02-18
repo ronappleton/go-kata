@@ -10,10 +10,15 @@ func SignJWT(claims map[string]any, secret []byte, ttl time.Duration) (string, e
 ```
 
 ### Learning goal
-- What you are practicing: Build `JWT Sign/Verify` with careful validation and exact byte-level behavior for security-sensitive inputs/outputs.
-- Why it matters: You will use this in authentication, signing, and integrity checks where small mistakes can become incidents.
-- How this grows your Go skills: This builds your discipline for correctness-first coding in high-risk code paths.
-- When correct: When your solution is correct, it should satisfy: `HS256`; `include exp`; and `also implement VerifyJWT(token, secret)`.
+- What you are building: Build `func SignJWT(claims map[string]any, secret []byte, ttl time.Duration) (string, error)` as a reliable contract. Focus: crypto, encoding.
+- Why this matters in real projects: Security paths have no soft failures. Exact behavior is non-negotiable.
+- How this grows your Go skills: You practice fail-closed validation and byte-accurate handling.
+- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: use HS256 for sign/verify; include an `exp` claim; and also provide `VerifyJWT(token, secret)`.
+
+### Tips
+- Fail closed on malformed data.
+- Never ignore crypto or encoding errors.
+- Add tamper and expiry negative tests.
 
 ## Rules / Expectations
 - HS256
@@ -28,8 +33,8 @@ func SignJWT(claims map[string]any, secret []byte, ttl time.Duration) (string, e
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is focused practice in crypto, encoding through `JWT Sign/Verify`.
-- You will use this in authentication, signing, and integrity checks where small mistakes can become incidents.
+- Core lesson: validate early, fail closed, and be exact.
+- After this kata, you should be able to justify validation rules and add negative tests for tampering.
 
 ## What you must submit for marking
 - `kata.go`

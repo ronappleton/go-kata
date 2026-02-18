@@ -10,10 +10,15 @@ func Sum(nums []int) int
 ```
 
 ### Learning goal
-- What you are practicing: Build `Sum of Integers` with clean control flow and reliable edge-case behavior.
-- Why it matters: You will use this in everyday Go code where small correctness habits prevent larger defects later.
-- How this grows your Go skills: This builds the base layer of Go fluency that every advanced kata depends on.
-- When correct: When your solution is correct, it should satisfy: `nil slice => 0`; `empty => 0`; and `works with negatives`.
+- What you are building: Build `func Sum(nums []int) int` as a reliable contract. Focus: Basics: loops, function, edge cases.
+- Why this matters in real projects: This is everyday Go work: small rules, clear behavior, zero surprises.
+- How this grows your Go skills: You practice zero-value handling, explicit branching, and table-driven tests.
+- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: for `nil slice`, return `0`; for `empty`, return `0`; and work correctly with negative values.
+
+### Tips
+- Write tests from the rules before implementation.
+- Name edge cases explicitly: nil, empty, min, max.
+- Keep logic linear; branch only when a rule requires it.
 
 ## Rules / Expectations
 - nil slice => 0
@@ -26,8 +31,8 @@ func Sum(nums []int) int
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is focused practice in Basics: loops, function, edge cases through `Sum of Integers`.
-- You will use this in everyday Go code where small correctness habits prevent larger defects later.
+- Core lesson: turn plain rules into deterministic Go behavior.
+- After this kata, you should be able to write rule-first tests and explain each edge case clearly.
 
 ## What you must submit for marking
 - `kata.go`

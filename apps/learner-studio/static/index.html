@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Learner Studio</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="bg-shape shape-a"></div>
+  <div class="bg-shape shape-b"></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>Learner Studio</h1>
+        <p id="track-summary">Loading track...</p>
+      </div>
+      <div id="category-list" class="category-list"></div>
+    </aside>
+
+    <main class="main">
+      <header class="main-header">
+        <div>
+          <h2 id="kata-title">Select a kata</h2>
+          <p id="kata-subtitle">Use the sidebar to start.</p>
+        </div>
+        <div class="actions">
+          <button id="save-btn" class="btn ghost" disabled>Save</button>
+          <button id="run-btn" class="btn primary" disabled>Run Tests</button>
+          <button id="mark-btn" class="btn accent" disabled>Ask AI to Mark</button>
+        </div>
+      </header>
+
+      <div class="tabs">
+        <button id="tab-docs" class="tab active">Documentation</button>
+        <button id="tab-workbench" class="tab">Workbench</button>
+      </div>
+
+      <section id="panel-docs" class="panel docs-panel active">
+        <pre id="readme-view" class="doc-view"></pre>
+      </section>
+
+      <section id="panel-workbench" class="panel workbench-panel">
+        <div class="workbench-grid">
+          <div class="pane">
+            <div class="pane-head">
+              <h3>Tests (Reference)</h3>
+              <button id="reset-tests-btn" class="btn tiny">Reload</button>
+            </div>
+            <textarea id="tests-editor" spellcheck="false" readonly></textarea>
+          </div>
+          <div class="pane">
+            <div class="pane-head">
+              <h3>Code (Your Solution)</h3>
+              <span id="dirty-indicator" class="pill">Saved</span>
+            </div>
+            <textarea id="code-editor" spellcheck="false" placeholder="Select a kata to start coding..."></textarea>
+          </div>
+        </div>
+        <div class="result-wrap">
+          <h3>Last Test Run</h3>
+          <pre id="run-output">No run yet.</pre>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="pass-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="pass-title">
+    <div class="modal-card">
+      <h3 id="pass-title">Well done</h3>
+      <p>Your tests passed. Generate an AI review packet for coaching feedback.</p>
+      <div class="modal-actions">
+        <button id="pass-mark-btn" class="btn primary">Generate AI Marking Packet</button>
+        <button id="pass-close-btn" class="btn ghost">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="mark-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="mark-title">
+    <div class="modal-card wide">
+      <h3 id="mark-title">AI Marking Packet Ready</h3>
+      <p id="mark-path"></p>
+      <textarea id="mark-prompt" readonly spellcheck="false"></textarea>
+      <div class="modal-actions">
+        <button id="copy-prompt-btn" class="btn primary">Copy Prompt</button>
+        <a id="open-chatgpt-link" class="btn accent" href="https://chatgpt.com/" target="_blank" rel="noreferrer">Open ChatGPT</a>
+        <button id="mark-close-btn" class="btn ghost">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

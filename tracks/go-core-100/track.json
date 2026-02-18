@@ -1,0 +1,67 @@
+{
+  "id": "go-core-100",
+  "title": "Go Core 100",
+  "description": "A guided set of 100 Go katas grouped into category tracks for structured progression.",
+  "categories": [
+    {
+      "id": "foundations",
+      "title": "Foundations",
+      "description": "Core syntax, control flow, and deterministic behavior.",
+      "learning_goal": "Convert plain-language requirements into clear, testable Go functions.",
+      "kata_ranges": [
+        {
+          "start": 1,
+          "end": 20
+        }
+      ]
+    },
+    {
+      "id": "data-text-and-formatting",
+      "title": "Data, Text, and Formatting",
+      "description": "Parsing, transformation, data structures, and small algorithmic tasks.",
+      "learning_goal": "Build confidence with strict input contracts, transformations, and edge-case correctness.",
+      "kata_ranges": [
+        {
+          "start": 21,
+          "end": 40
+        }
+      ]
+    },
+    {
+      "id": "io-and-service-boundaries",
+      "title": "I/O and Service Boundaries",
+      "description": "HTTP, files, process boundaries, and composable service behavior.",
+      "learning_goal": "Treat external boundaries as contracts and return predictable behavior under failure.",
+      "kata_ranges": [
+        {
+          "start": 41,
+          "end": 60
+        }
+      ]
+    },
+    {
+      "id": "concurrency-and-reliability",
+      "title": "Concurrency and Reliability",
+      "description": "Concurrent coordination, cancellation, resilience patterns, and time-sensitive workflows.",
+      "learning_goal": "Design safe lifecycle ownership and resilient runtime behavior under load.",
+      "kata_ranges": [
+        {
+          "start": 61,
+          "end": 80
+        }
+      ]
+    },
+    {
+      "id": "tooling-security-and-advanced-design",
+      "title": "Tooling, Security, and Advanced Design",
+      "description": "CLI tools, cryptography, testing discipline, generics, reflection, and design patterns.",
+      "learning_goal": "Apply production-grade quality standards to interfaces, correctness, and maintainability.",
+      "kata_ranges": [
+        {
+          "start": 81,
+          "end": 100
+        }
+      ]
+    }
+  ]
+}

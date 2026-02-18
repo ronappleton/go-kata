@@ -10,10 +10,15 @@ func HashPassword(pw string) (string, error)
 ```
 
 ### Learning goal
-- What you are practicing: Build `Password Hashing (bcrypt/argon2)` with careful validation and exact byte-level behavior for security-sensitive inputs/outputs.
-- Why it matters: You will use this in authentication, signing, and integrity checks where small mistakes can become incidents.
-- How this grows your Go skills: This builds your discipline for correctness-first coding in high-risk code paths.
-- When correct: When your solution is correct, it should satisfy: `use bcrypt or argon2`; `also implement VerifyPassword(pw, hash) bool`; and `constant-time compare`.
+- What you are building: Build `func HashPassword(pw string) (string, error)` as a reliable contract. Focus: crypto, security.
+- Why this matters in real projects: Security paths have no soft failures. Exact behavior is non-negotiable.
+- How this grows your Go skills: You practice fail-closed validation and byte-accurate handling.
+- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: use bcrypt or argon2; also provide `VerifyPassword(pw, hash) bool`; and constant-time compare.
+
+### Tips
+- Fail closed on malformed data.
+- Never ignore crypto or encoding errors.
+- Add tamper and expiry negative tests.
 
 ## Rules / Expectations
 - use bcrypt or argon2
@@ -28,8 +33,8 @@ func HashPassword(pw string) (string, error)
 - [golang.org/x/crypto/argon2](https://pkg.go.dev/golang.org/x/crypto/argon2)
 
 ## What this kata is about (and why it matters)
-- This kata is focused practice in crypto, security through `Password Hashing (bcrypt/argon2)`.
-- You will use this in authentication, signing, and integrity checks where small mistakes can become incidents.
+- Core lesson: validate early, fail closed, and be exact.
+- After this kata, you should be able to justify validation rules and add negative tests for tampering.
 
 ## What you must submit for marking
 - `kata.go`

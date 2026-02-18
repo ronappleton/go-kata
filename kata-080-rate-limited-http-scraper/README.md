@@ -10,10 +10,15 @@ func Kata80() error
 ```
 
 ### Learning goal
-- What you are practicing: Build `Rate-limited HTTP Scraper` as production-style HTTP boundary code with clear request handling and response behavior.
-- Why it matters: You will use this in APIs and services where request/response correctness directly affects reliability.
-- How this grows your Go skills: This builds confidence at service edges: inputs, status codes, retries, and shutdown behavior.
-- When correct: When your solution is correct, it should satisfy: `follow README spec`; `write tests`; and `keep it idiomatic`.
+- What you are building: Build `func Kata80() error` as a reliable contract. Focus: real-world Go integration and testing.
+- Why this matters in real projects: HTTP boundaries are product behavior. Callers depend on exact semantics.
+- How this grows your Go skills: You practice context-aware request handling and stable status/error contracts.
+- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: match the full README contract; include tests for happy path and edge cases; and keep API and error style idiomatic Go.
+
+### Tips
+- Pin boundary behavior with `httptest`.
+- Cover both success and failure responses.
+- Test retries/timeouts with targeted cases.
 
 ## Rules / Expectations
 - follow README spec
@@ -28,8 +33,8 @@ func Kata80() error
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is focused practice in real-world Go design and testing through `Rate-limited HTTP Scraper`.
-- You will use this in APIs and services where request/response correctness directly affects reliability.
+- Core lesson: treat request/response behavior as a hard contract.
+- After this kata, you should be able to justify status/error choices at the service boundary.
 
 ## What you must submit for marking
 - `kata.go`

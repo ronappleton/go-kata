@@ -10,10 +10,15 @@ func ServeGraceful(addr string, h http.Handler) (stop func(context.Context) erro
 ```
 
 ### Learning goal
-- What you are practicing: Build `HTTP Server with Graceful Shutdown` as production-style HTTP boundary code with clear request handling and response behavior.
-- Why it matters: You will use this in APIs and services where request/response correctness directly affects reliability.
-- How this grows your Go skills: This builds confidence at service edges: inputs, status codes, retries, and shutdown behavior.
-- When correct: When your solution is correct, it should satisfy: `start server`; `stop shuts down with context`; and `no leaked goroutines`.
+- What you are building: Build `func ServeGraceful(addr string, h http.Handler) (stop func(context.Context) error, err error)` as a reliable contract. Focus: net/http, context.
+- Why this matters in real projects: HTTP boundaries are product behavior. Callers depend on exact semantics.
+- How this grows your Go skills: You practice context-aware request handling and stable status/error contracts.
+- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: start server; stop shuts down with context; and no leaked goroutines.
+
+### Tips
+- Pin boundary behavior with `httptest`.
+- Cover both success and failure responses.
+- Test retries/timeouts with targeted cases.
 
 ## Rules / Expectations
 - start server
@@ -27,8 +32,8 @@ func ServeGraceful(addr string, h http.Handler) (stop func(context.Context) erro
 - [Go context package](https://pkg.go.dev/context)
 
 ## What this kata is about (and why it matters)
-- This kata is focused practice in net/http, context through `HTTP Server with Graceful Shutdown`.
-- You will use this in APIs and services where request/response correctness directly affects reliability.
+- Core lesson: treat request/response behavior as a hard contract.
+- After this kata, you should be able to justify status/error choices at the service boundary.
 
 ## What you must submit for marking
 - `kata.go`

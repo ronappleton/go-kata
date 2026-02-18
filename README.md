@@ -16,3 +16,20 @@ go test ./...
 - One kata at a time.
 
 Each kata folder is self-contained with its own `go.mod`.
+
+## Learning platform scaffold (new)
+
+This repo now includes a learning-platform foundation:
+
+- track/category metadata in `tracks/go-core-100/track.json`
+- shared engine packages in `internal/learning/*`
+- CLI learning app in `apps/learner-cli`
+- browser learning studio in `apps/learner-studio`
+
+Try it:
+
+```bash
+go run ./apps/learner-cli list
+go run ./apps/learner-cli run --kata 001
+go run ./apps/learner-studio
+```

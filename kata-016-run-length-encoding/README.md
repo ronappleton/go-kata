@@ -10,10 +10,15 @@ func RLEncode(s string) string
 ```
 
 ### Learning goal
-- What you are practicing: Build `Run-Length Encoding` with clean control flow and reliable edge-case behavior.
-- Why it matters: You will use this in everyday Go code where small correctness habits prevent larger defects later.
-- How this grows your Go skills: This builds the base layer of Go fluency that every advanced kata depends on.
-- When correct: When your solution is correct, it should satisfy: `encode runs as <char><count> where count>1`; `single chars stay as char only`; and `Unicode-safe`.
+- What you are building: Build `func RLEncode(s string) string` as a reliable contract. Focus: Strings.Builder, runes.
+- Why this matters in real projects: This is everyday Go work: small rules, clear behavior, zero surprises.
+- How this grows your Go skills: You practice zero-value handling, explicit branching, and table-driven tests.
+- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: encode runs as <char><count> where count>1; accept only `single chars stay as char`; and unicode-safe.
+
+### Tips
+- Write tests from the rules before implementation.
+- Name edge cases explicitly: nil, empty, min, max.
+- Keep logic linear; branch only when a rule requires it.
 
 ## Rules / Expectations
 - encode runs as <char><count> where count>1
@@ -28,8 +33,8 @@ func RLEncode(s string) string
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is focused practice in Strings.Builder, runes through `Run-Length Encoding`.
-- You will use this in everyday Go code where small correctness habits prevent larger defects later.
+- Core lesson: turn plain rules into deterministic Go behavior.
+- After this kata, you should be able to write rule-first tests and explain each edge case clearly.
 
 ## What you must submit for marking
 - `kata.go`

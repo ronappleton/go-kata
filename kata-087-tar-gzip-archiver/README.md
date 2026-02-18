@@ -10,10 +10,15 @@ func ArchiveTGZ(srcDir string, w io.Writer) error
 ```
 
 ### Learning goal
-- What you are practicing: Build `Tar/Gzip Archiver` with clean control flow and reliable edge-case behavior.
-- Why it matters: You will use this in everyday Go code where small correctness habits prevent larger defects later.
-- How this grows your Go skills: This builds the base layer of Go fluency that every advanced kata depends on.
-- When correct: When your solution is correct, it should satisfy: `recursive archive`; `preserve relative paths`; and `skip symlinks`.
+- What you are building: Build `func ArchiveTGZ(srcDir string, w io.Writer) error` as a reliable contract. Focus: archive/tar, compress/gzip.
+- Why this matters in real projects: This is everyday Go work: small rules, clear behavior, zero surprises.
+- How this grows your Go skills: You practice zero-value handling, explicit branching, and table-driven tests.
+- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: recursive archive; preserve relative paths; and skip symlinks.
+
+### Tips
+- Write tests from the rules before implementation.
+- Name edge cases explicitly: nil, empty, min, max.
+- Keep logic linear; branch only when a rule requires it.
 
 ## Rules / Expectations
 - recursive archive
@@ -27,8 +32,8 @@ func ArchiveTGZ(srcDir string, w io.Writer) error
 - [Go compress/gzip package](https://pkg.go.dev/compress/gzip)
 
 ## What this kata is about (and why it matters)
-- This kata is focused practice in archive/tar, compress/gzip through `Tar/Gzip Archiver`.
-- You will use this in everyday Go code where small correctness habits prevent larger defects later.
+- Core lesson: turn plain rules into deterministic Go behavior.
+- After this kata, you should be able to write rule-first tests and explain each edge case clearly.
 
 ## What you must submit for marking
 - `kata.go`

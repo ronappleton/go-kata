@@ -10,10 +10,15 @@ func ExtractHeadings(md string) []string
 ```
 
 ### Learning goal
-- What you are practicing: Build `Markdown Heading Extractor` with clean control flow and reliable edge-case behavior.
-- Why it matters: You will use this in everyday Go code where small correctness habits prevent larger defects later.
-- How this grows your Go skills: This builds the base layer of Go fluency that every advanced kata depends on.
-- When correct: When your solution is correct, it should satisfy: `lines starting with #+space`; `return heading text`; and `preserve order`.
+- What you are building: Build `func ExtractHeadings(md string) []string` as a reliable contract. Focus: Line scanning.
+- Why this matters in real projects: This is everyday Go work: small rules, clear behavior, zero surprises.
+- How this grows your Go skills: You practice zero-value handling, explicit branching, and table-driven tests.
+- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: lines starting with #+space; return heading text; and preserve order.
+
+### Tips
+- Write tests from the rules before implementation.
+- Name edge cases explicitly: nil, empty, min, max.
+- Keep logic linear; branch only when a rule requires it.
 
 ## Rules / Expectations
 - lines starting with #+space
@@ -28,8 +33,8 @@ func ExtractHeadings(md string) []string
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is focused practice in Line scanning through `Markdown Heading Extractor`.
-- You will use this in everyday Go code where small correctness habits prevent larger defects later.
+- Core lesson: turn plain rules into deterministic Go behavior.
+- After this kata, you should be able to write rule-first tests and explain each edge case clearly.
 
 ## What you must submit for marking
 - `kata.go`

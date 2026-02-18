@@ -10,10 +10,15 @@ func Kata73() error
 ```
 
 ### Learning goal
-- What you are practicing: Build `Merkle Tree` with careful validation and exact byte-level behavior for security-sensitive inputs/outputs.
-- Why it matters: You will use this in authentication, signing, and integrity checks where small mistakes can become incidents.
-- How this grows your Go skills: This builds your discipline for correctness-first coding in high-risk code paths.
-- When correct: When your solution is correct, it should satisfy: `follow README spec`; `write tests`; and `keep it idiomatic`.
+- What you are building: Build `func Kata73() error` as a reliable contract. Focus: real-world Go integration and testing.
+- Why this matters in real projects: Security paths have no soft failures. Exact behavior is non-negotiable.
+- How this grows your Go skills: You practice fail-closed validation and byte-accurate handling.
+- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: match the full README contract; include tests for happy path and edge cases; and keep API and error style idiomatic Go.
+
+### Tips
+- Fail closed on malformed data.
+- Never ignore crypto or encoding errors.
+- Add tamper and expiry negative tests.
 
 ## Rules / Expectations
 - follow README spec
@@ -27,8 +32,8 @@ func Kata73() error
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is focused practice in real-world Go design and testing through `Merkle Tree`.
-- You will use this in authentication, signing, and integrity checks where small mistakes can become incidents.
+- Core lesson: validate early, fail closed, and be exact.
+- After this kata, you should be able to justify validation rules and add negative tests for tampering.
 
 ## What you must submit for marking
 - `kata.go`
