@@ -10,9 +10,10 @@ type PubSub struct
 ```
 
 ### Learning goal
-- Expected work: Implement `Simple Pub/Sub` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
-- Why: `Simple Pub/Sub` teaches safe coordination patterns that prevent costly production race conditions.
-- When correct: `Simple Pub/Sub` should satisfy the required behavior, including: `Subscribe(topic) chan`; `Publish(topic,msg)`; and `Unsubscribe closes chan`.
+- What you are practicing: Build `Simple Pub/Sub` with safe coordination so concurrent work finishes cleanly under load.
+- Why it matters: You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
+- How this grows your Go skills: This builds mental models for goroutines, channels, cancellation, and synchronization.
+- When correct: When your solution is correct, it should satisfy: `Subscribe(topic) chan`; `Publish(topic,msg)`; and `Unsubscribe closes chan`.
 
 ## Rules / Expectations
 - Subscribe(topic) chan
@@ -27,8 +28,8 @@ type PubSub struct
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains fanout by implementing `Simple Pub/Sub` under explicit constraints.
-- It is important because `Simple Pub/Sub` builds the synchronization discipline needed for safe parallel systems.
+- This kata is focused practice in Fanout through `Simple Pub/Sub`.
+- You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
 
 ## What you must submit for marking
 - `kata.go`

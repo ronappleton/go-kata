@@ -10,9 +10,10 @@ func Kata73() error
 ```
 
 ### Learning goal
-- Expected work: Implement `Merkle Tree` with strict validation and byte-level correctness for all cryptographic operations.
-- Why: `Merkle Tree` teaches security precision, where small mistakes can become real vulnerabilities.
-- When correct: `Merkle Tree` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
+- What you are practicing: Build `Merkle Tree` with careful validation and exact byte-level behavior for security-sensitive inputs/outputs.
+- Why it matters: You will use this in authentication, signing, and integrity checks where small mistakes can become incidents.
+- How this grows your Go skills: This builds your discipline for correctness-first coding in high-risk code paths.
+- When correct: When your solution is correct, it should satisfy: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec
@@ -26,8 +27,8 @@ func Kata73() error
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains integration design, boundary handling, and robust testing by implementing `Merkle Tree` under explicit constraints.
-- It is important because `Merkle Tree` reflects production security code, where correctness mistakes can become incidents.
+- This kata is focused practice in real-world Go design and testing through `Merkle Tree`.
+- You will use this in authentication, signing, and integrity checks where small mistakes can become incidents.
 
 ## What you must submit for marking
 - `kata.go`

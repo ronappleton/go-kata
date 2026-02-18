@@ -10,9 +10,10 @@ func DiffLines(a, b []string) []DiffOp
 ```
 
 ### Learning goal
-- Expected work: Implement `Diff (line-based)` by preserving core invariants and handling edge cases, not just happy-path output.
-- Why: `Diff (line-based)` teaches complexity-aware correctness that impacts throughput and latency at scale.
-- When correct: `Diff (line-based)` should satisfy the required behavior, including: `LCS-based diff`; `ops: Add/Del/Keep`; and `deterministic`.
+- What you are practicing: Build `Diff (line-based)` by holding algorithm invariants and edge cases, not just passing easy examples.
+- Why it matters: You will use this when performance matters and correctness must hold at larger input sizes.
+- How this grows your Go skills: This builds complexity awareness and confidence in proving behavior with tests.
+- When correct: When your solution is correct, it should satisfy: `LCS-based diff`; `ops: Add/Del/Keep`; and `deterministic`.
 
 ## Rules / Expectations
 - LCS-based diff
@@ -27,8 +28,8 @@ func DiffLines(a, b []string) []DiffOp
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains algorithms by implementing `Diff (line-based)` under explicit constraints.
-- It is important because `Diff (line-based)` makes performance/correctness tradeoffs explicit and measurable.
+- This kata is focused practice in Algorithms through `Diff (line-based)`.
+- You will use this when performance matters and correctness must hold at larger input sizes.
 
 ## What you must submit for marking
 - `kata.go`

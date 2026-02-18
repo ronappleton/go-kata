@@ -10,9 +10,10 @@ func RotateLeft[T any](items []T, k int) []T
 ```
 
 ### Learning goal
-- Expected work: Implement `Rotate Slice` as a composable abstraction with explicit contracts and testable behavior.
-- Why: `Rotate Slice` teaches maintainable design through explicit contracts and low coupling.
-- When correct: `Rotate Slice` should satisfy the required behavior, including: `k can be > len`; `k can be negative (rotate right)`; and `nil => empty slice`.
+- What you are practicing: Build `Rotate Slice` as a reusable, testable abstraction with explicit contracts.
+- Why it matters: You will use this when designing packages that need to stay maintainable as features grow.
+- How this grows your Go skills: This builds API design judgment and composable package structure in Go.
+- When correct: When your solution is correct, it should satisfy: `k can be > len`; `k can be negative (rotate right)`; and `nil => empty slice`.
 
 ## Rules / Expectations
 - k can be > len
@@ -26,8 +27,8 @@ func RotateLeft[T any](items []T, k int) []T
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains generics, indexing by implementing `Rotate Slice` under explicit constraints.
-- It is important because `Rotate Slice` develops design choices that improve extensibility and testability over time.
+- This kata is focused practice in Generics, indexing through `Rotate Slice`.
+- You will use this when designing packages that need to stay maintainable as features grow.
 
 ## What you must submit for marking
 - `kata.go`

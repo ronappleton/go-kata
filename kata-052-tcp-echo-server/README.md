@@ -10,9 +10,10 @@ func StartEchoServer(addr string) (stop func() error, err error)
 ```
 
 ### Learning goal
-- Expected work: Implement `TCP Echo Server` as resilient network code that handles partial I/O, disconnects, and cleanup safely.
-- Why: `TCP Echo Server` teaches socket-level robustness needed for long-running network services.
-- When correct: `TCP Echo Server` should satisfy the required behavior, including: `multiple clients`; `graceful stop`; and `per-connection goroutine`.
+- What you are practicing: Build `TCP Echo Server` as robust socket-level code that handles disconnects and cleanup cleanly.
+- Why it matters: You will use this in daemons and services that keep long-running connections healthy.
+- How this grows your Go skills: This builds operational thinking: lifecycle management, resource cleanup, and fault tolerance.
+- When correct: When your solution is correct, it should satisfy: `multiple clients`; `graceful stop`; and `per-connection goroutine`.
 
 ## Rules / Expectations
 - multiple clients
@@ -26,8 +27,8 @@ func StartEchoServer(addr string) (stop func() error, err error)
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains net by implementing `TCP Echo Server` under explicit constraints.
-- It is important because `TCP Echo Server` practices the connection-management behavior required in reliable services.
+- This kata is focused practice in net through `TCP Echo Server`.
+- You will use this in daemons and services that keep long-running connections healthy.
 
 ## What you must submit for marking
 - `kata.go`

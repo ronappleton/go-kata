@@ -10,9 +10,10 @@ func CountExt(root string) (map[string]int, error)
 ```
 
 ### Learning goal
-- Expected work: Implement `File Extension Counter` idiomatically with strong control-flow clarity and edge-case correctness.
-- Why: `File Extension Counter` teaches core implementation habits that compound across all later katas.
-- When correct: `File Extension Counter` should satisfy the required behavior, including: `walk dir recursively`; `count by extension (lowercased)`; and `skip directories`.
+- What you are practicing: Build `File Extension Counter` with clean control flow and reliable edge-case behavior.
+- Why it matters: You will use this in everyday Go code where small correctness habits prevent larger defects later.
+- How this grows your Go skills: This builds the base layer of Go fluency that every advanced kata depends on.
+- When correct: When your solution is correct, it should satisfy: `walk dir recursively`; `count by extension (lowercased)`; and `skip directories`.
 
 ## Rules / Expectations
 - walk dir recursively
@@ -27,8 +28,8 @@ func CountExt(root string) (map[string]int, error)
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains os, filepath by implementing `File Extension Counter` under explicit constraints.
-- It is important because `File Extension Counter` strengthens the baseline coding discipline every other kata depends on.
+- This kata is focused practice in os, filepath through `File Extension Counter`.
+- You will use this in everyday Go code where small correctness habits prevent larger defects later.
 
 ## What you must submit for marking
 - `kata.go`

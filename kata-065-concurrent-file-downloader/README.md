@@ -10,9 +10,10 @@ func DownloadAll(ctx context.Context, urls []string, workers int) (map[string][]
 ```
 
 ### Learning goal
-- Expected work: Implement `Concurrent File Downloader` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
-- Why: `Concurrent File Downloader` teaches service-edge correctness, where request/response semantics directly drive reliability.
-- When correct: `Concurrent File Downloader` should satisfy the required behavior, including: `limit concurrency`; `cancel on ctx`; and `return data per url`.
+- What you are practicing: Build `Concurrent File Downloader` as production-style HTTP boundary code with clear request handling and response behavior.
+- Why it matters: You will use this in APIs and services where request/response correctness directly affects reliability.
+- How this grows your Go skills: This builds confidence at service edges: inputs, status codes, retries, and shutdown behavior.
+- When correct: When your solution is correct, it should satisfy: `limit concurrency`; `cancel on ctx`; and `return data per url`.
 
 ## Rules / Expectations
 - limit concurrency
@@ -27,8 +28,8 @@ func DownloadAll(ctx context.Context, urls []string, workers int) (map[string][]
 - [Go sync package](https://pkg.go.dev/sync)
 
 ## What this kata is about (and why it matters)
-- This kata trains concurrency, net/http by implementing `Concurrent File Downloader` under explicit constraints.
-- It is important because `Concurrent File Downloader` maps directly to production HTTP boundaries and failure handling.
+- This kata is focused practice in Concurrency, net/http through `Concurrent File Downloader`.
+- You will use this in APIs and services where request/response correctness directly affects reliability.
 
 ## What you must submit for marking
 - `kata.go`

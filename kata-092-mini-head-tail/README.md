@@ -10,9 +10,10 @@ func Run(args []string, r io.Reader, w io.Writer) error
 ```
 
 ### Learning goal
-- Expected work: Implement `Mini head/tail` as a small UNIX-style command with predictable argument handling, streaming I/O, and explicit error returns.
-- Why: `Mini head/tail` teaches command-line contract discipline, where stable output and error behavior are critical for scripts and pipelines.
-- When correct: `Mini head/tail` should satisfy the required behavior, including: `implement subset of unix head/tail`; `no os.Exit`; and `return errors`.
+- What you are practicing: Build `Mini head/tail` like a real command-line tool: clear arguments, stream-friendly I/O, and predictable errors.
+- Why it matters: You will use this in internal tooling, CI scripts, and automation where output format and exit behavior are part of the contract.
+- How this grows your Go skills: This builds your ability to design user-facing contracts and test behavior from stdin/stdout boundaries.
+- When correct: When your solution is correct, it should satisfy: `implement subset of unix head/tail`; `no os.Exit`; and `return errors`.
 
 ## Rules / Expectations
 - implement subset of unix head/tail
@@ -26,8 +27,8 @@ func Run(args []string, r io.Reader, w io.Writer) error
 - [Go bufio package](https://pkg.go.dev/bufio)
 
 ## What this kata is about (and why it matters)
-- This kata trains cli, io by implementing `Mini head/tail` under explicit constraints.
-- It is important because `Mini head/tail` mirrors real CLI tooling where compatibility and determinism are part of the API.
+- This kata is focused practice in CLI, IO through `Mini head/tail`.
+- You will use this in internal tooling, CI scripts, and automation where output format and exit behavior are part of the contract.
 
 ## What you must submit for marking
 - `kata.go`

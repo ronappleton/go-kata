@@ -10,9 +10,10 @@ func Kata82() error
 ```
 
 ### Learning goal
-- Expected work: Implement `SSE Stream` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
-- Why: `SSE Stream` teaches service-edge correctness, where request/response semantics directly drive reliability.
-- When correct: `SSE Stream` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
+- What you are practicing: Build `SSE Stream` as production-style HTTP boundary code with clear request handling and response behavior.
+- Why it matters: You will use this in APIs and services where request/response correctness directly affects reliability.
+- How this grows your Go skills: This builds confidence at service edges: inputs, status codes, retries, and shutdown behavior.
+- When correct: When your solution is correct, it should satisfy: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec
@@ -26,8 +27,8 @@ func Kata82() error
 - [Go bufio package](https://pkg.go.dev/bufio)
 
 ## What this kata is about (and why it matters)
-- This kata trains integration design, boundary handling, and robust testing by implementing `SSE Stream` under explicit constraints.
-- It is important because `SSE Stream` maps directly to production HTTP boundaries and failure handling.
+- This kata is focused practice in real-world Go design and testing through `SSE Stream`.
+- You will use this in APIs and services where request/response correctness directly affects reliability.
 
 ## What you must submit for marking
 - `kata.go`

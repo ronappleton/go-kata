@@ -10,9 +10,10 @@ func NewRouter() *Router
 ```
 
 ### Learning goal
-- Expected work: Implement `Mini HTTP Router` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
-- Why: `Mini HTTP Router` teaches service-edge correctness, where request/response semantics directly drive reliability.
-- When correct: `Mini HTTP Router` should satisfy the required behavior, including: `GET/POST register`; `path params /users/{id}`; and `404 not found`.
+- What you are practicing: Build `Mini HTTP Router` as production-style HTTP boundary code with clear request handling and response behavior.
+- Why it matters: You will use this in APIs and services where request/response correctness directly affects reliability.
+- How this grows your Go skills: This builds confidence at service edges: inputs, status codes, retries, and shutdown behavior.
+- When correct: When your solution is correct, it should satisfy: `GET/POST register`; `path params /users/{id}`; and `404 not found`.
 
 ## Rules / Expectations
 - GET/POST register
@@ -25,8 +26,8 @@ func NewRouter() *Router
 - [Go net package](https://pkg.go.dev/net)
 
 ## What this kata is about (and why it matters)
-- This kata trains net/http by implementing `Mini HTTP Router` under explicit constraints.
-- It is important because `Mini HTTP Router` maps directly to production HTTP boundaries and failure handling.
+- This kata is focused practice in net/http through `Mini HTTP Router`.
+- You will use this in APIs and services where request/response correctness directly affects reliability.
 
 ## What you must submit for marking
 - `kata.go`

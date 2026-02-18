@@ -10,9 +10,10 @@ func SignRequest(method, path string, body []byte, secret []byte) string
 ```
 
 ### Learning goal
-- Expected work: Implement `HMAC Request Signing` with strict validation and byte-level correctness for all cryptographic operations.
-- Why: `HMAC Request Signing` teaches security precision, where small mistakes can become real vulnerabilities.
-- When correct: `HMAC Request Signing` should satisfy the required behavior, including: `canonicalize input`; `hex signature`; and `write VerifyRequest helper`.
+- What you are practicing: Build `HMAC Request Signing` with careful validation and exact byte-level behavior for security-sensitive inputs/outputs.
+- Why it matters: You will use this in authentication, signing, and integrity checks where small mistakes can become incidents.
+- How this grows your Go skills: This builds your discipline for correctness-first coding in high-risk code paths.
+- When correct: When your solution is correct, it should satisfy: `canonicalize input`; `hex signature`; and `write VerifyRequest helper`.
 
 ## Rules / Expectations
 - canonicalize input
@@ -27,8 +28,8 @@ func SignRequest(method, path string, body []byte, secret []byte) string
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains crypto/hmac by implementing `HMAC Request Signing` under explicit constraints.
-- It is important because `HMAC Request Signing` reflects production security code, where correctness mistakes can become incidents.
+- This kata is focused practice in crypto/hmac through `HMAC Request Signing`.
+- You will use this in authentication, signing, and integrity checks where small mistakes can become incidents.
 
 ## What you must submit for marking
 - `kata.go`

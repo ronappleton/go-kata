@@ -10,9 +10,10 @@ func Run(args []string, r io.Reader, w io.Writer) error
 ```
 
 ### Learning goal
-- Expected work: Implement `Mini cut` as a small UNIX-style command with predictable argument handling, streaming I/O, and explicit error returns.
-- Why: `Mini cut` teaches command-line contract discipline, where stable output and error behavior are critical for scripts and pipelines.
-- When correct: `Mini cut` should satisfy the required behavior, including: `implement subset of unix cut`; `no os.Exit`; and `return errors`.
+- What you are practicing: Build `Mini cut` like a real command-line tool: clear arguments, stream-friendly I/O, and predictable errors.
+- Why it matters: You will use this in internal tooling, CI scripts, and automation where output format and exit behavior are part of the contract.
+- How this grows your Go skills: This builds your ability to design user-facing contracts and test behavior from stdin/stdout boundaries.
+- When correct: When your solution is correct, it should satisfy: `implement subset of unix cut`; `no os.Exit`; and `return errors`.
 
 ## Rules / Expectations
 - implement subset of unix cut
@@ -26,8 +27,8 @@ func Run(args []string, r io.Reader, w io.Writer) error
 - [Go io package](https://pkg.go.dev/io)
 
 ## What this kata is about (and why it matters)
-- This kata trains cli, io by implementing `Mini cut` under explicit constraints.
-- It is important because `Mini cut` mirrors real CLI tooling where compatibility and determinism are part of the API.
+- This kata is focused practice in CLI, IO through `Mini cut`.
+- You will use this in internal tooling, CI scripts, and automation where output format and exit behavior are part of the contract.
 
 ## What you must submit for marking
 - `kata.go`

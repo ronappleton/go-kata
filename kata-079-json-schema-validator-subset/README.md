@@ -10,9 +10,10 @@ func Kata79() error
 ```
 
 ### Learning goal
-- Expected work: Implement `JSON Schema Validator (subset)` as strict input transformation logic that accepts valid data and rejects malformed input.
-- Why: `JSON Schema Validator (subset)` teaches strict boundary handling so malformed input cannot silently corrupt results.
-- When correct: `JSON Schema Validator (subset)` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
+- What you are practicing: Build `JSON Schema Validator (subset)` to transform/parse input strictly, with correct handling of malformed data.
+- Why it matters: You will use this at system boundaries where external input must be handled safely and predictably.
+- How this grows your Go skills: This builds robust boundary validation and deterministic data transformation habits.
+- When correct: When your solution is correct, it should satisfy: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec
@@ -26,8 +27,8 @@ func Kata79() error
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains integration design, boundary handling, and robust testing by implementing `JSON Schema Validator (subset)` under explicit constraints.
-- It is important because `JSON Schema Validator (subset)` builds strict parser habits that prevent downstream data and logic errors.
+- This kata is focused practice in real-world Go design and testing through `JSON Schema Validator (subset)`.
+- You will use this at system boundaries where external input must be handled safely and predictably.
 
 ## What you must submit for marking
 - `kata.go`

@@ -10,9 +10,10 @@ func MapReduce[T any, R any](items []T, workers int, mapFn func(T) R, reduceFn f
 ```
 
 ### Learning goal
-- Expected work: Implement `Concurrent MapReduce` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
-- Why: `Concurrent MapReduce` teaches safe coordination patterns that prevent costly production race conditions.
-- When correct: `Concurrent MapReduce` should satisfy the required behavior, including: `workers>=1`; `order not required`; and `handle empty items`.
+- What you are practicing: Build `Concurrent MapReduce` with safe coordination so concurrent work finishes cleanly under load.
+- Why it matters: You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
+- How this grows your Go skills: This builds mental models for goroutines, channels, cancellation, and synchronization.
+- When correct: When your solution is correct, it should satisfy: `workers>=1`; `order not required`; and `handle empty items`.
 
 ## Rules / Expectations
 - workers>=1
@@ -27,8 +28,8 @@ func MapReduce[T any, R any](items []T, workers int, mapFn func(T) R, reduceFn f
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains goroutines, channels by implementing `Concurrent MapReduce` under explicit constraints.
-- It is important because `Concurrent MapReduce` builds the synchronization discipline needed for safe parallel systems.
+- This kata is focused practice in Goroutines, channels through `Concurrent MapReduce`.
+- You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
 
 ## What you must submit for marking
 - `kata.go`

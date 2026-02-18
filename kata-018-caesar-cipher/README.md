@@ -10,9 +10,10 @@ func Caesar(s string, shift int) string
 ```
 
 ### Learning goal
-- Expected work: Implement `Caesar Cipher` idiomatically with strong control-flow clarity and edge-case correctness.
-- Why: `Caesar Cipher` teaches core implementation habits that compound across all later katas.
-- When correct: `Caesar Cipher` should satisfy the required behavior, including: `only shift A-Z and a-z`; `preserve case`; and `non-letters unchanged`.
+- What you are practicing: Build `Caesar Cipher` with clean control flow and reliable edge-case behavior.
+- Why it matters: You will use this in everyday Go code where small correctness habits prevent larger defects later.
+- How this grows your Go skills: This builds the base layer of Go fluency that every advanced kata depends on.
+- When correct: When your solution is correct, it should satisfy: `only shift A-Z and a-z`; `preserve case`; and `non-letters unchanged`.
 
 ## Rules / Expectations
 - only shift A-Z and a-z
@@ -27,8 +28,8 @@ func Caesar(s string, shift int) string
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains ascii letters shifting by implementing `Caesar Cipher` under explicit constraints.
-- It is important because `Caesar Cipher` strengthens the baseline coding discipline every other kata depends on.
+- This kata is focused practice in ASCII letters shifting through `Caesar Cipher`.
+- You will use this in everyday Go code where small correctness habits prevent larger defects later.
 
 ## What you must submit for marking
 - `kata.go`

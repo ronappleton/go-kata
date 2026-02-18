@@ -10,9 +10,10 @@ func FilterEven(nums []int) []int
 ```
 
 ### Learning goal
-- Expected work: Implement `Filter Even` idiomatically with strong control-flow clarity and edge-case correctness.
-- Why: `Filter Even` teaches core implementation habits that compound across all later katas.
-- When correct: `Filter Even` should satisfy the required behavior, including: `preserve order`; `nil => empty slice`; and `do not mutate input`.
+- What you are practicing: Build `Filter Even` with clean control flow and reliable edge-case behavior.
+- Why it matters: You will use this in everyday Go code where small correctness habits prevent larger defects later.
+- How this grows your Go skills: This builds the base layer of Go fluency that every advanced kata depends on.
+- When correct: When your solution is correct, it should satisfy: `preserve order`; `nil => empty slice`; and `do not mutate input`.
 
 ## Rules / Expectations
 - preserve order
@@ -25,8 +26,8 @@ func FilterEven(nums []int) []int
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains slices, order, immutability by implementing `Filter Even` under explicit constraints.
-- It is important because `Filter Even` strengthens the baseline coding discipline every other kata depends on.
+- This kata is focused practice in Slices, order, immutability through `Filter Even`.
+- You will use this in everyday Go code where small correctness habits prevent larger defects later.
 
 ## What you must submit for marking
 - `kata.go`

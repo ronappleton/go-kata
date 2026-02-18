@@ -10,9 +10,10 @@ func Debounce(d time.Duration, in <-chan struct{}) <-chan struct{}
 ```
 
 ### Learning goal
-- Expected work: Implement `Debounce` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
-- Why: `Debounce` teaches safe coordination patterns that prevent costly production race conditions.
-- When correct: `Debounce` should satisfy the required behavior, including: `emit after quiet period`; and `close output when input closes`.
+- What you are practicing: Build `Debounce` with safe coordination so concurrent work finishes cleanly under load.
+- Why it matters: You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
+- How this grows your Go skills: This builds mental models for goroutines, channels, cancellation, and synchronization.
+- When correct: When your solution is correct, it should satisfy: `emit after quiet period`; and `close output when input closes`.
 
 ## Rules / Expectations
 - emit after quiet period
@@ -24,8 +25,8 @@ func Debounce(d time.Duration, in <-chan struct{}) <-chan struct{}
 - [Go time package](https://pkg.go.dev/time)
 
 ## What this kata is about (and why it matters)
-- This kata trains time, channels by implementing `Debounce` under explicit constraints.
-- It is important because `Debounce` builds the synchronization discipline needed for safe parallel systems.
+- This kata is focused practice in Time, channels through `Debounce`.
+- You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
 
 ## What you must submit for marking
 - `kata.go`

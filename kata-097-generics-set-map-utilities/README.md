@@ -10,9 +10,10 @@ func Kata97() error
 ```
 
 ### Learning goal
-- Expected work: Implement `Generics: Set/Map Utilities` as a composable abstraction with explicit contracts and testable behavior.
-- Why: `Generics: Set/Map Utilities` teaches maintainable design through explicit contracts and low coupling.
-- When correct: `Generics: Set/Map Utilities` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
+- What you are practicing: Build `Generics: Set/Map Utilities` as a reusable, testable abstraction with explicit contracts.
+- Why it matters: You will use this when designing packages that need to stay maintainable as features grow.
+- How this grows your Go skills: This builds API design judgment and composable package structure in Go.
+- When correct: When your solution is correct, it should satisfy: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec
@@ -27,8 +28,8 @@ func Kata97() error
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains integration design, boundary handling, and robust testing by implementing `Generics: Set/Map Utilities` under explicit constraints.
-- It is important because `Generics: Set/Map Utilities` develops design choices that improve extensibility and testability over time.
+- This kata is focused practice in real-world Go design and testing through `Generics: Set/Map Utilities`.
+- You will use this when designing packages that need to stay maintainable as features grow.
 
 ## What you must submit for marking
 - `kata.go`

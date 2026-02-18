@@ -10,9 +10,10 @@ type Stack[T any] struct
 ```
 
 ### Learning goal
-- Expected work: Implement `Stack` by preserving core invariants and handling edge cases, not just happy-path output.
-- Why: `Stack` teaches complexity-aware correctness that impacts throughput and latency at scale.
-- When correct: `Stack` should satisfy the required behavior, including: `Push, Pop, Peek, Len`; and `Pop/Peek on empty => ok false`.
+- What you are practicing: Build `Stack` by holding algorithm invariants and edge cases, not just passing easy examples.
+- Why it matters: You will use this when performance matters and correctness must hold at larger input sizes.
+- How this grows your Go skills: This builds complexity awareness and confidence in proving behavior with tests.
+- When correct: When your solution is correct, it should satisfy: `Push, Pop, Peek, Len`; and `Pop/Peek on empty => ok false`.
 
 ## Rules / Expectations
 - Push, Pop, Peek, Len
@@ -26,8 +27,8 @@ type Stack[T any] struct
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains data structures, generics by implementing `Stack` under explicit constraints.
-- It is important because `Stack` makes performance/correctness tradeoffs explicit and measurable.
+- This kata is focused practice in Data structures, generics through `Stack`.
+- You will use this when performance matters and correctness must hold at larger input sizes.
 
 ## What you must submit for marking
 - `kata.go`

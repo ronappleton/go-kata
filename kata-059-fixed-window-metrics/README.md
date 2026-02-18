@@ -10,9 +10,10 @@ type CounterWindow struct
 ```
 
 ### Learning goal
-- Expected work: Implement `Fixed-Window Metrics` with precise clock/window state updates so timing behavior remains deterministic in tests.
-- Why: `Fixed-Window Metrics` teaches temporal correctness, a common source of flaky and hard-to-debug behavior.
-- When correct: `Fixed-Window Metrics` should satisfy the required behavior, including: `Add(value)`; `Sum(last duration)`; and `thread-safe`.
+- What you are practicing: Build `Fixed-Window Metrics` with precise time/window logic so behavior is stable and testable.
+- Why it matters: You will use this in rate limits, retries, and scheduling logic that often causes subtle bugs.
+- How this grows your Go skills: This builds precision around clocks, windows, and repeatable time-based tests.
+- When correct: When your solution is correct, it should satisfy: `Add(value)`; `Sum(last duration)`; and `thread-safe`.
 
 ## Rules / Expectations
 - Add(value)
@@ -26,8 +27,8 @@ type CounterWindow struct
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains time buckets by implementing `Fixed-Window Metrics` under explicit constraints.
-- It is important because `Fixed-Window Metrics` practices time-based logic that frequently causes subtle production bugs.
+- This kata is focused practice in Time buckets through `Fixed-Window Metrics`.
+- You will use this in rate limits, retries, and scheduling logic that often causes subtle bugs.
 
 ## What you must submit for marking
 - `kata.go`

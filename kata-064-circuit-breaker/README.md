@@ -10,9 +10,10 @@ func NewBreaker(failureThreshold int, resetAfter time.Duration) (*Breaker, error
 ```
 
 ### Learning goal
-- Expected work: Implement `Circuit Breaker` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
-- Why: `Circuit Breaker` teaches safe coordination patterns that prevent costly production race conditions.
-- When correct: `Circuit Breaker` should satisfy the required behavior, including: `Closed/Open/HalfOpen states`; `trip after threshold`; and `reset after duration`.
+- What you are practicing: Build `Circuit Breaker` with safe coordination so concurrent work finishes cleanly under load.
+- Why it matters: You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
+- How this grows your Go skills: This builds mental models for goroutines, channels, cancellation, and synchronization.
+- When correct: When your solution is correct, it should satisfy: `Closed/Open/HalfOpen states`; `trip after threshold`; and `reset after duration`.
 
 ## Rules / Expectations
 - Closed/Open/HalfOpen states
@@ -26,8 +27,8 @@ func NewBreaker(failureThreshold int, resetAfter time.Duration) (*Breaker, error
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains state machines, time by implementing `Circuit Breaker` under explicit constraints.
-- It is important because `Circuit Breaker` builds the synchronization discipline needed for safe parallel systems.
+- This kata is focused practice in State machines, time through `Circuit Breaker`.
+- You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
 
 ## What you must submit for marking
 - `kata.go`

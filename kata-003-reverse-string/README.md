@@ -10,9 +10,10 @@ func Reverse(s string) string
 ```
 
 ### Learning goal
-- Expected work: Implement `Reverse String` idiomatically with strong control-flow clarity and edge-case correctness.
-- Why: `Reverse String` teaches core implementation habits that compound across all later katas.
-- When correct: `Reverse String` should satisfy the required behavior, including: `must handle Unicode correctly (runes)`; `empty => empty`; and `palindrome unchanged`.
+- What you are practicing: Build `Reverse String` with clean control flow and reliable edge-case behavior.
+- Why it matters: You will use this in everyday Go code where small correctness habits prevent larger defects later.
+- How this grows your Go skills: This builds the base layer of Go fluency that every advanced kata depends on.
+- When correct: When your solution is correct, it should satisfy: `must handle Unicode correctly (runes)`; `empty => empty`; and `palindrome unchanged`.
 
 ## Rules / Expectations
 - must handle Unicode correctly (runes)
@@ -27,8 +28,8 @@ func Reverse(s string) string
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains strings, runes vs bytes by implementing `Reverse String` under explicit constraints.
-- It is important because `Reverse String` strengthens the baseline coding discipline every other kata depends on.
+- This kata is focused practice in Strings, runes vs bytes through `Reverse String`.
+- You will use this in everyday Go code where small correctness habits prevent larger defects later.
 
 ## What you must submit for marking
 - `kata.go`

@@ -10,9 +10,10 @@ func NewTrie() *Trie
 ```
 
 ### Learning goal
-- Expected work: Implement `Trie Autocomplete` by preserving core invariants and handling edge cases, not just happy-path output.
-- Why: `Trie Autocomplete` teaches complexity-aware correctness that impacts throughput and latency at scale.
-- When correct: `Trie Autocomplete` should satisfy the required behavior, including: `Insert(word)`; `Suggest(prefix, limit)`; and `lexicographic order`.
+- What you are practicing: Build `Trie Autocomplete` by holding algorithm invariants and edge cases, not just passing easy examples.
+- Why it matters: You will use this when performance matters and correctness must hold at larger input sizes.
+- How this grows your Go skills: This builds complexity awareness and confidence in proving behavior with tests.
+- When correct: When your solution is correct, it should satisfy: `Insert(word)`; `Suggest(prefix, limit)`; and `lexicographic order`.
 
 ## Rules / Expectations
 - Insert(word)
@@ -26,8 +27,8 @@ func NewTrie() *Trie
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains data structures by implementing `Trie Autocomplete` under explicit constraints.
-- It is important because `Trie Autocomplete` makes performance/correctness tradeoffs explicit and measurable.
+- This kata is focused practice in Data structures through `Trie Autocomplete`.
+- You will use this when performance matters and correctness must hold at larger input sizes.
 
 ## What you must submit for marking
 - `kata.go`

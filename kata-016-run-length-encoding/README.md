@@ -10,9 +10,10 @@ func RLEncode(s string) string
 ```
 
 ### Learning goal
-- Expected work: Implement `Run-Length Encoding` idiomatically with strong control-flow clarity and edge-case correctness.
-- Why: `Run-Length Encoding` teaches core implementation habits that compound across all later katas.
-- When correct: `Run-Length Encoding` should satisfy the required behavior, including: `encode runs as <char><count> where count>1`; `single chars stay as char only`; and `Unicode-safe`.
+- What you are practicing: Build `Run-Length Encoding` with clean control flow and reliable edge-case behavior.
+- Why it matters: You will use this in everyday Go code where small correctness habits prevent larger defects later.
+- How this grows your Go skills: This builds the base layer of Go fluency that every advanced kata depends on.
+- When correct: When your solution is correct, it should satisfy: `encode runs as <char><count> where count>1`; `single chars stay as char only`; and `Unicode-safe`.
 
 ## Rules / Expectations
 - encode runs as <char><count> where count>1
@@ -27,8 +28,8 @@ func RLEncode(s string) string
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains strings.builder, runes by implementing `Run-Length Encoding` under explicit constraints.
-- It is important because `Run-Length Encoding` strengthens the baseline coding discipline every other kata depends on.
+- This kata is focused practice in Strings.Builder, runes through `Run-Length Encoding`.
+- You will use this in everyday Go code where small correctness habits prevent larger defects later.
 
 ## What you must submit for marking
 - `kata.go`

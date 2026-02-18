@@ -10,9 +10,10 @@ func Unique(items []string) []string
 ```
 
 ### Learning goal
-- Expected work: Implement `Unique Strings` idiomatically with strong control-flow clarity and edge-case correctness.
-- Why: `Unique Strings` teaches core implementation habits that compound across all later katas.
-- When correct: `Unique Strings` should satisfy the required behavior, including: `preserve first occurrence order`; `nil => empty slice`; and `case-sensitive`.
+- What you are practicing: Build `Unique Strings` with clean control flow and reliable edge-case behavior.
+- Why it matters: You will use this in everyday Go code where small correctness habits prevent larger defects later.
+- How this grows your Go skills: This builds the base layer of Go fluency that every advanced kata depends on.
+- When correct: When your solution is correct, it should satisfy: `preserve first occurrence order`; `nil => empty slice`; and `case-sensitive`.
 
 ## Rules / Expectations
 - preserve first occurrence order
@@ -25,8 +26,8 @@ func Unique(items []string) []string
 - [Go map types in language spec](https://go.dev/ref/spec#Map_types)
 
 ## What this kata is about (and why it matters)
-- This kata trains maps as sets, order preservation by implementing `Unique Strings` under explicit constraints.
-- It is important because `Unique Strings` strengthens the baseline coding discipline every other kata depends on.
+- This kata is focused practice in Maps as sets, order preservation through `Unique Strings`.
+- You will use this in everyday Go code where small correctness habits prevent larger defects later.
 
 ## What you must submit for marking
 - `kata.go`

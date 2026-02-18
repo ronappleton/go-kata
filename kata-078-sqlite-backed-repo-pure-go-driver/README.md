@@ -10,9 +10,10 @@ func Kata78() error
 ```
 
 ### Learning goal
-- Expected work: Implement `SQLite-backed Repo (pure Go driver)` with clear repository boundaries and predictable transaction-aware persistence behavior.
-- Why: `SQLite-backed Repo (pure Go driver)` teaches persistence invariants that protect data integrity during failures.
-- When correct: `SQLite-backed Repo (pure Go driver)` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
+- What you are practicing: Build `SQLite-backed Repo (pure Go driver)` with solid persistence boundaries and transaction-aware behavior.
+- Why it matters: You will use this in repository/service layers where data correctness and failure handling matter.
+- How this grows your Go skills: This builds stronger transactional thinking and cleaner separation of persistence concerns.
+- When correct: When your solution is correct, it should satisfy: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec
@@ -25,8 +26,8 @@ func Kata78() error
 - [SQLite transaction docs](https://www.sqlite.org/lang_transaction.html)
 
 ## What this kata is about (and why it matters)
-- This kata trains integration design, boundary handling, and robust testing by implementing `SQLite-backed Repo (pure Go driver)` under explicit constraints.
-- It is important because `SQLite-backed Repo (pure Go driver)` reinforces data-consistency and transaction thinking used in real persistence layers.
+- This kata is focused practice in real-world Go design and testing through `SQLite-backed Repo (pure Go driver)`.
+- You will use this in repository/service layers where data correctness and failure handling matter.
 
 ## What you must submit for marking
 - `kata.go`

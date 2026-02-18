@@ -10,9 +10,10 @@ func SignJWT(claims map[string]any, secret []byte, ttl time.Duration) (string, e
 ```
 
 ### Learning goal
-- Expected work: Implement `JWT Sign/Verify` with strict validation and byte-level correctness for all cryptographic operations.
-- Why: `JWT Sign/Verify` teaches security precision, where small mistakes can become real vulnerabilities.
-- When correct: `JWT Sign/Verify` should satisfy the required behavior, including: `HS256`; `include exp`; and `also implement VerifyJWT(token, secret)`.
+- What you are practicing: Build `JWT Sign/Verify` with careful validation and exact byte-level behavior for security-sensitive inputs/outputs.
+- Why it matters: You will use this in authentication, signing, and integrity checks where small mistakes can become incidents.
+- How this grows your Go skills: This builds your discipline for correctness-first coding in high-risk code paths.
+- When correct: When your solution is correct, it should satisfy: `HS256`; `include exp`; and `also implement VerifyJWT(token, secret)`.
 
 ## Rules / Expectations
 - HS256
@@ -27,8 +28,8 @@ func SignJWT(claims map[string]any, secret []byte, ttl time.Duration) (string, e
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains crypto, encoding by implementing `JWT Sign/Verify` under explicit constraints.
-- It is important because `JWT Sign/Verify` reflects production security code, where correctness mistakes can become incidents.
+- This kata is focused practice in crypto, encoding through `JWT Sign/Verify`.
+- You will use this in authentication, signing, and integrity checks where small mistakes can become incidents.
 
 ## What you must submit for marking
 - `kata.go`

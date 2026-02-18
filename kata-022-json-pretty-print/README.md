@@ -10,9 +10,10 @@ func PrettyJSON(input []byte) ([]byte, error)
 ```
 
 ### Learning goal
-- Expected work: Implement `JSON Pretty Print` as strict input transformation logic that accepts valid data and rejects malformed input.
-- Why: `JSON Pretty Print` teaches strict boundary handling so malformed input cannot silently corrupt results.
-- When correct: `JSON Pretty Print` should satisfy the required behavior, including: `invalid json => error`; `indent 2 spaces`; and `stable formatting`.
+- What you are practicing: Build `JSON Pretty Print` to transform/parse input strictly, with correct handling of malformed data.
+- Why it matters: You will use this at system boundaries where external input must be handled safely and predictably.
+- How this grows your Go skills: This builds robust boundary validation and deterministic data transformation habits.
+- When correct: When your solution is correct, it should satisfy: `invalid json => error`; `indent 2 spaces`; and `stable formatting`.
 
 ## Rules / Expectations
 - invalid json => error
@@ -26,8 +27,8 @@ func PrettyJSON(input []byte) ([]byte, error)
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains encoding/json by implementing `JSON Pretty Print` under explicit constraints.
-- It is important because `JSON Pretty Print` builds strict parser habits that prevent downstream data and logic errors.
+- This kata is focused practice in encoding/json through `JSON Pretty Print`.
+- You will use this at system boundaries where external input must be handled safely and predictably.
 
 ## What you must submit for marking
 - `kata.go`

@@ -10,9 +10,10 @@ func Kata95() error
 ```
 
 ### Learning goal
-- Expected work: Implement `Concurrent Test Harness` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
-- Why: `Concurrent Test Harness` teaches safe coordination patterns that prevent costly production race conditions.
-- When correct: `Concurrent Test Harness` should satisfy the required behavior, including: `follow README spec`; `write tests`; and `keep it idiomatic`.
+- What you are practicing: Build `Concurrent Test Harness` with safe coordination so concurrent work finishes cleanly under load.
+- Why it matters: You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
+- How this grows your Go skills: This builds mental models for goroutines, channels, cancellation, and synchronization.
+- When correct: When your solution is correct, it should satisfy: `follow README spec`; `write tests`; and `keep it idiomatic`.
 
 ## Rules / Expectations
 - follow README spec
@@ -27,8 +28,8 @@ func Kata95() error
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains integration design, boundary handling, and robust testing by implementing `Concurrent Test Harness` under explicit constraints.
-- It is important because `Concurrent Test Harness` builds the synchronization discipline needed for safe parallel systems.
+- This kata is focused practice in real-world Go design and testing through `Concurrent Test Harness`.
+- You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
 
 ## What you must submit for marking
 - `kata.go`

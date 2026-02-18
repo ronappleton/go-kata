@@ -10,9 +10,10 @@ func ParseTags(v any, tagKey string) (map[string]string, error)
 ```
 
 ### Learning goal
-- Expected work: Implement `Reflection: Struct Tag Parser` as strict input transformation logic that accepts valid data and rejects malformed input.
-- Why: `Reflection: Struct Tag Parser` teaches strict boundary handling so malformed input cannot silently corrupt results.
-- When correct: `Reflection: Struct Tag Parser` should satisfy the required behavior, including: `struct only`; `map fieldName->tagValue`; and `skip empty tags`.
+- What you are practicing: Build `Reflection: Struct Tag Parser` to transform/parse input strictly, with correct handling of malformed data.
+- Why it matters: You will use this at system boundaries where external input must be handled safely and predictably.
+- How this grows your Go skills: This builds robust boundary validation and deterministic data transformation habits.
+- When correct: When your solution is correct, it should satisfy: `struct only`; `map fieldName->tagValue`; and `skip empty tags`.
 
 ## Rules / Expectations
 - struct only
@@ -27,8 +28,8 @@ func ParseTags(v any, tagKey string) (map[string]string, error)
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains reflect by implementing `Reflection: Struct Tag Parser` under explicit constraints.
-- It is important because `Reflection: Struct Tag Parser` builds strict parser habits that prevent downstream data and logic errors.
+- This kata is focused practice in reflect through `Reflection: Struct Tag Parser`.
+- You will use this at system boundaries where external input must be handled safely and predictably.
 
 ## What you must submit for marking
 - `kata.go`

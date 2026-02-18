@@ -10,9 +10,10 @@ func NewSemaphore(n int) (*Semaphore, error)
 ```
 
 ### Learning goal
-- Expected work: Implement `Semaphore` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
-- Why: `Semaphore` teaches safe coordination patterns that prevent costly production race conditions.
-- When correct: `Semaphore` should satisfy the required behavior, including: `Acquire(ctx) error`; `Release()`; and `no deadlocks`.
+- What you are practicing: Build `Semaphore` with safe coordination so concurrent work finishes cleanly under load.
+- Why it matters: You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
+- How this grows your Go skills: This builds mental models for goroutines, channels, cancellation, and synchronization.
+- When correct: When your solution is correct, it should satisfy: `Acquire(ctx) error`; `Release()`; and `no deadlocks`.
 
 ## Rules / Expectations
 - Acquire(ctx) error
@@ -27,8 +28,8 @@ func NewSemaphore(n int) (*Semaphore, error)
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains concurrency primitives by implementing `Semaphore` under explicit constraints.
-- It is important because `Semaphore` builds the synchronization discipline needed for safe parallel systems.
+- This kata is focused practice in Concurrency primitives through `Semaphore`.
+- You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
 
 ## What you must submit for marking
 - `kata.go`

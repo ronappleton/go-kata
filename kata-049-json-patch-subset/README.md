@@ -10,9 +10,10 @@ func ApplyPatch(doc []byte, patch []byte) ([]byte, error)
 ```
 
 ### Learning goal
-- Expected work: Implement `JSON Patch (subset)` as strict input transformation logic that accepts valid data and rejects malformed input.
-- Why: `JSON Patch (subset)` teaches strict boundary handling so malformed input cannot silently corrupt results.
-- When correct: `JSON Patch (subset)` should satisfy the required behavior, including: `support add/replace/remove at top-level keys only`; and `invalid => error`.
+- What you are practicing: Build `JSON Patch (subset)` to transform/parse input strictly, with correct handling of malformed data.
+- Why it matters: You will use this at system boundaries where external input must be handled safely and predictably.
+- How this grows your Go skills: This builds robust boundary validation and deterministic data transformation habits.
+- When correct: When your solution is correct, it should satisfy: `support add/replace/remove at top-level keys only`; and `invalid => error`.
 
 ## Rules / Expectations
 - support add/replace/remove at top-level keys only
@@ -25,8 +26,8 @@ func ApplyPatch(doc []byte, patch []byte) ([]byte, error)
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains encoding/json by implementing `JSON Patch (subset)` under explicit constraints.
-- It is important because `JSON Patch (subset)` builds strict parser habits that prevent downstream data and logic errors.
+- This kata is focused practice in encoding/json through `JSON Patch (subset)`.
+- You will use this at system boundaries where external input must be handled safely and predictably.
 
 ## What you must submit for marking
 - `kata.go`

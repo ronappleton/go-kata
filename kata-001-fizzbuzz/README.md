@@ -10,9 +10,10 @@ func FizzBuzz(n int) []string
 ```
 
 ### Learning goal
-- Expected work: Implement `FizzBuzz` idiomatically with strong control-flow clarity and edge-case correctness.
-- Why: `FizzBuzz` teaches core implementation habits that compound across all later katas.
-- When correct: `FizzBuzz` should satisfy the required behavior, including: `n<=0 => empty slice (not nil)`; `multiples of 3 => Fizz`; `multiples of 5 => Buzz`; `both => FizzBuzz`; and `otherwise number string`.
+- What you are practicing: Build `FizzBuzz` with clean control flow and reliable edge-case behavior.
+- Why it matters: You will use this in everyday Go code where small correctness habits prevent larger defects later.
+- How this grows your Go skills: This builds the base layer of Go fluency that every advanced kata depends on.
+- When correct: When your solution is correct, it should satisfy: `n<=0 => empty slice (not nil)`; `multiples of 3 => Fizz`; `multiples of 5 => Buzz`; `both => FizzBuzz`; and `otherwise number string`.
 
 ## Rules / Expectations
 - n<=0 => empty slice (not nil)
@@ -27,8 +28,8 @@ func FizzBuzz(n int) []string
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains basics: loops, conditionals, slices, strconv by implementing `FizzBuzz` under explicit constraints.
-- It is important because `FizzBuzz` strengthens the baseline coding discipline every other kata depends on.
+- This kata is focused practice in Basics: loops, conditionals, slices, strconv through `FizzBuzz`.
+- You will use this in everyday Go code where small correctness habits prevent larger defects later.
 
 ## What you must submit for marking
 - `kata.go`

@@ -10,9 +10,10 @@ func TopNWords(s string, n int) []string
 ```
 
 ### Learning goal
-- Expected work: Implement `Top N Words` by preserving core invariants and handling edge cases, not just happy-path output.
-- Why: `Top N Words` teaches complexity-aware correctness that impacts throughput and latency at scale.
-- When correct: `Top N Words` should satisfy the required behavior, including: `lowercase, split whitespace`; `ties sorted alphabetically`; and `n<=0 => empty slice`.
+- What you are practicing: Build `Top N Words` by holding algorithm invariants and edge cases, not just passing easy examples.
+- Why it matters: You will use this when performance matters and correctness must hold at larger input sizes.
+- How this grows your Go skills: This builds complexity awareness and confidence in proving behavior with tests.
+- When correct: When your solution is correct, it should satisfy: `lowercase, split whitespace`; `ties sorted alphabetically`; and `n<=0 => empty slice`.
 
 ## Rules / Expectations
 - lowercase, split whitespace
@@ -25,8 +26,8 @@ func TopNWords(s string, n int) []string
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains sorting, ties by implementing `Top N Words` under explicit constraints.
-- It is important because `Top N Words` makes performance/correctness tradeoffs explicit and measurable.
+- This kata is focused practice in Sorting, ties through `Top N Words`.
+- You will use this when performance matters and correctness must hold at larger input sizes.
 
 ## What you must submit for marking
 - `kata.go`

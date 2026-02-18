@@ -10,9 +10,10 @@ func StatusClass(code int) string
 ```
 
 ### Learning goal
-- Expected work: Implement `HTTP Status Classifier` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
-- Why: `HTTP Status Classifier` teaches service-edge correctness, where request/response semantics directly drive reliability.
-- When correct: `HTTP Status Classifier` should satisfy the required behavior, including: `1xx informational`; `2xx success`; `3xx redirect`; `4xx client`; and `5xx server`.
+- What you are practicing: Build `HTTP Status Classifier` as production-style HTTP boundary code with clear request handling and response behavior.
+- Why it matters: You will use this in APIs and services where request/response correctness directly affects reliability.
+- How this grows your Go skills: This builds confidence at service edges: inputs, status codes, retries, and shutdown behavior.
+- When correct: When your solution is correct, it should satisfy: `1xx informational`; `2xx success`; `3xx redirect`; `4xx client`; and `5xx server`.
 
 ## Rules / Expectations
 - 1xx informational
@@ -30,8 +31,8 @@ func StatusClass(code int) string
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains switch ranges by implementing `HTTP Status Classifier` under explicit constraints.
-- It is important because `HTTP Status Classifier` maps directly to production HTTP boundaries and failure handling.
+- This kata is focused practice in Switch ranges through `HTTP Status Classifier`.
+- You will use this in APIs and services where request/response correctness directly affects reliability.
 
 ## What you must submit for marking
 - `kata.go`

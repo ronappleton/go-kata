@@ -10,9 +10,10 @@ func NewContainer() *Container
 ```
 
 ### Learning goal
-- Expected work: Implement `Plugin-free DI Container` as a composable abstraction with explicit contracts and testable behavior.
-- Why: `Plugin-free DI Container` teaches maintainable design through explicit contracts and low coupling.
-- When correct: `Plugin-free DI Container` should satisfy the required behavior, including: `Register(name, ctor)`; `Resolve(name)`; and `singleton scope`.
+- What you are practicing: Build `Plugin-free DI Container` as a reusable, testable abstraction with explicit contracts.
+- Why it matters: You will use this when designing packages that need to stay maintainable as features grow.
+- How this grows your Go skills: This builds API design judgment and composable package structure in Go.
+- When correct: When your solution is correct, it should satisfy: `Register(name, ctor)`; `Resolve(name)`; and `singleton scope`.
 
 ## Rules / Expectations
 - Register(name, ctor)
@@ -25,8 +26,8 @@ func NewContainer() *Container
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains design by implementing `Plugin-free DI Container` under explicit constraints.
-- It is important because `Plugin-free DI Container` develops design choices that improve extensibility and testability over time.
+- This kata is focused practice in Design through `Plugin-free DI Container`.
+- You will use this when designing packages that need to stay maintainable as features grow.
 
 ## What you must submit for marking
 - `kata.go`

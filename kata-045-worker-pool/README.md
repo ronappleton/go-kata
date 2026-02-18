@@ -10,9 +10,10 @@ func RunPool(ctx context.Context, workers int, jobs <-chan Job) <-chan Result
 ```
 
 ### Learning goal
-- Expected work: Implement `Worker Pool` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
-- Why: `Worker Pool` teaches safe coordination patterns that prevent costly production race conditions.
-- When correct: `Worker Pool` should satisfy the required behavior, including: `cancels on ctx`; `close output when done`; and `no leaks`.
+- What you are practicing: Build `Worker Pool` with safe coordination so concurrent work finishes cleanly under load.
+- Why it matters: You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
+- How this grows your Go skills: This builds mental models for goroutines, channels, cancellation, and synchronization.
+- When correct: When your solution is correct, it should satisfy: `cancels on ctx`; `close output when done`; and `no leaks`.
 
 ## Rules / Expectations
 - cancels on ctx
@@ -27,8 +28,8 @@ func RunPool(ctx context.Context, workers int, jobs <-chan Job) <-chan Result
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata trains concurrency patterns by implementing `Worker Pool` under explicit constraints.
-- It is important because `Worker Pool` builds the synchronization discipline needed for safe parallel systems.
+- This kata is focused practice in Concurrency patterns through `Worker Pool`.
+- You will use this any time work runs in parallel and must shut down cleanly without races or leaks.
 
 ## What you must submit for marking
 - `kata.go`
