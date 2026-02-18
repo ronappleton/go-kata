@@ -9,6 +9,10 @@ Implement:
 func NewTokenBucket(ratePerSec int, burst int) (*TokenBucket, error)
 ```
 
+### Learning goal
+- Expected work: Implement `Rate Limiter (token bucket)` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
+- Why: `Rate Limiter (token bucket)` teaches safe coordination patterns that prevent costly production race conditions.
+
 ## Rules / Expectations
 - Allow() bool
 - single-thread only here
@@ -21,8 +25,8 @@ func NewTokenBucket(ratePerSec int, burst int) (*TokenBucket, error)
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Rate Limiter (token bucket) with constraints that make you practice time, structs.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains time, structs by implementing `Rate Limiter (token bucket)` under explicit constraints.
+- It is important because `Rate Limiter (token bucket)` builds the synchronization discipline needed for safe parallel systems.
 
 ## What you must submit for marking
 - `kata.go`

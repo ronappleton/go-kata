@@ -9,6 +9,10 @@ Implement:
 func IsAnagram(a, b string) bool
 ```
 
+### Learning goal
+- Expected work: Implement `Anagram Check` idiomatically with strong control-flow clarity and edge-case correctness.
+- Why: `Anagram Check` teaches core implementation habits that compound across all later katas.
+
 ## Rules / Expectations
 - case-insensitive
 - ignore spaces/punctuation
@@ -22,8 +26,8 @@ func IsAnagram(a, b string) bool
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Anagram Check with constraints that make you practice rune counts, normalization.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains rune counts, normalization by implementing `Anagram Check` under explicit constraints.
+- It is important because `Anagram Check` strengthens the baseline coding discipline every other kata depends on.
 
 ## What you must submit for marking
 - `kata.go`

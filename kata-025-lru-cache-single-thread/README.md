@@ -9,6 +9,10 @@ Implement:
 func NewLRU(capacity int) (*LRU, error)
 ```
 
+### Learning goal
+- Expected work: Implement `LRU Cache (single-thread)` by preserving core invariants and handling edge cases, not just happy-path output.
+- Why: `LRU Cache (single-thread)` teaches complexity-aware correctness that impacts throughput and latency at scale.
+
 ## Rules / Expectations
 - capacity>0
 - Get/Put methods
@@ -21,8 +25,8 @@ func NewLRU(capacity int) (*LRU, error)
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing LRU Cache (single-thread) with constraints that make you practice structs, maps, list.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains structs, maps, list by implementing `LRU Cache (single-thread)` under explicit constraints.
+- It is important because `LRU Cache (single-thread)` makes performance/correctness tradeoffs explicit and measurable.
 
 ## What you must submit for marking
 - `kata.go`

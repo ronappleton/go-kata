@@ -9,6 +9,10 @@ Implement:
 func MinMax(nums []int) (min int, max int, err error)
 ```
 
+### Learning goal
+- Expected work: Implement `Min/Max` idiomatically with strong control-flow clarity and edge-case correctness.
+- Why: `Min/Max` teaches core implementation habits that compound across all later katas.
+
 ## Rules / Expectations
 - empty or nil => error
 - single element => min=max
@@ -20,8 +24,8 @@ func MinMax(nums []int) (min int, max int, err error)
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Min/Max with constraints that make you practice errors, edge cases.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains errors, edge cases by implementing `Min/Max` under explicit constraints.
+- It is important because `Min/Max` strengthens the baseline coding discipline every other kata depends on.
 
 ## What you must submit for marking
 - `kata.go`

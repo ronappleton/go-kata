@@ -9,6 +9,10 @@ Implement:
 func ToRoman(n int) (string, error)
 ```
 
+### Learning goal
+- Expected work: Implement `Roman Numerals` by preserving core invariants and handling edge cases, not just happy-path output.
+- Why: `Roman Numerals` teaches complexity-aware correctness that impacts throughput and latency at scale.
+
 ## Rules / Expectations
 - 1..3999 only
 - invalid => error
@@ -20,8 +24,8 @@ func ToRoman(n int) (string, error)
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Roman Numerals with constraints that make you practice greedy mapping.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains greedy mapping by implementing `Roman Numerals` under explicit constraints.
+- It is important because `Roman Numerals` makes performance/correctness tradeoffs explicit and measurable.
 
 ## What you must submit for marking
 - `kata.go`

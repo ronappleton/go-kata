@@ -9,6 +9,10 @@ Implement:
 func Kata63() error
 ```
 
+### Learning goal
+- Expected work: Implement `Structured Errors` idiomatically with strong control-flow clarity and edge-case correctness.
+- Why: `Structured Errors` teaches core implementation habits that compound across all later katas.
+
 ## Rules / Expectations
 - follow README spec
 - write tests
@@ -20,8 +24,8 @@ func Kata63() error
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Structured Errors with constraints that make you practice system design, integration boundaries, and robust testing.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains integration design, boundary handling, and robust testing by implementing `Structured Errors` under explicit constraints.
+- It is important because `Structured Errors` strengthens the baseline coding discipline every other kata depends on.
 
 ## What you must submit for marking
 - `kata.go`

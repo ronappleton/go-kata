@@ -9,6 +9,10 @@ Implement:
 func Kata77() error
 ```
 
+### Learning goal
+- Expected work: Implement `Event Sourcing Mini` as a composable abstraction with explicit contracts and testable behavior.
+- Why: `Event Sourcing Mini` teaches maintainable design through explicit contracts and low coupling.
+
 ## Rules / Expectations
 - follow README spec
 - write tests
@@ -21,8 +25,8 @@ func Kata77() error
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Event Sourcing Mini with constraints that make you practice system design, integration boundaries, and robust testing.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains integration design, boundary handling, and robust testing by implementing `Event Sourcing Mini` under explicit constraints.
+- It is important because `Event Sourcing Mini` develops design choices that improve extensibility and testability over time.
 
 ## What you must submit for marking
 - `kata.go`

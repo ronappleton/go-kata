@@ -9,6 +9,10 @@ Implement:
 func Sum(nums []int) int
 ```
 
+### Learning goal
+- Expected work: Implement `Sum of Integers` idiomatically with strong control-flow clarity and edge-case correctness.
+- Why: `Sum of Integers` teaches core implementation habits that compound across all later katas.
+
 ## Rules / Expectations
 - nil slice => 0
 - empty => 0
@@ -20,8 +24,8 @@ func Sum(nums []int) int
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Sum of Integers with constraints that make you practice basics: loops, function, edge cases.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains basics: loops, function, edge cases by implementing `Sum of Integers` under explicit constraints.
+- It is important because `Sum of Integers` strengthens the baseline coding discipline every other kata depends on.
 
 ## What you must submit for marking
 - `kata.go`

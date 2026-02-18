@@ -9,6 +9,10 @@ Implement:
 func Kata80() error
 ```
 
+### Learning goal
+- Expected work: Implement `Rate-limited HTTP Scraper` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
+- Why: `Rate-limited HTTP Scraper` teaches service-edge correctness, where request/response semantics directly drive reliability.
+
 ## Rules / Expectations
 - follow README spec
 - write tests
@@ -22,8 +26,8 @@ func Kata80() error
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Rate-limited HTTP Scraper with constraints that make you practice system design, integration boundaries, and robust testing.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains integration design, boundary handling, and robust testing by implementing `Rate-limited HTTP Scraper` under explicit constraints.
+- It is important because `Rate-limited HTTP Scraper` maps directly to production HTTP boundaries and failure handling.
 
 ## What you must submit for marking
 - `kata.go`

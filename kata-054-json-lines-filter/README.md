@@ -9,6 +9,10 @@ Implement:
 func FilterJSONL(r io.Reader, w io.Writer, predicate func(map[string]any) bool) error
 ```
 
+### Learning goal
+- Expected work: Implement `JSON Lines Filter` as strict input transformation logic that accepts valid data and rejects malformed input.
+- Why: `JSON Lines Filter` teaches strict boundary handling so malformed input cannot silently corrupt results.
+
 ## Rules / Expectations
 - each line JSON object
 - write only matches
@@ -20,8 +24,8 @@ func FilterJSONL(r io.Reader, w io.Writer, predicate func(map[string]any) bool) 
 - [Go bufio package](https://pkg.go.dev/bufio)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing JSON Lines Filter with constraints that make you practice stream processing.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains stream processing by implementing `JSON Lines Filter` under explicit constraints.
+- It is important because `JSON Lines Filter` builds strict parser habits that prevent downstream data and logic errors.
 
 ## What you must submit for marking
 - `kata.go`

@@ -9,6 +9,10 @@ Implement:
 func HashPassword(pw string) (string, error)
 ```
 
+### Learning goal
+- Expected work: Implement `Password Hashing (bcrypt/argon2)` with strict validation and byte-level correctness for all cryptographic operations.
+- Why: `Password Hashing (bcrypt/argon2)` teaches security precision, where small mistakes can become real vulnerabilities.
+
 ## Rules / Expectations
 - use bcrypt or argon2
 - also implement VerifyPassword(pw, hash) bool
@@ -22,8 +26,8 @@ func HashPassword(pw string) (string, error)
 - [golang.org/x/crypto/argon2](https://pkg.go.dev/golang.org/x/crypto/argon2)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Password Hashing (bcrypt/argon2) with constraints that make you practice crypto, security.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains crypto, security by implementing `Password Hashing (bcrypt/argon2)` under explicit constraints.
+- It is important because `Password Hashing (bcrypt/argon2)` reflects production security code, where correctness mistakes can become incidents.
 
 ## What you must submit for marking
 - `kata.go`

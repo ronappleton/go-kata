@@ -9,6 +9,10 @@ Implement:
 func CSVToJSON(r io.Reader) ([]byte, error)
 ```
 
+### Learning goal
+- Expected work: Implement `CSV to JSON` as strict input transformation logic that accepts valid data and rejects malformed input.
+- Why: `CSV to JSON` teaches strict boundary handling so malformed input cannot silently corrupt results.
+
 ## Rules / Expectations
 - first row headers
 - JSON array of objects
@@ -20,8 +24,8 @@ func CSVToJSON(r io.Reader) ([]byte, error)
 - [RFC 4180 (CSV format)](https://www.rfc-editor.org/rfc/rfc4180)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing CSV to JSON with constraints that make you practice i/o, encoding.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains i/o, encoding by implementing `CSV to JSON` under explicit constraints.
+- It is important because `CSV to JSON` builds strict parser habits that prevent downstream data and logic errors.
 
 ## What you must submit for marking
 - `kata.go`

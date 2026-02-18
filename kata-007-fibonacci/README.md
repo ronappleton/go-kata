@@ -9,6 +9,10 @@ Implement:
 func Fibonacci(n int) ([]int, error)
 ```
 
+### Learning goal
+- Expected work: Implement `Fibonacci` idiomatically with strong control-flow clarity and edge-case correctness.
+- Why: `Fibonacci` teaches core implementation habits that compound across all later katas.
+
 ## Rules / Expectations
 - n<0 => error
 - n=0 => empty slice
@@ -21,8 +25,8 @@ func Fibonacci(n int) ([]int, error)
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Fibonacci with constraints that make you practice iteration, slices.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains iteration, slices by implementing `Fibonacci` under explicit constraints.
+- It is important because `Fibonacci` strengthens the baseline coding discipline every other kata depends on.
 
 ## What you must submit for marking
 - `kata.go`

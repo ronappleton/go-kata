@@ -9,6 +9,10 @@ Implement:
 type KV struct
 ```
 
+### Learning goal
+- Expected work: Implement `In-Memory KV Store` idiomatically with strong control-flow clarity and edge-case correctness.
+- Why: `In-Memory KV Store` teaches core implementation habits that compound across all later katas.
+
 ## Rules / Expectations
 - Set/Get/Delete/Keys
 - thread-safe
@@ -20,8 +24,8 @@ type KV struct
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing In-Memory KV Store with constraints that make you practice maps, rwmutex.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains maps, rwmutex by implementing `In-Memory KV Store` under explicit constraints.
+- It is important because `In-Memory KV Store` strengthens the baseline coding discipline every other kata depends on.
 
 ## What you must submit for marking
 - `kata.go`

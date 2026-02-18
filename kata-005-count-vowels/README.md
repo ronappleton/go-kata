@@ -9,6 +9,10 @@ Implement:
 func CountVowels(s string) int
 ```
 
+### Learning goal
+- Expected work: Implement `Count Vowels` idiomatically with strong control-flow clarity and edge-case correctness.
+- Why: `Count Vowels` teaches core implementation habits that compound across all later katas.
+
 ## Rules / Expectations
 - count a,e,i,o,u (case-insensitive)
 - treat vowels as ASCII set only
@@ -20,8 +24,8 @@ func CountVowels(s string) int
 - [Go map types in language spec](https://go.dev/ref/spec#Map_types)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Count Vowels with constraints that make you practice loops, unicode, maps.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains loops, unicode, maps by implementing `Count Vowels` under explicit constraints.
+- It is important because `Count Vowels` strengthens the baseline coding discipline every other kata depends on.
 
 ## What you must submit for marking
 - `kata.go`

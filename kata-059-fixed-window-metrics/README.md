@@ -9,6 +9,10 @@ Implement:
 type CounterWindow struct
 ```
 
+### Learning goal
+- Expected work: Implement `Fixed-Window Metrics` with precise clock/window state updates so timing behavior remains deterministic in tests.
+- Why: `Fixed-Window Metrics` teaches temporal correctness, a common source of flaky and hard-to-debug behavior.
+
 ## Rules / Expectations
 - Add(value)
 - Sum(last duration)
@@ -21,8 +25,8 @@ type CounterWindow struct
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Fixed-Window Metrics with constraints that make you practice time buckets.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains time buckets by implementing `Fixed-Window Metrics` under explicit constraints.
+- It is important because `Fixed-Window Metrics` practices time-based logic that frequently causes subtle production bugs.
 
 ## What you must submit for marking
 - `kata.go`

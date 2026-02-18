@@ -9,6 +9,10 @@ Implement:
 func Kata62() error
 ```
 
+### Learning goal
+- Expected work: Implement `Context-aware Logger` idiomatically with strong control-flow clarity and edge-case correctness.
+- Why: `Context-aware Logger` teaches core implementation habits that compound across all later katas.
+
 ## Rules / Expectations
 - follow README spec
 - write tests
@@ -21,8 +25,8 @@ func Kata62() error
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Context-aware Logger with constraints that make you practice system design, integration boundaries, and robust testing.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains integration design, boundary handling, and robust testing by implementing `Context-aware Logger` under explicit constraints.
+- It is important because `Context-aware Logger` strengthens the baseline coding discipline every other kata depends on.
 
 ## What you must submit for marking
 - `kata.go`

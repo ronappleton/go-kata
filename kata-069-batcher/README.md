@@ -9,6 +9,10 @@ Implement:
 func Batch[T any](ctx context.Context, in <-chan T, max int, every time.Duration) <-chan []T
 ```
 
+### Learning goal
+- Expected work: Implement `Batcher` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
+- Why: `Batcher` teaches safe coordination patterns that prevent costly production race conditions.
+
 ## Rules / Expectations
 - emit when max reached or timer fires
 - flush on close
@@ -20,8 +24,8 @@ func Batch[T any](ctx context.Context, in <-chan T, max int, every time.Duration
 - [Go time package](https://pkg.go.dev/time)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Batcher with constraints that make you practice time, channels.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains time, channels by implementing `Batcher` under explicit constraints.
+- It is important because `Batcher` builds the synchronization discipline needed for safe parallel systems.
 
 ## What you must submit for marking
 - `kata.go`

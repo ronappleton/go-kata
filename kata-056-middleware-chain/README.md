@@ -9,6 +9,10 @@ Implement:
 func Chain(h http.Handler, m ...func(http.Handler) http.Handler) http.Handler
 ```
 
+### Learning goal
+- Expected work: Implement `Middleware Chain` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
+- Why: `Middleware Chain` teaches service-edge correctness, where request/response semantics directly drive reliability.
+
 ## Rules / Expectations
 - applies in order given
 - nil middleware ignored
@@ -19,8 +23,8 @@ func Chain(h http.Handler, m ...func(http.Handler) http.Handler) http.Handler
 - [Go net package](https://pkg.go.dev/net)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Middleware Chain with constraints that make you practice net/http.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains net/http by implementing `Middleware Chain` under explicit constraints.
+- It is important because `Middleware Chain` maps directly to production HTTP boundaries and failure handling.
 
 ## What you must submit for marking
 - `kata.go`

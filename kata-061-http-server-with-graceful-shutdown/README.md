@@ -9,6 +9,10 @@ Implement:
 func ServeGraceful(addr string, h http.Handler) (stop func(context.Context) error, err error)
 ```
 
+### Learning goal
+- Expected work: Implement `HTTP Server with Graceful Shutdown` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
+- Why: `HTTP Server with Graceful Shutdown` teaches service-edge correctness, where request/response semantics directly drive reliability.
+
 ## Rules / Expectations
 - start server
 - stop shuts down with context
@@ -21,8 +25,8 @@ func ServeGraceful(addr string, h http.Handler) (stop func(context.Context) erro
 - [Go context package](https://pkg.go.dev/context)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing HTTP Server with Graceful Shutdown with constraints that make you practice net/http, context.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains net/http, context by implementing `HTTP Server with Graceful Shutdown` under explicit constraints.
+- It is important because `HTTP Server with Graceful Shutdown` maps directly to production HTTP boundaries and failure handling.
 
 ## What you must submit for marking
 - `kata.go`

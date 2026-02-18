@@ -9,6 +9,10 @@ Implement:
 func RLDecode(s string) (string, error)
 ```
 
+### Learning goal
+- Expected work: Implement `Run-Length Decoding` idiomatically with strong control-flow clarity and edge-case correctness.
+- Why: `Run-Length Decoding` teaches core implementation habits that compound across all later katas.
+
 ## Rules / Expectations
 - invalid format => error
 - count can be multiple digits
@@ -20,8 +24,8 @@ func RLDecode(s string) (string, error)
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Run-Length Decoding with constraints that make you practice parsing, errors.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains parsing, errors by implementing `Run-Length Decoding` under explicit constraints.
+- It is important because `Run-Length Decoding` strengthens the baseline coding discipline every other kata depends on.
 
 ## What you must submit for marking
 - `kata.go`

@@ -9,6 +9,10 @@ Implement:
 func NewBarrier(parties int) (*Barrier, error)
 ```
 
+### Learning goal
+- Expected work: Implement `Barrier` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
+- Why: `Barrier` teaches safe coordination patterns that prevent costly production race conditions.
+
 ## Rules / Expectations
 - Wait(ctx) error
 - reusable
@@ -22,8 +26,8 @@ func NewBarrier(parties int) (*Barrier, error)
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Barrier with constraints that make you practice concurrency coordination.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains concurrency coordination by implementing `Barrier` under explicit constraints.
+- It is important because `Barrier` builds the synchronization discipline needed for safe parallel systems.
 
 ## What you must submit for marking
 - `kata.go`

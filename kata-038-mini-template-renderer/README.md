@@ -9,6 +9,10 @@ Implement:
 func RenderTemplate(tpl string, vars map[string]string) string
 ```
 
+### Learning goal
+- Expected work: Implement `Mini Template Renderer` as strict input transformation logic that accepts valid data and rejects malformed input.
+- Why: `Mini Template Renderer` teaches strict boundary handling so malformed input cannot silently corrupt results.
+
 ## Rules / Expectations
 - placeholders {{key}}
 - missing => empty
@@ -22,8 +26,8 @@ func RenderTemplate(tpl string, vars map[string]string) string
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Mini Template Renderer with constraints that make you practice placeholders.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains placeholders by implementing `Mini Template Renderer` under explicit constraints.
+- It is important because `Mini Template Renderer` builds strict parser habits that prevent downstream data and logic errors.
 
 ## What you must submit for marking
 - `kata.go`

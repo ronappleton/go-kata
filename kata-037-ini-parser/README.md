@@ -9,6 +9,10 @@ Implement:
 func ParseINI(s string) (map[string]map[string]string, error)
 ```
 
+### Learning goal
+- Expected work: Implement `INI Parser` as strict input transformation logic that accepts valid data and rejects malformed input.
+- Why: `INI Parser` teaches strict boundary handling so malformed input cannot silently corrupt results.
+
 ## Rules / Expectations
 - sections [name]
 - key=value
@@ -20,8 +24,8 @@ func ParseINI(s string) (map[string]map[string]string, error)
 - [Go bufio.Scanner docs](https://pkg.go.dev/bufio#Scanner)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing INI Parser with constraints that make you practice sections, maps.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains sections, maps by implementing `INI Parser` under explicit constraints.
+- It is important because `INI Parser` builds strict parser habits that prevent downstream data and logic errors.
 
 ## What you must submit for marking
 - `kata.go`

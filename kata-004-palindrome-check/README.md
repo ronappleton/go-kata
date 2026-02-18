@@ -9,6 +9,10 @@ Implement:
 func IsPalindrome(s string) bool
 ```
 
+### Learning goal
+- Expected work: Implement `Palindrome Check` idiomatically with strong control-flow clarity and edge-case correctness.
+- Why: `Palindrome Check` teaches core implementation habits that compound across all later katas.
+
 ## Rules / Expectations
 - case-insensitive
 - ignore non-letters/digits
@@ -22,8 +26,8 @@ func IsPalindrome(s string) bool
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Palindrome Check with constraints that make you practice strings, normalization basics.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains strings, normalization basics by implementing `Palindrome Check` under explicit constraints.
+- It is important because `Palindrome Check` strengthens the baseline coding discipline every other kata depends on.
 
 ## What you must submit for marking
 - `kata.go`

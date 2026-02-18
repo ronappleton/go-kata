@@ -9,6 +9,10 @@ Implement:
 func Kata81() error
 ```
 
+### Learning goal
+- Expected work: Implement `Websocket Chat (basic)` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
+- Why: `Websocket Chat (basic)` teaches service-edge correctness, where request/response semantics directly drive reliability.
+
 ## Rules / Expectations
 - follow README spec
 - write tests
@@ -22,8 +26,8 @@ func Kata81() error
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Websocket Chat (basic) with constraints that make you practice system design, integration boundaries, and robust testing.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains integration design, boundary handling, and robust testing by implementing `Websocket Chat (basic)` under explicit constraints.
+- It is important because `Websocket Chat (basic)` maps directly to production HTTP boundaries and failure handling.
 
 ## What you must submit for marking
 - `kata.go`

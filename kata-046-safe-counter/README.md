@@ -9,6 +9,10 @@ Implement:
 type Counter struct
 ```
 
+### Learning goal
+- Expected work: Implement `Safe Counter` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
+- Why: `Safe Counter` teaches safe coordination patterns that prevent costly production race conditions.
+
 ## Rules / Expectations
 - Inc/Add/Value
 - race-free
@@ -20,8 +24,8 @@ type Counter struct
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Safe Counter with constraints that make you practice sync/atomic or mutex.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains sync/atomic or mutex by implementing `Safe Counter` under explicit constraints.
+- It is important because `Safe Counter` builds the synchronization discipline needed for safe parallel systems.
 
 ## What you must submit for marking
 - `kata.go`

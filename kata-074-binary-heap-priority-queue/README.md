@@ -9,6 +9,10 @@ Implement:
 func Kata74() error
 ```
 
+### Learning goal
+- Expected work: Implement `Binary Heap Priority Queue` by preserving core invariants and handling edge cases, not just happy-path output.
+- Why: `Binary Heap Priority Queue` teaches complexity-aware correctness that impacts throughput and latency at scale.
+
 ## Rules / Expectations
 - follow README spec
 - write tests
@@ -20,8 +24,8 @@ func Kata74() error
 - [Go sort package](https://pkg.go.dev/sort)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Binary Heap Priority Queue with constraints that make you practice system design, integration boundaries, and robust testing.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains integration design, boundary handling, and robust testing by implementing `Binary Heap Priority Queue` under explicit constraints.
+- It is important because `Binary Heap Priority Queue` makes performance/correctness tradeoffs explicit and measurable.
 
 ## What you must submit for marking
 - `kata.go`

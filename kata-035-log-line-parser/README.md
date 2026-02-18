@@ -9,6 +9,10 @@ Implement:
 func ParseLogLine(line string) (map[string]string, error)
 ```
 
+### Learning goal
+- Expected work: Implement `Log Line Parser` as strict input transformation logic that accepts valid data and rejects malformed input.
+- Why: `Log Line Parser` teaches strict boundary handling so malformed input cannot silently corrupt results.
+
 ## Rules / Expectations
 - key=value pairs separated by spaces
 - values may be quoted
@@ -20,8 +24,8 @@ func ParseLogLine(line string) (map[string]string, error)
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Log Line Parser with constraints that make you practice key=value parsing.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains key=value parsing by implementing `Log Line Parser` under explicit constraints.
+- It is important because `Log Line Parser` builds strict parser habits that prevent downstream data and logic errors.
 
 ## What you must submit for marking
 - `kata.go`

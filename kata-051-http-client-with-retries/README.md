@@ -9,6 +9,10 @@ Implement:
 func DoWithRetries(client *http.Client, req *http.Request, attempts int) (*http.Response, error)
 ```
 
+### Learning goal
+- Expected work: Implement `HTTP Client with Retries` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
+- Why: `HTTP Client with Retries` teaches service-edge correctness, where request/response semantics directly drive reliability.
+
 ## Rules / Expectations
 - retry on 5xx + network errors
 - no retry on 4xx
@@ -20,8 +24,8 @@ func DoWithRetries(client *http.Client, req *http.Request, attempts int) (*http.
 - [Go net package](https://pkg.go.dev/net)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing HTTP Client with Retries with constraints that make you practice net/http.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains net/http by implementing `HTTP Client with Retries` under explicit constraints.
+- It is important because `HTTP Client with Retries` maps directly to production HTTP boundaries and failure handling.
 
 ## What you must submit for marking
 - `kata.go`

@@ -9,6 +9,10 @@ Implement:
 func WithinWindow(t, start, end time.Time) bool
 ```
 
+### Learning goal
+- Expected work: Implement `Time Window Check` with precise clock/window state updates so timing behavior remains deterministic in tests.
+- Why: `Time Window Check` teaches temporal correctness, a common source of flaky and hard-to-debug behavior.
+
 ## Rules / Expectations
 - inclusive start, exclusive end
 - if start after end => false
@@ -20,8 +24,8 @@ func WithinWindow(t, start, end time.Time) bool
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Time Window Check with constraints that make you practice time package.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains time package by implementing `Time Window Check` under explicit constraints.
+- It is important because `Time Window Check` practices time-based logic that frequently causes subtle production bugs.
 
 ## What you must submit for marking
 - `kata.go`

@@ -9,6 +9,10 @@ Implement:
 func Kata70() error
 ```
 
+### Learning goal
+- Expected work: Implement `LRU Cache (thread-safe)` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
+- Why: `LRU Cache (thread-safe)` teaches safe coordination patterns that prevent costly production race conditions.
+
 ## Rules / Expectations
 - follow README spec
 - write tests
@@ -20,8 +24,8 @@ func Kata70() error
 - [Go sync package](https://pkg.go.dev/sync)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing LRU Cache (thread-safe) with constraints that make you practice system design, integration boundaries, and robust testing.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains integration design, boundary handling, and robust testing by implementing `LRU Cache (thread-safe)` under explicit constraints.
+- It is important because `LRU Cache (thread-safe)` builds the synchronization discipline needed for safe parallel systems.
 
 ## What you must submit for marking
 - `kata.go`

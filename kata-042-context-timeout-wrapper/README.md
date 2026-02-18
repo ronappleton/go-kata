@@ -9,6 +9,10 @@ Implement:
 func WithTimeoutDo(ctx context.Context, d time.Duration, fn func(context.Context) error) error
 ```
 
+### Learning goal
+- Expected work: Implement `Context Timeout Wrapper` idiomatically with strong control-flow clarity and edge-case correctness.
+- Why: `Context Timeout Wrapper` teaches core implementation habits that compound across all later katas.
+
 ## Rules / Expectations
 - fn called with derived ctx
 - returns ctx error on timeout
@@ -21,8 +25,8 @@ func WithTimeoutDo(ctx context.Context, d time.Duration, fn func(context.Context
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Context Timeout Wrapper with constraints that make you practice context.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains context by implementing `Context Timeout Wrapper` under explicit constraints.
+- It is important because `Context Timeout Wrapper` strengthens the baseline coding discipline every other kata depends on.
 
 ## What you must submit for marking
 - `kata.go`

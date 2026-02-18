@@ -9,6 +9,10 @@ Implement:
 func WordCount(s string) map[string]int
 ```
 
+### Learning goal
+- Expected work: Implement `Word Count` idiomatically with strong control-flow clarity and edge-case correctness.
+- Why: `Word Count` teaches core implementation habits that compound across all later katas.
+
 ## Rules / Expectations
 - split on whitespace
 - lowercase words
@@ -20,8 +24,8 @@ func WordCount(s string) map[string]int
 - [Go map types in language spec](https://go.dev/ref/spec#Map_types)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Word Count with constraints that make you practice strings, fields, maps.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains strings, fields, maps by implementing `Word Count` under explicit constraints.
+- It is important because `Word Count` strengthens the baseline coding discipline every other kata depends on.
 
 ## What you must submit for marking
 - `kata.go`

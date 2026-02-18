@@ -9,6 +9,10 @@ Implement:
 func LoadConfig(path string, envPrefix string) (map[string]string, error)
 ```
 
+### Learning goal
+- Expected work: Implement `Config Loader` idiomatically with strong control-flow clarity and edge-case correctness.
+- Why: `Config Loader` teaches core implementation habits that compound across all later katas.
+
 ## Rules / Expectations
 - load key=value lines
 - override with env
@@ -22,8 +26,8 @@ func LoadConfig(path string, envPrefix string) (map[string]string, error)
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Config Loader with constraints that make you practice env + file.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains env + file by implementing `Config Loader` under explicit constraints.
+- It is important because `Config Loader` strengthens the baseline coding discipline every other kata depends on.
 
 ## What you must submit for marking
 - `kata.go`

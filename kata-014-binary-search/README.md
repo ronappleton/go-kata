@@ -9,6 +9,10 @@ Implement:
 func BinarySearch[T ~int | ~int64 | ~float64 | ~string](sorted []T, target T) int
 ```
 
+### Learning goal
+- Expected work: Implement `Binary Search` by preserving core invariants and handling edge cases, not just happy-path output.
+- Why: `Binary Search` teaches complexity-aware correctness that impacts throughput and latency at scale.
+
 ## Rules / Expectations
 - return index or -1
 - empty => -1
@@ -20,8 +24,8 @@ func BinarySearch[T ~int | ~int64 | ~float64 | ~string](sorted []T, target T) in
 - [Go generics tutorial](https://go.dev/doc/tutorial/generics)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Binary Search with constraints that make you practice algorithms, generics.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains algorithms, generics by implementing `Binary Search` under explicit constraints.
+- It is important because `Binary Search` makes performance/correctness tradeoffs explicit and measurable.
 
 ## What you must submit for marking
 - `kata.go`

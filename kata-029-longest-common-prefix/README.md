@@ -9,6 +9,10 @@ Implement:
 func LongestCommonPrefix(items []string) string
 ```
 
+### Learning goal
+- Expected work: Implement `Longest Common Prefix` by preserving core invariants and handling edge cases, not just happy-path output.
+- Why: `Longest Common Prefix` teaches complexity-aware correctness that impacts throughput and latency at scale.
+
 ## Rules / Expectations
 - empty => empty
 - single => itself
@@ -22,8 +26,8 @@ func LongestCommonPrefix(items []string) string
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Longest Common Prefix with constraints that make you practice strings.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains strings by implementing `Longest Common Prefix` under explicit constraints.
+- It is important because `Longest Common Prefix` makes performance/correctness tradeoffs explicit and measurable.
 
 ## What you must submit for marking
 - `kata.go`

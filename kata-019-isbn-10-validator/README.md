@@ -9,6 +9,10 @@ Implement:
 func IsValidISBN10(s string) bool
 ```
 
+### Learning goal
+- Expected work: Implement `ISBN-10 Validator` by preserving core invariants and handling edge cases, not just happy-path output.
+- Why: `ISBN-10 Validator` teaches complexity-aware correctness that impacts throughput and latency at scale.
+
 ## Rules / Expectations
 - allow hyphens/spaces
 - X allowed as last digit meaning 10
@@ -20,8 +24,8 @@ func IsValidISBN10(s string) bool
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing ISBN-10 Validator with constraints that make you practice checksums.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains checksums by implementing `ISBN-10 Validator` under explicit constraints.
+- It is important because `ISBN-10 Validator` makes performance/correctness tradeoffs explicit and measurable.
 
 ## What you must submit for marking
 - `kata.go`

@@ -9,6 +9,10 @@ Implement:
 func Pipeline[T any](ctx context.Context, in <-chan T, stages ...func(context.Context, <-chan T) <-chan T) <-chan T
 ```
 
+### Learning goal
+- Expected work: Implement `Fan-in/Fan-out Pipeline` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
+- Why: `Fan-in/Fan-out Pipeline` teaches safe coordination patterns that prevent costly production race conditions.
+
 ## Rules / Expectations
 - compose stages in order
 - cancel cleanly
@@ -22,8 +26,8 @@ func Pipeline[T any](ctx context.Context, in <-chan T, stages ...func(context.Co
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Fan-in/Fan-out Pipeline with constraints that make you practice channels, composition.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains channels, composition by implementing `Fan-in/Fan-out Pipeline` under explicit constraints.
+- It is important because `Fan-in/Fan-out Pipeline` builds the synchronization discipline needed for safe parallel systems.
 
 ## What you must submit for marking
 - `kata.go`

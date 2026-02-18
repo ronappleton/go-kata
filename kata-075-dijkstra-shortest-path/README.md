@@ -9,6 +9,10 @@ Implement:
 func Kata75() error
 ```
 
+### Learning goal
+- Expected work: Implement `Dijkstra Shortest Path` by preserving core invariants and handling edge cases, not just happy-path output.
+- Why: `Dijkstra Shortest Path` teaches complexity-aware correctness that impacts throughput and latency at scale.
+
 ## Rules / Expectations
 - follow README spec
 - write tests
@@ -22,8 +26,8 @@ func Kata75() error
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Dijkstra Shortest Path with constraints that make you practice system design, integration boundaries, and robust testing.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains integration design, boundary handling, and robust testing by implementing `Dijkstra Shortest Path` under explicit constraints.
+- It is important because `Dijkstra Shortest Path` makes performance/correctness tradeoffs explicit and measurable.
 
 ## What you must submit for marking
 - `kata.go`

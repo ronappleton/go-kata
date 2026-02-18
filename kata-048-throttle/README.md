@@ -9,6 +9,10 @@ Implement:
 func Throttle(d time.Duration, in <-chan struct{}) <-chan struct{}
 ```
 
+### Learning goal
+- Expected work: Implement `Throttle` with clear coordination so concurrent work finishes without races, deadlocks, or goroutine leaks.
+- Why: `Throttle` teaches safe coordination patterns that prevent costly production race conditions.
+
 ## Rules / Expectations
 - max 1 event per period
 - drop extras
@@ -19,8 +23,8 @@ func Throttle(d time.Duration, in <-chan struct{}) <-chan struct{}
 - [Go time package](https://pkg.go.dev/time)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Throttle with constraints that make you practice time, channels.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains time, channels by implementing `Throttle` under explicit constraints.
+- It is important because `Throttle` builds the synchronization discipline needed for safe parallel systems.
 
 ## What you must submit for marking
 - `kata.go`

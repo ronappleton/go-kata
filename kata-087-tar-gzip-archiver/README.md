@@ -9,6 +9,10 @@ Implement:
 func ArchiveTGZ(srcDir string, w io.Writer) error
 ```
 
+### Learning goal
+- Expected work: Implement `Tar/Gzip Archiver` idiomatically with strong control-flow clarity and edge-case correctness.
+- Why: `Tar/Gzip Archiver` teaches core implementation habits that compound across all later katas.
+
 ## Rules / Expectations
 - recursive archive
 - preserve relative paths
@@ -21,8 +25,8 @@ func ArchiveTGZ(srcDir string, w io.Writer) error
 - [Go compress/gzip package](https://pkg.go.dev/compress/gzip)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Tar/Gzip Archiver with constraints that make you practice archive/tar, compress/gzip.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains archive/tar, compress/gzip by implementing `Tar/Gzip Archiver` under explicit constraints.
+- It is important because `Tar/Gzip Archiver` strengthens the baseline coding discipline every other kata depends on.
 
 ## What you must submit for marking
 - `kata.go`

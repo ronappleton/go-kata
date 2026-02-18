@@ -9,6 +9,10 @@ Implement:
 func SHA256File(path string) (string, error)
 ```
 
+### Learning goal
+- Expected work: Implement `File Integrity Checker` with strict validation and byte-level correctness for all cryptographic operations.
+- Why: `File Integrity Checker` teaches security precision, where small mistakes can become real vulnerabilities.
+
 ## Rules / Expectations
 - stream file
 - hex digest
@@ -22,8 +26,8 @@ func SHA256File(path string) (string, error)
 - [Go crypto/sha256 package](https://pkg.go.dev/crypto/sha256)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing File Integrity Checker with constraints that make you practice io, crypto/sha256.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains io, crypto/sha256 by implementing `File Integrity Checker` under explicit constraints.
+- It is important because `File Integrity Checker` reflects production security code, where correctness mistakes can become incidents.
 
 ## What you must submit for marking
 - `kata.go`

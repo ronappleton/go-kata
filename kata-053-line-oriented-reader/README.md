@@ -9,6 +9,10 @@ Implement:
 func ReadLines(r io.Reader, maxLine int) ([]string, error)
 ```
 
+### Learning goal
+- Expected work: Implement `Line-Oriented Reader` as strict input transformation logic that accepts valid data and rejects malformed input.
+- Why: `Line-Oriented Reader` teaches strict boundary handling so malformed input cannot silently corrupt results.
+
 ## Rules / Expectations
 - error if any line exceeds maxLine
 - keep line content only
@@ -22,8 +26,8 @@ func ReadLines(r io.Reader, maxLine int) ([]string, error)
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Line-Oriented Reader with constraints that make you practice bufio.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains bufio by implementing `Line-Oriented Reader` under explicit constraints.
+- It is important because `Line-Oriented Reader` builds strict parser habits that prevent downstream data and logic errors.
 
 ## What you must submit for marking
 - `kata.go`

@@ -9,6 +9,10 @@ Implement:
 func NewContainer() *Container
 ```
 
+### Learning goal
+- Expected work: Implement `Plugin-free DI Container` as a composable abstraction with explicit contracts and testable behavior.
+- Why: `Plugin-free DI Container` teaches maintainable design through explicit contracts and low coupling.
+
 ## Rules / Expectations
 - Register(name, ctor)
 - Resolve(name)
@@ -20,8 +24,8 @@ func NewContainer() *Container
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Plugin-free DI Container with constraints that make you practice design.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains design by implementing `Plugin-free DI Container` under explicit constraints.
+- It is important because `Plugin-free DI Container` develops design choices that improve extensibility and testability over time.
 
 ## What you must submit for marking
 - `kata.go`

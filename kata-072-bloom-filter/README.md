@@ -9,6 +9,10 @@ Implement:
 func Kata72() error
 ```
 
+### Learning goal
+- Expected work: Implement `Bloom Filter` by preserving core invariants and handling edge cases, not just happy-path output.
+- Why: `Bloom Filter` teaches complexity-aware correctness that impacts throughput and latency at scale.
+
 ## Rules / Expectations
 - follow README spec
 - write tests
@@ -21,8 +25,8 @@ func Kata72() error
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Bloom Filter with constraints that make you practice system design, integration boundaries, and robust testing.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains integration design, boundary handling, and robust testing by implementing `Bloom Filter` under explicit constraints.
+- It is important because `Bloom Filter` makes performance/correctness tradeoffs explicit and measurable.
 
 ## What you must submit for marking
 - `kata.go`

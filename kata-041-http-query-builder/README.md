@@ -9,6 +9,10 @@ Implement:
 func BuildQuery(params map[string][]string) string
 ```
 
+### Learning goal
+- Expected work: Implement `HTTP Query Builder` as boundary-focused HTTP logic with explicit parsing, status handling, and deterministic responses.
+- Why: `HTTP Query Builder` teaches service-edge correctness, where request/response semantics directly drive reliability.
+
 ## Rules / Expectations
 - keys sorted
 - values preserve given order
@@ -21,8 +25,8 @@ func BuildQuery(params map[string][]string) string
 - [Go net package](https://pkg.go.dev/net)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing HTTP Query Builder with constraints that make you practice net/url.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains net/url by implementing `HTTP Query Builder` under explicit constraints.
+- It is important because `HTTP Query Builder` maps directly to production HTTP boundaries and failure handling.
 
 ## What you must submit for marking
 - `kata.go`

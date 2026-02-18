@@ -9,6 +9,10 @@ Implement:
 func Factorial(n int) (int, error)
 ```
 
+### Learning goal
+- Expected work: Implement `Factorial` idiomatically with strong control-flow clarity and edge-case correctness.
+- Why: `Factorial` teaches core implementation habits that compound across all later katas.
+
 ## Rules / Expectations
 - n<0 => error
 - 0 => 1
@@ -20,8 +24,8 @@ func Factorial(n int) (int, error)
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Factorial with constraints that make you practice recursion vs loop, overflow checks.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains recursion vs loop, overflow checks by implementing `Factorial` under explicit constraints.
+- It is important because `Factorial` strengthens the baseline coding discipline every other kata depends on.
 
 ## What you must submit for marking
 - `kata.go`

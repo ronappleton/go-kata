@@ -9,6 +9,10 @@ Implement:
 func Concat(parts []string) string
 ```
 
+### Learning goal
+- Expected work: Implement `Benchmarking Kata` as a composable abstraction with explicit contracts and testable behavior.
+- Why: `Benchmarking Kata` teaches maintainable design through explicit contracts and low coupling.
+
 ## Rules / Expectations
 - write 2 benchmarks: naive vs builder
 - compare allocations
@@ -22,8 +26,8 @@ func Concat(parts []string) string
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Benchmarking Kata with constraints that make you practice testing/benchmark.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains testing/benchmark by implementing `Benchmarking Kata` under explicit constraints.
+- It is important because `Benchmarking Kata` develops design choices that improve extensibility and testability over time.
 
 ## What you must submit for marking
 - `kata.go`

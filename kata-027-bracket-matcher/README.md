@@ -9,6 +9,10 @@ Implement:
 func IsBalanced(s string) bool
 ```
 
+### Learning goal
+- Expected work: Implement `Bracket Matcher` idiomatically with strong control-flow clarity and edge-case correctness.
+- Why: `Bracket Matcher` teaches core implementation habits that compound across all later katas.
+
 ## Rules / Expectations
 - supports (), {}, []
 - ignores other chars
@@ -22,8 +26,8 @@ func IsBalanced(s string) bool
 - [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- This kata is about implementing Bracket Matcher with constraints that make you practice stacks, runes.
-- It is important because these same tradeoffs appear in production: correctness at boundaries, predictable behavior under edge cases, and maintainable tests.
+- This kata trains stacks, runes by implementing `Bracket Matcher` under explicit constraints.
+- It is important because `Bracket Matcher` strengthens the baseline coding discipline every other kata depends on.
 
 ## What you must submit for marking
 - `kata.go`
