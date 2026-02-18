@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="840" viewBox="0 0 1400 840">
+  <rect width="1400" height="840" fill="#0b1220"/>
+  <rect x="20" y="20" width="1360" height="800" rx="20" fill="#111b2d"/>
+
+  <rect x="44" y="44" width="320" height="752" rx="16" fill="#152238" stroke="#35517f"/>
+  <text x="66" y="84" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="27" fill="#e2e8f0" font-weight="700">Learner Studio</text>
+  <text x="66" y="110" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="14" fill="#94a3b8">Dark mode - Documentation tab</text>
+  <rect x="66" y="136" width="276" height="118" rx="12" fill="#1b2b44" stroke="#35517f"/>
+  <text x="82" y="164" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="15" fill="#bfdbfe" font-weight="700">Foundations</text>
+  <text x="82" y="188" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="12" fill="#cbd5e1">7/20 complete (35%)</text>
+  <text x="82" y="210" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="12" fill="#cbd5e1">Milestone: Building consistency</text>
+
+  <rect x="386" y="44" width="970" height="752" rx="16" fill="#152238" stroke="#35517f"/>
+  <text x="416" y="82" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="25" fill="#e2e8f0" font-weight="700">001 - FizzBuzz</text>
+  <text x="416" y="106" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="14" fill="#94a3b8">Foundations - loops, conditionals, slices</text>
+
+  <rect x="974" y="58" width="92" height="34" rx="8" fill="#1b2b44" stroke="#35517f"/>
+  <text x="1004" y="80" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#e2e8f0">Save</text>
+  <rect x="1076" y="58" width="118" height="34" rx="8" fill="#1d4ed8"/>
+  <text x="1101" y="80" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#ffffff">Run Tests</text>
+  <rect x="1204" y="58" width="132" height="34" rx="8" fill="#c2410c"/>
+  <text x="1222" y="80" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#ffffff">Ask AI to Mark</text>
+
+  <rect x="416" y="122" width="912" height="74" rx="12" fill="#1b2b44" stroke="#35517f"/>
+  <text x="436" y="150" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="14" fill="#bfdbfe" font-weight="700">Learning Coach</text>
+  <text x="436" y="174" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#cbd5e1">You have 14/100 complete. Stay in one kata until tests pass and you can explain why.</text>
+
+  <rect x="416" y="210" width="146" height="34" rx="16" fill="#1d4ed8" stroke="#35517f"/>
+  <text x="448" y="232" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#ffffff">Documentation</text>
+  <rect x="572" y="210" width="122" height="34" rx="16" fill="#1b2b44" stroke="#35517f"/>
+  <text x="607" y="232" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#cbd5e1">Workbench</text>
+
+  <rect x="416" y="258" width="912" height="514" rx="12" fill="#111b2d" stroke="#35517f"/>
+  <text x="438" y="286" font-family="JetBrains Mono, Menlo, monospace" font-size="13" fill="#e2e8f0">README.md</text>
+  <text x="438" y="312" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#93c5fd">## What you are practicing</text>
+  <text x="438" y="334" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#cbd5e1">Build predictable mapping logic from numeric input to string output.</text>
+  <text x="438" y="366" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#93c5fd">## Why it matters</text>
+  <text x="438" y="388" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#cbd5e1">This is the same control-flow discipline used in pricing rules and API validation.</text>
+  <text x="438" y="420" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#93c5fd">## When correct</text>
+  <text x="438" y="442" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#cbd5e1">- n &lt;= 0 returns empty slice (non-nil)</text>
+  <text x="438" y="464" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#cbd5e1">- multiples of 3 and 5 return FizzBuzz</text>
+  <text x="438" y="496" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#93c5fd">## Tips</text>
+  <text x="438" y="518" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#cbd5e1">- Prove one rule at a time with tests.</text>
+  <text x="438" y="540" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#cbd5e1">- Keep condition order intentional and explicit.</text>
+</svg>

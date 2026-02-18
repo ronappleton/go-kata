@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="840" viewBox="0 0 1400 840">
+  <rect width="1400" height="840" fill="#0b1220"/>
+  <rect x="20" y="20" width="1360" height="800" rx="20" fill="#111b2d"/>
+
+  <rect x="44" y="44" width="320" height="752" rx="16" fill="#152238" stroke="#35517f"/>
+  <text x="66" y="84" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="27" fill="#e2e8f0" font-weight="700">Learner Studio</text>
+  <text x="66" y="110" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="14" fill="#94a3b8">Dark mode - Workbench tab</text>
+
+  <rect x="386" y="44" width="970" height="752" rx="16" fill="#152238" stroke="#35517f"/>
+  <text x="416" y="82" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="25" fill="#e2e8f0" font-weight="700">001 - FizzBuzz</text>
+  <text x="416" y="106" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="14" fill="#94a3b8">Foundations - tests left, solution right</text>
+
+  <rect x="416" y="210" width="146" height="34" rx="16" fill="#1b2b44" stroke="#35517f"/>
+  <text x="448" y="232" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#cbd5e1">Documentation</text>
+  <rect x="572" y="210" width="122" height="34" rx="16" fill="#1d4ed8" stroke="#35517f"/>
+  <text x="607" y="232" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" fill="#ffffff">Workbench</text>
+
+  <rect x="416" y="258" width="448" height="308" rx="12" fill="#111b2d" stroke="#35517f"/>
+  <text x="436" y="284" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="14" fill="#e2e8f0" font-weight="700">Tests</text>
+  <rect x="436" y="298" width="408" height="26" rx="8" fill="#1b2b44" stroke="#35517f"/>
+  <text x="448" y="316" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="12" fill="#94a3b8">Find in tests...</text>
+  <rect x="436" y="334" width="408" height="214" rx="10" fill="#152238" stroke="#243a5f"/>
+  <rect x="436" y="334" width="52" height="214" fill="#1b2b44"/>
+  <text x="471" y="356" font-family="JetBrains Mono, Menlo, monospace" font-size="11" fill="#94a3b8" text-anchor="end">1</text>
+  <text x="471" y="376" font-family="JetBrains Mono, Menlo, monospace" font-size="11" fill="#94a3b8" text-anchor="end">2</text>
+  <text x="498" y="356" font-family="JetBrains Mono, Menlo, monospace" font-size="11" fill="#cbd5e1">func TestFizzBuzz(t *testing.T) {</text>
+  <text x="498" y="376" font-family="JetBrains Mono, Menlo, monospace" font-size="11" fill="#cbd5e1">  // behavior checks</text>
+
+  <rect x="880" y="258" width="448" height="308" rx="12" fill="#111b2d" stroke="#35517f"/>
+  <text x="900" y="284" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="14" fill="#e2e8f0" font-weight="700">Code (Your Solution)</text>
+  <rect x="900" y="298" width="408" height="26" rx="8" fill="#1b2b44" stroke="#35517f"/>
+  <text x="912" y="316" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="12" fill="#94a3b8">Find in solution...</text>
+  <rect x="900" y="334" width="408" height="214" rx="10" fill="#152238" stroke="#243a5f"/>
+  <rect x="900" y="334" width="52" height="214" fill="#1b2b44"/>
+  <text x="935" y="356" font-family="JetBrains Mono, Menlo, monospace" font-size="11" fill="#94a3b8" text-anchor="end">1</text>
+  <text x="935" y="376" font-family="JetBrains Mono, Menlo, monospace" font-size="11" fill="#94a3b8" text-anchor="end">2</text>
+  <text x="962" y="356" font-family="JetBrains Mono, Menlo, monospace" font-size="11" fill="#cbd5e1">func FizzBuzz(n int) []string {</text>
+  <text x="962" y="376" font-family="JetBrains Mono, Menlo, monospace" font-size="11" fill="#cbd5e1">  result := []string{}</text>
+
+  <rect x="416" y="582" width="912" height="94" rx="12" fill="#111b2d" stroke="#35517f"/>
+  <text x="438" y="608" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="14" fill="#e2e8f0" font-weight="700">Last Test Run</text>
+  <text x="438" y="632" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#fca5a5">FAIL</text>
+  <text x="438" y="652" font-family="JetBrains Mono, Menlo, monospace" font-size="12" fill="#cbd5e1">Coach hint: Focus on the first mismatch only, then rerun.</text>
+
+  <rect x="416" y="690" width="912" height="82" rx="12" fill="#111b2d" stroke="#35517f"/>
+  <text x="438" y="716" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="14" fill="#e2e8f0" font-weight="700">Failure Insights</text>
+  <text x="438" y="740" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="12" fill="#cbd5e1">Expected: FizzBuzz, Actual: BuzzBuzz</text>
+</svg>

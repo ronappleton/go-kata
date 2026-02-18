@@ -10,4 +10,4 @@ Use `track.json` as the source of truth for:
 
 Category folders live under `categories/` and document category-level learning intent.
 
-The raw kata exercise folders remain in the repo root (`kata-001-*` through `kata-100-*`).
+The raw kata exercise folders live under the top-level `katas/` directory (`katas/kata-001-*` through `katas/kata-100-*`).

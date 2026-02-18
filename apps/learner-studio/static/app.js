@@ -4,10 +4,15 @@ const state = {
   selectedKata: null,
   nextRecommended: null,
   activeTab: "docs",
+  activeEditor: "code",
   theme: "light",
   dirty: false,
   formatting: false,
   autoFormatTimer: null,
+  search: {
+    tests: { query: "", matches: [], index: -1 },
+    code: { query: "", matches: [], index: -1 },
+  },
 };
 
 const el = {
@@ -19,9 +24,21 @@ const el = {
   nextRecommendation: document.getElementById("next-recommendation"),
   readmeView: document.getElementById("readme-view"),
   testsEditor: document.getElementById("tests-editor"),
+  testsLines: document.getElementById("tests-lines"),
   testsHighlight: document.getElementById("tests-highlight"),
+  testsSearchInput: document.getElementById("tests-search-input"),
+  testsSearchPrev: document.getElementById("tests-search-prev"),
+  testsSearchNext: document.getElementById("tests-search-next"),
+  testsSearchClear: document.getElementById("tests-search-clear"),
+  testsSearchCount: document.getElementById("tests-search-count"),
   codeEditor: document.getElementById("code-editor"),
+  codeLines: document.getElementById("code-lines"),
   codeHighlight: document.getElementById("code-highlight"),
+  codeSearchInput: document.getElementById("code-search-input"),
+  codeSearchPrev: document.getElementById("code-search-prev"),
+  codeSearchNext: document.getElementById("code-search-next"),
+  codeSearchClear: document.getElementById("code-search-clear"),
+  codeSearchCount: document.getElementById("code-search-count"),
   runOutput: document.getElementById("run-output"),
   failureInsights: document.getElementById("failure-insights"),
   dirtyIndicator: document.getElementById("dirty-indicator"),
@@ -50,8 +67,25 @@ const el = {
 };
 
 const editors = {
-  tests: { input: el.testsEditor, layer: el.testsHighlight },
-  code: { input: el.codeEditor, layer: el.codeHighlight },
+  tests: { input: el.testsEditor, layer: el.testsHighlight, lines: el.testsLines },
+  code: { input: el.codeEditor, layer: el.codeHighlight, lines: el.codeLines },
+};
+
+const searchUI = {
+  tests: {
+    input: el.testsSearchInput,
+    prev: el.testsSearchPrev,
+    next: el.testsSearchNext,
+    clear: el.testsSearchClear,
+    count: el.testsSearchCount,
+  },
+  code: {
+    input: el.codeSearchInput,
+    prev: el.codeSearchPrev,
+    next: el.codeSearchNext,
+    clear: el.codeSearchClear,
+    count: el.codeSearchCount,
+  },
 };
 
 const GO_KEYWORDS = /\b(package|import|func|return|if|else|for|range|switch|case|default|type|struct|interface|map|chan|select|go|defer|var|const|break|continue|fallthrough)\b/g;
@@ -63,8 +97,12 @@ boot();
 async function boot() {
   initTheme();
   wireEvents();
+  setupSearch("tests");
+  setupSearch("code");
   setupEditor("tests");
   setupEditor("code");
+  renderSearchCount("tests");
+  renderSearchCount("code");
   await refreshTrack();
   const first = firstKataID();
   if (first) {
@@ -127,6 +165,12 @@ function wireEvents() {
 
     const ctrlOrMeta = event.ctrlKey || event.metaKey;
 
+    if (ctrlOrMeta && event.key.toLowerCase() === "f") {
+      event.preventDefault();
+      focusSearch(state.activeEditor || "code");
+      return;
+    }
+
     if (ctrlOrMeta && event.key.toLowerCase() === "s") {
       event.preventDefault();
       await onSave();
@@ -142,17 +186,57 @@ function wireEvents() {
     if (event.altKey && event.shiftKey && event.key.toLowerCase() === "f") {
       event.preventDefault();
       await onFormat("both");
+      return;
     }
+
+    if (event.key === "F3") {
+      event.preventDefault();
+      moveSearchMatch(state.activeEditor || "code", event.shiftKey ? -1 : 1);
+    }
+  });
+}
+
+function setupSearch(name) {
+  const ui = searchUI[name];
+  ui.input.addEventListener("input", () => {
+    state.search[name].query = ui.input.value;
+    refreshSearchState(name, { keepIndex: false });
+    refreshHighlight(name);
+  });
+
+  ui.input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      moveSearchMatch(name, event.shiftKey ? -1 : 1);
+      return;
+    }
+    if (event.key === "Escape") {
+      event.preventDefault();
+      clearSearch(name);
+      editors[name].input.focus();
+    }
+  });
+
+  ui.prev.addEventListener("click", () => moveSearchMatch(name, -1));
+  ui.next.addEventListener("click", () => moveSearchMatch(name, 1));
+  ui.clear.addEventListener("click", () => {
+    clearSearch(name);
+    editors[name].input.focus();
   });
 }
 
 function setupEditor(name) {
   const editor = editors[name];
+  editor.input.addEventListener("focus", () => {
+    state.activeEditor = name;
+  });
+
   editor.input.addEventListener("input", () => {
     if (!state.selectedKata) {
       return;
     }
     state.dirty = true;
+    refreshSearchState(name);
     renderDirtyState();
     refreshHighlight(name);
   });
@@ -188,6 +272,7 @@ function syncScroll(name) {
   const editor = editors[name];
   editor.layer.scrollTop = editor.input.scrollTop;
   editor.layer.scrollLeft = editor.input.scrollLeft;
+  editor.lines.scrollTop = editor.input.scrollTop;
 }
 
 function initTheme() {
@@ -215,6 +300,93 @@ function scheduleAutoFormat(target) {
   state.autoFormatTimer = setTimeout(async () => {
     await formatEditors({ silent: true, target });
   }, 180);
+}
+
+function focusSearch(name) {
+  const ui = searchUI[name] || searchUI.code;
+  ui.input.focus();
+  ui.input.select();
+}
+
+function clearSearch(name) {
+  state.search[name].query = "";
+  state.search[name].matches = [];
+  state.search[name].index = -1;
+  searchUI[name].input.value = "";
+  renderSearchCount(name);
+  refreshHighlight(name);
+}
+
+function refreshSearchState(name, { keepIndex = true } = {}) {
+  const entry = state.search[name];
+  const previousIndex = entry.index;
+  entry.matches = findMatches(editors[name].input.value, entry.query);
+
+  if (entry.matches.length === 0) {
+    entry.index = -1;
+  } else if (keepIndex && previousIndex >= 0) {
+    entry.index = Math.min(previousIndex, entry.matches.length - 1);
+  } else {
+    entry.index = -1;
+  }
+
+  renderSearchCount(name);
+}
+
+function renderSearchCount(name) {
+  const entry = state.search[name];
+  const ui = searchUI[name];
+  const total = entry.matches.length;
+  const current = total > 0 && entry.index >= 0 ? entry.index + 1 : 0;
+  ui.count.textContent = `${current}/${total}`;
+  ui.prev.disabled = total === 0;
+  ui.next.disabled = total === 0;
+  ui.clear.disabled = entry.query.length === 0;
+}
+
+function moveSearchMatch(name, direction) {
+  const entry = state.search[name];
+  if (entry.matches.length === 0) {
+    renderSearchCount(name);
+    return;
+  }
+
+  if (entry.index < 0) {
+    entry.index = direction >= 0 ? 0 : entry.matches.length - 1;
+  } else {
+    const total = entry.matches.length;
+    entry.index = (entry.index + direction + total) % total;
+  }
+
+  const match = entry.matches[entry.index];
+  const input = editors[name].input;
+  state.activeEditor = name;
+  input.focus();
+  input.setSelectionRange(match.start, match.end);
+  renderSearchCount(name);
+}
+
+function findMatches(source, query) {
+  const normalized = query.trim();
+  if (!normalized) {
+    return [];
+  }
+
+  const lowerSource = source.toLowerCase();
+  const lowerQuery = normalized.toLowerCase();
+  const matches = [];
+  let from = 0;
+
+  while (from <= lowerSource.length) {
+    const start = lowerSource.indexOf(lowerQuery, from);
+    if (start === -1) {
+      break;
+    }
+    matches.push({ start, end: start + normalized.length });
+    from = start + Math.max(1, normalized.length);
+  }
+
+  return matches;
 }
 
 function setTab(tab) {
@@ -303,6 +475,7 @@ async function loadKata(kataID) {
   const kata = await api(`/api/kata?id=${encodeURIComponent(kataID)}`);
   state.selectedKataID = kata.id;
   state.selectedKata = kata;
+  state.activeEditor = "code";
   state.dirty = false;
 
   el.kataTitle.textContent = `${kata.id} - ${kata.title}`;
@@ -310,6 +483,8 @@ async function loadKata(kataID) {
   el.readmeView.textContent = kata.readme;
   setEditorValue("tests", kata.tests);
   setEditorValue("code", kata.code);
+  clearSearch("tests");
+  clearSearch("code");
   el.runOutput.textContent = formatProgress(kata.progress);
   renderFailureInsights([]);
   renderDirtyState();
@@ -548,17 +723,20 @@ async function formatEditors({ silent = false, target = "both" } = {}) {
 function setEditorValue(name, value) {
   const editor = editors[name];
   editor.input.value = value || "";
+  refreshSearchState(name);
   refreshHighlight(name);
 }
 
 function refreshHighlight(name) {
   const editor = editors[name];
   const source = editor.input.value || "";
-  editor.layer.innerHTML = `${highlightGo(source)}\n`;
+  const query = state.search[name].query;
+  editor.layer.innerHTML = `${highlightGo(source, query)}\n`;
+  editor.lines.textContent = `${buildLineNumbers(source)}\n`;
   syncScroll(name);
 }
 
-function highlightGo(source) {
+function highlightGo(source, query = "") {
   if (!source) {
     return "";
   }
@@ -588,7 +766,39 @@ function highlightGo(source) {
     return `<span class="tok-string">${token.text}</span>`;
   });
 
-  return escaped;
+  return highlightSearchInHTML(escaped, query);
+}
+
+function highlightSearchInHTML(html, query) {
+  const normalized = query.trim();
+  if (!normalized) {
+    return html;
+  }
+
+  const escapedQuery = escapeHTML(normalized);
+  const matcher = new RegExp(escapeRegex(escapedQuery), "gi");
+  const parts = html.split(/(<[^>]+>)/g);
+  for (let i = 0; i < parts.length; i++) {
+    const part = parts[i];
+    if (!part || part.startsWith("<")) {
+      continue;
+    }
+    parts[i] = part.replace(matcher, (match) => `<span class="tok-find">${match}</span>`);
+  }
+  return parts.join("");
+}
+
+function buildLineNumbers(source) {
+  const lines = source.split("\n").length;
+  const nums = [];
+  for (let i = 1; i <= lines; i++) {
+    nums.push(String(i));
+  }
+  return nums.join("\n");
+}
+
+function escapeRegex(input) {
+  return input.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 function toggleModal(node, visible) {

@@ -11,6 +11,8 @@ Local browser-based learning IDE for this kata repo.
   - `Workbench` tab (tests left, code right)
 - theme toggle with persisted dark mode
 - syntax-highlighted Go editors (tests + solution panels)
+- synced line numbers in both editors
+- in-editor search with next/previous match navigation
 - auto-format on blur for each editor plus manual format buttons
 - save/run keyboard shortcuts for fast practice loops
 - `Run Tests` button wired to `go test -json`
@@ -31,6 +33,8 @@ Local browser-based learning IDE for this kata repo.
 - `Ctrl/Cmd+S`: save current kata files
 - `Ctrl/Cmd+Enter`: run tests
 - `Alt+Shift+F`: format both editors
+- `Ctrl/Cmd+F`: focus search for current editor
+- `F3` / `Shift+F3`: next/previous search match
 - `Tab`: insert a tab in editor
 - `Esc`: close open modal
 

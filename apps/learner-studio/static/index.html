@@ -44,7 +44,7 @@
         <button id="tab-docs" class="tab active">Documentation</button>
         <button id="tab-workbench" class="tab">Workbench</button>
       </div>
-      <p class="shortcut-hint">Shortcuts: <kbd>Ctrl/Cmd+S</kbd> Save, <kbd>Ctrl/Cmd+Enter</kbd> Run tests, <kbd>Alt+Shift+F</kbd> Format both, <kbd>Tab</kbd> insert tab, <kbd>Esc</kbd> close modal</p>
+      <p class="shortcut-hint">Shortcuts: <kbd>Ctrl/Cmd+S</kbd> Save, <kbd>Ctrl/Cmd+Enter</kbd> Run tests, <kbd>Alt+Shift+F</kbd> Format both, <kbd>Ctrl/Cmd+F</kbd> Find in editor, <kbd>Tab</kbd> insert tab, <kbd>Esc</kbd> close modal</p>
 
       <section id="panel-docs" class="panel docs-panel active">
         <pre id="readme-view" class="doc-view"></pre>
@@ -58,7 +58,15 @@
               <button id="format-tests-btn" class="btn tiny">Format</button>
               <button id="reset-tests-btn" class="btn tiny">Reload</button>
             </div>
+            <div class="pane-tools">
+              <input id="tests-search-input" class="search-input" type="search" placeholder="Find in tests..." />
+              <button id="tests-search-prev" class="btn tiny">Prev</button>
+              <button id="tests-search-next" class="btn tiny">Next</button>
+              <button id="tests-search-clear" class="btn tiny">Clear</button>
+              <span id="tests-search-count" class="search-count">0/0</span>
+            </div>
             <div class="editor-wrap">
+              <pre id="tests-lines" class="line-number-layer"></pre>
               <pre id="tests-highlight" class="highlight-layer"></pre>
               <textarea id="tests-editor" class="highlight-input" spellcheck="false"></textarea>
             </div>
@@ -69,7 +77,15 @@
               <button id="format-code-btn" class="btn tiny">Format</button>
               <span id="dirty-indicator" class="pill">Saved</span>
             </div>
+            <div class="pane-tools">
+              <input id="code-search-input" class="search-input" type="search" placeholder="Find in solution..." />
+              <button id="code-search-prev" class="btn tiny">Prev</button>
+              <button id="code-search-next" class="btn tiny">Next</button>
+              <button id="code-search-clear" class="btn tiny">Clear</button>
+              <span id="code-search-count" class="search-count">0/0</span>
+            </div>
             <div class="editor-wrap">
+              <pre id="code-lines" class="line-number-layer"></pre>
               <pre id="code-highlight" class="highlight-layer"></pre>
               <textarea id="code-editor" class="highlight-input" spellcheck="false" placeholder="Select a kata to start coding..."></textarea>
             </div>

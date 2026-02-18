@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -100,5 +101,48 @@ func TestParseReadmeMetadata(t *testing.T) {
 	}
 	if !reflect.DeepEqual(meta.rules, wantRules) {
 		t.Fatalf("rules mismatch: got %v, want %v", meta.rules, wantRules)
+	}
+}
+
+func TestScanKataDirsSupportsTopLevelKatasFolder(t *testing.T) {
+	repoRoot := t.TempDir()
+
+	katasDir := filepath.Join(repoRoot, "katas")
+	if err := os.MkdirAll(filepath.Join(katasDir, "kata-001-fizzbuzz"), 0o755); err != nil {
+		t.Fatalf("create nested kata dir: %v", err)
+	}
+	if err := os.MkdirAll(filepath.Join(repoRoot, "kata-002-sum"), 0o755); err != nil {
+		t.Fatalf("create root kata dir: %v", err)
+	}
+
+	got, err := scanKataDirs(repoRoot)
+	if err != nil {
+		t.Fatalf("scanKataDirs returned error: %v", err)
+	}
+
+	if got["001"] != filepath.Join("katas", "kata-001-fizzbuzz") {
+		t.Fatalf("unexpected path for 001: %q", got["001"])
+	}
+	if got["002"] != "kata-002-sum" {
+		t.Fatalf("unexpected path for 002: %q", got["002"])
+	}
+}
+
+func TestScanKataDirsRejectsDuplicateIDsAcrossRoots(t *testing.T) {
+	repoRoot := t.TempDir()
+
+	if err := os.MkdirAll(filepath.Join(repoRoot, "katas", "kata-001-fizzbuzz"), 0o755); err != nil {
+		t.Fatalf("create nested kata dir: %v", err)
+	}
+	if err := os.MkdirAll(filepath.Join(repoRoot, "kata-001-fizzbuzz-copy"), 0o755); err != nil {
+		t.Fatalf("create root kata dir: %v", err)
+	}
+
+	_, err := scanKataDirs(repoRoot)
+	if err == nil {
+		t.Fatalf("expected duplicate ID error, got nil")
+	}
+	if !strings.Contains(err.Error(), "duplicate kata id 001") {
+		t.Fatalf("unexpected error: %v", err)
 	}
 }

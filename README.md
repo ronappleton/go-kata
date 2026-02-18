@@ -28,11 +28,22 @@ A learning IDE flow:
 - tests left, code right
 - dark mode toggle for long sessions
 - syntax highlighting in test/code editors
+- line numbers + in-editor search
 - auto-format + keyboard shortcuts for quick loops
 - run tests, pass modal, AI marking
 - next recommended kata guidance
 
-![Learner Studio in operation](assets/screenshots/learner-studio-operation.svg)
+#### Documentation tab
+
+| Light mode | Dark mode |
+|---|---|
+| ![Learner Studio documentation tab in light mode](assets/screenshots/learner-studio-docs-light.svg) | ![Learner Studio documentation tab in dark mode](assets/screenshots/learner-studio-docs-dark.svg) |
+
+#### Workbench tab
+
+| Light mode | Dark mode |
+|---|---|
+| ![Learner Studio workbench tab in light mode](assets/screenshots/learner-studio-workbench-light.svg) | ![Learner Studio workbench tab in dark mode](assets/screenshots/learner-studio-workbench-dark.svg) |
 
 ## Quick start
 
@@ -78,7 +89,7 @@ CI runs the same script on pushes and pull requests via:
 
 ## Project structure
 
-- `kata-001-*` ... `kata-100-*`: self-contained kata folders (`kata.go`, `kata_test.go`, `README.md`, local `go.mod`)
+- `katas/kata-001-*` ... `katas/kata-100-*`: self-contained kata folders (`kata.go`, `kata_test.go`, `README.md`, local `go.mod`)
 - `tracks/go-core-100/`: category model and learning goals
 - `internal/learning/`: shared learning engine (catalog, runner, progress, marking)
 - `apps/learner-cli/`: terminal learning app

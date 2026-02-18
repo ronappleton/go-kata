@@ -108,7 +108,12 @@ func LoadTrack(trackConfigPath, repoRoot string) (Track, error) {
 				return Track{}, fmt.Errorf("category %q references missing kata %s", categoryCfg.ID, id)
 			}
 
-			slug := kataDirPattern.FindStringSubmatch(dirName)[2]
+			baseName := filepath.Base(dirName)
+			matches := kataDirPattern.FindStringSubmatch(baseName)
+			if len(matches) != 3 {
+				return Track{}, fmt.Errorf("invalid kata directory name %q", dirName)
+			}
+			slug := matches[2]
 			absDir := filepath.Join(repoRoot, dirName)
 			readmePath := filepath.Join(absDir, "README.md")
 
@@ -205,24 +210,45 @@ func NormalizeKataID(raw string) (string, error) {
 }
 
 func scanKataDirs(repoRoot string) (map[string]string, error) {
-	entries, err := os.ReadDir(repoRoot)
-	if err != nil {
-		return nil, fmt.Errorf("read repo root: %w", err)
-	}
-
 	out := make(map[string]string)
-	for _, entry := range entries {
-		if !entry.IsDir() {
-			continue
-		}
-
-		matches := kataDirPattern.FindStringSubmatch(entry.Name())
-		if len(matches) != 3 {
-			continue
-		}
-
-		out[matches[1]] = entry.Name()
+	searchRoots := []string{
+		filepath.Join(repoRoot, "katas"),
+		repoRoot,
 	}
+
+	for _, root := range searchRoots {
+		entries, err := os.ReadDir(root)
+		if err != nil {
+			if errors.Is(err, os.ErrNotExist) {
+				continue
+			}
+			return nil, fmt.Errorf("read kata directory root %q: %w", root, err)
+		}
+
+		for _, entry := range entries {
+			if !entry.IsDir() {
+				continue
+			}
+
+			matches := kataDirPattern.FindStringSubmatch(entry.Name())
+			if len(matches) != 3 {
+				continue
+			}
+
+			absDir := filepath.Join(root, entry.Name())
+			relDir, err := filepath.Rel(repoRoot, absDir)
+			if err != nil {
+				return nil, fmt.Errorf("resolve kata directory %q: %w", absDir, err)
+			}
+
+			id := matches[1]
+			if existing, exists := out[id]; exists && existing != relDir {
+				return nil, fmt.Errorf("duplicate kata id %s found in %s and %s", id, existing, relDir)
+			}
+			out[id] = relDir
+		}
+	}
+
 	return out, nil
 }
 
