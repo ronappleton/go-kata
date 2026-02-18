@@ -1,6 +1,6 @@
 # Services and Boundaries
 
-**Kata range:** `041-060`
+**Kata range:** `071-090`
 
 ## What you are building
 You are practicing HTTP, network, and service-boundary behavior with clear contracts and defensive error handling.

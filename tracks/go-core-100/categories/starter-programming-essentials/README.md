@@ -1,6 +1,6 @@
 # Starter: Programming Essentials
 
-**Kata range:** `101-110`
+**Kata range:** `001-010`
 
 ## What you are building
 You are learning to read a plain requirement and turn it into one clear function contract.

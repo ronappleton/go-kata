@@ -27,6 +27,7 @@ import (
 
 const (
 	defaultTrackConfigRelative = "tracks/go-core-100/track.json"
+	defaultPathwaysConfigPath  = "tracks/go-core-100/pathways.json"
 	defaultRunTimeoutSeconds   = 90
 	defaultOutputTailLines     = 100
 )
@@ -37,9 +38,41 @@ var embeddedStatic embed.FS
 type studioServer struct {
 	repoRoot string
 	track    catalog.Track
+	pathways []pathwayDefinition
 	store    *progress.Store
 	files    fs.FS
 	mu       sync.Mutex
+}
+
+type pathwayDefinition struct {
+	ID               string   `json:"id"`
+	Title            string   `json:"title"`
+	Description      string   `json:"description"`
+	Categories       []string `json:"categories"`
+	RecommendedModes []string `json:"recommended_modes"`
+	LevelOutcome     string   `json:"level_outcome"`
+}
+
+type pathwaysConfig struct {
+	Pathways []pathwayDefinition `json:"pathways"`
+}
+
+type pathwayResponseItem struct {
+	ID               string   `json:"id"`
+	Title            string   `json:"title"`
+	Description      string   `json:"description"`
+	RecommendedModes []string `json:"recommended_modes"`
+	LevelOutcome     string   `json:"level_outcome"`
+	Done             int      `json:"done"`
+	Total            int      `json:"total"`
+	Percent          int      `json:"percent"`
+	Status           string   `json:"status"`
+	NextKataID       string   `json:"next_kata_id,omitempty"`
+	NextKataTitle    string   `json:"next_kata_title,omitempty"`
+}
+
+type pathwaysResponse struct {
+	Items []pathwayResponseItem `json:"items"`
 }
 
 type trackResponse struct {
@@ -98,6 +131,10 @@ type saveRequest struct {
 	KataID string `json:"kata_id"`
 	Code   string `json:"code"`
 	Tests  string `json:"tests"`
+}
+
+type resetBuggyRequest struct {
+	KataID string `json:"kata_id"`
 }
 
 type runRequest struct {
@@ -210,6 +247,11 @@ func newStudioServer(repoRoot string) (*studioServer, error) {
 		return nil, err
 	}
 
+	pathways, err := loadPathways(filepath.Join(absRepoRoot, defaultPathwaysConfigPath))
+	if err != nil {
+		return nil, err
+	}
+
 	store := progress.NewStore(filepath.Join(absRepoRoot, ".learning", "progress.json"))
 	if _, err := store.Load(); err != nil {
 		return nil, fmt.Errorf("load progress: %w", err)
@@ -223,9 +265,37 @@ func newStudioServer(repoRoot string) (*studioServer, error) {
 	return &studioServer{
 		repoRoot: absRepoRoot,
 		track:    track,
+		pathways: pathways,
 		store:    store,
 		files:    staticFS,
 	}, nil
+}
+
+func loadPathways(path string) ([]pathwayDefinition, error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, fmt.Errorf("read pathways config: %w", err)
+	}
+
+	var cfg pathwaysConfig
+	if err := json.Unmarshal(data, &cfg); err != nil {
+		return nil, fmt.Errorf("parse pathways config: %w", err)
+	}
+
+	if len(cfg.Pathways) == 0 {
+		return nil, errors.New("pathways config must include at least one pathway")
+	}
+
+	for _, item := range cfg.Pathways {
+		if strings.TrimSpace(item.ID) == "" || strings.TrimSpace(item.Title) == "" {
+			return nil, errors.New("pathways config contains item with empty id/title")
+		}
+		if len(item.Categories) == 0 {
+			return nil, fmt.Errorf("pathway %q must include categories", item.ID)
+		}
+	}
+
+	return cfg.Pathways, nil
 }
 
 func (s *studioServer) routes() http.Handler {
@@ -236,9 +306,11 @@ func (s *studioServer) routes() http.Handler {
 	mux.HandleFunc("/styles.css", s.handleStaticFile("styles.css", "text/css; charset=utf-8"))
 
 	mux.HandleFunc("/api/track", s.handleTrack)
+	mux.HandleFunc("/api/pathways", s.handlePathways)
 	mux.HandleFunc("/api/kata", s.handleKata)
 	mux.HandleFunc("/api/learn", s.handleLearn)
 	mux.HandleFunc("/api/save", s.handleSave)
+	mux.HandleFunc("/api/reset-buggy", s.handleResetBuggy)
 	mux.HandleFunc("/api/format", s.handleFormat)
 	mux.HandleFunc("/api/run", s.handleRun)
 	mux.HandleFunc("/api/mark", s.handleMark)
@@ -332,6 +404,103 @@ func (s *studioServer) handleTrack(w http.ResponseWriter, r *http.Request) {
 	}
 
 	writeJSON(w, http.StatusOK, resp)
+}
+
+func (s *studioServer) handlePathways(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		writeError(w, http.StatusMethodNotAllowed, "method not allowed")
+		return
+	}
+
+	state, err := s.store.Load()
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, fmt.Sprintf("load progress: %v", err))
+		return
+	}
+
+	items := make([]pathwayResponseItem, 0, len(s.pathways))
+	for _, pathway := range s.pathways {
+		ids := s.pathwayKataIDs(pathway)
+		done := progress.CompletedCount(state, ids)
+		total := len(ids)
+		percent := 0
+		if total > 0 {
+			percent = int((float64(done) / float64(total)) * 100)
+		}
+
+		item := pathwayResponseItem{
+			ID:               pathway.ID,
+			Title:            pathway.Title,
+			Description:      pathway.Description,
+			RecommendedModes: append([]string(nil), pathway.RecommendedModes...),
+			LevelOutcome:     pathway.LevelOutcome,
+			Done:             done,
+			Total:            total,
+			Percent:          percent,
+			Status:           pathwayStatus(done, total),
+		}
+
+		if next, ok := s.nextIncompleteFromIDs(state, ids); ok {
+			item.NextKataID = next.ID
+			item.NextKataTitle = next.Title
+		}
+
+		items = append(items, item)
+	}
+
+	writeJSON(w, http.StatusOK, pathwaysResponse{Items: items})
+}
+
+func pathwayStatus(done, total int) string {
+	if total == 0 {
+		return "not-started"
+	}
+	if done <= 0 {
+		return "not-started"
+	}
+	if done >= total {
+		return "completed"
+	}
+	return "in-progress"
+}
+
+func (s *studioServer) pathwayKataIDs(pathway pathwayDefinition) []string {
+	ids := make([]string, 0, 32)
+	seen := make(map[string]bool)
+
+	for _, categoryID := range pathway.Categories {
+		category, ok := s.track.FindCategory(categoryID)
+		if !ok {
+			continue
+		}
+		for _, kata := range category.Katas {
+			if seen[kata.ID] {
+				continue
+			}
+			seen[kata.ID] = true
+			ids = append(ids, kata.ID)
+		}
+	}
+
+	sort.Strings(ids)
+	return ids
+}
+
+func (s *studioServer) nextIncompleteFromIDs(state progress.State, ids []string) (catalog.Kata, bool) {
+	index := make(map[string]catalog.Kata, len(ids))
+	for _, kata := range s.track.AllKatas() {
+		index[kata.ID] = kata
+	}
+
+	for _, id := range ids {
+		if state.Attempts[id].Passes > 0 {
+			continue
+		}
+		if kata, ok := index[id]; ok {
+			return kata, true
+		}
+	}
+	return catalog.Kata{}, false
 }
 
 func (s *studioServer) handleKata(w http.ResponseWriter, r *http.Request) {
@@ -643,6 +812,56 @@ func buildOptionsDeterministic(correct string, pool []string, salt int) ([]strin
 	}
 
 	return options, answerIndex
+}
+
+func (s *studioServer) handleResetBuggy(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		writeError(w, http.StatusMethodNotAllowed, "method not allowed")
+		return
+	}
+
+	var req resetBuggyRequest
+	if err := decodeJSON(r, &req); err != nil {
+		writeError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	kata, _, ok := s.track.FindKata(req.KataID)
+	if !ok {
+		writeError(w, http.StatusNotFound, "kata not found")
+		return
+	}
+
+	buggyCodePath := filepath.Join(kata.Dir, "buggy_kata.go")
+	buggyCode, err := os.ReadFile(buggyCodePath)
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			writeError(w, http.StatusBadRequest, "buggy starter not available for this kata")
+			return
+		}
+		writeError(w, http.StatusInternalServerError, fmt.Sprintf("read buggy starter: %v", err))
+		return
+	}
+
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	if err := os.WriteFile(filepath.Join(kata.Dir, "kata.go"), buggyCode, 0o644); err != nil {
+		writeError(w, http.StatusInternalServerError, fmt.Sprintf("write kata.go: %v", err))
+		return
+	}
+
+	testsPath := filepath.Join(kata.Dir, "kata_test.go")
+	tests, err := os.ReadFile(testsPath)
+	if err != nil {
+		writeError(w, http.StatusInternalServerError, fmt.Sprintf("read kata_test.go: %v", err))
+		return
+	}
+
+	writeJSON(w, http.StatusOK, formatResponse{
+		Code:  string(buggyCode),
+		Tests: string(tests),
+	})
 }
 
 func (s *studioServer) handleSave(w http.ResponseWriter, r *http.Request) {

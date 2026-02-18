@@ -7,15 +7,18 @@ cd "$ROOT_DIR"
 export GOCACHE="${GOCACHE:-$ROOT_DIR/.gocache}"
 
 echo "==> Running learner platform tests"
-go test ./apps/learner-cli ./apps/learner-studio ./internal/learning/...
+go test ./apps/learner-cli ./apps/learner-studio ./apps/learner-desktop ./internal/learning/...
 
 echo "==> Running CLI smoke checks"
 LIST_OUT="$(go run ./apps/learner-cli list)"
-echo "$LIST_OUT" | grep -q "Go Core 100"
+echo "$LIST_OUT" | grep -q "go-core-100"
 echo "$LIST_OUT" | grep -q "Overall progress:"
 
 SHOW_OUT="$(go run ./apps/learner-cli show --kata 001)"
-echo "$SHOW_OUT" | grep -q "FizzBuzz"
+echo "$SHOW_OUT" | grep -q "Build Greeting"
 echo "$SHOW_OUT" | grep -q "Expected behavior:"
+
+echo "==> Running desktop launcher compile smoke check"
+go run ./apps/learner-desktop -h >/dev/null 2>&1
 
 echo "Operability checks passed."

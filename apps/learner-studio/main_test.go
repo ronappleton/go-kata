@@ -71,6 +71,29 @@ func TestKataEndpoint(t *testing.T) {
 	}
 }
 
+func TestPathwaysEndpoint(t *testing.T) {
+	server := mustTestServer(t)
+	req := httptest.NewRequest(http.MethodGet, "/api/pathways", nil)
+	rec := httptest.NewRecorder()
+
+	server.routes().ServeHTTP(rec, req)
+	if rec.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d body=%s", rec.Code, rec.Body.String())
+	}
+
+	var payload pathwaysResponse
+	if err := json.Unmarshal(rec.Body.Bytes(), &payload); err != nil {
+		t.Fatalf("decode response: %v", err)
+	}
+
+	if len(payload.Items) == 0 {
+		t.Fatalf("expected pathways")
+	}
+	if payload.Items[0].ID == "" || payload.Items[0].Title == "" {
+		t.Fatalf("expected pathway metadata")
+	}
+}
+
 func TestLearnEndpoint(t *testing.T) {
 	server := mustTestServer(t)
 	req := httptest.NewRequest(http.MethodGet, "/api/learn?id=001", nil)
@@ -127,6 +150,27 @@ func TestRunEndpointIncludesCoachingFields(t *testing.T) {
 	}
 	if payload.NextRecommended == nil {
 		t.Fatalf("expected next recommendation")
+	}
+}
+
+func TestResetBuggyEndpoint(t *testing.T) {
+	server := mustTestServer(t)
+	body := `{"kata_id":"131"}`
+	req := httptest.NewRequest(http.MethodPost, "/api/reset-buggy", strings.NewReader(body))
+	req.Header.Set("Content-Type", "application/json")
+	rec := httptest.NewRecorder()
+
+	server.routes().ServeHTTP(rec, req)
+	if rec.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d body=%s", rec.Code, rec.Body.String())
+	}
+
+	var payload formatResponse
+	if err := json.Unmarshal(rec.Body.Bytes(), &payload); err != nil {
+		t.Fatalf("decode response: %v", err)
+	}
+	if payload.Code == "" || payload.Tests == "" {
+		t.Fatalf("expected code/tests in response")
 	}
 }
 

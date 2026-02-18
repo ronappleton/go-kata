@@ -1,6 +1,6 @@
 # Text, Data, and Transformations
 
-**Kata range:** `021-032`
+**Kata range:** `051-062`
 
 ## What you are building
 You are training robust parsing and normalization habits for text and structured payloads.

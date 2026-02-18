@@ -1,13 +1,30 @@
-# Go Core 100 Track
+# Go Core Track
 
-This folder defines category-level metadata for the first 100 katas.
+This folder defines the structured Go curriculum used by the CLI and Learner Studio.
 
-Use `track.json` as the source of truth for:
+## Source of truth
+
+`track.json` is the source of truth for:
 
 - category names and learning goals
-- kata grouping (currently by ranges)
-- future expansion (new categories, new tracks)
+- kata ranges per category
+- progression order (starter through advanced)
 
-Category folders live under `categories/` and document category-level learning intent.
+## Current path (140 katas)
 
-The raw kata exercise folders live under the top-level `katas/` directory (`katas/kata-001-*` through `katas/kata-100-*`).
+1. Starter: Programming Essentials (`001-010`)
+2. Starter: Data and Logic (`011-020`)
+3. Well-Known Packages (`021-030`)
+4. Go Foundations (`031-040`)
+5. Core Collections and Algorithms (`041-050`)
+6. Text, Data, and Transformations (`051-062`)
+7. File, Time, and Config (`063-070`)
+8. Services and Boundaries (`071-090`)
+9. Concurrency and Reliability (`091-110`)
+10. Tooling, Security, and Advanced Design (`111-130`)
+11. Bug Fix Lab (`131-135`)
+12. Databases and I/O (`136-140`)
+
+Category guidance files live in `categories/`.
+
+Kata exercise folders live under the top-level `katas/` directory (`katas/kata-001-*` through `katas/kata-140-*`).

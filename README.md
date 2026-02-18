@@ -1,37 +1,61 @@
-# Golang Katas 1–100 (Zero → Hero)
+# Golang Katas Zero -> Senior (140 Katas)
 [![Operability](https://github.com/ronappleton/golang-katas-1-100/actions/workflows/operability.yml/badge.svg)](https://github.com/ronappleton/golang-katas-1-100/actions/workflows/operability.yml)
 
-Structured Go practice for developers coming from other languages.
+Structured Go practice from first programming concepts through senior-level production design.
 
-This repo is designed to teach, not just test.
-Each kata is a small contract:
-- what behavior must be correct
-- why that behavior matters in real software
-- how to practice it with focused feedback
+## Learning pathways
 
-## Two learning modes
+### 1) No Knowledge -> Junior
+- Categories: `001-070`
+- Modes: Documentation, Flashcards, Workbench, Quiz, Reflection
+- Outcome: Build reliable function-level Go habits and boundary-safe basics.
 
-### 1) CLI mode (`learner-cli`)
+### 2) Junior -> Mid
+- Categories: `071-110`, `131-140`
+- Modes: Documentation, Workbench, Bug Hunt, Quiz, Reflection
+- Outcome: Build service/boundary confidence and debugging reliability.
 
-Fast, focused, and scriptable:
+### 3) Mid -> Senior
+- Categories: `111-140`
+- Modes: Documentation, Workbench, Bug Hunt, Flashcards, Quiz, Reflection
+- Outcome: Apply advanced design, tooling, security, and operational tradeoffs.
+
+Track details live in `tracks/go-core-100/track.json` and `tracks/go-core-100/pathways.json`.
+
+## Curriculum categories
+
+1. Starter: Programming Essentials (`001-010`)
+2. Starter: Data and Logic (`011-020`)
+3. Well-Known Packages (`021-030`)
+4. Go Foundations (`031-040`)
+5. Core Collections and Algorithms (`041-050`)
+6. Text, Data, and Transformations (`051-062`)
+7. File, Time, and Config (`063-070`)
+8. Services and Boundaries (`071-090`)
+9. Concurrency and Reliability (`091-110`)
+10. Tooling, Security, and Advanced Design (`111-130`)
+11. Bug Fix Lab (`131-135`)
+12. Databases and I/O (`136-140`)
+
+Full kata ordering is in `INDEX.md`.
+
+## Learning apps
+
+### CLI (`learner-cli`)
 - list categories and progress
-- run a kata test loop
+- run kata tests quickly
 - generate AI marking packets
 
 ![Learner CLI in operation](assets/screenshots/cli-app-operation.svg)
 
-### 2) Browser mode (`learner-studio`)
-
-A learning IDE flow:
-- category progress and milestones
-- tabbed docs + workbench
-- tests left, code right
-- dark mode toggle for long sessions
-- syntax highlighting in test/code editors
-- line numbers + in-editor search
-- auto-format + keyboard shortcuts for quick loops
-- run tests, pass modal, AI marking
-- next recommended kata guidance
+### Learner Studio (`learner-studio`)
+Modes available:
+- Documentation
+- Workbench
+- Flashcards
+- Quiz
+- Bug Hunt
+- Reflection
 
 #### Documentation tab
 
@@ -45,6 +69,17 @@ A learning IDE flow:
 |---|---|
 | ![Learner Studio workbench tab in light mode](assets/screenshots/learner-studio-workbench-light.svg) | ![Learner Studio workbench tab in dark mode](assets/screenshots/learner-studio-workbench-dark.svg) |
 
+#### Active learning modes
+
+| Flashcards | Quiz | Focus mode |
+|---|---|---|
+| ![Learner Studio flashcards mode](assets/screenshots/learner-studio-flashcards-light.svg) | ![Learner Studio quiz mode](assets/screenshots/learner-studio-quiz-light.svg) | ![Learner Studio focus mode workbench](assets/screenshots/learner-studio-focus-dark.svg) |
+
+### Desktop launch mode (`learner-desktop`)
+- starts Learner Studio server
+- opens app-style window on macOS/Linux/Windows
+- no manual URL entry needed
+
 ## Quick start
 
 ```bash
@@ -52,53 +87,32 @@ A learning IDE flow:
 go run ./apps/learner-cli list
 go run ./apps/learner-cli show --kata 001
 go run ./apps/learner-cli run --kata 001
-go run ./apps/learner-cli mark --kata 001
 
-# Studio
+# Studio server mode
 go run ./apps/learner-studio
-# open http://127.0.0.1:7777
+
+# Desktop app mode
+go run ./apps/learner-desktop
 ```
 
-## Learning workflow (recommended)
-
-1. Pick one kata.
-2. Read the kata README and learning goals.
-3. Run tests once before coding.
-4. Implement one behavior at a time.
-5. Rerun tests after each small change.
-6. If tests pass, request AI marking feedback.
-7. Move to the recommended next kata.
-
-## Operability and quality checks
-
-Run all learner platform tests:
+Build bundles:
 
 ```bash
-GOCACHE=$(pwd)/.gocache go test ./apps/learner-cli ./apps/learner-studio ./internal/learning/...
+./scripts/build_desktop_bundle.sh
 ```
 
-Run full operability smoke checks:
+## Operability checks
 
 ```bash
+GOCACHE=$(pwd)/.gocache go test ./apps/learner-cli ./apps/learner-studio ./apps/learner-desktop ./internal/learning/...
 ./scripts/test_operability.sh
 ```
 
-CI runs the same script on pushes and pull requests via:
-
-- `.github/workflows/operability.yml`
-
 ## Project structure
 
-- `katas/kata-001-*` ... `katas/kata-100-*`: self-contained kata folders (`kata.go`, `kata_test.go`, `README.md`, local `go.mod`)
-- `tracks/go-core-100/`: category model and learning goals
-- `internal/learning/`: shared learning engine (catalog, runner, progress, marking)
-- `apps/learner-cli/`: terminal learning app
-- `apps/learner-studio/`: browser learning app
-
-## Current platform capabilities
-
-- category-level progress percentages
-- milestone messaging per category
-- next recommended kata selection
-- run result capture and focused failure insights
-- AI marking packet generation for ChatGPT handoff
+- `katas/kata-001-*` ... `katas/kata-140-*`
+- `tracks/go-core-100/`
+- `internal/learning/`
+- `apps/learner-cli/`
+- `apps/learner-studio/`
+- `apps/learner-desktop/`

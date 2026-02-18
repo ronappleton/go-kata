@@ -1,7 +1,7 @@
 {
   "id": "go-core-100",
-  "title": "Go Core Path: Zero-to-Senior (120 Katas)",
-  "description": "Structured Go learning from first-programming fundamentals to senior-level concurrency, reliability, and design.",
+  "title": "Go Core Path: Zero-to-Senior (140 Katas)",
+  "description": "Structured Go learning from first programming principles to senior-level design, with guided pathways, bug-fix practice, and databases/I/O training.",
   "categories": [
     {
       "id": "starter-programming-essentials",
@@ -10,8 +10,8 @@
       "learning_goal": "Understand functions, conditionals, loops, and boundaries so you can turn plain rules into working code.",
       "kata_ranges": [
         {
-          "start": 101,
-          "end": 110
+          "start": 1,
+          "end": 10
         }
       ]
     },
@@ -22,8 +22,20 @@
       "learning_goal": "Build confidence with common data operations and predictable return contracts before tackling larger systems.",
       "kata_ranges": [
         {
-          "start": 111,
-          "end": 120
+          "start": 11,
+          "end": 20
+        }
+      ]
+    },
+    {
+      "id": "well-known-packages",
+      "title": "Well-Known Packages",
+      "description": "Focused katas for core standard library packages used in everyday Go code.",
+      "learning_goal": "Use common packages with confidence by implementing deterministic behavior contracts you can reuse in real systems.",
+      "kata_ranges": [
+        {
+          "start": 21,
+          "end": 30
         }
       ]
     },
@@ -34,8 +46,8 @@
       "learning_goal": "Convert plain-language requirements into clear, testable Go functions that handle edge cases intentionally.",
       "kata_ranges": [
         {
-          "start": 1,
-          "end": 10
+          "start": 31,
+          "end": 40
         }
       ]
     },
@@ -46,8 +58,8 @@
       "learning_goal": "Use Go data structures and iteration patterns to solve problems without sacrificing readability or safety.",
       "kata_ranges": [
         {
-          "start": 11,
-          "end": 20
+          "start": 41,
+          "end": 50
         }
       ]
     },
@@ -58,8 +70,8 @@
       "learning_goal": "Design robust input/output behavior that is explicit about malformed data and contract guarantees.",
       "kata_ranges": [
         {
-          "start": 21,
-          "end": 32
+          "start": 51,
+          "end": 62
         }
       ]
     },
@@ -70,8 +82,8 @@
       "learning_goal": "Handle operating-system boundaries and time-sensitive logic with predictable, testable behavior.",
       "kata_ranges": [
         {
-          "start": 33,
-          "end": 40
+          "start": 63,
+          "end": 70
         }
       ]
     },
@@ -82,8 +94,8 @@
       "learning_goal": "Treat I/O boundaries as contracts and return safe behavior under failure and partial success.",
       "kata_ranges": [
         {
-          "start": 41,
-          "end": 60
+          "start": 71,
+          "end": 90
         }
       ]
     },
@@ -94,8 +106,8 @@
       "learning_goal": "Build concurrent systems that stay correct under load, interruption, and timing variance.",
       "kata_ranges": [
         {
-          "start": 61,
-          "end": 80
+          "start": 91,
+          "end": 110
         }
       ]
     },
@@ -106,8 +118,32 @@
       "learning_goal": "Apply production-grade quality standards and design tradeoff reasoning to senior-level Go solutions.",
       "kata_ranges": [
         {
-          "start": 81,
-          "end": 100
+          "start": 111,
+          "end": 130
+        }
+      ]
+    },
+    {
+      "id": "bug-fix-lab",
+      "title": "Bug Fix Lab",
+      "description": "Deliberately buggy implementations where learners diagnose failures and repair behavior without rewriting requirements.",
+      "learning_goal": "Develop production debugging habits: reproduce, isolate, patch minimally, and confirm with regression tests.",
+      "kata_ranges": [
+        {
+          "start": 131,
+          "end": 135
+        }
+      ]
+    },
+    {
+      "id": "databases-and-io",
+      "title": "Databases and I/O",
+      "description": "Persistence, streaming, filesystem, and query-boundary contracts used in real applications.",
+      "learning_goal": "Build confidence with database and I/O boundaries where correctness, error handling, and resource ownership are critical.",
+      "kata_ranges": [
+        {
+          "start": 136,
+          "end": 140
         }
       ]
     }

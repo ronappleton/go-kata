@@ -1,6 +1,6 @@
 # Core Collections and Algorithms
 
-**Kata range:** `011-020`
+**Kata range:** `041-050`
 
 ## What you are building
 You are learning to choose the right data structure and iteration strategy for correctness and clarity.

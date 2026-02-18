@@ -20,7 +20,7 @@ func TestCmdListShowsTrackAndProgress(t *testing.T) {
 		}
 	})
 
-	if !strings.Contains(out, "Go Core 100") {
+	if !strings.Contains(out, "go-core-100") {
 		t.Fatalf("expected track title in output, got:\n%s", out)
 	}
 	if !strings.Contains(out, "Overall progress:") {
@@ -37,7 +37,7 @@ func TestCmdShowKataDetails(t *testing.T) {
 		}
 	})
 
-	if !strings.Contains(out, "001 — FizzBuzz") {
+	if !strings.Contains(out, "001 — Build Greeting") {
 		t.Fatalf("expected kata heading in output, got:\n%s", out)
 	}
 	if !strings.Contains(out, "Expected behavior:") {
@@ -54,10 +54,10 @@ func TestCmdKatasCategoryFilter(t *testing.T) {
 		}
 	})
 
-	if !strings.Contains(out, "Foundations [foundations]") {
+	if !strings.Contains(out, "Go Foundations [foundations]") {
 		t.Fatalf("expected foundations heading, got:\n%s", out)
 	}
-	if !strings.Contains(out, "001  FizzBuzz") {
+	if !strings.Contains(out, "031  FizzBuzz") {
 		t.Fatalf("expected kata listing, got:\n%s", out)
 	}
 }

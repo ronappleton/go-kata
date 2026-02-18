@@ -1,0 +1,62 @@
+{
+  "pathways": [
+    {
+      "id": "no-knowledge-to-junior",
+      "title": "No Knowledge -> Junior",
+      "description": "Start from programming basics and build consistent Go implementation habits.",
+      "categories": [
+        "starter-programming-essentials",
+        "starter-data-and-logic",
+        "well-known-packages",
+        "foundations",
+        "core-collections-and-algorithms",
+        "text-data-and-transformations",
+        "file-time-and-config"
+      ],
+      "recommended_modes": [
+        "Documentation",
+        "Flashcards",
+        "Workbench",
+        "Quiz"
+      ],
+      "level_outcome": "You can implement small-to-medium Go functions with clear contracts, edge-case coverage, and readable tests."
+    },
+    {
+      "id": "junior-to-mid",
+      "title": "Junior -> Mid",
+      "description": "Shift from isolated functions to boundary-aware service and debugging work.",
+      "categories": [
+        "services-and-boundaries",
+        "bug-fix-lab",
+        "databases-and-io",
+        "concurrency-and-reliability"
+      ],
+      "recommended_modes": [
+        "Documentation",
+        "Workbench",
+        "Bug Hunt",
+        "Quiz"
+      ],
+      "level_outcome": "You can build and debug boundary-heavy Go code with explicit error handling and reliable runtime behavior."
+    },
+    {
+      "id": "mid-to-senior",
+      "title": "Mid -> Senior",
+      "description": "Consolidate advanced design, tooling discipline, and production reliability tradeoffs.",
+      "categories": [
+        "concurrency-and-reliability",
+        "tooling-security-and-advanced-design",
+        "bug-fix-lab",
+        "databases-and-io"
+      ],
+      "recommended_modes": [
+        "Documentation",
+        "Workbench",
+        "Bug Hunt",
+        "Flashcards",
+        "Quiz"
+      ],
+      "level_outcome": "You can design, debug, and evolve senior-level Go solutions with strong operational and maintainability standards."
+    }
+  ]
+}

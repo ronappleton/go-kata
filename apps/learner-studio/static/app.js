@@ -1,5 +1,6 @@
 const state = {
   track: null,
+  pathways: [],
   selectedKataID: null,
   selectedKata: null,
   nextRecommended: null,
@@ -26,10 +27,13 @@ const state = {
     tests: { query: "", matches: [], index: -1 },
     code: { query: "", matches: [], index: -1 },
   },
+  lastRun: null,
+  reflections: {},
 };
 
 const el = {
   trackSummary: document.getElementById("track-summary"),
+  pathwayList: document.getElementById("pathway-list"),
   categoryList: document.getElementById("category-list"),
   kataTitle: document.getElementById("kata-title"),
   kataSubtitle: document.getElementById("kata-subtitle"),
@@ -72,10 +76,14 @@ const el = {
   tabWorkbench: document.getElementById("tab-workbench"),
   tabFlashcards: document.getElementById("tab-flashcards"),
   tabQuiz: document.getElementById("tab-quiz"),
+  tabBug: document.getElementById("tab-bug"),
+  tabReview: document.getElementById("tab-review"),
   panelDocs: document.getElementById("panel-docs"),
   panelWorkbench: document.getElementById("panel-workbench"),
   panelFlashcards: document.getElementById("panel-flashcards"),
   panelQuiz: document.getElementById("panel-quiz"),
+  panelBug: document.getElementById("panel-bug"),
+  panelReview: document.getElementById("panel-review"),
 
   flashPrevBtn: document.getElementById("flash-prev-btn"),
   flashFlipBtn: document.getElementById("flash-flip-btn"),
@@ -93,6 +101,14 @@ const el = {
   quizOptions: document.getElementById("quiz-options"),
   quizFeedback: document.getElementById("quiz-feedback"),
   quizScore: document.getElementById("quiz-score"),
+
+  bugRunBtn: document.getElementById("bug-run-btn"),
+  bugResetBtn: document.getElementById("bug-reset-btn"),
+  bugContext: document.getElementById("bug-context"),
+  bugRules: document.getElementById("bug-rules"),
+  bugTip: document.getElementById("bug-tip"),
+  reviewSaveBtn: document.getElementById("review-save-btn"),
+  reviewNotes: document.getElementById("review-notes"),
 
   resetTestsBtn: document.getElementById("reset-tests-btn"),
 
@@ -115,6 +131,8 @@ const TAB_META = {
   workbench: { button: el.tabWorkbench, panel: el.panelWorkbench },
   flashcards: { button: el.tabFlashcards, panel: el.panelFlashcards },
   quiz: { button: el.tabQuiz, panel: el.panelQuiz },
+  bug: { button: el.tabBug, panel: el.panelBug },
+  review: { button: el.tabReview, panel: el.panelReview },
 };
 
 const editors = {
@@ -148,6 +166,7 @@ boot();
 async function boot() {
   initTheme();
   initFocusMode();
+  loadReflectionStore();
   wireEvents();
   setupSearch("tests");
   setupSearch("code");
@@ -157,11 +176,14 @@ async function boot() {
   renderSearchCount("code");
   renderFlashcard();
   renderQuiz();
+  renderBugMode();
+  renderReflectionMode();
 
   const savedTab = localStorage.getItem("learner-studio-tab") || "docs";
   setTab(savedTab);
 
   await refreshTrack();
+  await refreshPathways();
   const first = firstKataID();
   if (first) {
     await loadKata(first);
@@ -173,6 +195,8 @@ function wireEvents() {
   el.tabWorkbench.addEventListener("click", () => setTab("workbench"));
   el.tabFlashcards.addEventListener("click", () => setTab("flashcards"));
   el.tabQuiz.addEventListener("click", () => setTab("quiz"));
+  el.tabBug.addEventListener("click", () => setTab("bug"));
+  el.tabReview.addEventListener("click", () => setTab("review"));
 
   el.saveBtn.addEventListener("click", onSave);
   el.runBtn.addEventListener("click", onRun);
@@ -190,6 +214,9 @@ function wireEvents() {
   el.quizPrevBtn.addEventListener("click", () => moveQuiz(-1));
   el.quizNextBtn.addEventListener("click", () => moveQuiz(1));
   el.quizResetBtn.addEventListener("click", resetQuizAnswers);
+  el.bugRunBtn.addEventListener("click", onRun);
+  el.bugResetBtn.addEventListener("click", onResetBuggyStarter);
+  el.reviewSaveBtn.addEventListener("click", saveReflection);
 
   el.passCloseBtn.addEventListener("click", () => toggleModal(el.passModal, false));
   el.passModal.addEventListener("click", (event) => {
@@ -513,6 +540,54 @@ async function refreshTrack() {
   renderTrack();
 }
 
+async function refreshPathways() {
+  try {
+    const payload = await api("/api/pathways");
+    state.pathways = Array.isArray(payload.items) ? payload.items : [];
+  } catch (_) {
+    state.pathways = [];
+  }
+  renderPathways();
+}
+
+function renderPathways() {
+  if (!el.pathwayList) {
+    return;
+  }
+  el.pathwayList.innerHTML = "";
+
+  if (!state.pathways || state.pathways.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "pathway-meta";
+    empty.textContent = "Pathways unavailable.";
+    el.pathwayList.appendChild(empty);
+    return;
+  }
+
+  state.pathways.forEach((pathway) => {
+    const card = document.createElement("div");
+    card.className = "pathway-card";
+
+    const title = document.createElement("h4");
+    title.textContent = pathway.title;
+    card.appendChild(title);
+
+    const meta = document.createElement("p");
+    meta.className = "pathway-meta";
+    meta.textContent = `${pathway.done}/${pathway.total} (${pathway.percent}%) • ${pathway.status}`;
+    card.appendChild(meta);
+
+    if (pathway.next_kata_id) {
+      const next = document.createElement("p");
+      next.className = "pathway-next";
+      next.textContent = `Next: ${pathway.next_kata_id} - ${pathway.next_kata_title}`;
+      card.appendChild(next);
+    }
+
+    el.pathwayList.appendChild(card);
+  });
+}
+
 function renderTrack() {
   if (!state.track) {
     return;
@@ -584,6 +659,7 @@ async function loadKata(kataID) {
   const kata = await api(`/api/kata?id=${encodeURIComponent(kataID)}`);
   state.selectedKataID = kata.id;
   state.selectedKata = kata;
+  state.lastRun = null;
   state.activeEditor = "code";
   state.dirty = false;
 
@@ -599,6 +675,8 @@ async function loadKata(kataID) {
   renderDirtyState();
   renderButtons(true);
   renderTrack();
+  renderBugMode();
+  renderReflectionMode();
 
   await loadLearningModes(kata.id);
 }
@@ -629,6 +707,7 @@ function renderButtons(enabled) {
   el.formatCodeBtn.disabled = !enabled;
   el.formatTestsBtn.disabled = !enabled;
   el.focusBtn.disabled = false;
+  el.bugRunBtn.disabled = !enabled;
 }
 
 function renderDirtyState() {
@@ -784,6 +863,83 @@ function resetQuizAnswers() {
   renderQuiz();
 }
 
+function isBugKataSelected() {
+  return Boolean(state.selectedKata && state.selectedKata.category && state.selectedKata.category.id === "bug-fix-lab");
+}
+
+function renderBugMode() {
+  if (!state.selectedKata) {
+    el.bugContext.textContent = "Select a kata to start Bug Hunt mode.";
+    el.bugRules.innerHTML = "";
+    el.bugTip.textContent = "";
+    el.bugRunBtn.disabled = true;
+    el.bugResetBtn.disabled = true;
+    return;
+  }
+
+  const bugKata = isBugKataSelected();
+  if (bugKata) {
+    el.bugContext.textContent = `Bug kata ${state.selectedKata.id}: reproduce failure, patch minimally, rerun tests.`;
+  } else {
+    el.bugContext.textContent = "Bug Hunt mode works best with Bug Fix Lab katas (131-135), but you can still use it to debug any failing kata.";
+  }
+
+  const rules = Array.isArray(state.selectedKata.rules) ? state.selectedKata.rules : [];
+  el.bugRules.innerHTML = "";
+  rules.slice(0, 8).forEach((rule) => {
+    const item = document.createElement("li");
+    item.textContent = rule;
+    el.bugRules.appendChild(item);
+  });
+
+  if (state.lastRun?.passed) {
+    el.bugTip.textContent = "All tests pass. Confirm your fix is minimal and explain root cause before moving on.";
+  } else if (state.lastRun?.failure_insights && state.lastRun.failure_insights.length > 0) {
+    el.bugTip.textContent = `First mismatch: ${state.lastRun.failure_insights[0].summary || "Review failing assertion output."}`;
+  } else {
+    el.bugTip.textContent = "Run diagnostics to surface the first failure, then patch one defect at a time.";
+  }
+
+  el.bugRunBtn.disabled = false;
+  el.bugResetBtn.disabled = !bugKata;
+}
+
+function loadReflectionStore() {
+  try {
+    const raw = localStorage.getItem("learner-studio-reflections");
+    const parsed = raw ? JSON.parse(raw) : {};
+    state.reflections = parsed && typeof parsed === "object" ? parsed : {};
+  } catch (_) {
+    state.reflections = {};
+  }
+}
+
+function saveReflectionStore() {
+  localStorage.setItem("learner-studio-reflections", JSON.stringify(state.reflections || {}));
+}
+
+function renderReflectionMode() {
+  if (!state.selectedKataID) {
+    el.reviewNotes.value = "";
+    el.reviewNotes.disabled = true;
+    el.reviewSaveBtn.disabled = true;
+    return;
+  }
+
+  el.reviewNotes.disabled = false;
+  el.reviewSaveBtn.disabled = false;
+  el.reviewNotes.value = state.reflections[state.selectedKataID] || "";
+}
+
+function saveReflection() {
+  if (!state.selectedKataID) {
+    return;
+  }
+  state.reflections[state.selectedKataID] = el.reviewNotes.value || "";
+  saveReflectionStore();
+  el.runOutput.textContent = "Reflection saved for this kata.";
+}
+
 function formatProgress(progress) {
   if (!progress || !progress.last_result) {
     return "No run yet.";
@@ -884,6 +1040,7 @@ async function onRun() {
 
   state.dirty = false;
   renderDirtyState();
+  state.lastRun = result;
 
   const lines = [];
   lines.push(result.passed ? "PASS" : "FAIL");
@@ -900,6 +1057,7 @@ async function onRun() {
   }
   el.runOutput.textContent = lines.join("\n");
   renderFailureInsights(result.failure_insights || []);
+  renderBugMode();
 
   state.nextRecommended = result.next_recommended || state.nextRecommended;
   if (state.nextRecommended) {
@@ -911,6 +1069,7 @@ async function onRun() {
   }
 
   await refreshTrack();
+  await refreshPathways();
   if (result.passed) {
     toggleModal(el.passModal, true);
   }
@@ -950,6 +1109,33 @@ async function onResetFromDisk() {
   await loadKata(state.selectedKataID);
   el.runOutput.textContent = "Reloaded from disk.";
   renderFailureInsights([]);
+}
+
+async function onResetBuggyStarter() {
+  ensureSelectedKata();
+  if (!isBugKataSelected()) {
+    el.runOutput.textContent = "Buggy starter reset is available only for Bug Fix Lab katas.";
+    return;
+  }
+
+  const payload = await api("/api/reset-buggy", {
+    method: "POST",
+    body: JSON.stringify({ kata_id: state.selectedKataID }),
+  });
+
+  if (typeof payload.code === "string") {
+    setEditorValue("code", payload.code);
+  }
+  if (typeof payload.tests === "string") {
+    setEditorValue("tests", payload.tests);
+  }
+
+  state.dirty = false;
+  state.lastRun = null;
+  renderDirtyState();
+  renderFailureInsights([]);
+  renderBugMode();
+  el.runOutput.textContent = "Buggy starter restored. Run diagnostics to reproduce the failure.";
 }
 
 async function formatEditors({ silent = false, target = "both" } = {}) {

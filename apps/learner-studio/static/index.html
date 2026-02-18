@@ -15,6 +15,10 @@
         <h1>Learner Studio</h1>
         <p id="track-summary">Loading track...</p>
       </div>
+      <section class="pathways-wrap">
+        <h3>Learning Pathways</h3>
+        <div id="pathway-list" class="pathway-list"></div>
+      </section>
       <div id="category-list" class="category-list"></div>
     </aside>
 
@@ -46,6 +50,8 @@
         <button id="tab-workbench" class="tab">Workbench</button>
         <button id="tab-flashcards" class="tab">Flashcards</button>
         <button id="tab-quiz" class="tab">Quiz</button>
+        <button id="tab-bug" class="tab">Bug Hunt</button>
+        <button id="tab-review" class="tab">Reflection</button>
       </div>
       <p class="shortcut-hint">Shortcuts: <kbd>Ctrl/Cmd+S</kbd> Save, <kbd>Ctrl/Cmd+Enter</kbd> Run tests, <kbd>Alt+Shift+F</kbd> Format both, <kbd>Ctrl/Cmd+Shift+M</kbd> Focus mode, <kbd>Ctrl/Cmd+F</kbd> Find in editor, <kbd>Tab</kbd> insert tab, <kbd>Esc</kbd> close modal</p>
 
@@ -139,6 +145,36 @@
           <p id="quiz-feedback" class="quiz-feedback"></p>
         </div>
         <p id="quiz-score" class="quiz-score"></p>
+      </section>
+
+      <section id="panel-bug" class="panel bug-panel">
+        <div class="mode-head">
+          <h3>Bug Hunt Mode</h3>
+          <div class="mode-actions">
+            <button id="bug-run-btn" class="btn tiny">Run Diagnostics</button>
+            <button id="bug-reset-btn" class="btn tiny">Restore Buggy Starter</button>
+          </div>
+        </div>
+        <div class="bug-card">
+          <p id="bug-context" class="bug-context">Select a kata to start Bug Hunt mode.</p>
+          <ul id="bug-rules" class="bug-rules"></ul>
+          <p id="bug-tip" class="bug-tip"></p>
+        </div>
+      </section>
+
+      <section id="panel-review" class="panel review-panel">
+        <div class="mode-head">
+          <h3>Reflection Mode</h3>
+          <div class="mode-actions">
+            <button id="review-save-btn" class="btn tiny">Save Reflection</button>
+          </div>
+        </div>
+        <div class="review-card">
+          <p class="review-prompt">What rule failed first, and what change fixed it?</p>
+          <p class="review-prompt">Why does this behavior matter in real Go code?</p>
+          <p class="review-prompt">What one habit will you carry into the next kata?</p>
+          <textarea id="review-notes" class="review-notes" placeholder="Write your reflection for this kata..."></textarea>
+        </div>
       </section>
     </main>
   </div>

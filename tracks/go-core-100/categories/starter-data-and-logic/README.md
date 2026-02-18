@@ -1,6 +1,6 @@
 # Starter: Data and Logic
 
-**Kata range:** `111-120`
+**Kata range:** `011-020`
 
 ## What you are building
 You are learning how to transform slices, maps, and structs into predictable outputs.

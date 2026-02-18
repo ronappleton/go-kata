@@ -1,6 +1,6 @@
 # File, Time, and Config
 
-**Kata range:** `033-040`
+**Kata range:** `063-070`
 
 ## What you are building
 You are learning to work safely with filesystem boundaries, clocks, and configuration inputs.
