@@ -12,6 +12,20 @@ A native desktop Go learning environment. Structured curriculum from junior to l
 - **Multi-platform**: Linux, macOS, Windows
 - **Content updates** via remote repository (no rebuild needed)
 
+## Screenshots
+
+### Curriculum Overview
+
+The curriculum viewer shows all 180 katas across 4 tracks — Go Mastery, Terraform, Helm, and Security & CVE Awareness. Track each stage's progress with color-coded level badges (Junior → Lead), and switch between learning modes.
+
+![GoKatas Curriculum Overview](docs/screenshots/curriculum-overview.png)
+
+### Full Curriculum
+
+Every kata across all four stages — Foundation, Practitioner, Senior, and Lead — with status dots (gray = not started, amber = evaluator ready, green = completed), per-category progress bars, and tag filters.
+
+![GoKatas Full Curriculum](docs/screenshots/curriculum-full.png)
+
 ## Supported Platforms
 
 | Platform | Architecture | Build Requirement |
