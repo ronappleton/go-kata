@@ -1,0 +1,17 @@
+package kata
+
+import "testing"
+
+func TestParseConfig(t *testing.T) {
+	data := `{"name":"app","version":"1.0","debug":true,"tags":{"env":"prod"}}`
+	cfg, err := ParseConfig(data)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if cfg.Name != "app" {
+		t.Errorf("expected name 'app', got %q", cfg.Name)
+	}
+	if !cfg.Debug {
+		t.Error("expected debug to be true")
+	}
+}

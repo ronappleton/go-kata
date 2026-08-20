@@ -1,0 +1,13 @@
+{
+  "id": "055",
+  "slug": "lru-cache-single-thread",
+  "title": "LRU Cache (single-thread)",
+  "focus": "Structs, maps, list",
+  "signature": "func NewLRU(capacity int) (*LRU, error)",
+  "rules": [
+    "capacity\u003e0",
+    "Get/Put methods",
+    "evict least recently used"
+  ],
+  "evaluator_status": "incomplete"
+}

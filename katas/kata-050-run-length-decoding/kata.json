@@ -1,0 +1,13 @@
+{
+  "id": "050",
+  "slug": "run-length-decoding",
+  "title": "Run-Length Decoding",
+  "focus": "Parsing, errors",
+  "signature": "func RLDecode(s string) (string, error)",
+  "rules": [
+    "invalid format =\u003e error",
+    "count can be multiple digits",
+    "roundtrip with encode for valid inputs"
+  ],
+  "evaluator_status": "incomplete"
+}

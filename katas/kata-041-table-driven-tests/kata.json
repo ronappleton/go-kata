@@ -1,0 +1,16 @@
+{
+  "id": "041",
+  "slug": "table-driven-tests",
+  "title": "Table-Driven Tests",
+  "focus": "table-driven tests, subtests, testing.T, test patterns",
+  "signature": "",
+  "rules": [
+    "Abs of positive =\u003e same number",
+    "Abs of negative =\u003e positive",
+    "Abs of zero =\u003e zero",
+    "Max of a\u003eb =\u003e a",
+    "Max of b\u003ea =\u003e b",
+    "Max of a==b =\u003e a"
+  ],
+  "evaluator_status": "ready"
+}

@@ -1,0 +1,14 @@
+package kata
+
+// ModuleConfig represents a Terraform module configuration.
+type ModuleConfig struct {
+	Name       string
+	Source     string
+	Variables  map[string]string
+	Outputs    []string
+}
+
+// GenerateModule creates a reusable Terraform module.
+func GenerateModule(config ModuleConfig) string {
+	return ""
+}

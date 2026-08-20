@@ -1,0 +1,13 @@
+{
+  "id": "077",
+  "slug": "http-server-with-graceful-shutdown",
+  "title": "HTTP Server with Graceful Shutdown",
+  "focus": "net/http, context",
+  "signature": "func ServeGraceful(addr string, h http.Handler) (stop func(context.Context) error, err error)",
+  "rules": [
+    "start server",
+    "stop shuts down with context",
+    "no leaked goroutines"
+  ],
+  "evaluator_status": "incomplete"
+}

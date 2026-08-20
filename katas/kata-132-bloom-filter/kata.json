@@ -1,0 +1,13 @@
+{
+  "id": "132",
+  "slug": "bloom-filter",
+  "title": "Bloom Filter",
+  "focus": "Advanced practice",
+  "signature": "func Kata72() error",
+  "rules": [
+    "follow README spec",
+    "write tests",
+    "keep it idiomatic"
+  ],
+  "evaluator_status": "incomplete"
+}

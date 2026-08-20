@@ -1,0 +1,42 @@
+package kata
+
+// ClassifySlice checks if a slice is nil, empty, or has values.
+// Rules:
+// - nil => "nil"
+// - len 0 (non-nil) => "empty"
+// - len > 0 => "populated"
+func ClassifySlice(s []int) string {
+	// TODO: Classify the slice
+	return ""
+}
+
+// SafeMapGet retrieves a value from a map safely.
+// Rules:
+// - If map is nil, return ("", false)
+// - If key not found, return ("", false)
+// - If found, return (value, true)
+func SafeMapGet(m map[string]string, key string) (string, bool) {
+	// TODO: Safely get value
+	return "", false
+}
+
+// EnsureEmpty returns an empty (non-nil) slice.
+// Rules:
+// - If input is nil, return []string{}
+// - If input has values, return a copy
+// - Always return non-nil slice
+func EnsureEmpty(s []string) []string {
+	// TODO: Ensure non-nil return
+	return nil
+}
+
+// NormalizeMap ensures all values are non-empty strings.
+// Rules:
+// - Return a new map
+// - Keys preserved
+// - Empty string values replaced with "default"
+// - Nil input => empty map (not nil)
+func NormalizeMap(m map[string]string) map[string]string {
+	// TODO: Normalize values
+	return nil
+}

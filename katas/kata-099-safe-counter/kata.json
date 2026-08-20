@@ -1,0 +1,12 @@
+{
+  "id": "099",
+  "slug": "safe-counter",
+  "title": "Safe Counter",
+  "focus": "sync/atomic or mutex",
+  "signature": "",
+  "rules": [
+    "Inc/Add/Value",
+    "race-free"
+  ],
+  "evaluator_status": "incomplete"
+}

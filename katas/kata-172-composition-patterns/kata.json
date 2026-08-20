@@ -1,0 +1,78 @@
+{
+  "id": "172",
+  "slug": "composition-patterns",
+  "title": "Composition Over Inheritance",
+  "focus": "Struct embedding, small interfaces, accept interfaces return structs",
+  "signature": "",
+  "rules": [
+    "BaseItem provides common String() and HasTag()",
+    "Task and TodoList embed BaseItem",
+    "DescribeItem accepts any Stringer (interface flexibility)",
+    "FilterItems works with any TagChecker"
+  ],
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "language-basics",
+  "level": "junior",
+  "tags": [
+    "composition",
+    "embedding",
+    "interfaces",
+    "structural-typing"
+  ],
+  "prerequisites": [
+    "040",
+    "167"
+  ],
+  "estimated_minutes": 30,
+  "flashcards": [
+    {
+      "front": "What is struct embedding in Go?",
+      "back": "Including a struct field without a name. The embedded type's methods are promoted to the outer type, giving the appearance of inheritance."
+    },
+    {
+      "front": "How does Go achieve polymorphism?",
+      "back": "Through interfaces. Any type that satisfies an interface's method set implicitly implements it \u2014 no 'implements' keyword needed."
+    },
+    {
+      "front": "What does 'accept interfaces, return structs' mean?",
+      "back": "Function parameters should be interfaces for flexibility. Return concrete types for clarity and options. This is Go's core design principle."
+    },
+    {
+      "front": "What is a small interface?",
+      "back": "An interface with 1-3 methods. Go's best interfaces (io.Reader, fmt.Stringer) are tiny. Large interfaces are a design smell."
+    }
+  ],
+  "quiz_questions": [
+    {
+      "question": "How does Go implement polymorphism?",
+      "options": [
+        "Class inheritance",
+        "Struct embedding",
+        "Interfaces with implicit satisfaction",
+        "Abstract base classes"
+      ],
+      "answer": "Interfaces with implicit satisfaction"
+    },
+    {
+      "question": "What does 'accept interfaces, return structs' give you?",
+      "options": [
+        "Better performance",
+        "Flexibility in inputs, clarity in outputs",
+        "Stronger type safety",
+        "Easier testing only"
+      ],
+      "answer": "Flexibility in inputs, clarity in outputs"
+    },
+    {
+      "question": "How many methods should a good Go interface have?",
+      "options": [
+        "As many as needed",
+        "1-3 ideally",
+        "At least 5",
+        "Exactly 1"
+      ],
+      "answer": "1-3 ideally"
+    }
+  ]
+}

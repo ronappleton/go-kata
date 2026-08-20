@@ -1,0 +1,13 @@
+{
+  "id": "031",
+  "slug": "unique-strings",
+  "title": "Unique Strings",
+  "focus": "Maps as sets, order preservation",
+  "signature": "func Unique(items []string) []string",
+  "rules": [
+    "preserve first occurrence order",
+    "nil =\u003e empty slice",
+    "case-sensitive"
+  ],
+  "evaluator_status": "incomplete"
+}

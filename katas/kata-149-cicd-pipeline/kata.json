@@ -1,0 +1,13 @@
+{
+  "id": "149",
+  "slug": "cicd-pipeline",
+  "title": "CI/CD Pipeline",
+  "focus": "GitHub Actions, CI/CD, automated testing, deployment",
+  "signature": "",
+  "rules": [
+    "Pipeline has a name",
+    "Pipeline has at least one step",
+    "Steps include test and build"
+  ],
+  "evaluator_status": "ready"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "047",
+  "slug": "json-pretty-print",
+  "title": "Pretty JSON",
+  "focus": "encoding/json validation and formatting",
+  "signature": "func PrettyJSON(input []byte) ([]byte, error)",
+  "rules": [
+    "invalid JSON input =\u003e non-nil error",
+    "valid JSON =\u003e pretty-print with 2-space indentation",
+    "output ends with a trailing newline",
+    "semantic JSON content remains unchanged"
+  ],
+  "evaluator_status": "incomplete"
+}

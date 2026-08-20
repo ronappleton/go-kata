@@ -1,0 +1,17 @@
+package kata
+
+// DebugSession represents a structured debugging approach with AI.
+type DebugSession struct {
+	Error       string
+	Context     string
+	Hypotheses  []string
+	Tests       []string
+	Conclusion  string
+}
+
+// StartDebugging takes an error and context, and generates
+// a structured debugging plan. The goal is to UNDERSTAND
+// the error, not just fix it.
+func StartDebugging(errMsg, context string) DebugSession {
+	return DebugSession{}
+}

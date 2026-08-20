@@ -1,0 +1,14 @@
+ARG GO_BASE_IMAGE
+FROM ${GO_BASE_IMAGE}
+
+RUN useradd --create-home --uid 65532 --shell /usr/sbin/nologin gokatas
+
+ENV GOTOOLCHAIN=local \
+    GOPROXY=off \
+    GOSUMDB=off \
+    CGO_ENABLED=0
+
+USER 65532:65532
+WORKDIR /workspace
+
+ENTRYPOINT ["go"]

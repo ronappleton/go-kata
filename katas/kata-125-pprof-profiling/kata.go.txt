@@ -1,0 +1,8 @@
+package kata
+
+// FindDuplicates returns duplicate integers from a slice.
+// Your task: implement an efficient version.
+func FindDuplicates(nums []int) []int {
+	// Your implementation
+	return nil
+}

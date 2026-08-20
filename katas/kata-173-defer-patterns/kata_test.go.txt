@@ -1,0 +1,74 @@
+package kata
+
+import (
+	"strings"
+	"testing"
+)
+
+func TestCaptureOutput(t *testing.T) {
+	got := CaptureOutput([]string{"open", "close"})
+	want := []string{"opened", "closed"}
+	if len(got) != len(want) {
+		t.Fatalf("CaptureOutput() returned %d items, want %d", len(got), len(want))
+	}
+	for i, w := range want {
+		if got[i] != w {
+			t.Errorf("CaptureOutput()[%d] = %q, want %q", i, got[i], w)
+		}
+	}
+}
+
+func TestSafeDivide(t *testing.T) {
+	quotient, err := SafeDivide(10, 2)
+	if quotient != 5 || err != "" {
+		t.Errorf("SafeDivide(10, 2) = (%d, %q), want (5, '')", quotient, err)
+	}
+
+	_, err = SafeDivide(10, 0)
+	if err == "" {
+		t.Error("SafeDivide(10, 0) should return error")
+	}
+	if !strings.Contains(err, "divide by zero") {
+		t.Errorf("error = %q, want contain 'divide by zero'", err)
+	}
+}
+
+func TestPipeline(t *testing.T) {
+	got := Pipeline([]string{"build", "test", "deploy"})
+	if len(got) != 6 {
+		t.Fatalf("Pipeline() returned %d messages, want 6: %v", len(got), got)
+	}
+	// Each stage should have started and completed
+	for i := 0; i < len(got); i += 2 {
+		if !strings.HasPrefix(got[i], "started:") {
+			t.Errorf("got[%d] = %q, want 'started:' prefix", i, got[i])
+		}
+		if !strings.HasPrefix(got[i+1], "completed:") {
+			t.Errorf("got[%d] = %q, want 'completed:' prefix", i+1, got[i+1])
+		}
+	}
+}
+
+func TestPipelineWithFailure(t *testing.T) {
+	got := Pipeline([]string{"build", "fail-test", "deploy"})
+	// build starts/completes, fail-test starts then fails
+	if len(got) < 3 {
+		t.Fatalf("Pipeline() with fail returned %d messages, want >= 3: %v", len(got), got)
+	}
+	found := false
+	for _, msg := range got {
+		if strings.Contains(msg, "failed:") {
+			found = true
+			break
+		}
+	}
+	if !found {
+		t.Errorf("Pipeline() should record 'failed:' message, got: %v", got)
+	}
+}
+
+func TestDeferredMultiply(t *testing.T) {
+	if got := DeferredMultiply(3, 4); got != 12 {
+		t.Errorf("DeferredMultiply(3, 4) = %d, want 12", got)
+	}
+}

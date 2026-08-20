@@ -1,0 +1,13 @@
+{
+  "id": "127",
+  "slug": "jwt-sign-verify",
+  "title": "JWT Sign/Verify",
+  "focus": "crypto, encoding",
+  "signature": "func SignJWT(claims map[string]any, secret []byte, ttl time.Duration) (string, error)",
+  "rules": [
+    "HS256",
+    "include exp",
+    "also implement VerifyJWT(token, secret)"
+  ],
+  "evaluator_status": "incomplete"
+}

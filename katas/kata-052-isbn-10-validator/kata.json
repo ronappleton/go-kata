@@ -1,0 +1,13 @@
+{
+  "id": "052",
+  "slug": "isbn-10-validator",
+  "title": "ISBN-10 Validator",
+  "focus": "Checksums",
+  "signature": "func IsValidISBN10(s string) bool",
+  "rules": [
+    "allow hyphens/spaces",
+    "X allowed as last digit meaning 10",
+    "must be 10 digits after stripping"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,82 @@
+{
+  "pathways": [
+    {
+      "id": "associate",
+      "title": "Associate",
+      "description": "Build consistent Go implementation habits from programming basics through standard library fluency.",
+      "categories": [
+        "programming-essentials",
+        "data-and-logic",
+        "well-known-packages",
+        "go-foundations",
+        "core-collections-and-algorithms"
+      ],
+      "recommended_modes": [
+        "Documentation",
+        "Flashcards",
+        "Workbench",
+        "Quiz",
+        "Reflection"
+      ],
+      "level_outcome": "You can implement small-to-medium Go functions with clear contracts, edge-case coverage, and readable tests."
+    },
+    {
+      "id": "engineer",
+      "title": "Engineer",
+      "description": "Shift from isolated functions to boundary-aware service code, testing discipline, and debugging skills.",
+      "categories": [
+        "text-data-and-transformations",
+        "file-time-and-config",
+        "services-and-boundaries",
+        "service-patterns"
+      ],
+      "recommended_modes": [
+        "Documentation",
+        "Workbench",
+        "Bug Hunt",
+        "Quiz",
+        "Reflection"
+      ],
+      "level_outcome": "You can build and debug boundary-heavy Go code with explicit error handling and reliable runtime behavior."
+    },
+    {
+      "id": "senior",
+      "title": "Senior",
+      "description": "Master concurrency, reliability patterns, advanced data structures, and production security practices.",
+      "categories": [
+        "concurrency-and-reliability",
+        "advanced-data-structures-and-algorithms",
+        "tooling-and-security"
+      ],
+      "recommended_modes": [
+        "Documentation",
+        "Workbench",
+        "Bug Hunt",
+        "Flashcards",
+        "Quiz",
+        "Reflection"
+      ],
+      "level_outcome": "You can design, debug, and evolve senior-level Go solutions with strong operational and maintainability standards."
+    },
+    {
+      "id": "lead",
+      "title": "Lead",
+      "description": "Apply production-grade quality standards, testing discipline, and architectural reasoning across complete systems.",
+      "categories": [
+        "cli-tooling",
+        "testing-and-performance",
+        "bug-fix-lab",
+        "databases-and-io"
+      ],
+      "recommended_modes": [
+        "Documentation",
+        "Workbench",
+        "Bug Hunt",
+        "Flashcards",
+        "Quiz",
+        "Reflection"
+      ],
+      "level_outcome": "You can apply production-grade quality standards and design tradeoff reasoning to professional Go solutions."
+    }
+  ]
+}

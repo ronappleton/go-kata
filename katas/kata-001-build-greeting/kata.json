@@ -1,0 +1,13 @@
+{
+  "id": "001",
+  "slug": "build-greeting",
+  "title": "Build Greeting",
+  "focus": "Functions, variables, conditionals, strings.TrimSpace",
+  "signature": "func BuildGreeting(name string) string",
+  "rules": [
+    "empty name after trim =\u003e \"Hello, stranger!\"",
+    "non-empty name =\u003e \"Hello, \u003cName\u003e!\"",
+    "result always begins with \"Hello,\""
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,17 @@
+package kata
+
+// Abs returns the absolute value of n.
+func Abs(n int) int {
+	if n < 0 {
+		return -n
+	}
+	return n
+}
+
+// Max returns the larger of a and b.
+func Max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}

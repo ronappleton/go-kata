@@ -1,0 +1,12 @@
+{
+  "id": "012",
+  "slug": "sum-first-n",
+  "title": "Sum First N",
+  "focus": "For-loops, accumulation patterns",
+  "signature": "func SumFirstN(n int) int",
+  "rules": [
+    "n\u003c=0 =\u003e 0",
+    "n\u003e0 =\u003e sum of integers from 1 through n"
+  ],
+  "evaluator_status": "incomplete"
+}

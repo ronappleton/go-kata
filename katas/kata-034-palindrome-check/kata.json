@@ -1,0 +1,13 @@
+{
+  "id": "034",
+  "slug": "palindrome-check",
+  "title": "Palindrome Check",
+  "focus": "Strings, normalization basics",
+  "signature": "func IsPalindrome(s string) bool",
+  "rules": [
+    "case-insensitive",
+    "ignore non-letters/digits",
+    "Unicode letters treated as letters (use unicode package)"
+  ],
+  "evaluator_status": "incomplete"
+}

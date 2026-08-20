@@ -1,0 +1,14 @@
+{
+  "id": "017",
+  "slug": "strconv-parse-positive-int",
+  "title": "Parse Positive Int",
+  "focus": "strconv.Atoi, strings.TrimSpace, input validation",
+  "signature": "func ParsePositiveInt(input string) (int, error)",
+  "rules": [
+    "trim leading/trailing spaces before parsing",
+    "invalid numeric text =\u003e non-nil error",
+    "parsed value \u003c= 0 =\u003e non-nil error",
+    "valid positive value =\u003e return value and nil error"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "029",
+  "slug": "incomplete-task-filter",
+  "title": "Incomplete Task Filter",
+  "focus": "Structs, slice filtering, business-rule selection",
+  "signature": "func IncompleteTasks(tasks []Task) []Task",
+  "rules": [
+    "include tasks where Done is false",
+    "preserve original order",
+    "return new slice (input unchanged)",
+    "if none match =\u003e empty slice (not nil)"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,79 @@
+{
+  "id": "173",
+  "slug": "defer-patterns",
+  "title": "Defer Patterns \u0026 Cleanup",
+  "focus": "defer, resource cleanup, panic recovery, named returns",
+  "signature": "",
+  "rules": [
+    "CaptureOutput pairs open/close with defer",
+    "SafeDivide uses recover() to catch divide-by-zero panics",
+    "Pipeline ensures completed/failed is always recorded",
+    "DeferredMultiply demonstrates argument evaluation timing"
+  ],
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "language-basics",
+  "level": "junior",
+  "tags": [
+    "defer",
+    "cleanup",
+    "panic",
+    "recovery",
+    "resource-management"
+  ],
+  "prerequisites": [
+    "166"
+  ],
+  "estimated_minutes": 25,
+  "flashcards": [
+    {
+      "front": "When does a deferred function execute?",
+      "back": "After the surrounding function returns (or panics). Deferred calls execute in LIFO order (last deferred, first executed)."
+    },
+    {
+      "front": "What is the most common use of defer?",
+      "back": "Resource cleanup: closing files, releasing locks, closing database connections. defer ensures cleanup happens even if the function panics."
+    },
+    {
+      "front": "Can you recover from a panic in a deferred function?",
+      "back": "Yes. Call recover() inside a deferred function. If a panic is active, recover() returns the panic value. Otherwise it returns nil."
+    },
+    {
+      "front": "What is a gotcha with defer and loops?",
+      "back": "defer executes when the FUNCTION returns, not the loop iteration. In a loop, defer will accumulate until the function exits. Extract the loop body into a helper function."
+    }
+  ],
+  "quiz_questions": [
+    {
+      "question": "What is the execution order of deferred calls?",
+      "options": [
+        "FIFO",
+        "LIFO",
+        "Random",
+        "Parallel"
+      ],
+      "answer": "LIFO"
+    },
+    {
+      "question": "When does a deferred function run?",
+      "back": "After the surrounding function returns",
+      "options": [
+        "Immediately",
+        "After the surrounding function returns",
+        "At program exit",
+        "In a goroutine"
+      ],
+      "answer": "After the surrounding function returns"
+    },
+    {
+      "question": "How do you stop a panic from crashing the program?",
+      "options": [
+        "try/catch",
+        "recover() in defer",
+        "ignore()",
+        "panic(false)"
+      ],
+      "answer": "recover() in defer"
+    }
+  ]
+}

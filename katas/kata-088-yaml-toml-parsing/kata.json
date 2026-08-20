@@ -1,0 +1,12 @@
+{
+  "id": "088",
+  "slug": "yaml-toml-parsing",
+  "title": "YAML/TOML Parsing",
+  "focus": "encoding/json patterns, struct tags, config file parsing",
+  "signature": "func ParseConfig(data string) (Config, error)",
+  "rules": [
+    "valid JSON =\u003e Config with correct fields",
+    "invalid JSON =\u003e error"
+  ],
+  "evaluator_status": "ready"
+}

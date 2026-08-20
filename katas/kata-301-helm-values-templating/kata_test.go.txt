@@ -1,0 +1,22 @@
+package kata
+
+import (
+	"strings"
+	"testing"
+)
+
+func TestRenderDeployment(t *testing.T) {
+	ctx := TemplateContext{
+		AppName:  "web",
+		Replicas: 3,
+		Image:    "nginx:latest",
+		Port:     80,
+	}
+	result := RenderDeployment(ctx)
+	if !strings.Contains(result, "kind: Deployment") {
+		t.Error("expected Deployment kind")
+	}
+	if !strings.Contains(result, "web") {
+		t.Error("expected app name")
+	}
+}

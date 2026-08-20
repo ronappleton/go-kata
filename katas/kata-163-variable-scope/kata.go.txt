@@ -1,0 +1,28 @@
+package kata
+
+// CountDeclarations returns the number of variables declared in the scope.
+// You will learn about short vs long declarations and block scoping.
+//
+// Rules:
+// - Count how many distinct variables are declared in CountDeclarations()
+// - Do NOT count the function parameter or return value
+// - The test will verify your understanding of declaration syntax
+func CountDeclarations() int {
+	// TODO: Declare variables using different methods:
+	// 1. Short declaration (:=)
+	// 2. var declaration
+	// 3. Multiple var declarations
+	// Then return the count of distinct variables you declared.
+	
+	return 0
+}
+
+// ShadowExample demonstrates variable shadowing.
+// Inner scope variables can "shadow" outer scope variables.
+func ShadowExample(x int) int {
+	if x > 0 {
+		x := x * 2 // This shadows the parameter x
+		return x
+	}
+	return x
+}

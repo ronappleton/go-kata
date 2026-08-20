@@ -1,0 +1,115 @@
+package kata
+
+import (
+	"strings"
+	"testing"
+)
+
+func TestGenerateDockerfile(t *testing.T) {
+	df := GenerateDockerfile()
+	if !strings.Contains(df, "FROM golang:") {
+		t.Error("Dockerfile missing golang base stage")
+	}
+	if !strings.Contains(df, "FROM") && strings.Count(df, "FROM") < 2 {
+		t.Error("Dockerfile should have multiple stages")
+	}
+	if !strings.Contains(df, "COPY") {
+		t.Error("Dockerfile missing COPY instruction")
+	}
+	if !strings.Contains(df, "EXPOSE") {
+		t.Error("Dockerfile missing EXPOSE")
+	}
+	if !strings.Contains(df, "go build") {
+		t.Error("Dockerfile missing go build command")
+	}
+}
+
+func TestGenerateCompose(t *testing.T) {
+	comp := GenerateCompose()
+	if !strings.Contains(comp, "services:") {
+		t.Error("Compose missing services key")
+	}
+	if !strings.Contains(comp, "redis") {
+		t.Error("Compose missing redis service")
+	}
+	if !strings.Contains(comp, "8080") {
+		t.Error("Compose missing port 8080")
+	}
+	if !strings.Contains(comp, "6379") {
+		t.Error("Compose missing port 6379")
+	}
+}
+
+func TestParseDockerfile(t *testing.T) {
+	input := `FROM golang:1.24-alpine AS builder
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN go build -o server .
+FROM alpine:3.19
+COPY --from=builder /app/server /server
+RUN chmod +x /server
+CMD ["/server"]
+`
+	got := ParseDockerfile(input)
+	// Should find: "go mod download", "go build -o server .", "chmod +x /server"
+	if len(got) < 2 {
+		t.Errorf("ParseDockerfile() returned %d commands, want at least 2: %v", len(got), got)
+	}
+	found := false
+	for _, cmd := range got {
+		if strings.Contains(cmd, "go build") {
+			found = true
+			break
+		}
+	}
+	if !found {
+		t.Errorf("ParseDockerfile() didn't find go build command: %v", got)
+	}
+}
+
+func TestValidateCompose(t *testing.T) {
+	valid := `
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+`
+	issues := ValidateCompose(valid)
+	if len(issues) != 0 {
+		t.Errorf("ValidateCompose() on valid content = %v, want []", issues)
+	}
+
+	invalid := `
+app:
+  build: .
+`
+	issues = ValidateCompose(invalid)
+	if len(issues) == 0 {
+		t.Error("ValidateCompose() on invalid content = [], want issues")
+	}
+}
+
+func TestGenerateHealthcheck(t *testing.T) {
+	hc := GenerateHealthcheck(8080, "http")
+	if !strings.Contains(hc, "HEALTHCHECK") {
+		t.Error("GenerateHealthcheck() missing HEALTHCHECK")
+	}
+	if !strings.Contains(hc, "8080") {
+		t.Error("GenerateHealthcheck() missing port")
+	}
+	if !strings.Contains(hc, "curl") {
+		t.Error("GenerateHealthcheck() missing curl for http type")
+	}
+
+	hc = GenerateHealthcheck(6379, "tcp")
+	if !strings.Contains(hc, "nc") {
+		t.Error("GenerateHealthcheck() missing nc for tcp type")
+	}
+}

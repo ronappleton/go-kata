@@ -1,0 +1,55 @@
+package kata
+
+import (
+	"strings"
+	"unicode"
+)
+
+// FixStuttering removes stuttering from Go type names.
+// Rules:
+// - "HTTPClient" => "Client" (remove package prefix if it matches)
+// - "UserRecord" => "Record" if package is "user"
+// - "ServerConfig" => "Config" if package is "server"
+// - Package name is passed as context
+// - If name starts with package name (case-insensitive), remove it
+// - Preserve the rest of the name exactly
+// - If name equals package name, return as-is
+func FixStuttering(name, packageName string) string {
+	// TODO: Remove stuttering
+	return name
+}
+
+// ValidateReceiverNames checks that all methods on a type use the same receiver.
+// Rules:
+// - methods is a list of "Receiver.Method" strings
+// - All must use the same single-letter receiver
+// - Receiver must be 1-2 characters
+// - Return list of inconsistencies (empty = all good)
+func ValidateReceiverNames(methods []string) []string {
+	// TODO: Check receiver consistency
+	return nil
+}
+
+// SuggestMethodName suggests a better name following Go conventions.
+// Rules:
+// - If starts with "Get" and returns a value, suggest removing "Get" prefix
+// - If starts with "Is" and returns bool, keep it
+// - If starts with "Set" and takes a value, keep it
+// - If name is all lowercase with underscores, suggest camelCase
+// - Return the suggested name (may be same as input)
+func SuggestMethodName(name string) string {
+	// TODO: Suggest idiomatic name
+	return name
+}
+
+// CleanPackageName removes non-idiomatic package names.
+// Rules:
+// - "my-package" => "mypackage" (remove hyphens)
+// - "my_package" => "mypackage" (remove underscores)
+// - "MyPackage" => "mypackage" (lowercase)
+// - "utils" => "util" (prefer singular, but accept both)
+// - "helpers" => suggest removal (not a meaningful name)
+func CleanPackageName(name string) string {
+	// TODO: Clean package name
+	return name
+}

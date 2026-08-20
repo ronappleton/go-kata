@@ -1,0 +1,8 @@
+package kata
+
+// ParseInt safely parses a string to int.
+// Return 0 and an error for invalid input.
+func ParseInt(s string) (int, error) {
+	// Your implementation
+	return 0, nil
+}

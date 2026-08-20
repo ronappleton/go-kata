@@ -1,0 +1,13 @@
+{
+  "id": "105",
+  "slug": "trie-autocomplete",
+  "title": "Trie Autocomplete",
+  "focus": "Data structures",
+  "signature": "func NewTrie() *Trie",
+  "rules": [
+    "Insert(word)",
+    "Suggest(prefix, limit)",
+    "lexicographic order"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,10 @@
+package kata
+
+import "testing"
+
+func TestReviewAndMentor(t *testing.T) {
+	feedback := ReviewAndMentor("func f() {}")
+	if len(feedback) == 0 {
+		t.Fatal("expected at least one feedback item")
+	}
+}

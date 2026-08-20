@@ -1,0 +1,17 @@
+package kata
+
+import "strings"
+
+// SanitizeInput removes potentially dangerous characters from user input.
+// Your task: implement proper input sanitization.
+func SanitizeInput(input string) string {
+	// Your implementation
+	return input
+}
+
+// ValidateEmail checks if an email address is valid.
+// Your task: implement basic email validation.
+func ValidateEmail(email string) bool {
+	// Your implementation
+	return false
+}

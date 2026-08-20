@@ -1,0 +1,81 @@
+package kata
+
+import (
+	"errors"
+	"testing"
+)
+
+func TestValidateEmail(t *testing.T) {
+	tests := []struct {
+		email string
+		want  error
+	}{
+	{"user@example.com", nil},
+	{"test@test.co.uk", nil},
+	{"no-at-sign", ErrInvalidEmail},
+	{"@missing.com", ErrInvalidEmail},
+	{"missing@", ErrInvalidEmail},
+	{"missing.domain", ErrInvalidEmail},
+	{"", ErrInvalidEmail},
+	}
+	for _, tt := range tests {
+		t.Run(tt.email, func(t *testing.T) {
+			got := ValidateEmail(tt.email)
+			if !errors.Is(got, tt.want) {
+				t.Errorf("ValidateEmail(%q) = %v, want %v", tt.email, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestValidateAge(t *testing.T) {
+	if err := ValidateAge(25); err != nil {
+		t.Errorf("ValidateAge(25) = %v, want nil", err)
+	}
+	var ve *ValidationError
+	if err := ValidateAge(-1); !errors.As(err, &ve) {
+		t.Errorf("ValidateAge(-1) = %v, want *ValidationError", err)
+	}
+	if err := ValidateAge(200); !errors.As(err, &ve) {
+		t.Errorf("ValidateAge(200) = %v, want *ValidationError", err)
+	}
+	if ve != nil && ve.Field != "age" {
+		t.Errorf("Field = %q, want %q", ve.Field, "age")
+	}
+}
+
+func TestClassifyError(t *testing.T) {
+	tests := []struct {
+		err  error
+		want string
+	}{
+	{nil, "none"},
+	{ErrInvalidEmail, "email"},
+	{&ValidationError{Field: "x", Message: "bad"}, "validation"},
+	{errors.New("other"), "unknown"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.want, func(t *testing.T) {
+			got := ClassifyError(tt.err)
+			if got != tt.want {
+				t.Errorf("ClassifyError(%v) = %q, want %q", tt.err, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestWrapWithContext(t *testing.T) {
+	if got := WrapWithContext("op", nil); got != nil {
+		t.Errorf("WrapWithContext(op, nil) = %v, want nil", got)
+	}
+	err := WrapWithContext("parse", errors.New("bad input"))
+	if err == nil {
+		t.Fatal("WrapWithContext(parse, err) = nil, want error")
+	}
+	if !strings.Contains(err.Error(), "parse:") {
+		t.Errorf("error = %q, want prefix parse:", err.Error())
+	}
+	if !errors.Is(err, errors.New("bad input")) {
+		t.Error("wrapped error should be unwrappable")
+	}
+}

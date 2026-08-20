@@ -1,0 +1,14 @@
+package kata
+
+// PipelineConfig represents a CI/CD pipeline configuration.
+type PipelineConfig struct {
+	Name    string
+	Trigger string
+	Steps   []string
+}
+
+// GeneratePipeline creates a basic CI/CD pipeline config.
+// Your task: implement the function below.
+func GeneratePipeline(name string) PipelineConfig {
+	return PipelineConfig{}
+}

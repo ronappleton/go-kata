@@ -1,0 +1,13 @@
+{
+  "id": "124",
+  "slug": "mini-uniq",
+  "title": "Mini uniq",
+  "focus": "CLI, IO",
+  "signature": "func Run(args []string, r io.Reader, w io.Writer) error",
+  "rules": [
+    "implement subset of unix uniq",
+    "no os.Exit",
+    "return errors"
+  ],
+  "evaluator_status": "incomplete"
+}

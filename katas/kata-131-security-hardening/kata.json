@@ -1,0 +1,14 @@
+{
+  "id": "131",
+  "slug": "security-hardening",
+  "title": "Security Hardening",
+  "focus": "input validation, SQL injection, XSS, secrets management",
+  "signature": "",
+  "rules": [
+    "Script tags =\u003e removed",
+    "SQL injection patterns =\u003e removed",
+    "Valid email =\u003e true",
+    "Invalid email =\u003e false"
+  ],
+  "evaluator_status": "ready"
+}

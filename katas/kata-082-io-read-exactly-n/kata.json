@@ -1,0 +1,14 @@
+{
+  "id": "082",
+  "slug": "io-read-exactly-n",
+  "title": "Read Exactly N",
+  "focus": "io.ReadFull semantics",
+  "signature": "func ReadExactlyN(r io.Reader, n int) ([]byte, error)",
+  "rules": [
+    "n \u003c 0 =\u003e non-nil error",
+    "n == 0 =\u003e empty slice and nil error",
+    "return exactly n bytes or error",
+    "short read =\u003e non-nil error"
+  ],
+  "evaluator_status": "incomplete"
+}

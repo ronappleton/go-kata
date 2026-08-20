@@ -1,0 +1,12 @@
+{
+  "id": "101",
+  "slug": "throttle",
+  "title": "Throttle",
+  "focus": "Time, channels",
+  "signature": "func Throttle(d time.Duration, in \u003c-chan struct{}) \u003c-chan struct{}",
+  "rules": [
+    "max 1 event per period",
+    "drop extras"
+  ],
+  "evaluator_status": "incomplete"
+}

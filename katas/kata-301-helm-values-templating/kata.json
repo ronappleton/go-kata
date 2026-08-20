@@ -1,0 +1,13 @@
+{
+  "id": "301",
+  "slug": "helm-values-templating",
+  "title": "Helm Values \u0026 Templating",
+  "focus": "values.yaml, Go templates, conditional rendering, loops",
+  "signature": "",
+  "rules": [
+    "Output is a valid Kubernetes Deployment",
+    "Uses values from TemplateContext",
+    "Includes app name, replicas, image, and port"
+  ],
+  "evaluator_status": "ready"
+}

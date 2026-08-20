@@ -1,0 +1,13 @@
+{
+  "id": "091",
+  "slug": "testify-assertions",
+  "title": "testify Assertions",
+  "focus": "github.com/stretchr/testify, assert/require, test helpers",
+  "signature": "",
+  "rules": [
+    "Multiply(2,3) =\u003e 6",
+    "Multiply(0,5) =\u003e 0",
+    "Tests use assertion patterns"
+  ],
+  "evaluator_status": "ready"
+}

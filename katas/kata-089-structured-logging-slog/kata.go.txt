@@ -1,0 +1,24 @@
+package kata
+
+import "log/slog"
+
+// AppLogger wraps slog for application logging.
+// Your task: implement the methods below.
+type AppLogger struct {
+	logger *slog.Logger
+}
+
+// NewAppLogger creates a new AppLogger.
+func NewAppLogger(logger *slog.Logger) *AppLogger {
+	return &AppLogger{logger: logger}
+}
+
+// LogRequest logs an HTTP request with structured fields.
+func (l *AppLogger) LogRequest(method, path string, status int) {
+	// Your implementation here
+}
+
+// LogError logs an error with context.
+func (l *AppLogger) LogError(msg string, err error) {
+	// Your implementation here
+}

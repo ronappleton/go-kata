@@ -1,0 +1,13 @@
+{
+  "id": "025",
+  "slug": "find-first-index",
+  "title": "Find First Index",
+  "focus": "Linear search, return conventions",
+  "signature": "func FindIndex(values []string, target string) int",
+  "rules": [
+    "returns first matching index",
+    "no match =\u003e -1",
+    "comparison is case-sensitive"
+  ],
+  "evaluator_status": "incomplete"
+}

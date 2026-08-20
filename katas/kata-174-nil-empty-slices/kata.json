@@ -1,0 +1,79 @@
+{
+  "id": "174",
+  "slug": "nil-empty-slices",
+  "title": "Nil vs Empty Slices \u0026 Maps",
+  "focus": "nil vs empty, initialization patterns, when to use which",
+  "signature": "",
+  "rules": [
+    "ClassifySlice distinguishes nil, empty, populated",
+    "SafeMapGet handles nil maps",
+    "EnsureEmpty returns non-nil empty slices",
+    "NormalizeMap produces non-nil maps"
+  ],
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "language-basics",
+  "level": "junior",
+  "tags": [
+    "nil",
+    "empty",
+    "slices",
+    "maps",
+    "initialization",
+    "zero-values"
+  ],
+  "prerequisites": [
+    "163"
+  ],
+  "estimated_minutes": 20,
+  "flashcards": [
+    {
+      "front": "What is the difference between nil and empty slices?",
+      "back": "nil slice: var s []int (no backing array). Empty slice: s := []int{} or s := make([]int, 0) (has backing array). Both have len 0, but JSON marshals differently."
+    },
+    {
+      "front": "When should you return nil vs empty slices?",
+      "back": "Return nil for 'no data exists'. Return empty for 'data exists but is empty'. JSON consumers prefer [] over null, so prefer empty slices for API responses."
+    },
+    {
+      "front": "How do you safely append to a nil slice?",
+      "back": "Just use append. Go handles nil slices gracefully: append(nil, 1) works and returns [1]. No special nil check needed."
+    },
+    {
+      "front": "What is the zero value of a map?",
+      "back": "nil. A nil map behaves like an empty map for reads (returns zero value), but writing to a nil map panics. Always initialize maps before writing."
+    }
+  ],
+  "quiz_questions": [
+    {
+      "question": "What does len(nil slice) return?",
+      "options": [
+        "panic",
+        "-1",
+        "0",
+        "undefined"
+      ],
+      "answer": "0"
+    },
+    {
+      "question": "What happens when you write to a nil map?",
+      "options": [
+        "Creates the map",
+        "Returns zero value",
+        "Panics",
+        "Silently ignores"
+      ],
+      "answer": "Panics"
+    },
+    {
+      "question": "How do JSON encoders handle nil vs empty slices?",
+      "options": [
+        "Same behavior",
+        "nil =\u003e null, empty =\u003e []",
+        "nil =\u003e [], empty =\u003e null",
+        "Both become null"
+      ],
+      "answer": "nil =\u003e null, empty =\u003e []"
+    }
+  ]
+}

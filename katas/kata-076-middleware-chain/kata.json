@@ -1,0 +1,12 @@
+{
+  "id": "076",
+  "slug": "middleware-chain",
+  "title": "Middleware Chain",
+  "focus": "net/http",
+  "signature": "func Chain(h http.Handler, m ...func(http.Handler) http.Handler) http.Handler",
+  "rules": [
+    "applies in order given",
+    "nil middleware ignored"
+  ],
+  "evaluator_status": "incomplete"
+}

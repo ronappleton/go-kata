@@ -1,0 +1,13 @@
+{
+  "id": "160",
+  "slug": "ai-prompt-engineering",
+  "title": "AI Prompt Engineering for Developers",
+  "focus": "effective prompting, context setting, constraint specification",
+  "signature": "",
+  "rules": [
+    "prompt includes the goal",
+    "prompt includes constraints when provided",
+    "prompt is clear and actionable"
+  ],
+  "evaluator_status": "ready"
+}

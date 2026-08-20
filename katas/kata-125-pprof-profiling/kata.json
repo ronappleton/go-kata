@@ -1,0 +1,13 @@
+{
+  "id": "125",
+  "slug": "pprof-profiling",
+  "title": "pprof Profiling",
+  "focus": "runtime/pprof, profiling, CPU/memory analysis, benchmarks",
+  "signature": "",
+  "rules": [
+    "FindDuplicates returns duplicate values",
+    "Benchmark runs without errors",
+    "Code is efficient (O(n) expected)"
+  ],
+  "evaluator_status": "ready"
+}

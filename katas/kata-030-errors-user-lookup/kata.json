@@ -1,0 +1,14 @@
+{
+  "id": "030",
+  "slug": "errors-user-lookup",
+  "title": "Find User Name",
+  "focus": "errors.Is, sentinel errors, strings.TrimSpace",
+  "signature": "func FindUserName(users map[string]string, id string) (string, error)",
+  "rules": [
+    "blank id after trim =\u003e return error wrapping `ErrInvalidUserID`",
+    "unknown id =\u003e return error wrapping `ErrUserNotFound`",
+    "found name should be returned trimmed",
+    "successful lookup =\u003e name and nil error"
+  ],
+  "evaluator_status": "incomplete"
+}

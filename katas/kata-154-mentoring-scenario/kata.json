@@ -1,0 +1,13 @@
+{
+  "id": "154",
+  "slug": "mentoring-scenario",
+  "title": "Mentoring Scenario",
+  "focus": "mentoring, code review feedback, teaching patterns, knowledge transfer",
+  "signature": "",
+  "rules": [
+    "Returns at least one feedback item",
+    "Includes positive, improvement, or question categories",
+    "Has priority levels"
+  ],
+  "evaluator_status": "ready"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "135",
+  "slug": "dijkstra-shortest-path",
+  "title": "Dijkstra Shortest Path",
+  "focus": "Advanced practice",
+  "signature": "func Kata75() error",
+  "rules": [
+    "follow README spec",
+    "write tests",
+    "keep it idiomatic"
+  ],
+  "evaluator_status": "incomplete"
+}

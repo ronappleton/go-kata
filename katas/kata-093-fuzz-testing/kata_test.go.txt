@@ -1,0 +1,47 @@
+package kata
+
+import "testing"
+
+func TestParseInt(t *testing.T) {
+	tests := []struct {
+		input string
+		want int
+		wantErr bool
+	}{
+		{"42", 42, false},
+		{"0", 0, false},
+		{"abc", 0, true},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.input, func(t *testing.T) {
+			got, err := ParseInt(tc.input)
+			if (err != nil) != tc.wantErr {
+				t.Errorf("ParseInt(%q) error = %v, wantErr %v", tc.input, err, tc.wantErr)
+			}
+			if got != tc.want {
+				t.Errorf("ParseInt(%q) = %d, want %d", tc.input, got, tc.want)
+			}
+		})
+	}
+}
+
+// FuzzParseInt is a fuzz test that feeds random inputs to ParseInt.
+// Uncomment and run with: go test -fuzz=FuzzParseInt
+/*
+func FuzzParseInt(f *testing.F) {
+	f.Add("42")
+	f.Add("0")
+	f.Add("-1")
+	f.Add("abc")
+
+	f.Fuzz(func(t *testing.T, input string) {
+		result, err := ParseInt(input)
+		if err != nil {
+			return
+		}
+		// Property: if no error, result should be parseable
+		_ = result
+	})
+}
+*/

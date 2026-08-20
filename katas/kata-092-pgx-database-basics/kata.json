@@ -1,0 +1,13 @@
+{
+  "id": "092",
+  "slug": "pgx-database-basics",
+  "title": "pgx Database Basics",
+  "focus": "database/sql, pgx, connection, query, scan",
+  "signature": "",
+  "rules": [
+    "Create returns an ID",
+    "GetByID returns the user or error",
+    "Tests use mock store (no real DB)"
+  ],
+  "evaluator_status": "ready"
+}

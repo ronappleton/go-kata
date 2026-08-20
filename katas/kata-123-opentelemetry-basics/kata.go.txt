@@ -1,0 +1,32 @@
+package kata
+
+import "context"
+
+// Span represents a tracing span (simplified for this kata).
+type Span struct {
+	Name     string
+	Parent   string
+	Finished bool
+}
+
+// Tracer creates and manages spans.
+type Tracer struct {
+	spans []Span
+}
+
+// NewTracer creates a new Tracer.
+func NewTracer() *Tracer {
+	return &Tracer{}
+}
+
+// StartSpan creates a new span with the given name.
+// If ctx contains a parent span, link to it.
+func (t *Tracer) StartSpan(ctx context.Context, name string) context.Context {
+	// Your implementation
+	return ctx
+}
+
+// FinishSpan marks the current span as finished.
+func (t *Tracer) FinishSpan(ctx context.Context) {
+	// Your implementation
+}

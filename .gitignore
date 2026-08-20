@@ -1,3 +1,6 @@
 /.idea/
 /.learning/
 /.gocache/
+/.build/
+/dist/
+*.deb

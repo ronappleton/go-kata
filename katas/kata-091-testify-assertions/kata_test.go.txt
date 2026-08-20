@@ -1,0 +1,27 @@
+package kata
+
+import (
+	"testing"
+)
+
+// Rewrite these tests using testify assertions (if available).
+// For now, use standard library patterns that testify would improve.
+
+func TestMultiply(t *testing.T) {
+	tests := []struct {
+		a, b, want int
+	}{
+		{2, 3, 6},
+		{0, 5, 0},
+		{-1, 4, -4},
+	}
+
+	for _, tc := range tests {
+		t.Run("", func(t *testing.T) {
+			got := Multiply(tc.a, tc.b)
+			if got != tc.want {
+				t.Errorf("Multiply(%d, %d) = %d, want %d", tc.a, tc.b, got, tc.want)
+			}
+		})
+	}
+}

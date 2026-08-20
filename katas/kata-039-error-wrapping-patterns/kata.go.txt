@@ -1,0 +1,14 @@
+package kata
+
+import "errors"
+
+var ErrNotFound = errors.New("not found")
+
+// FindUser looks up a user by ID.
+// Return ErrNotFound if the user doesn't exist.
+// Wrap any other errors with context.
+//
+// Your task: implement the function below.
+func FindUser(id int) (string, error) {
+	return "", nil
+}

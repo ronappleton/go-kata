@@ -1,0 +1,14 @@
+package kata
+
+// PromptBuilder constructs effective AI prompts.
+// Your task: implement the function below.
+//
+// A good prompt includes:
+// 1. What you want (clear goal)
+// 2. Constraints (language, style, requirements)
+// 3. Context (existing code, patterns to follow)
+//
+// BuildPrompt takes a goal and constraints and returns a well-structured prompt.
+func BuildPrompt(goal string, constraints []string) string {
+	return ""
+}

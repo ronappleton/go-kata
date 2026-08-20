@@ -1,0 +1,79 @@
+{
+  "id": "168",
+  "slug": "makefile-basics",
+  "title": "Makefile Basics",
+  "focus": "Make targets, variables, dependencies, phony targets, build/test/clean patterns",
+  "signature": "",
+  "rules": [
+    "ParseMakefile extracts target names in order",
+    "ExtractVariables returns variable assignments",
+    "ValidateTargets finds missing required targets",
+    "GenerateMakefile creates a complete Go project Makefile"
+  ],
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "setup-and-toolchain",
+  "level": "junior",
+  "tags": [
+    "makefile",
+    "build",
+    "targets",
+    "variables",
+    "phony"
+  ],
+  "prerequisites": [
+    "000",
+    "005"
+  ],
+  "estimated_minutes": 30,
+  "flashcards": [
+    {
+      "front": "What is a Makefile target?",
+      "back": "A named rule that specifies how to build a file or perform an action. Format: target: dependencies\\n\\tcommand"
+    },
+    {
+      "front": "What does .PHONY mean in a Makefile?",
+      "back": "Declares targets that don't produce files. Without .PHONY, Make checks if a file with that name exists and skips the rule if it does."
+    },
+    {
+      "front": "What is $@ in a Makefile recipe?",
+      "back": "The automatic variable for the target name. $\u003c is the first prerequisite. $? is prerequisites newer than the target."
+    },
+    {
+      "front": "What is the difference between = and := in Makefile variables?",
+      "back": "= is recursive (evaluated when used). := is simple (evaluated immediately). Use := for performance and predictable behavior."
+    }
+  ],
+  "quiz_questions": [
+    {
+      "question": "What .PHONY prevents Make from doing?",
+      "options": [
+        "Running commands",
+        "Checking for file existence",
+        "Using variables",
+        "Including other files"
+      ],
+      "answer": "Checking for file existence"
+    },
+    {
+      "question": "What does 'make clean' typically do?",
+      "options": [
+        "Delete build artifacts",
+        "Run tests",
+        "Install dependencies",
+        "Format code"
+      ],
+      "answer": "Delete build artifacts"
+    },
+    {
+      "question": "Which variable holds the first prerequisite?",
+      "options": [
+        "$@",
+        "$\u003c",
+        "$?",
+        "$^"
+      ],
+      "answer": "$\u003c"
+    }
+  ]
+}

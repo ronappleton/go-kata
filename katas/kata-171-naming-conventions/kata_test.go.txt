@@ -1,0 +1,74 @@
+package kata
+
+import (
+	"testing"
+)
+
+func TestFixStuttering(t *testing.T) {
+	tests := []struct {
+		name, pkg, want string
+	}{
+	{"HTTPClient", "http", "Client"},
+	{"UserRecord", "user", "Record"},
+	{"ServerConfig", "server", "Config"},
+	{"Config", "server", "Config"},    // no stuttering
+	{"Client", "http", "Client"},      // no stuttering
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := FixStuttering(tt.name, tt.pkg)
+			if got != tt.want {
+				t.Errorf("FixStuttering(%q, %q) = %q, want %q", tt.name, tt.pkg, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestValidateReceiverNames(t *testing.T) {
+	good := []string{"u.Name", "u.Email", "u.Save"}
+	if bad := ValidateReceiverNames(good); len(bad) != 0 {
+		t.Errorf("ValidateReceiverNames(%v) = %v, want []", good, bad)
+	}
+
+	bad := []string{"u.Name", "user.Email", "u.Save"}
+	if bad2 := ValidateReceiverNames(bad); len(bad2) == 0 {
+		t.Errorf("ValidateReceiverNames(%v) = [], want issues", bad)
+	}
+}
+
+func TestSuggestMethodName(t *testing.T) {
+	tests := []struct {
+		name, want string
+	}{
+	{"GetName", "Name"},
+	{"IsAdmin", "IsAdmin"},
+	{"SetValue", "SetValue"},
+	{"get_name", "getName"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := SuggestMethodName(tt.name)
+			if got != tt.want {
+				t.Errorf("SuggestMethodName(%q) = %q, want %q", tt.name, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestCleanPackageName(t *testing.T) {
+	tests := []struct {
+		name, want string
+	}{
+	{"my-package", "mypackage"},
+	{"my_package", "mypackage"},
+	{"MyPackage", "mypackage"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := CleanPackageName(tt.name)
+			if got != tt.want {
+				t.Errorf("CleanPackageName(%q) = %q, want %q", tt.name, got, tt.want)
+			}
+		})
+	}
+}

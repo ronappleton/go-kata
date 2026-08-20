@@ -1,0 +1,13 @@
+{
+  "id": "095",
+  "slug": "markdown-heading-extractor",
+  "title": "Markdown Heading Extractor",
+  "focus": "Line scanning",
+  "signature": "func ExtractHeadings(md string) []string",
+  "rules": [
+    "lines starting with #+space",
+    "return heading text",
+    "preserve order"
+  ],
+  "evaluator_status": "incomplete"
+}

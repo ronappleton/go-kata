@@ -1,0 +1,13 @@
+{
+  "id": "063",
+  "slug": "csv-to-json",
+  "title": "CSV to JSON",
+  "focus": "I/O, encoding",
+  "signature": "func CSVToJSON(r io.Reader) ([]byte, error)",
+  "rules": [
+    "first row headers",
+    "JSON array of objects",
+    "trim spaces"
+  ],
+  "evaluator_status": "incomplete"
+}

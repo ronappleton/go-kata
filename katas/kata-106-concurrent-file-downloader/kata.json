@@ -1,0 +1,13 @@
+{
+  "id": "106",
+  "slug": "concurrent-file-downloader",
+  "title": "Concurrent File Downloader",
+  "focus": "Concurrency, net/http",
+  "signature": "func DownloadAll(ctx context.Context, urls []string, workers int) (map[string][]byte, error)",
+  "rules": [
+    "limit concurrency",
+    "cancel on ctx",
+    "return data per url"
+  ],
+  "evaluator_status": "incomplete"
+}

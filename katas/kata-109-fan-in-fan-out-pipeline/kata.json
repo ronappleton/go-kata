@@ -1,0 +1,13 @@
+{
+  "id": "109",
+  "slug": "fan-in-fan-out-pipeline",
+  "title": "Fan-in/Fan-out Pipeline",
+  "focus": "Channels, composition",
+  "signature": "func Pipeline[T any](ctx context.Context, in \u003c-chan T, stages ...func(context.Context, \u003c-chan T) \u003c-chan T) \u003c-chan T",
+  "rules": [
+    "compose stages in order",
+    "cancel cleanly",
+    "close outputs"
+  ],
+  "evaluator_status": "incomplete"
+}

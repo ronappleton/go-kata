@@ -1,0 +1,13 @@
+{
+  "id": "112",
+  "slug": "token-bucket-thread-safe",
+  "title": "Token Bucket (thread-safe)",
+  "focus": "Advanced practice",
+  "signature": "func Kata71() error",
+  "rules": [
+    "follow README spec",
+    "write tests",
+    "keep it idiomatic"
+  ],
+  "evaluator_status": "incomplete"
+}

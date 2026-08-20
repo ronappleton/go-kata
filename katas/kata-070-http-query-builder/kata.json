@@ -1,0 +1,13 @@
+{
+  "id": "070",
+  "slug": "http-query-builder",
+  "title": "HTTP Query Builder",
+  "focus": "net/url",
+  "signature": "func BuildQuery(params map[string][]string) string",
+  "rules": [
+    "keys sorted",
+    "values preserve given order",
+    "proper escaping"
+  ],
+  "evaluator_status": "incomplete"
+}

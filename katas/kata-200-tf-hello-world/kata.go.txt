@@ -1,0 +1,7 @@
+package kata
+
+// GenerateMainTF creates a basic Terraform main.tf file.
+// Your task: implement the function below.
+func GenerateMainTF(resourceType, resourceName string) string {
+	return ""
+}

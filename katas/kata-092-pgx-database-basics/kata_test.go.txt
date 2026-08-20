@@ -1,0 +1,40 @@
+package kata
+
+import "testing"
+
+// Test with a mock store (no real database needed)
+type mockStore struct {
+	users map[int]User
+	nextID int
+}
+
+func (m *mockStore) GetByID(id int) (User, error) {
+	u, ok := m.users[id]
+	if !ok {
+		return User{}, fmt.Errorf("user %d not found", id)
+	}
+	return u, nil
+}
+
+func (m *mockStore) Create(name, email string) (int, error) {
+	m.nextID++
+	m.users[m.nextID] = User{ID: m.nextID, Name: name, Email: email}
+	return m.nextID, nil
+}
+
+func TestUserStore(t *testing.T) {
+	store := &mockStore{users: make(map[int]User), nextID: 0}
+
+	id, err := store.Create("Alice", "alice@example.com")
+	if err != nil {
+		t.Fatalf("create: %v", err)
+	}
+
+	user, err := store.GetByID(id)
+	if err != nil {
+		t.Fatalf("get: %v", err)
+	}
+	if user.Name != "Alice" {
+		t.Errorf("expected name Alice, got %q", user.Name)
+	}
+}

@@ -1,0 +1,13 @@
+{
+  "id": "075",
+  "slug": "worker-pool",
+  "title": "Worker Pool",
+  "focus": "Concurrency patterns",
+  "signature": "func RunPool(ctx context.Context, workers int, jobs \u003c-chan Job) \u003c-chan Result",
+  "rules": [
+    "cancels on ctx",
+    "close output when done",
+    "no leaks"
+  ],
+  "evaluator_status": "incomplete"
+}

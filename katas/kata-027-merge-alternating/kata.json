@@ -1,0 +1,13 @@
+{
+  "id": "027",
+  "slug": "merge-alternating",
+  "title": "Merge Alternating Slices",
+  "focus": "Two-pointer merge, slice appends",
+  "signature": "func MergeAlternating(a, b []int) []int",
+  "rules": [
+    "interleave values from a and b in order",
+    "append remaining tail when lengths differ",
+    "nil inputs are handled as empty slices"
+  ],
+  "evaluator_status": "incomplete"
+}

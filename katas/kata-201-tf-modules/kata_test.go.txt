@@ -1,0 +1,24 @@
+package kata
+
+import (
+	"strings"
+	"testing"
+)
+
+func TestGenerateModule(t *testing.T) {
+	config := ModuleConfig{
+		Name:   "vpc",
+		Source: "./modules/vpc",
+		Variables: map[string]string{
+			"cidr": "10.0.0.0/16",
+		},
+		Outputs: []string{"vpc_id"},
+	}
+	result := GenerateModule(config)
+	if !strings.Contains(result, "module") {
+		t.Error("expected module block")
+	}
+	if !strings.Contains(result, "vpc") {
+		t.Error("expected module name")
+	}
+}

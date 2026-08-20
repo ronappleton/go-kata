@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=GoKatas
+Comment=Native Go learning workbench
+Exec=/usr/bin/gokatas
+Icon=gokatas
+Terminal=false
+Type=Application
+Categories=Development;Education;
+StartupNotify=true

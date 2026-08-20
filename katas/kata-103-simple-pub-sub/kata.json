@@ -1,0 +1,13 @@
+{
+  "id": "103",
+  "slug": "simple-pub-sub",
+  "title": "Simple Pub/Sub",
+  "focus": "Fanout",
+  "signature": "",
+  "rules": [
+    "Subscribe(topic) chan",
+    "Publish(topic,msg)",
+    "Unsubscribe closes chan"
+  ],
+  "evaluator_status": "incomplete"
+}

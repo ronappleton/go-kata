@@ -1,0 +1,31 @@
+package kata
+
+import "testing"
+
+func TestCountDeclarations(t *testing.T) {
+	// Student should declare at least 3 variables
+	count := CountDeclarations()
+	if count < 3 {
+		t.Errorf("Expected at least 3 variable declarations, got %d", count)
+	}
+}
+
+func TestShadowExample(t *testing.T) {
+	tests := []struct {
+		name string
+		in   int
+		want int
+	}{
+	{"positive doubles", 5, 10},
+	{"negative unchanged", -3, -3},
+	{"zero unchanged", 0, 0},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := ShadowExample(tt.in)
+			if got != tt.want {
+				t.Errorf("ShadowExample(%d) = %d, want %d", tt.in, got, tt.want)
+			}
+		})
+	}
+}

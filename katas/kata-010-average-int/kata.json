@@ -1,0 +1,13 @@
+{
+  "id": "010",
+  "slug": "average-int",
+  "title": "Average (Integer)",
+  "focus": "Slices, integer arithmetic, validation",
+  "signature": "func Average(values []int) (int, bool)",
+  "rules": [
+    "nil or empty slice =\u003e 0 and false",
+    "non-empty slice =\u003e integer average using floor division and true",
+    "all values contribute once to total"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "129",
+  "slug": "password-hashing-bcrypt-argon2",
+  "title": "Password Hashing (bcrypt/argon2)",
+  "focus": "crypto, security",
+  "signature": "func HashPassword(pw string) (string, error)",
+  "rules": [
+    "use bcrypt or argon2",
+    "also implement VerifyPassword(pw, hash) bool",
+    "constant-time compare"
+  ],
+  "evaluator_status": "incomplete"
+}

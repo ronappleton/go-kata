@@ -1,0 +1,13 @@
+{
+  "id": "020",
+  "slug": "sum-of-integers",
+  "title": "Sum of Integers",
+  "focus": "Basics: loops, function, edge cases",
+  "signature": "func Sum(nums []int) int",
+  "rules": [
+    "nil slice =\u003e 0",
+    "empty =\u003e 0",
+    "works with negatives"
+  ],
+  "evaluator_status": "incomplete"
+}

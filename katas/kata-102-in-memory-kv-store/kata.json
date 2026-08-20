@@ -1,0 +1,12 @@
+{
+  "id": "102",
+  "slug": "in-memory-kv-store",
+  "title": "In-Memory KV Store",
+  "focus": "Maps, RWMutex",
+  "signature": "",
+  "rules": [
+    "Set/Get/Delete/Keys",
+    "thread-safe"
+  ],
+  "evaluator_status": "incomplete"
+}

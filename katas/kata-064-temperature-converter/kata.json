@@ -1,0 +1,13 @@
+{
+  "id": "064",
+  "slug": "temperature-converter",
+  "title": "Temperature Converter",
+  "focus": "Parsing floats",
+  "signature": "func ConvertTemp(input string) (string, error)",
+  "rules": [
+    "supports C/F/K suffix",
+    "output all 3 units with 2 decimals",
+    "invalid =\u003e error"
+  ],
+  "evaluator_status": "incomplete"
+}

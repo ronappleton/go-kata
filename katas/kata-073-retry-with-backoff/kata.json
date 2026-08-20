@@ -1,0 +1,13 @@
+{
+  "id": "073",
+  "slug": "retry-with-backoff",
+  "title": "Retry with Backoff",
+  "focus": "time",
+  "signature": "func Retry(attempts int, baseDelay time.Duration, fn func() error) error",
+  "rules": [
+    "attempts\u003e=1",
+    "exponential backoff",
+    "stop on success"
+  ],
+  "evaluator_status": "incomplete"
+}

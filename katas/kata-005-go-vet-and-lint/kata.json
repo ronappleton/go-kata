@@ -1,0 +1,11 @@
+{
+  "id": "005",
+  "slug": "go-vet-and-lint",
+  "title": "Go Vet \u0026 Lint",
+  "focus": "go vet, golangci-lint, static analysis, code quality",
+  "signature": "func CheckCode(code string) []string",
+  "rules": [
+    "clean code =\u003e empty slice"
+  ],
+  "evaluator_status": "ready"
+}

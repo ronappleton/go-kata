@@ -1,0 +1,14 @@
+package kata
+
+import "testing"
+
+func TestReviewCode(t *testing.T) {
+	code := `func add(a, b int) int { return a + b }`
+	result := ReviewCode(code)
+	if len(result.Issues) == 0 && len(result.Suggestions) == 0 {
+		t.Error("expected at least one issue or suggestion")
+	}
+	if result.Confidence < 0 || result.Confidence > 1 {
+		t.Errorf("confidence out of range: %f", result.Confidence)
+	}
+}

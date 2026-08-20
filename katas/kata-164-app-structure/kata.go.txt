@@ -1,0 +1,33 @@
+package kata
+
+// PackagePath returns the correct import path for a given command.
+// You will learn how Go projects are structured.
+//
+// Rules:
+// - Given a project root and command name, return the import path
+// - Example: ("github.com/user/project", "server") => "github.com/user/project/cmd/server"
+// - Example: ("example.com/myapp", "cli") => "example.com/myapp/cmd/cli"
+func PackagePath(root, command string) string {
+	// TODO: Return the full import path for the command
+	return ""
+}
+
+// PackageName extracts the package name from an import path.
+// Rules:
+// - "github.com/user/project/cmd/server" => "server"
+// - "github.com/user/project/internal/auth" => "auth"
+// - "example.com/myapp" => "myapp"
+func PackageName(importPath string) string {
+	// TODO: Extract and return the last component of the path
+	return ""
+}
+
+// IsInternal returns true if the import path represents an internal package.
+// Rules:
+// - Any path containing "/internal/" => true
+// - "github.com/user/project/internal/auth" => true
+// - "github.com/user/project/pkg/server" => false
+func IsInternal(importPath string) bool {
+	// TODO: Check if path contains /internal/
+	return false
+}

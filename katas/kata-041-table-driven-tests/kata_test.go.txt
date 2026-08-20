@@ -1,0 +1,18 @@
+package kata
+
+import "testing"
+
+// Your task: write table-driven tests for Abs and Max.
+// Use subtests (t.Run) for each case.
+
+func TestAbs(t *testing.T) {
+	// Write table-driven tests here
+	// Include: positive, negative, zero cases
+	t.Fatal("implement table-driven tests for Abs")
+}
+
+func TestMax(t *testing.T) {
+	// Write table-driven tests here
+	// Include: a>b, b>a, a==b cases
+	t.Fatal("implement table-driven tests for Max")
+}

@@ -1,0 +1,13 @@
+{
+  "id": "140",
+  "slug": "mini-grep",
+  "title": "Mini grep",
+  "focus": "CLI, IO",
+  "signature": "func Run(args []string, r io.Reader, w io.Writer) error",
+  "rules": [
+    "implement subset of unix grep",
+    "no os.Exit",
+    "return errors"
+  ],
+  "evaluator_status": "incomplete"
+}

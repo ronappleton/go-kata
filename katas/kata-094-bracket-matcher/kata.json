@@ -1,0 +1,13 @@
+{
+  "id": "094",
+  "slug": "bracket-matcher",
+  "title": "Bracket Matcher",
+  "focus": "Stacks, runes",
+  "signature": "func IsBalanced(s string) bool",
+  "rules": [
+    "supports (), {}, []",
+    "ignores other chars",
+    "empty =\u003e true"
+  ],
+  "evaluator_status": "incomplete"
+}

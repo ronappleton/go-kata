@@ -1,0 +1,12 @@
+{
+  "id": "200",
+  "slug": "tf-hello-world",
+  "title": "Terraform Hello World",
+  "focus": "terraform init, plan, apply, destroy, HCL basics",
+  "signature": "",
+  "rules": [
+    "Output contains valid HCL resource block",
+    "Includes resource type and name"
+  ],
+  "evaluator_status": "ready"
+}

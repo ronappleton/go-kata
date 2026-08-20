@@ -1,0 +1,13 @@
+{
+  "id": "051",
+  "slug": "caesar-cipher",
+  "title": "Caesar Cipher",
+  "focus": "ASCII letters shifting",
+  "signature": "func Caesar(s string, shift int) string",
+  "rules": [
+    "only shift A-Z and a-z",
+    "preserve case",
+    "non-letters unchanged"
+  ],
+  "evaluator_status": "incomplete"
+}

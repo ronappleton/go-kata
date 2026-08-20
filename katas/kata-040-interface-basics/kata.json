@@ -1,0 +1,13 @@
+{
+  "id": "040",
+  "slug": "interface-basics",
+  "title": "Interface Basics",
+  "focus": "interfaces, implicit satisfaction, accept interfaces return structs",
+  "signature": "",
+  "rules": [
+    "FormalGreeter =\u003e formal greeting",
+    "CasualGreeter =\u003e casual greeting",
+    "Both implement Greeter"
+  ],
+  "evaluator_status": "ready"
+}

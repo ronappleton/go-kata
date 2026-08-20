@@ -1,0 +1,13 @@
+{
+  "id": "081",
+  "slug": "password-strength-scorer",
+  "title": "Password Strength Scorer",
+  "focus": "Rules",
+  "signature": "func PasswordScore(pw string) int",
+  "rules": [
+    "score 0-100",
+    "length + variety",
+    "simple penalties"
+  ],
+  "evaluator_status": "incomplete"
+}

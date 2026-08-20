@@ -1,0 +1,13 @@
+{
+  "id": "085",
+  "slug": "json-lines-filter",
+  "title": "JSON Lines Filter",
+  "focus": "Stream processing",
+  "signature": "func FilterJSONL(r io.Reader, w io.Writer, predicate func(map[string]any) bool) error",
+  "rules": [
+    "each line JSON object",
+    "write only matches",
+    "skip blank lines"
+  ],
+  "evaluator_status": "incomplete"
+}

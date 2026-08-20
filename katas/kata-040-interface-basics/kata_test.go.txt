@@ -1,0 +1,28 @@
+package kata
+
+import "testing"
+
+func TestFormalGreeter(t *testing.T) {
+	g := FormalGreeter{}
+	got := g.Greet("Alice")
+	if got == "" {
+		t.Fatal("expected non-empty greeting")
+	}
+}
+
+func TestCasualGreeter(t *testing.T) {
+	g := CasualGreeter{}
+	got := g.Greet("Bob")
+	if got == "" {
+		t.Fatal("expected non-empty greeting")
+	}
+}
+
+func TestSayHello(t *testing.T) {
+	var formal Greeter = FormalGreeter{}
+	var casual Greeter = CasualGreeter{}
+
+	if formal.Greet("X") == casual.Greet("X") {
+		t.Error("formal and casual greetings should differ")
+	}
+}

@@ -1,0 +1,36 @@
+package kata
+
+// Track initialization order using package-level variables.
+// This kata teaches you how init() and variable initialization work.
+
+var initOrder []string
+
+// TODO: Define an init() function that appends "main" to initOrder
+// This simulates the main package's init
+
+// GetInitOrder returns the recorded initialization order.
+// The test will verify that variables initialize before init(),
+// and that init() runs before any explicit function call.
+func GetInitOrder() []string {
+	return initOrder
+}
+
+// ResetInitOrder clears the recorded order (for testing).
+func ResetInitOrder() {
+	initOrder = nil
+}
+
+// Initialize demonstrates the proper use of init().
+// It should:
+// 1. Reset the order
+// 2. Show that package variables are set first
+// 3. Show that init() functions run next
+func Initialize() []string {
+	ResetInitOrder()
+	// In a real app, init() would have already run.
+	// Here we simulate the order:
+	initOrder = append(initOrder, "package_vars")
+	initOrder = append(initOrder, "init_func")
+	initOrder = append(initOrder, "main")
+	return initOrder
+}

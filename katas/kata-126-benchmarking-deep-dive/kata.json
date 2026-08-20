@@ -1,0 +1,13 @@
+{
+  "id": "126",
+  "slug": "benchmarking-deep-dive",
+  "title": "Benchmarking Deep Dive",
+  "focus": "benchmark patterns, sub-benchmarks, comparison, regression",
+  "signature": "",
+  "rules": [
+    "ConcatStringsBuilder produces correct output",
+    "Benchmark compares both implementations",
+    "Builder version should be more efficient"
+  ],
+  "evaluator_status": "ready"
+}

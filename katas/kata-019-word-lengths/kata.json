@@ -1,0 +1,14 @@
+{
+  "id": "019",
+  "slug": "word-lengths",
+  "title": "Word Lengths",
+  "focus": "strings.Fields, maps, normalization decisions",
+  "signature": "func WordLengths(sentence string) map[string]int",
+  "rules": [
+    "split words using strings.Fields",
+    "map keys are lowercased words",
+    "value is rune length of each word",
+    "empty input =\u003e empty map (not nil)"
+  ],
+  "evaluator_status": "incomplete"
+}

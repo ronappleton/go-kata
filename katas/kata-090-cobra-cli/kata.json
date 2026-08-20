@@ -1,0 +1,13 @@
+{
+  "id": "090",
+  "slug": "cobra-cli",
+  "title": "Cobra CLI",
+  "focus": "github.com/spf13/cobra, CLI commands, flags, help text",
+  "signature": "",
+  "rules": [
+    "Parse command name from first argument",
+    "Parse --name= value",
+    "Parse --verbose boolean flag"
+  ],
+  "evaluator_status": "ready"
+}

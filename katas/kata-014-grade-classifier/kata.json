@@ -1,0 +1,16 @@
+{
+  "id": "014",
+  "slug": "grade-classifier",
+  "title": "Grade Classifier",
+  "focus": "Condition ranges, input validation",
+  "signature": "func GradeLabel(score int) string",
+  "rules": [
+    "score\u003c0 or score\u003e100 =\u003e \"invalid\"",
+    "90-100 =\u003e \"A\"",
+    "80-89 =\u003e \"B\"",
+    "70-79 =\u003e \"C\"",
+    "60-69 =\u003e \"D\"",
+    "0-59 =\u003e \"F\""
+  ],
+  "evaluator_status": "incomplete"
+}

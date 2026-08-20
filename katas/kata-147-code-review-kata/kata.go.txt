@@ -1,0 +1,8 @@
+package kata
+
+// ReviewCode analyzes code quality and returns improvement suggestions.
+// Your task: implement the function below.
+func ReviewCode(code string) []string {
+	// Return a list of code review comments
+	return nil
+}

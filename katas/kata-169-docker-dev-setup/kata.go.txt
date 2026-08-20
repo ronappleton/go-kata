@@ -1,0 +1,62 @@
+package kata
+
+import (
+	"fmt"
+	"strings"
+)
+
+// GenerateDockerfile creates a multi-stage Dockerfile for a Go project.
+// Rules:
+// - Stage 1 (builder): use golang:1.24-alpine, copy source, build binary
+// - Stage 2 (runtime): use gcr.io/distroless/static-debian12, copy binary
+// - Binary path: /app/server
+// - Final stage exposes port 8080
+// - Use proper WORKDIR and COPY ordering
+func GenerateDockerfile() string {
+	// TODO: Generate multi-stage Dockerfile
+	return ""
+}
+
+// GenerateCompose creates a docker-compose.yml for a Go app with Redis.
+// Rules:
+// - Service "app": build from current dir, port 8080:8080, depends on redis
+// - Service "redis": image redis:7-alpine, port 6379:6379
+// - Network: app-network (bridge)
+// - Volume: redis-data for redis persistence
+func GenerateCompose() string {
+	// TODO: Generate docker-compose.yml content
+	return ""
+}
+
+// ParseDockerfile extracts all RUN commands from a Dockerfile.
+// Rules:
+// - Return the command part of each RUN instruction
+// - Handle both exec form RUN ["cmd"] and shell form RUN cmd
+// - Ignore comments and blank lines
+func ParseDockerfile(content string) []string {
+	// TODO: Extract RUN commands
+	return nil
+}
+
+// ValidateCompose checks a docker-compose.yml for required fields.
+// Rules:
+// - Check for "services:" key
+// - Check each service has either "image:" or "build:"
+// - Check for "ports:" in each service
+// - Return list of issues (empty = valid)
+func ValidateCompose(content string) []string {
+	// TODO: Validate compose file structure
+	return nil
+}
+
+// GenerateHealthcheck creates a HEALTHCHECK instruction.
+// Rules:
+// - For HTTP services: curl -f http://localhost:PORT/health || exit 1
+// - For TCP services: nc -z localhost PORT || exit 1
+// - Include interval=30s, timeout=5s, retries=3
+func GenerateHealthcheck(port int, checkType string) string {
+	if checkType == "http" {
+		return fmt.Sprintf("HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD curl -f http://localhost:%d/health || exit 1", port)
+	}
+	return fmt.Sprintf("HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD nc -z localhost %d || exit 1", port)
+}

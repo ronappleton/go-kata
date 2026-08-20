@@ -1,0 +1,13 @@
+{
+  "id": "038",
+  "slug": "filter-even",
+  "title": "Filter Even",
+  "focus": "Slices, order, immutability",
+  "signature": "func FilterEven(nums []int) []int",
+  "rules": [
+    "preserve order",
+    "nil =\u003e empty slice",
+    "do not mutate input"
+  ],
+  "evaluator_status": "incomplete"
+}

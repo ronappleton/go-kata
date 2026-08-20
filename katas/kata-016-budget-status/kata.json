@@ -1,0 +1,13 @@
+{
+  "id": "016",
+  "slug": "budget-status",
+  "title": "Budget Status",
+  "focus": "Arithmetic comparison, decision outcomes",
+  "signature": "func BudgetStatus(income, expenses int) string",
+  "rules": [
+    "income-expenses \u003e 0 =\u003e \"surplus\"",
+    "income-expenses == 0 =\u003e \"balanced\"",
+    "income-expenses \u003c 0 =\u003e \"deficit\""
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "080",
+  "slug": "json-pretty-print",
+  "title": "JSON Pretty Print",
+  "focus": "encoding/json",
+  "signature": "func PrettyJSON(input []byte) ([]byte, error)",
+  "rules": [
+    "invalid json =\u003e error",
+    "indent 2 spaces",
+    "stable formatting"
+  ],
+  "evaluator_status": "incomplete"
+}

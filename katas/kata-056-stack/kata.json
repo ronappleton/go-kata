@@ -1,0 +1,12 @@
+{
+  "id": "056",
+  "slug": "stack",
+  "title": "Stack",
+  "focus": "Data structures, generics",
+  "signature": "",
+  "rules": [
+    "Push, Pop, Peek, Len",
+    "Pop/Peek on empty =\u003e ok false"
+  ],
+  "evaluator_status": "incomplete"
+}

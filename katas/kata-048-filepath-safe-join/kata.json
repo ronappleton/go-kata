@@ -1,0 +1,14 @@
+{
+  "id": "048",
+  "slug": "filepath-safe-join",
+  "title": "Safe Join",
+  "focus": "filepath.Join, filepath.Clean, traversal guard checks",
+  "signature": "func SafeJoin(base string, parts ...string) (string, error)",
+  "rules": [
+    "empty base after clean =\u003e non-nil error",
+    "clean and join path parts with base",
+    "if resolved path escapes base =\u003e non-nil error",
+    "if resolved path is inside base =\u003e return cleaned path"
+  ],
+  "evaluator_status": "incomplete"
+}

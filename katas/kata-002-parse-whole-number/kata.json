@@ -1,0 +1,13 @@
+{
+  "id": "002",
+  "slug": "parse-whole-number",
+  "title": "Parse Whole Number",
+  "focus": "Input parsing, strconv.Atoi, boolean success flags",
+  "signature": "func ParseWholeNumber(input string) (int, bool)",
+  "rules": [
+    "valid base-10 integer input =\u003e parsed number and true",
+    "empty or whitespace-only input =\u003e 0 and false",
+    "invalid numeric input =\u003e 0 and false"
+  ],
+  "evaluator_status": "incomplete"
+}

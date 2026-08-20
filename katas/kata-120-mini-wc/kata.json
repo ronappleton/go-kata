@@ -1,0 +1,13 @@
+{
+  "id": "120",
+  "slug": "mini-wc",
+  "title": "Mini wc",
+  "focus": "CLI, IO",
+  "signature": "func Run(args []string, r io.Reader, w io.Writer) error",
+  "rules": [
+    "implement subset of unix wc",
+    "no os.Exit",
+    "return errors"
+  ],
+  "evaluator_status": "incomplete"
+}

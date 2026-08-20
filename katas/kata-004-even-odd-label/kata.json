@@ -1,0 +1,13 @@
+{
+  "id": "004",
+  "slug": "even-odd-label",
+  "title": "Even Odd Label",
+  "focus": "Conditionals, modulo arithmetic",
+  "signature": "func EvenOddLabel(n int) string",
+  "rules": [
+    "n%2==0 =\u003e \"even\"",
+    "n%2!=0 =\u003e \"odd\"",
+    "0 is treated as even"
+  ],
+  "evaluator_status": "incomplete"
+}

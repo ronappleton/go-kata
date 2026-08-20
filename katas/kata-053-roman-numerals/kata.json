@@ -1,0 +1,13 @@
+{
+  "id": "053",
+  "slug": "roman-numerals",
+  "title": "Roman Numerals",
+  "focus": "Greedy mapping",
+  "signature": "func ToRoman(n int) (string, error)",
+  "rules": [
+    "1..3999 only",
+    "invalid =\u003e error",
+    "use standard subtractive notation"
+  ],
+  "evaluator_status": "incomplete"
+}

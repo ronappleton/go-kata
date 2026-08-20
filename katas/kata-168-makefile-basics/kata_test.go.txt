@@ -1,0 +1,86 @@
+package kata
+
+import (
+	"strings"
+	"testing"
+)
+
+func TestParseMakefile(t *testing.T) {
+	input := `
+# Build targets
+.PHONY: build test clean
+
+build: dep1 dep2
+\tgo build -o bin/app .
+
+test:
+\tgo test ./...
+
+clean:
+\tram -rf bin/
+`
+	got := ParseMakefile(input)
+	want := []string{"build", "test", "clean"}
+	if len(got) != len(want) {
+		t.Fatalf("ParseMakefile() returned %d targets, want %d: %v", len(got), len(want), got)
+	}
+	for i, w := range want {
+		if got[i] != w {
+			t.Errorf("ParseMakefile()[%d] = %q, want %q", i, got[i], w)
+		}
+	}
+}
+
+func TestExtractVariables(t *testing.T) {
+	input := `
+APP = myapp
+VERSION := 1.0.0
+GOBIN := ./bin
+`
+	got := ExtractVariables(input)
+	if got["APP"] != "myapp" {
+		t.Errorf("ExtractVariables()[APP] = %q, want %q", got["APP"], "myapp")
+	}
+	if got["VERSION"] != "1.0.0" {
+		t.Errorf("ExtractVariables()[VERSION] = %q, want %q", got["VERSION"], "1.0.0")
+	}
+	if got["GOBIN"] != "./bin" {
+		t.Errorf("ExtractVariables()[GOBIN] = %q, want %q", got["GOBIN"], "./bin")
+	}
+}
+
+func TestValidateTargets(t *testing.T) {
+	content := `
+build:
+\tgo build .
+test:
+\tgo test ./...
+`
+	missing := ValidateTargets(content, []string{"build", "test", "clean"})
+	if len(missing) != 1 || missing[0] != "clean" {
+		t.Errorf("ValidateTargets() = %v, want [clean]", missing)
+	}
+	missing = ValidateTargets(content, []string{"build", "test"})
+	if len(missing) != 0 {
+		t.Errorf("ValidateTargets() = %v, want []", missing)
+	}
+}
+
+func TestGenerateMakefile(t *testing.T) {
+	mf := GenerateMakefile()
+	if !strings.Contains(mf, ".PHONY:") {
+		t.Error("GenerateMakefile() missing .PHONY")
+	}
+	if !strings.Contains(mf, "build:") {
+		t.Error("GenerateMakefile() missing build target")
+	}
+	if !strings.Contains(mf, "test:") {
+		t.Error("GenerateMakefile() missing test target")
+	}
+	if !strings.Contains(mf, "clean:") {
+		t.Error("GenerateMakefile() missing clean target")
+	}
+	if !strings.Contains(mf, "lint:") {
+		t.Error("GenerateMakefile() missing lint target")
+	}
+}

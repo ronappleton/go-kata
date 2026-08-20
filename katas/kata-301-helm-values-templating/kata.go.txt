@@ -1,0 +1,16 @@
+package kata
+
+// TemplateContext holds values for Helm template rendering.
+type TemplateContext struct {
+	AppName   string
+	Replicas  int
+	Image     string
+	Port      int
+	EnableIngress bool
+}
+
+// RenderDeployment creates a Kubernetes Deployment manifest
+// with Helm-style templating.
+func RenderDeployment(ctx TemplateContext) string {
+	return ""
+}

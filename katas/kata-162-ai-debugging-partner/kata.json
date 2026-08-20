@@ -1,0 +1,13 @@
+{
+  "id": "162",
+  "slug": "ai-debugging-partner",
+  "title": "AI as a Debugging Partner",
+  "focus": "using AI to understand errors, not just fix them, root cause analysis",
+  "signature": "",
+  "rules": [
+    "Debugging session includes hypotheses",
+    "Includes test suggestions",
+    "Conclusion is empty until analysis is complete"
+  ],
+  "evaluator_status": "ready"
+}

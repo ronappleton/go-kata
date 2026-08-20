@@ -1,0 +1,12 @@
+{
+  "id": "054",
+  "slug": "time-window-check",
+  "title": "Time Window Check",
+  "focus": "time package",
+  "signature": "func WithinWindow(t, start, end time.Time) bool",
+  "rules": [
+    "inclusive start, exclusive end",
+    "if start after end =\u003e false"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,26 @@
+package kata
+
+import "testing"
+
+func TestParseCLI(t *testing.T) {
+	tests := []struct {
+		name string
+		args []string
+		want CLIConfig
+	}{
+		{"greet", []string{"greet", "--name=World"}, CLIConfig{Command: "greet", Name: "World"}},
+		{"greet verbose", []string{"greet", "--name=Alice", "--verbose"}, CLIConfig{Command: "greet", Name: "Alice", Verbose: true}},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			got, err := ParseCLI(tc.args)
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if got != tc.want {
+				t.Errorf("got %+v, want %+v", got, tc.want)
+			}
+		})
+	}
+}

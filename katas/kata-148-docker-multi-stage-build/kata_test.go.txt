@@ -1,0 +1,19 @@
+package kata
+
+import (
+	"strings"
+	"testing"
+)
+
+func TestBuildDockerfile(t *testing.T) {
+	df := BuildDockerfile("myapp")
+	if df == "" {
+		t.Fatal("expected non-empty Dockerfile")
+	}
+	if !strings.Contains(df, "FROM") {
+		t.Error("Dockerfile should contain FROM")
+	}
+	if !strings.Contains(df, "COPY") {
+		t.Error("Dockerfile should contain COPY")
+	}
+}

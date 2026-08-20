@@ -1,0 +1,12 @@
+{
+  "id": "078",
+  "slug": "net-http-server-basics",
+  "title": "net/http Server Basics",
+  "focus": "net/http, http.HandleFunc, http.ListenAndServe, request/response",
+  "signature": "func CreateMux() *http.ServeMux",
+  "rules": [
+    "/health =\u003e 200 OK",
+    "/hello?name=X =\u003e \"Hello, X!\""
+  ],
+  "evaluator_status": "ready"
+}

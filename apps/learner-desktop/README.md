@@ -1,41 +1,31 @@
-# Learner Desktop
+# GoKatas Native Desktop
 
-Desktop launcher for Learner Studio.
+This is the supported product entry point for Ubuntu 24.04 LTS amd64.
 
-## Modes
+## Requirements
 
-- `auto` (default):
-  - uses embedded native webview when built with `desktop_webview` tag
-  - otherwise falls back to external app-window launch
-- `embedded`: requires native webview build (`-tags desktop_webview`)
-- `external`: forces browser/app-window launcher path
+- GTK4 runtime
+- rootless Podman
+- digest-pinned Go runner image
 
-## Run
-
-From repo root:
+## Development build
 
 ```bash
-# default build (external launcher unless webview tag build)
-go run ./apps/learner-desktop
-
-# force external mode
-go run ./apps/learner-desktop -mode external
-
-# native embedded webview mode
-go run -tags desktop_webview ./apps/learner-desktop -mode embedded
+go build -tags gtk4 -o learner-desktop ./apps/learner-desktop
+GOKATAS_RUNNER_IMAGE='registry.example/gokatas-runner@sha256:<64-hex-digest>' ./learner-desktop -content .
 ```
 
-## Native webview dependency
+The application uses a native GTK4 window. It does not start a web server or launch a browser.
 
-Embedded mode uses `github.com/webview/webview_go`.
+## Workspace locations
 
-If first run reports missing module, run:
+The application follows XDG locations:
 
-```bash
-go get github.com/webview/webview_go@latest
-```
+- configuration: `$XDG_CONFIG_HOME/gokatas`
+- learner workspaces: `$XDG_DATA_HOME/gokatas/workspaces`
+- progress and run history: `$XDG_STATE_HOME/gokatas`
+- cache: `$XDG_CACHE_HOME/gokatas`
 
-Platform notes:
-- macOS: uses native WebKit framework
-- Windows: requires WebView2 runtime
-- Linux: requires GTK/WebKitGTK development/runtime libraries
+## Sandboxing
+
+Every run is delegated to a fresh rootless Podman container with no network, a read-only container root, read-only source mounts, dropped capabilities, no-new-privileges, and bounded CPU, memory, PID, output, disk, and wall-clock resources.

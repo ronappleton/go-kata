@@ -1,0 +1,13 @@
+{
+  "id": "084",
+  "slug": "config-loader",
+  "title": "Config Loader",
+  "focus": "env + file",
+  "signature": "func LoadConfig(path string, envPrefix string) (map[string]string, error)",
+  "rules": [
+    "load key=value lines",
+    "override with env",
+    "trim spaces"
+  ],
+  "evaluator_status": "incomplete"
+}

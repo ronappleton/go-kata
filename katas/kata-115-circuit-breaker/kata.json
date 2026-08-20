@@ -1,0 +1,13 @@
+{
+  "id": "115",
+  "slug": "circuit-breaker",
+  "title": "Circuit Breaker",
+  "focus": "State machines, time",
+  "signature": "func NewBreaker(failureThreshold int, resetAfter time.Duration) (*Breaker, error)",
+  "rules": [
+    "Closed/Open/HalfOpen states",
+    "trip after threshold",
+    "reset after duration"
+  ],
+  "evaluator_status": "incomplete"
+}

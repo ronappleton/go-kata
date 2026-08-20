@@ -1,0 +1,12 @@
+{
+  "id": "000",
+  "slug": "go-setup-first-program",
+  "title": "Go Setup \u0026 First Program",
+  "focus": "go mod init, main package, go run, go build",
+  "signature": "func InitModule(name string) string",
+  "rules": [
+    "simple module =\u003e \"example.com/myapp\"",
+    "with path =\u003e \"github.com/user/repo\""
+  ],
+  "evaluator_status": "ready"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "008",
+  "slug": "reverse-string",
+  "title": "Reverse String",
+  "focus": "Strings, runes vs bytes",
+  "signature": "func Reverse(s string) string",
+  "rules": [
+    "must handle Unicode correctly (runes)",
+    "empty =\u003e empty",
+    "palindrome unchanged"
+  ],
+  "evaluator_status": "incomplete"
+}

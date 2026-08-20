@@ -1,0 +1,8 @@
+/.idea/
+/.learning/
+/.gocache/
+
+# Binary artifacts
+*.exe
+*.test
+Go_Kata_Workbook.pdf

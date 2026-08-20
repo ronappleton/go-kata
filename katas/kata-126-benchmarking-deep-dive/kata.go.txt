@@ -1,0 +1,17 @@
+package kata
+
+// ConcatStrings concatenates strings with a loop.
+func ConcatStrings(parts []string) string {
+	result := ""
+	for _, s := range parts {
+		result += s
+	}
+	return result
+}
+
+// ConcatStringsBuilder concatenates strings using strings.Builder.
+// Your task: implement this more efficient version.
+func ConcatStringsBuilder(parts []string) string {
+	// Your implementation
+	return ""
+}

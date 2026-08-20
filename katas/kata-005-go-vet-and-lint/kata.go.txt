@@ -1,0 +1,9 @@
+package kata
+
+// CheckCode runs static analysis on the given code string.
+// It returns a list of issues found (empty if clean).
+//
+// Your task: implement the function below.
+func CheckCode(code string) []string {
+	return nil
+}

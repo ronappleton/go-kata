@@ -1,0 +1,13 @@
+{
+  "id": "116",
+  "slug": "json-schema-validator-subset",
+  "title": "JSON Schema Validator (subset)",
+  "focus": "Advanced practice",
+  "signature": "func Kata79() error",
+  "rules": [
+    "follow README spec",
+    "write tests",
+    "keep it idiomatic"
+  ],
+  "evaluator_status": "incomplete"
+}

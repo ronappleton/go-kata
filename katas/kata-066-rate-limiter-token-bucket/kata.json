@@ -1,0 +1,13 @@
+{
+  "id": "066",
+  "slug": "rate-limiter-token-bucket",
+  "title": "Rate Limiter (token bucket)",
+  "focus": "Time, structs",
+  "signature": "func NewTokenBucket(ratePerSec int, burst int) (*TokenBucket, error)",
+  "rules": [
+    "Allow() bool",
+    "single-thread only here",
+    "ratePerSec\u003e=1, burst\u003e=1"
+  ],
+  "evaluator_status": "incomplete"
+}

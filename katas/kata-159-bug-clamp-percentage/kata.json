@@ -1,0 +1,13 @@
+{
+  "id": "159",
+  "slug": "bug-clamp-percentage",
+  "title": "Clamp Percentage Bug",
+  "focus": "boundary logic",
+  "signature": "func ClampPercentage(v int) int",
+  "rules": [
+    "v \u003c 0 =\u003e 0",
+    "v \u003e 100 =\u003e 100",
+    "otherwise =\u003e v"
+  ],
+  "evaluator_status": "ready"
+}

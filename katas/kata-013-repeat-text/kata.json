@@ -1,0 +1,13 @@
+{
+  "id": "013",
+  "slug": "repeat-text",
+  "title": "Repeat Text",
+  "focus": "String construction, loops, guard clauses",
+  "signature": "func RepeatText(text string, times int) string",
+  "rules": [
+    "times\u003c=0 =\u003e empty string",
+    "times\u003e0 =\u003e text repeated exactly times times",
+    "no delimiters are inserted"
+  ],
+  "evaluator_status": "incomplete"
+}

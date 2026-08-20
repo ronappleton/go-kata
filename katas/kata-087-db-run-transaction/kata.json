@@ -1,0 +1,14 @@
+{
+  "id": "087",
+  "slug": "db-run-transaction",
+  "title": "Run In Transaction",
+  "focus": "transaction control flow",
+  "signature": "func RunInTransaction(begin func() error, commit func() error, rollback func() error, run func() error) error",
+  "rules": [
+    "begin error =\u003e return immediately",
+    "run error =\u003e rollback then return run error",
+    "commit error =\u003e return commit error",
+    "successful path =\u003e nil"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "059",
+  "slug": "file-extension-counter",
+  "title": "File Extension Counter",
+  "focus": "os, filepath",
+  "signature": "func CountExt(root string) (map[string]int, error)",
+  "rules": [
+    "walk dir recursively",
+    "count by extension (lowercased)",
+    "skip directories"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,35 @@
+package kata
+
+import "testing"
+
+func TestFindDuplicates(t *testing.T) {
+	tests := []struct {
+		name string
+		nums []int
+		want []int
+	}{
+		{"no dups", []int{1, 2, 3}, nil},
+		{"one dup", []int{1, 2, 2, 3}, []int{2}},
+		{"multiple", []int{1, 1, 2, 2}, []int{1, 2}},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			got := FindDuplicates(tc.nums)
+			if len(got) != len(tc.want) {
+				t.Errorf("got %v, want %v", got, tc.want)
+			}
+		})
+	}
+}
+
+func BenchmarkFindDuplicates(b *testing.B) {
+	nums := make([]int, 1000)
+	for i := range nums {
+		nums[i] = i % 100
+	}
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		FindDuplicates(nums)
+	}
+}

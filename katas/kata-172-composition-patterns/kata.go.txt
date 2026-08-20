@@ -1,0 +1,94 @@
+package kata
+
+import (
+	"fmt"
+	"strings"
+)
+
+// --- Small Interfaces (Go style) ---
+
+// Stringer converts a value to a display string.
+type Stringer interface {
+	String() string
+}
+
+// Counter tracks a count.
+type Counter interface {
+	Increment()
+	Count() int
+}
+
+// --- Struct Embedding ---
+
+// BaseItem provides common fields.
+type BaseItem struct {
+	ID   string
+	Name string
+	Tags []string
+}
+
+// String implements Stringer.
+func (b BaseItem) String() string {
+	return fmt.Sprintf("[%s] %s", b.ID, b.Name)
+}
+
+// HasTag checks if the item has a specific tag.
+func (b BaseItem) HasTag(tag string) bool {
+	for _, t := range b.Tags {
+		if t == tag {
+			return true
+		}
+	}
+	return false
+}
+
+// Task embeds BaseItem and adds task-specific fields.
+type Task struct {
+	BaseItem
+	Done     bool
+	Priority int
+}
+
+// TodoList embeds BaseItem and manages tasks.
+type TodoList struct {
+	BaseItem
+	Tasks []Task
+}
+
+// --- Accept Interfaces, Return Structs ---
+
+// DescribeItem accepts any Stringer — maximum flexibility.
+func DescribeItem(s Stringer) string {
+	return "Item: " + s.String()
+}
+
+// FilterByTag accepts any item that has a HasTag method.
+// In real Go this would use an interface, but here we demonstrate the pattern.
+type TagChecker interface {
+	HasTag(tag string) bool
+}
+
+// FilterItems returns items matching a tag.
+func FilterItems(items []TagChecker, tag string) []TagChecker {
+	var result []TagChecker
+	for _, item := range items {
+		if item.HasTag(tag) {
+			result = append(result, item)
+		}
+	}
+	return result
+}
+
+// --- Composition helpers ---
+
+// NewCounter creates a functional counter.
+func NewCounter() Counter {
+	return &counterImpl{count: 0}
+}
+
+type counterImpl struct {
+	count int
+}
+
+func (c *counterImpl) Increment() { c.count++ }
+func (c *counterImpl) Count() int { return c.count }

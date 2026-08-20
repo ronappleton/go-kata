@@ -1,0 +1,22 @@
+package kata
+
+import (
+	"strings"
+	"testing"
+)
+
+func TestGenerateChartYAML(t *testing.T) {
+	config := ChartConfig{
+		Name:       "my-app",
+		Version:    "1.0.0",
+		AppVersion: "1.0.0",
+		Description: "A Helm chart",
+	}
+	yaml := GenerateChartYAML(config)
+	if !strings.Contains(yaml, "apiVersion") {
+		t.Error("expected apiVersion in Chart.yaml")
+	}
+	if !strings.Contains(yaml, "my-app") {
+		t.Error("expected chart name")
+	}
+}

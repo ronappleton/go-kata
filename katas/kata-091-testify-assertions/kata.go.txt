@@ -1,0 +1,35 @@
+package kata
+
+// Multiply returns the product of a and b.
+func Multiply(a, b int) int {
+	return a * b
+}
+
+// Split splits a string by delimiter and returns non-empty parts.
+func Split(s, delim string) []string {
+	if s == "" {
+		return nil
+	}
+	result := []string{}
+	for _, part := range splitSimple(s, delim) {
+		if part != "" {
+			result = append(result, part)
+		}
+	}
+	return result
+}
+
+func splitSimple(s, delim string) []string {
+	var parts []string
+	current := ""
+	for _, ch := range s {
+		if string(ch) == delim {
+			parts = append(parts, current)
+			current = ""
+		} else {
+			current += string(ch)
+		}
+	}
+	parts = append(parts, current)
+	return parts
+}

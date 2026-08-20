@@ -1,0 +1,13 @@
+{
+  "id": "071",
+  "slug": "context-timeout-wrapper",
+  "title": "Context Timeout Wrapper",
+  "focus": "context",
+  "signature": "func WithTimeoutDo(ctx context.Context, d time.Duration, fn func(context.Context) error) error",
+  "rules": [
+    "fn called with derived ctx",
+    "returns ctx error on timeout",
+    "propagates fn error"
+  ],
+  "evaluator_status": "incomplete"
+}

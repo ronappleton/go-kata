@@ -1,0 +1,58 @@
+package kata
+
+import "testing"
+
+func TestPackagePath(t *testing.T) {
+	tests := []struct {
+		root, cmd, want string
+	}{
+	{"github.com/user/project", "server", "github.com/user/project/cmd/server"},
+	{"example.com/myapp", "cli", "example.com/myapp/cmd/cli"},
+	{"gitlab.com/team/app", "worker", "gitlab.com/team/app/cmd/worker"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.cmd, func(t *testing.T) {
+			got := PackagePath(tt.root, tt.cmd)
+			if got != tt.want {
+				t.Errorf("PackagePath(%q, %q) = %q, want %q", tt.root, tt.cmd, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestPackageName(t *testing.T) {
+	tests := []struct {
+		path, want string
+	}{
+	{"github.com/user/project/cmd/server", "server"},
+	{"github.com/user/project/internal/auth", "auth"},
+	{"example.com/myapp", "myapp"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.want, func(t *testing.T) {
+			got := PackageName(tt.path)
+			if got != tt.want {
+				t.Errorf("PackageName(%q) = %q, want %q", tt.path, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestIsInternal(t *testing.T) {
+	tests := []struct {
+		path string
+		want bool
+	}{
+	{"github.com/user/project/internal/auth", true},
+	{"github.com/user/project/pkg/server", false},
+	{"example.com/myapp/internal/config", true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.path, func(t *testing.T) {
+			got := IsInternal(tt.path)
+			if got != tt.want {
+				t.Errorf("IsInternal(%q) = %v, want %v", tt.path, got, tt.want)
+			}
+		})
+	}
+}

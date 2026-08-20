@@ -1,0 +1,13 @@
+package kata
+
+import "net/http"
+
+// CreateMux returns an http.ServeMux with routes registered.
+// Register:
+//   - GET /health => return 200 OK
+//   - GET /hello?name=XXX => return "Hello, XXX!"
+//
+// Your task: implement the function below.
+func CreateMux() *http.ServeMux {
+	return http.NewServeMux()
+}

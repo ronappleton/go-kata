@@ -1,0 +1,14 @@
+{
+  "id": "155",
+  "slug": "bug-username-normalization",
+  "title": "Normalize Username Bug",
+  "focus": "strings.TrimSpace, strings.ToLower, strings.ReplaceAll",
+  "signature": "func NormalizeUsername(name string) string",
+  "rules": [
+    "trim leading/trailing spaces",
+    "lowercase all letters",
+    "replace internal spaces with underscore (`_`)",
+    "empty/space-only input =\u003e empty string"
+  ],
+  "evaluator_status": "ready"
+}

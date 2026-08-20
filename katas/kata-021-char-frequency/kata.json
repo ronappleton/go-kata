@@ -1,0 +1,13 @@
+{
+  "id": "021",
+  "slug": "char-frequency",
+  "title": "Character Frequency",
+  "focus": "Maps, rune iteration, Unicode-safe counting",
+  "signature": "func CharFrequency(s string) map[rune]int",
+  "rules": [
+    "each rune count increments by occurrences in s",
+    "empty input =\u003e empty map (not nil)",
+    "counting is rune-based, not byte-based"
+  ],
+  "evaluator_status": "incomplete"
+}

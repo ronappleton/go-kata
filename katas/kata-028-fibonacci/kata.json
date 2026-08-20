@@ -1,0 +1,14 @@
+{
+  "id": "028",
+  "slug": "fibonacci",
+  "title": "Fibonacci",
+  "focus": "Iteration, slices",
+  "signature": "func Fibonacci(n int) ([]int, error)",
+  "rules": [
+    "n\u003c0 =\u003e error",
+    "n=0 =\u003e empty slice",
+    "n=1 =\u003e [0]",
+    "sequence starts 0,1,..."
+  ],
+  "evaluator_status": "incomplete"
+}

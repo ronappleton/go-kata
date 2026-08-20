@@ -1,0 +1,14 @@
+{
+  "id": "011",
+  "slug": "clamp-value",
+  "title": "Clamp Value",
+  "focus": "Comparisons, boundary logic, defensive argument handling",
+  "signature": "func Clamp(value, min, max int) int",
+  "rules": [
+    "min greater than max =\u003e treat inputs as swapped bounds",
+    "value below lower bound =\u003e lower bound",
+    "value above upper bound =\u003e upper bound",
+    "value inside bounds =\u003e value unchanged"
+  ],
+  "evaluator_status": "incomplete"
+}

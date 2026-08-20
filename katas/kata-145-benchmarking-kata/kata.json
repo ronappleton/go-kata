@@ -1,0 +1,13 @@
+{
+  "id": "145",
+  "slug": "benchmarking-kata",
+  "title": "Benchmarking Kata",
+  "focus": "testing/benchmark",
+  "signature": "func Concat(parts []string) string",
+  "rules": [
+    "write 2 benchmarks: naive vs builder",
+    "compare allocations",
+    "document results in README"
+  ],
+  "evaluator_status": "incomplete"
+}

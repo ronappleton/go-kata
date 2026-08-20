@@ -1,0 +1,13 @@
+{
+  "id": "068",
+  "slug": "tar-gzip-archiver",
+  "title": "Tar/Gzip Archiver",
+  "focus": "archive/tar, compress/gzip",
+  "signature": "func ArchiveTGZ(srcDir string, w io.Writer) error",
+  "rules": [
+    "recursive archive",
+    "preserve relative paths",
+    "skip symlinks"
+  ],
+  "evaluator_status": "incomplete"
+}

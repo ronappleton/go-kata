@@ -1,0 +1,15 @@
+{
+  "id": "006",
+  "slug": "fizzbuzz",
+  "title": "FizzBuzz",
+  "focus": "Basics: loops, conditionals, slices, strconv",
+  "signature": "func FizzBuzz(n int) []string",
+  "rules": [
+    "n\u003c=0 =\u003e empty slice (not nil)",
+    "multiples of 3 =\u003e Fizz",
+    "multiples of 5 =\u003e Buzz",
+    "both =\u003e FizzBuzz",
+    "otherwise number string"
+  ],
+  "evaluator_status": "incomplete"
+}

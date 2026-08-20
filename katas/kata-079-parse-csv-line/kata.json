@@ -1,0 +1,13 @@
+{
+  "id": "079",
+  "slug": "parse-csv-line",
+  "title": "Parse CSV Line",
+  "focus": "Parsing quoted CSV",
+  "signature": "func ParseCSVLine(line string) ([]string, error)",
+  "rules": [
+    "commas separate fields",
+    "double quotes allow commas",
+    "escaped quotes as \"\" inside quoted field"
+  ],
+  "evaluator_status": "incomplete"
+}

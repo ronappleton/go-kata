@@ -1,149 +1,388 @@
 {
   "id": "go-core-100",
-  "title": "Go Core Path: Zero-to-Senior (140 Katas)",
-  "description": "Structured Go learning from first programming principles to senior-level design, with guided pathways, bug-fix practice, and databases/I/O training.",
-  "categories": [
+  "title": "Go Mastery: Junior to Lead",
+  "description": "Structured Go learning from first principles to lead-level architecture, design, and team leadership.",
+  "stages": [
     {
-      "id": "starter-programming-essentials",
-      "title": "Starter: Programming Essentials",
-      "description": "Zero-to-code foundations for learners new to programming and Go.",
-      "learning_goal": "Understand functions, conditionals, loops, and boundaries so you can turn plain rules into working code.",
-      "kata_ranges": [
+      "id": "foundation",
+      "title": "Foundation",
+      "level": "junior",
+      "description": "Write, test, and run Go programs. Build confidence with language fundamentals.",
+      "categories": [
         {
-          "start": 1,
-          "end": 10
+          "id": "setup-and-toolchain",
+          "title": "Go Setup & Toolchain",
+          "description": "Project setup, module system, toolchain basics, and development workflow.",
+          "learning_goal": "Set up a Go project, use go fmt/vet/lint, and understand the module system.",
+          "kata_ids": [
+            "000",
+            "001",
+            "002",
+            "003",
+            "004",
+            "005",
+            "163",
+            "164",
+            "165",
+            "166",
+            "167",
+            "168",
+            "169"
+          ]
+        },
+        {
+          "id": "language-basics",
+          "title": "Language Basics",
+          "description": "Variables, types, functions, conditionals, loops, and fundamental patterns.",
+          "learning_goal": "Write clear, correct Go functions that handle edge cases and use the language idiomatically.",
+          "kata_ids": [
+            "006",
+            "007",
+            "008",
+            "009",
+            "010",
+            "011",
+            "012",
+            "013",
+            "014",
+            "015",
+            "016",
+            "017",
+            "018",
+            "019",
+            "170",
+            "171",
+            "172",
+            "173",
+            "174"
+          ]
+        },
+        {
+          "id": "data-structures",
+          "title": "Data Structures",
+          "description": "Slices, maps, structs, pointers, and algorithmic thinking with collections.",
+          "learning_goal": "Use Go data structures and iteration patterns to solve problems correctly.",
+          "kata_ids": [
+            "020",
+            "021",
+            "022",
+            "023",
+            "024",
+            "025",
+            "026",
+            "027",
+            "028",
+            "029",
+            "030",
+            "031",
+            "032",
+            "033",
+            "034",
+            "035",
+            "036",
+            "037"
+          ]
+        },
+        {
+          "id": "error-handling",
+          "title": "Error Handling",
+          "description": "Return values, sentinel errors, error wrapping, custom types, and interface patterns.",
+          "learning_goal": "Handle errors explicitly and design clean error boundaries.",
+          "kata_ids": [
+            "038",
+            "039",
+            "040"
+          ]
+        },
+        {
+          "id": "testing-fundamentals",
+          "title": "Testing Fundamentals",
+          "description": "Table-driven tests, subtests, sync primitives, context, and test discipline.",
+          "learning_goal": "Write tests that prove behavior and catch regressions.",
+          "kata_ids": [
+            "041",
+            "042",
+            "043"
+          ]
+        },
+        {
+          "id": "ai-literacy",
+          "title": "AI-Augmented Development",
+          "description": "Using AI as a tool without losing your ability to think. Learn when to use it, when not to, and how to verify its output.",
+          "learning_goal": "Use AI effectively as a development partner while maintaining critical thinking and deep understanding.",
+          "kata_ids": [
+            "160",
+            "161"
+          ]
         }
       ]
     },
     {
-      "id": "starter-data-and-logic",
-      "title": "Starter: Data and Logic",
-      "description": "Practical beginner problems using slices, maps, structs, and search/filter logic.",
-      "learning_goal": "Build confidence with common data operations and predictable return contracts before tackling larger systems.",
-      "kata_ranges": [
+      "id": "practitioner",
+      "title": "Practitioner",
+      "level": "mid",
+      "description": "Build real systems with Go. Use standard library and popular packages confidently.",
+      "categories": [
         {
-          "start": 11,
-          "end": 20
+          "id": "standard-library",
+          "title": "Standard Library Deep Dive",
+          "description": "Core packages: strings, io, bytes, sort, filepath, encoding, crypto, and more.",
+          "learning_goal": "Use common standard library packages with confidence and precision.",
+          "kata_ids": [
+            "044",
+            "045",
+            "046",
+            "047",
+            "048",
+            "049",
+            "050",
+            "051",
+            "052",
+            "053",
+            "054",
+            "055",
+            "056",
+            "057",
+            "058",
+            "059",
+            "060",
+            "061",
+            "062",
+            "063",
+            "064",
+            "065",
+            "066",
+            "067",
+            "068"
+          ]
+        },
+        {
+          "id": "web-networking",
+          "title": "Web & Networking",
+          "description": "HTTP servers, clients, middleware, routing, context propagation, and network protocols.",
+          "learning_goal": "Build robust web services that handle failures, timeouts, and partial states gracefully.",
+          "kata_ids": [
+            "069",
+            "070",
+            "071",
+            "072",
+            "073",
+            "074",
+            "075",
+            "076",
+            "077",
+            "078"
+          ]
+        },
+        {
+          "id": "data-serialization",
+          "title": "Data & Serialization",
+          "description": "JSON, CSV, YAML, TOML, INI, config loading, and stream processing.",
+          "learning_goal": "Parse and generate structured data formats with proper error handling.",
+          "kata_ids": [
+            "079",
+            "080",
+            "081",
+            "082",
+            "083",
+            "084",
+            "085",
+            "086",
+            "087",
+            "088"
+          ]
+        },
+        {
+          "id": "real-world-packages",
+          "title": "Real-World Packages",
+          "description": "Production libraries: structured logging (slog), CLI frameworks (cobra), testing (testify), databases (pgx).",
+          "learning_goal": "Use popular Go packages that appear in production codebases daily.",
+          "kata_ids": [
+            "089",
+            "090",
+            "091",
+            "092",
+            "093"
+          ]
+        },
+        {
+          "id": "concurrency",
+          "title": "Concurrency Patterns",
+          "description": "Goroutines, channels, sync primitives, pipelines, fan-out/fan-in, and concurrent data structures.",
+          "learning_goal": "Build concurrent systems that stay correct under load and timing variance.",
+          "kata_ids": [
+            "094",
+            "095",
+            "096",
+            "097",
+            "098",
+            "099",
+            "100",
+            "101",
+            "102",
+            "103",
+            "104",
+            "105",
+            "106",
+            "107",
+            "108",
+            "109",
+            "110",
+            "111",
+            "112",
+            "113"
+          ]
+        },
+        {
+          "id": "ai-literacy-mid",
+          "title": "AI at Scale",
+          "description": "Advanced AI collaboration patterns for complex debugging and architecture.",
+          "learning_goal": "Use AI as a thinking partner for complex problems without becoming dependent.",
+          "kata_ids": [
+            "162"
+          ]
         }
       ]
     },
     {
-      "id": "well-known-packages",
-      "title": "Well-Known Packages",
-      "description": "Focused katas for core standard library packages used in everyday Go code.",
-      "learning_goal": "Use common packages with confidence by implementing deterministic behavior contracts you can reuse in real systems.",
-      "kata_ranges": [
+      "id": "senior",
+      "title": "Senior Developer",
+      "level": "senior",
+      "description": "Make architectural decisions. Build reliable, observable, performant systems.",
+      "categories": [
         {
-          "start": 21,
-          "end": 30
+          "id": "architecture-design",
+          "title": "Architecture & Design",
+          "description": "Structured errors, circuit breakers, generics, websockets, SSE, and design patterns.",
+          "learning_goal": "Design systems with clear boundaries, resilience patterns, and clean abstractions.",
+          "kata_ids": [
+            "114",
+            "115",
+            "116",
+            "117",
+            "118",
+            "119",
+            "120",
+            "121"
+          ]
+        },
+        {
+          "id": "observability",
+          "title": "Observability",
+          "description": "Structured logging, metrics, tracing, and understanding runtime behavior.",
+          "learning_goal": "Make systems observable so you can diagnose issues in production.",
+          "kata_ids": [
+            "122",
+            "123"
+          ]
+        },
+        {
+          "id": "performance",
+          "title": "Performance",
+          "description": "Benchmarking, profiling with pprof, memory analysis, and optimization.",
+          "learning_goal": "Measure before optimizing and use profiling to find real bottlenecks.",
+          "kata_ids": [
+            "124",
+            "125",
+            "126"
+          ]
+        },
+        {
+          "id": "security",
+          "title": "Security",
+          "description": "JWT, HMAC, password hashing, file integrity, input validation, and secure coding.",
+          "learning_goal": "Apply security best practices to protect data and systems.",
+          "kata_ids": [
+            "127",
+            "128",
+            "129",
+            "130",
+            "131"
+          ]
+        },
+        {
+          "id": "advanced-data",
+          "title": "Advanced Data Structures",
+          "description": "Bloom filters, Merkle trees, heaps, graph algorithms, databases, and transactions.",
+          "learning_goal": "Implement and use advanced data structures for real-world problems.",
+          "kata_ids": [
+            "132",
+            "133",
+            "134",
+            "135",
+            "136",
+            "137",
+            "138"
+          ]
         }
       ]
     },
     {
-      "id": "foundations",
-      "title": "Go Foundations",
-      "description": "Core syntax, control flow, and deterministic behavior with everyday coding patterns.",
-      "learning_goal": "Convert plain-language requirements into clear, testable Go functions that handle edge cases intentionally.",
-      "kata_ranges": [
+      "id": "lead",
+      "title": "Lead Developer",
+      "level": "lead",
+      "description": "Lead teams, make technical decisions, mentor others, and ship with confidence.",
+      "categories": [
         {
-          "start": 31,
-          "end": 40
-        }
-      ]
-    },
-    {
-      "id": "core-collections-and-algorithms",
-      "title": "Core Collections and Algorithms",
-      "description": "Slices, maps, generics, and algorithmic thinking for correctness under constraints.",
-      "learning_goal": "Use Go data structures and iteration patterns to solve problems without sacrificing readability or safety.",
-      "kata_ranges": [
+          "id": "code-quality-review",
+          "title": "Code Quality & Review",
+          "description": "CLI tools, code review patterns, refactoring, and quality standards.",
+          "learning_goal": "Write code that is maintainable, reviewable, and production-ready.",
+          "kata_ids": [
+            "139",
+            "140",
+            "141",
+            "142",
+            "143",
+            "144",
+            "145",
+            "146",
+            "147"
+          ]
+        },
         {
-          "start": 41,
-          "end": 50
-        }
-      ]
-    },
-    {
-      "id": "text-data-and-transformations",
-      "title": "Text, Data, and Transformations",
-      "description": "Parsing, formatting, and data transformation across structured and unstructured inputs.",
-      "learning_goal": "Design robust input/output behavior that is explicit about malformed data and contract guarantees.",
-      "kata_ranges": [
+          "id": "build-deploy",
+          "title": "Build & Deploy",
+          "description": "Docker, CI/CD, cross-compilation, release management, and deployment.",
+          "learning_goal": "Ship Go applications reliably with automated build and deployment pipelines.",
+          "kata_ids": [
+            "148",
+            "149"
+          ]
+        },
         {
-          "start": 51,
-          "end": 62
-        }
-      ]
-    },
-    {
-      "id": "file-time-and-config",
-      "title": "File, Time, and Config",
-      "description": "File handling, time-based behavior, and configuration safety in local systems.",
-      "learning_goal": "Handle operating-system boundaries and time-sensitive logic with predictable, testable behavior.",
-      "kata_ranges": [
+          "id": "advanced-patterns",
+          "title": "Advanced Patterns",
+          "description": "Event sourcing, reflection, dependency injection, and architectural patterns.",
+          "learning_goal": "Apply advanced design patterns to complex systems.",
+          "kata_ids": [
+            "150",
+            "151",
+            "152"
+          ]
+        },
         {
-          "start": 63,
-          "end": 70
-        }
-      ]
-    },
-    {
-      "id": "services-and-boundaries",
-      "title": "Services and Boundaries",
-      "description": "HTTP, networking, middleware, and service composition across unstable external boundaries.",
-      "learning_goal": "Treat I/O boundaries as contracts and return safe behavior under failure and partial success.",
-      "kata_ranges": [
+          "id": "leadership-communication",
+          "title": "Leadership & Communication",
+          "description": "Architecture decision records, technical writing, mentoring, and team practices.",
+          "learning_goal": "Lead technical decisions and mentor other developers effectively.",
+          "kata_ids": [
+            "153",
+            "154"
+          ]
+        },
         {
-          "start": 71,
-          "end": 90
-        }
-      ]
-    },
-    {
-      "id": "concurrency-and-reliability",
-      "title": "Concurrency and Reliability",
-      "description": "Lifecycle ownership, cancellation, coordination primitives, and resilient runtime behavior.",
-      "learning_goal": "Build concurrent systems that stay correct under load, interruption, and timing variance.",
-      "kata_ranges": [
-        {
-          "start": 91,
-          "end": 110
-        }
-      ]
-    },
-    {
-      "id": "tooling-security-and-advanced-design",
-      "title": "Tooling, Security, and Advanced Design",
-      "description": "CLI tools, cryptography, testing discipline, performance, generics, reflection, and architecture.",
-      "learning_goal": "Apply production-grade quality standards and design tradeoff reasoning to senior-level Go solutions.",
-      "kata_ranges": [
-        {
-          "start": 111,
-          "end": 130
-        }
-      ]
-    },
-    {
-      "id": "bug-fix-lab",
-      "title": "Bug Fix Lab",
-      "description": "Deliberately buggy implementations where learners diagnose failures and repair behavior without rewriting requirements.",
-      "learning_goal": "Develop production debugging habits: reproduce, isolate, patch minimally, and confirm with regression tests.",
-      "kata_ranges": [
-        {
-          "start": 131,
-          "end": 135
-        }
-      ]
-    },
-    {
-      "id": "databases-and-io",
-      "title": "Databases and I/O",
-      "description": "Persistence, streaming, filesystem, and query-boundary contracts used in real applications.",
-      "learning_goal": "Build confidence with database and I/O boundaries where correctness, error handling, and resource ownership are critical.",
-      "kata_ranges": [
-        {
-          "start": 136,
-          "end": 140
+          "id": "bug-fix-lab",
+          "title": "Bug Fix Lab",
+          "description": "Production debugging: reproduce, isolate, patch minimally, and confirm with regression tests.",
+          "learning_goal": "Develop debugging habits that save hours in production.",
+          "kata_ids": [
+            "155",
+            "156",
+            "157",
+            "158",
+            "159"
+          ]
         }
       ]
     }

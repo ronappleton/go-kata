@@ -1,0 +1,15 @@
+{
+  "id": "044",
+  "slug": "strings-normalize-tags",
+  "title": "Normalize Tags",
+  "focus": "strings.Split, strings.TrimSpace, strings.ToLower",
+  "signature": "func NormalizeTags(input string) []string",
+  "rules": [
+    "split input by comma (`,`)",
+    "trim spaces around each tag",
+    "drop empty tags after trim",
+    "convert each kept tag to lowercase",
+    "preserve original left-to-right order"
+  ],
+  "evaluator_status": "incomplete"
+}

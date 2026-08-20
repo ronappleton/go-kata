@@ -1,0 +1,77 @@
+{
+  "id": "163",
+  "slug": "variable-scope",
+  "title": "Variable Scope \u0026 Lifetime",
+  "focus": "local vs package vs global scope, block scoping, short vs long declaration",
+  "signature": "",
+  "rules": [
+    "CountDeclarations returns the number of distinct variables you declare",
+    "ShadowExample should demonstrate understanding of block scoping"
+  ],
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "setup-and-toolchain",
+  "level": "junior",
+  "tags": [
+    "scope",
+    "variables",
+    "declarations",
+    ":=",
+    "var",
+    "const"
+  ],
+  "prerequisites": [
+    "000"
+  ],
+  "estimated_minutes": 25,
+  "flashcards": [
+    {
+      "front": "What is the difference between := and var in Go?",
+      "back": ":= is short variable declaration, only works inside functions. var works anywhere and can declare package-level variables."
+    },
+    {
+      "front": "What is the scope of a variable declared with := inside a function?",
+      "back": "Block scope \u2014 it's only visible within the nearest curly braces { } where it was declared."
+    },
+    {
+      "front": "Can you redeclare a variable with := in the same scope?",
+      "back": "No, := requires at least one new variable on the left side. You can shadow in inner scopes though."
+    },
+    {
+      "front": "What is a zero value in Go?",
+      "back": "The default value when a variable is declared without initialization: 0 for numbers, '' for strings, false for bools, nil for pointers/slices/maps/channels/interfaces."
+    }
+  ],
+  "quiz_questions": [
+    {
+      "question": "Which declaration creates a package-level variable?",
+      "options": [
+        "x := 10",
+        "var x = 10",
+        "x = 10",
+        "let x = 10"
+      ],
+      "answer": "var x = 10"
+    },
+    {
+      "question": "What is the zero value of a string?",
+      "options": [
+        "null",
+        "undefined",
+        "\"\"",
+        "nil"
+      ],
+      "answer": "\"\""
+    },
+    {
+      "question": "Can := be used outside a function?",
+      "options": [
+        "Yes, always",
+        "No, only inside functions",
+        "Only in main()",
+        "Only with var"
+      ],
+      "answer": "No, only inside functions"
+    }
+  ]
+}

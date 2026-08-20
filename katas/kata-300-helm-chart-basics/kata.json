@@ -1,0 +1,12 @@
+{
+  "id": "300",
+  "slug": "helm-chart-basics",
+  "title": "Helm Chart Basics",
+  "focus": "Chart.yaml, values.yaml, templates, helm install, helm upgrade",
+  "signature": "",
+  "rules": [
+    "Output contains valid Chart.yaml structure",
+    "Includes apiVersion, name, version, description"
+  ],
+  "evaluator_status": "ready"
+}

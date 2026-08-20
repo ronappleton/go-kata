@@ -1,0 +1,12 @@
+{
+  "id": "086",
+  "slug": "uuid-v4-generator",
+  "title": "UUID v4 Generator",
+  "focus": "crypto/rand",
+  "signature": "func NewUUIDv4() (string, error)",
+  "rules": [
+    "RFC4122 version/variant bits",
+    "format 8-4-4-4-12 lowercase"
+  ],
+  "evaluator_status": "incomplete"
+}

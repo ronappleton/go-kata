@@ -1,0 +1,22 @@
+package kata
+
+import "testing"
+
+func TestCheckCode(t *testing.T) {
+	tests := []struct {
+		name string
+		code string
+		wantLen int
+	}{
+		{"clean code", "package main", 0},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			got := CheckCode(tc.code)
+			if len(got) != tc.wantLen {
+				t.Errorf("CheckCode() returned %d issues, want %d", len(got), tc.wantLen)
+			}
+		})
+	}
+}

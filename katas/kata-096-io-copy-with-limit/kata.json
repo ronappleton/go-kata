@@ -1,0 +1,14 @@
+{
+  "id": "096",
+  "slug": "io-copy-with-limit",
+  "title": "Copy With Limit",
+  "focus": "io.CopyN, boundary validation",
+  "signature": "func CopyWithLimit(dst io.Writer, src io.Reader, limit int64) (int64, error)",
+  "rules": [
+    "limit \u003c= 0 =\u003e return 0 and nil error",
+    "copy at most limit bytes",
+    "return bytes copied and any copy error",
+    "nil src/dst =\u003e non-nil error"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "111",
+  "slug": "lru-cache-thread-safe",
+  "title": "LRU Cache (thread-safe)",
+  "focus": "Advanced practice",
+  "signature": "func Kata70() error",
+  "rules": [
+    "follow README spec",
+    "write tests",
+    "keep it idiomatic"
+  ],
+  "evaluator_status": "incomplete"
+}

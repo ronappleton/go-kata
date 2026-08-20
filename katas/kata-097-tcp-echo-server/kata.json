@@ -1,0 +1,13 @@
+{
+  "id": "097",
+  "slug": "tcp-echo-server",
+  "title": "TCP Echo Server",
+  "focus": "net",
+  "signature": "func StartEchoServer(addr string) (stop func() error, err error)",
+  "rules": [
+    "multiple clients",
+    "graceful stop",
+    "per-connection goroutine"
+  ],
+  "evaluator_status": "incomplete"
+}

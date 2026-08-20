@@ -1,0 +1,13 @@
+{
+  "id": "018",
+  "slug": "factorial",
+  "title": "Factorial",
+  "focus": "Recursion vs loop, overflow checks",
+  "signature": "func Factorial(n int) (int, error)",
+  "rules": [
+    "n\u003c0 =\u003e error",
+    "0 =\u003e 1",
+    "overflow =\u003e error"
+  ],
+  "evaluator_status": "incomplete"
+}

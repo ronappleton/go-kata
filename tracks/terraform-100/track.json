@@ -1,0 +1,25 @@
+{
+  "id": "terraform-100",
+  "title": "Infrastructure as Code: Terraform",
+  "description": "Learn Terraform from basics to production-ready infrastructure.",
+  "stages": [
+    {
+      "id": "foundation",
+      "title": "Terraform Foundations",
+      "level": "junior",
+      "description": "Learn HCL, core commands, and basic resource management.",
+      "categories": [
+        {
+          "id": "tf-basics",
+          "title": "Terraform Basics",
+          "description": "HCL syntax, init/plan/apply/destroy, modules, and state.",
+          "learning_goal": "Write and manage Terraform configurations with confidence.",
+          "kata_ids": [
+            "200",
+            "201"
+          ]
+        }
+      ]
+    }
+  ]
+}

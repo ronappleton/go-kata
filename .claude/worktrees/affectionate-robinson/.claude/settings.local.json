@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -d /Users/ronappleton/Projects/go-kata/katas/kata-*)",
+      "Bash(find /Users/ronappleton/Projects/go-kata/.claude/worktrees/affectionate-robinson/katas -name kata_test.go -exec grep -l \"t\\\\.Run\\\\|t\\\\.Parallel\\\\|table\" {})",
+      "Bash(2)",
+      "Bash(find /Users/ronappleton/Projects/go-kata/.claude/worktrees/affectionate-robinson/katas -name kata_test.go -exec grep -L 'TODO: write tests' {})",
+      "Bash(ls -d /Users/ronappleton/Projects/go-kata/.claude/worktrees/affectionate-robinson/katas/kata-*)",
+      "Bash(find /Users/ronappleton/Projects/go-kata/.claude/worktrees/affectionate-robinson/katas -name \"kata_test.go\" -exec grep -l \"TODO: write tests\" {})",
+      "Bash(go build:*)",
+      "Bash(go test:*)",
+      "Bash(./scripts/test_operability.sh)",
+      "Bash(ls apps/learner-studio/*.go)",
+      "Bash(for dir:*)",
+      "Bash(do)",
+      "Bash(if grep:*)",
+      "Bash(then)",
+      "Bash(basename \"$dir\")",
+      "Bash(fi)",
+      "Bash(done)",
+      "Bash(grep -i \"test\\\\|Test\\\\|testing\\\\|Testing\" /Users/ronappleton/Projects/go-kata/.claude/worktrees/affectionate-robinson/katas/*/README.md)",
+      "Bash(grep \"^\\\\*\\\\*Focus:\" /Users/ronappleton/Projects/go-kata/.claude/worktrees/affectionate-robinson/katas/kata-125-*/README.md)",
+      "Bash(/tmp/kata_report.txt:*)",
+      "Read(//tmp/**)",
+      "Bash(ls -la /Users/ronappleton/Projects/go-kata/.claude/worktrees/affectionate-robinson/apps/learner-studio/*.go)",
+      "Bash(ls -1d katas/kata-02[0-9]-* katas/kata-03[0-9]-* katas/kata-040-*)",
+      "Bash(ls -1d katas/kata-02[1-9]-* katas/kata-030-*)",
+      "Bash(ls -1d katas/kata-023-*)",
+      "Bash(ls -1d katas/.staging/kata-033-*)",
+      "Bash(git mv:*)"
+    ]
+  }
+}

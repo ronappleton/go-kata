@@ -1,0 +1,13 @@
+{
+  "id": "032",
+  "slug": "word-count",
+  "title": "Word Count",
+  "focus": "Strings, fields, maps",
+  "signature": "func WordCount(s string) map[string]int",
+  "rules": [
+    "split on whitespace",
+    "lowercase words",
+    "empty =\u003e empty map (not nil)"
+  ],
+  "evaluator_status": "incomplete"
+}

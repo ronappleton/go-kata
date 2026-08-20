@@ -1,0 +1,13 @@
+{
+  "id": "150",
+  "slug": "event-sourcing-mini",
+  "title": "Event Sourcing Mini",
+  "focus": "Advanced practice",
+  "signature": "func Kata77() error",
+  "rules": [
+    "follow README spec",
+    "write tests",
+    "keep it idiomatic"
+  ],
+  "evaluator_status": "incomplete"
+}

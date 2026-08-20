@@ -1,0 +1,13 @@
+{
+  "id": "161",
+  "slug": "ai-code-review",
+  "title": "AI-Assisted Code Review",
+  "focus": "using AI for code review, verifying AI suggestions, critical thinking",
+  "signature": "",
+  "rules": [
+    "Returns structured review with issues and suggestions",
+    "Confidence score reflects actual certainty",
+    "Suggestions are actionable and specific"
+  ],
+  "evaluator_status": "ready"
+}

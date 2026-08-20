@@ -1,0 +1,14 @@
+{
+  "id": "043",
+  "slug": "context-wait-result",
+  "title": "Wait For Context Or Duration",
+  "focus": "context cancellation, time.Timer selection",
+  "signature": "func WaitForContextOrDuration(ctx context.Context, d time.Duration) string",
+  "rules": [
+    "d \u003c= 0 =\u003e return `completed` immediately",
+    "if context is done before duration =\u003e return `cancelled`",
+    "if duration elapses first =\u003e return `completed`",
+    "avoid leaking timer resources"
+  ],
+  "evaluator_status": "incomplete"
+}

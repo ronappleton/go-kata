@@ -1,0 +1,13 @@
+{
+  "id": "058",
+  "slug": "kebab-snake-camel",
+  "title": "Kebab/Snake → Camel",
+  "focus": "String transforms",
+  "signature": "func ToCamel(s string) string",
+  "rules": [
+    "input kebab-case or snake_case",
+    "output lowerCamelCase",
+    "collapse multiple separators"
+  ],
+  "evaluator_status": "incomplete"
+}

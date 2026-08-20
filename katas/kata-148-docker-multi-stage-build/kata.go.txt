@@ -1,0 +1,8 @@
+package kata
+
+// BuildDockerfile generates a multi-stage Dockerfile for a Go app.
+// Your task: implement the function below.
+func BuildDockerfile(appName string) string {
+	// Return a multi-stage Dockerfile as a string
+	return ""
+}

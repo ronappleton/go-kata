@@ -1,0 +1,14 @@
+{
+  "id": "042",
+  "slug": "sync-concurrent-increment",
+  "title": "Increment Concurrently",
+  "focus": "sync.WaitGroup, sync.Mutex, goroutine coordination",
+  "signature": "func IncrementConcurrently(total, workers int) int",
+  "rules": [
+    "total \u003c= 0 =\u003e return 0",
+    "workers \u003c= 0 =\u003e treat as 1 worker",
+    "increment shared counter exactly total times across workers",
+    "return exact final counter value"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,77 @@
+{
+  "id": "166",
+  "slug": "init-function",
+  "title": "init() Function \u0026 Package Lifecycle",
+  "focus": "init() execution order, package-level initialization, side effects",
+  "signature": "",
+  "rules": [
+    "Initialize returns the correct order: package_vars, init_func, main",
+    "GetInitOrder and ResetInitOrder work correctly"
+  ],
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "setup-and-toolchain",
+  "level": "junior",
+  "tags": [
+    "init",
+    "lifecycle",
+    "initialization",
+    "side-effects",
+    "package"
+  ],
+  "prerequisites": [
+    "163",
+    "164"
+  ],
+  "estimated_minutes": 25,
+  "flashcards": [
+    {
+      "front": "When does init() run in Go?",
+      "back": "After all package-level variables are initialized, and before main(). Each package can have multiple init() functions."
+    },
+    {
+      "front": "Can a package have multiple init() functions?",
+      "back": "Yes. Go allows multiple init() per package, and they run in source order."
+    },
+    {
+      "front": "What is the initialization order of packages?",
+      "back": "Packages are initialized in dependency order. If package A imports B, B's init() runs before A's."
+    },
+    {
+      "front": "Should you use init() for business logic?",
+      "back": "Generally no. init() is for setup like registering drivers or setting up globals. Business logic belongs in explicit functions."
+    }
+  ],
+  "quiz_questions": [
+    {
+      "question": "How many init() functions can a package have?",
+      "options": [
+        "Exactly one",
+        "Zero or one",
+        "Multiple",
+        "None"
+      ],
+      "answer": "Multiple"
+    },
+    {
+      "question": "What runs first: init() or main()?",
+      "options": [
+        "main()",
+        "init()",
+        "They run simultaneously",
+        "It depends on the Go version"
+      ],
+      "answer": "init()"
+    },
+    {
+      "question": "When are package-level variables initialized?",
+      "options": [
+        "Before init()",
+        "After init()",
+        "During main()",
+        "On first use"
+      ],
+      "answer": "Before init()"
+    }
+  ]
+}

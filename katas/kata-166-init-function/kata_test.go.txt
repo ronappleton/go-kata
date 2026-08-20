@@ -1,0 +1,24 @@
+package kata
+
+import "testing"
+
+func TestInitialize(t *testing.T) {
+	got := Initialize()
+	expected := []string{"package_vars", "init_func", "main"}
+	if len(got) != len(expected) {
+		t.Fatalf("Initialize() returned %d items, want %d", len(got), len(expected))
+	}
+	for i, want := range expected {
+		if got[i] != want {
+			t.Errorf("Initialize()[%d] = %q, want %q", i, got[i], want)
+		}
+	}
+}
+
+func TestGetInitOrder(t *testing.T) {
+	ResetInitOrder()
+	order := GetInitOrder()
+	if len(order) != 0 {
+		t.Errorf("GetInitOrder() should be empty after reset, got %v", order)
+	}
+}

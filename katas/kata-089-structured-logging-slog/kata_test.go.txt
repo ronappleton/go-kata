@@ -1,0 +1,21 @@
+package kata
+
+import (
+	"log/slog"
+	"os"
+	"testing"
+)
+
+func TestLogRequest(t *testing.T) {
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	app := NewAppLogger(logger)
+	// Should not panic
+	app.LogRequest("GET", "/health", 200)
+}
+
+func TestLogError(t *testing.T) {
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	app := NewAppLogger(logger)
+	// Should not panic
+	app.LogError("something failed", nil)
+}

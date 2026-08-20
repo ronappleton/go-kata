@@ -1,0 +1,13 @@
+{
+  "id": "026",
+  "slug": "safe-slice-range",
+  "title": "Safe Slice Range",
+  "focus": "Indices, bounds clamping, non-panicking behavior",
+  "signature": "func SafeSlice(values []int, start, end int) []int",
+  "rules": [
+    "indices are clamped into [0,len(values)]",
+    "if start\u003e=end after clamping =\u003e empty slice (not nil)",
+    "returns copied range values[start:end]"
+  ],
+  "evaluator_status": "incomplete"
+}

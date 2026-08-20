@@ -1,0 +1,18 @@
+package kata
+
+import (
+	"context"
+	"testing"
+)
+
+func TestTracerSpans(t *testing.T) {
+	tracer := NewTracer()
+
+	ctx := tracer.StartSpan(context.Background(), "request")
+	tracer.StartSpan(ctx, "database")
+	tracer.FinishSpan(ctx)
+
+	if len(tracer.spans) == 0 {
+		t.Fatal("expected spans")
+	}
+}

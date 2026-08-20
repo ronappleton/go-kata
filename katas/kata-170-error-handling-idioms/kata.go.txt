@@ -1,0 +1,61 @@
+package kata
+
+import (
+	"errors"
+	"fmt"
+	"strings"
+)
+
+// ErrInvalidEmail is a sentinel error for invalid emails.
+var ErrInvalidEmail = errors.New("invalid email format")
+
+// ValidationError carries context about what failed.
+type ValidationError struct {
+	Field   string
+	Message string
+}
+
+func (e *ValidationError) Error() string {
+	return fmt.Sprintf("%s: %s", e.Field, e.Message)
+}
+
+// ValidateEmail checks email format.
+// Rules:
+// - Must contain exactly one @
+// - Must have non-empty local and domain parts
+// - Domain must contain at least one dot
+// - Return ErrInvalidEmail if invalid
+// - Return nil if valid
+func ValidateEmail(email string) error {
+	// TODO: Implement email validation
+	return nil
+}
+
+// ValidateAge checks age is in valid range.
+// Rules:
+// - age < 0 or age > 150 => return &ValidationError{Field: "age", Message: "must be 0-150"}
+// - otherwise => return nil
+func ValidateAge(age int) error {
+	// TODO: Implement age validation
+	return nil
+}
+
+// ClassifyError inspects an error and returns a category.
+// Rules:
+// - nil => "none"
+// - errors.Is(err, ErrInvalidEmail) => "email"
+// - *ValidationError => "validation"
+// - other => "unknown"
+func ClassifyError(err error) string {
+	// TODO: Classify the error type
+	return "unknown"
+}
+
+// WrapWithContext wraps an error with operation context.
+// Rules:
+// - err is nil => return nil
+// - err is not nil => return fmt.Errorf("%s: %w", operation, err)
+func WrapWithContext(operation string, err error) error {
+	// TODO: Wrap the error with context
+	return nil
+}

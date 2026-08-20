@@ -1,0 +1,199 @@
+{
+  "id": "go-core-100",
+  "title": "Go Core Path: Associate to Lead (140 Katas)",
+  "description": "Structured Go learning from first programming principles to lead-level engineering, with guided pathways, testing discipline, bug-fix practice, and professional I/O patterns.",
+  "categories": [
+    {
+      "id": "programming-essentials",
+      "title": "Programming Essentials",
+      "description": "Zero-to-code foundations for learners new to programming and Go.",
+      "learning_goal": "Understand functions, conditionals, loops, and boundaries so you can turn plain rules into working code.",
+      "kata_ranges": [
+        {
+          "start": 1,
+          "end": 10
+        }
+      ]
+    },
+    {
+      "id": "data-and-logic",
+      "title": "Data and Logic",
+      "description": "Practical beginner problems using slices, maps, structs, and search/filter logic.",
+      "learning_goal": "Build confidence with common data operations and predictable return contracts.",
+      "kata_ranges": [
+        {
+          "start": 11,
+          "end": 20
+        }
+      ]
+    },
+    {
+      "id": "well-known-packages",
+      "title": "Well-Known Packages",
+      "description": "Focused katas for core standard library packages used in everyday Go code.",
+      "learning_goal": "Use common packages with confidence by implementing deterministic behavior contracts.",
+      "kata_ranges": [
+        {
+          "start": 21,
+          "end": 30
+        }
+      ]
+    },
+    {
+      "id": "go-foundations",
+      "title": "Go Foundations",
+      "description": "Core syntax, control flow, and deterministic behavior with everyday coding patterns.",
+      "learning_goal": "Convert plain-language requirements into clear, testable Go functions that handle edge cases intentionally.",
+      "kata_ranges": [
+        {
+          "start": 31,
+          "end": 40
+        }
+      ]
+    },
+    {
+      "id": "core-collections-and-algorithms",
+      "title": "Core Collections and Algorithms",
+      "description": "Slices, maps, generics, and algorithmic thinking for correctness under constraints.",
+      "learning_goal": "Use Go data structures and iteration patterns to solve problems without sacrificing readability or safety.",
+      "kata_ranges": [
+        {
+          "start": 41,
+          "end": 50
+        }
+      ]
+    },
+    {
+      "id": "text-data-and-transformations",
+      "title": "Text, Data, and Transformations",
+      "description": "Parsing, formatting, and data transformation across structured and unstructured inputs.",
+      "learning_goal": "Design robust input/output behavior that is explicit about malformed data and contract guarantees.",
+      "kata_ranges": [
+        {
+          "start": 51,
+          "end": 62
+        }
+      ]
+    },
+    {
+      "id": "file-time-and-config",
+      "title": "File, Time, and Config",
+      "description": "File handling, time-based behavior, and configuration safety in local systems.",
+      "learning_goal": "Handle operating-system boundaries and time-sensitive logic with predictable, testable behavior.",
+      "kata_ranges": [
+        {
+          "start": 63,
+          "end": 70
+        }
+      ]
+    },
+    {
+      "id": "services-and-boundaries",
+      "title": "Services and Boundaries",
+      "description": "HTTP, networking, and service composition across unstable external boundaries.",
+      "learning_goal": "Treat I/O boundaries as contracts and return safe behavior under failure and partial success.",
+      "kata_ranges": [
+        {
+          "start": 71,
+          "end": 82
+        }
+      ]
+    },
+    {
+      "id": "service-patterns",
+      "title": "Service Patterns",
+      "description": "Reusable patterns for routing, middleware, storage, messaging, and observability.",
+      "learning_goal": "Compose service building blocks into maintainable, testable application layers.",
+      "kata_ranges": [
+        {
+          "start": 83,
+          "end": 90
+        }
+      ]
+    },
+    {
+      "id": "concurrency-and-reliability",
+      "title": "Concurrency and Reliability",
+      "description": "Lifecycle ownership, cancellation, coordination primitives, and resilient runtime behavior.",
+      "learning_goal": "Build concurrent systems that stay correct under load, interruption, and timing variance.",
+      "kata_ranges": [
+        {
+          "start": 91,
+          "end": 100
+        }
+      ]
+    },
+    {
+      "id": "advanced-data-structures-and-algorithms",
+      "title": "Advanced Data Structures and Algorithms",
+      "description": "Thread-safe collections, probabilistic structures, graph algorithms, and engineering debugging.",
+      "learning_goal": "Implement and reason about advanced data structures with correctness proofs and performance awareness.",
+      "kata_ranges": [
+        {
+          "start": 101,
+          "end": 108
+        }
+      ]
+    },
+    {
+      "id": "tooling-and-security",
+      "title": "Tooling and Security",
+      "description": "Validation, security primitives, testing practices, and production hardening.",
+      "learning_goal": "Apply security-first thinking and testing rigor to production Go code.",
+      "kata_ranges": [
+        {
+          "start": 109,
+          "end": 118
+        }
+      ]
+    },
+    {
+      "id": "cli-tooling",
+      "title": "CLI Tooling",
+      "description": "Build Unix-style command-line tools using Go's I/O and flag packages.",
+      "learning_goal": "Design composable CLI tools that handle stdin/stdout, flags, and error reporting correctly.",
+      "kata_ranges": [
+        {
+          "start": 119,
+          "end": 124
+        }
+      ]
+    },
+    {
+      "id": "testing-and-performance",
+      "title": "Testing and Performance",
+      "description": "Advanced testing patterns, generics, reflection, and architectural design.",
+      "learning_goal": "Master Go's testing package and type system for professional-grade code.",
+      "kata_ranges": [
+        {
+          "start": 125,
+          "end": 130
+        }
+      ]
+    },
+    {
+      "id": "bug-fix-lab",
+      "title": "Bug Fix Lab",
+      "description": "Deliberately buggy implementations where learners diagnose failures and repair behavior without rewriting.",
+      "learning_goal": "Develop production debugging habits: reproduce, isolate, patch minimally, and confirm with regression tests.",
+      "kata_ranges": [
+        {
+          "start": 131,
+          "end": 135
+        }
+      ]
+    },
+    {
+      "id": "databases-and-io",
+      "title": "Databases and I/O",
+      "description": "Persistence, streaming, filesystem, and query-boundary contracts.",
+      "learning_goal": "Build confidence with database and I/O boundaries where correctness, error handling, and resource ownership are critical.",
+      "kata_ranges": [
+        {
+          "start": 136,
+          "end": 140
+        }
+      ]
+    }
+  ]
+}

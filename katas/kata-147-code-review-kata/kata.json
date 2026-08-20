@@ -1,0 +1,12 @@
+{
+  "id": "147",
+  "slug": "code-review-kata",
+  "title": "Code Review Kata",
+  "focus": "code review patterns, refactoring, readability, maintainability",
+  "signature": "",
+  "rules": [
+    "Returns at least one suggestion for unclear code",
+    "Suggestions are actionable"
+  ],
+  "evaluator_status": "ready"
+}

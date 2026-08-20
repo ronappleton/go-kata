@@ -1,0 +1,13 @@
+{
+  "id": "072",
+  "slug": "http-client-with-retries",
+  "title": "HTTP Client with Retries",
+  "focus": "net/http",
+  "signature": "func DoWithRetries(client *http.Client, req *http.Request, attempts int) (*http.Response, error)",
+  "rules": [
+    "retry on 5xx + network errors",
+    "no retry on 4xx",
+    "safe body handling"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,79 @@
+{
+  "id": "169",
+  "slug": "docker-dev-setup",
+  "title": "Docker Development Environment",
+  "focus": "Dockerfile, docker-compose, dev containers, volume mounts, healthchecks",
+  "signature": "",
+  "rules": [
+    "GenerateDockerfile creates a proper multi-stage build",
+    "GenerateCompose creates a working docker-compose.yml",
+    "ParseDockerfile extracts RUN commands",
+    "ValidateCompose checks structure"
+  ],
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "setup-and-toolchain",
+  "level": "junior",
+  "tags": [
+    "docker",
+    "dockerfile",
+    "docker-compose",
+    "containers",
+    "dev-environment"
+  ],
+  "prerequisites": [
+    "000",
+    "148"
+  ],
+  "estimated_minutes": 35,
+  "flashcards": [
+    {
+      "front": "What is the difference between COPY and ADD in Dockerfile?",
+      "back": "COPY copies files from host to container. ADD also supports URLs and auto-extracts tar files. Use COPY unless you need ADD's extras."
+    },
+    {
+      "front": "What is a multi-stage Dockerfile?",
+      "back": "Using multiple FROM statements to build in one stage and copy only the final binary to a slim runtime stage. Reduces image size dramatically."
+    },
+    {
+      "front": "What does docker-compose up -d do?",
+      "back": "Starts all services defined in docker-compose.yml in detached mode (background). Creates containers, networks, and volumes as defined."
+    },
+    {
+      "front": "What is a Docker healthcheck?",
+      "back": "A command that Docker runs periodically to check if the container is healthy. Unhealthy containers can be restarted or have traffic routed away."
+    }
+  ],
+  "quiz_questions": [
+    {
+      "question": "Which Dockerfile instruction runs at build time?",
+      "options": [
+        "CMD",
+        "ENTRYPOINT",
+        "RUN",
+        "EXPOSE"
+      ],
+      "answer": "RUN"
+    },
+    {
+      "question": "What does EXPOSE do in a Dockerfile?",
+      "options": [
+        "Opens a port on the host",
+        "Documents which ports the container uses",
+        "Creates a network bridge",
+        "Enables port forwarding"
+      ],
+      "answer": "Documents which ports the container uses"
+    },
+    {
+      "question": "How do you reduce Docker image size for Go?",
+      "options": [
+        "Use alpine base image",
+        "Multi-stage build with scratch/distroless",
+        "Remove go.mod",
+        "Use go mod vendor"
+      ],
+      "answer": "Multi-stage build with scratch/distroless"
+    }
+  ]
+}

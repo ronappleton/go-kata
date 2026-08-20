@@ -1,0 +1,24 @@
+{
+  "id": "security-100",
+  "title": "Security & CVE Awareness",
+  "description": "Understand vulnerabilities, CVEs, and security-first development.",
+  "stages": [
+    {
+      "id": "foundation",
+      "title": "Security Fundamentals",
+      "level": "junior",
+      "description": "CVE analysis, dependency scanning, secure coding basics.",
+      "categories": [
+        {
+          "id": "security-fundamentals",
+          "title": "Security Fundamentals",
+          "description": "CVE databases, vulnerability assessment, patching strategies.",
+          "learning_goal": "Assess and respond to security vulnerabilities systematically.",
+          "kata_ids": [
+            "400"
+          ]
+        }
+      ]
+    }
+  ]
+}

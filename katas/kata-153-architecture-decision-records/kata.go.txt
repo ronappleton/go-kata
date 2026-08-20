@@ -1,0 +1,16 @@
+package kata
+
+// ADR represents an Architecture Decision Record.
+type ADR struct {
+	Title   string
+	Status  string // "proposed", "accepted", "deprecated", "superseded"
+	Context string
+	Decision string
+	Consequences string
+}
+
+// CreateADR generates an ADR document from the given fields.
+// Your task: implement the function below.
+func CreateADR(title, context, decision, consequences string) ADR {
+	return ADR{}
+}

@@ -1,0 +1,80 @@
+{
+  "id": "170",
+  "slug": "error-handling-idioms",
+  "title": "Error Handling Idioms",
+  "focus": "if err != nil, sentinel errors, error wrapping, custom types, Is/As",
+  "signature": "",
+  "rules": [
+    "ValidateEmail returns ErrInvalidEmail sentinel",
+    "ValidateAge returns *ValidationError with context",
+    "ClassifyError uses errors.Is and errors.As",
+    "WrapWithContext wraps with fmt.Errorf %w"
+  ],
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "language-basics",
+  "level": "junior",
+  "tags": [
+    "errors",
+    "idioms",
+    "wrapping",
+    "sentinel",
+    "errors.Is",
+    "errors.As"
+  ],
+  "prerequisites": [
+    "003",
+    "030"
+  ],
+  "estimated_minutes": 35,
+  "flashcards": [
+    {
+      "front": "What is the Go error handling pattern?",
+      "back": "Check errors immediately after the call: result, err := fn(); if err != nil { return err }. Never ignore errors."
+    },
+    {
+      "front": "What is a sentinel error?",
+      "back": "A package-level variable of type error that callers can check with errors.Is(). Example: var ErrNotFound = errors.New('not found')."
+    },
+    {
+      "front": "How do you wrap errors in Go?",
+      "back": "Use fmt.Errorf with %w verb: fmt.Errorf('context: %w', err). This preserves the error chain for errors.Is/errors.As."
+    },
+    {
+      "front": "When should you create a custom error type vs use sentinel errors?",
+      "back": "Sentinel for simple 'this happened' checks. Custom types when you need to carry data (field values, context) that callers inspect with errors.As."
+    }
+  ],
+  "quiz_questions": [
+    {
+      "question": "What verb preserves the error chain in fmt.Errorf?",
+      "options": [
+        "%v",
+        "%s",
+        "%w",
+        "%d"
+      ],
+      "answer": "%w"
+    },
+    {
+      "question": "How do you check if an error matches a sentinel?",
+      "options": [
+        "err == ErrNotFound",
+        "errors.Is(err, ErrNotFound)",
+        "err.Error() == 'not found'",
+        "reflect.DeepEqual(err, ErrNotFound)"
+      ],
+      "answer": "errors.Is(err, ErrNotFound)"
+    },
+    {
+      "question": "Should you ever ignore an error?",
+      "options": [
+        "Yes, if it's minor",
+        "Yes, with _ = err",
+        "Only in tests",
+        "Never without explicit comment why"
+      ],
+      "answer": "Never without explicit comment why"
+    }
+  ]
+}

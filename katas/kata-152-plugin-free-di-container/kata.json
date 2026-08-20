@@ -1,0 +1,13 @@
+{
+  "id": "152",
+  "slug": "plugin-free-di-container",
+  "title": "Plugin-free DI Container",
+  "focus": "Design",
+  "signature": "func NewContainer() *Container",
+  "rules": [
+    "Register(name, ctor)",
+    "Resolve(name)",
+    "singleton scope"
+  ],
+  "evaluator_status": "incomplete"
+}

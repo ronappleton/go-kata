@@ -1,0 +1,13 @@
+package kata
+
+import "testing"
+
+func TestGeneratePipeline(t *testing.T) {
+	p := GeneratePipeline("go-ci")
+	if p.Name == "" {
+		t.Fatal("expected non-empty name")
+	}
+	if len(p.Steps) == 0 {
+		t.Fatal("expected at least one step")
+	}
+}

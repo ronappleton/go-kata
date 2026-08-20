@@ -1,0 +1,13 @@
+{
+  "id": "104",
+  "slug": "fixed-window-metrics",
+  "title": "Fixed-Window Metrics",
+  "focus": "Time buckets",
+  "signature": "",
+  "rules": [
+    "Add(value)",
+    "Sum(last duration)",
+    "thread-safe"
+  ],
+  "evaluator_status": "incomplete"
+}

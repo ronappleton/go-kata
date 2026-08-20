@@ -1,11 +1,11 @@
 package catalog
 
 import (
-	"os"
-	"path/filepath"
+	"encoding/json"
 	"reflect"
-	"strings"
 	"testing"
+
+	"github.com/ronappleton/golang-katas-1-100/internal/learning/katas"
 )
 
 func TestNormalizeKataID(t *testing.T) {
@@ -61,88 +61,67 @@ func TestExpandKataIDs(t *testing.T) {
 	}
 }
 
-func TestParseReadmeMetadata(t *testing.T) {
-	tempDir := t.TempDir()
-	readmePath := filepath.Join(tempDir, "README.md")
-
-	content := "# Kata 001 — FizzBuzz\n\n" +
-		"**Focus:** Basics: loops, conditionals, slices, strconv\n\n" +
-		"## Your task\n" +
-		"Implement:\n\n" +
-		"```go\n" +
-		"func FizzBuzz(n int) []string\n" +
-		"```\n\n" +
-		"## Rules / Expectations\n" +
-		"- n<=0 => empty slice (not nil)\n" +
-		"- multiples of 3 => Fizz\n"
-
-	if err := os.WriteFile(readmePath, []byte(content), 0o644); err != nil {
-		t.Fatalf("write readme: %v", err)
+func TestLoadTrackFromEmbeddedContent(t *testing.T) {
+	// Verify that embedded content has the expected katas
+	if len(katas.Content) == 0 {
+		t.Fatal("expected embedded katas to be non-empty")
 	}
 
-	meta, err := parseReadmeMetadata(readmePath)
-	if err != nil {
-		t.Fatalf("parseReadmeMetadata returned error: %v", err)
+	// Verify a known kata exists with correct metadata
+	content, ok := katas.Content["001"]
+	if !ok {
+		t.Fatal("expected kata 001 in embedded content")
+	}
+	if content.Slug != "build-greeting" {
+		t.Fatalf("expected slug 'build-greeting', got %q", content.Slug)
+	}
+	if content.KataGo == "" {
+		t.Fatal("expected non-empty KataGo")
+	}
+	if content.KataTest == "" {
+		t.Fatal("expected non-empty KataTest")
+	}
+	if content.Readme == "" {
+		t.Fatal("expected non-empty Readme")
 	}
 
-	if meta.title != "FizzBuzz" {
-		t.Fatalf("title mismatch: got %q", meta.title)
+	// Parse the embedded JSON metadata
+	var meta katas.KataMeta
+	if err := json.Unmarshal([]byte(content.JSON), &meta); err != nil {
+		t.Fatalf("failed to parse embedded JSON: %v", err)
 	}
-	if meta.focus != "Basics: loops, conditionals, slices, strconv" {
-		t.Fatalf("focus mismatch: got %q", meta.focus)
+	if meta.Title != "Build Greeting" {
+		t.Fatalf("expected title 'Build Greeting', got %q", meta.Title)
 	}
-	if meta.signature != "func FizzBuzz(n int) []string" {
-		t.Fatalf("signature mismatch: got %q", meta.signature)
-	}
-
-	wantRules := []string{
-		"n<=0 => empty slice (not nil)",
-		"multiples of 3 => Fizz",
-	}
-	if !reflect.DeepEqual(meta.rules, wantRules) {
-		t.Fatalf("rules mismatch: got %v, want %v", meta.rules, wantRules)
+	if meta.EvaluatorStatus != "incomplete" {
+		t.Fatalf("expected evaluator status 'incomplete', got %q", meta.EvaluatorStatus)
 	}
 }
 
-func TestScanKataDirsSupportsTopLevelKatasFolder(t *testing.T) {
-	repoRoot := t.TempDir()
-
-	katasDir := filepath.Join(repoRoot, "katas")
-	if err := os.MkdirAll(filepath.Join(katasDir, "kata-001-fizzbuzz"), 0o755); err != nil {
-		t.Fatalf("create nested kata dir: %v", err)
-	}
-	if err := os.MkdirAll(filepath.Join(repoRoot, "kata-002-sum"), 0o755); err != nil {
-		t.Fatalf("create root kata dir: %v", err)
-	}
-
-	got, err := scanKataDirs(repoRoot)
+func TestLoadTrackIntegration(t *testing.T) {
+	// This test requires the track.json to exist relative to the repo root.
+	// It uses the embedded kata content, so no filesystem kata dirs needed.
+	track, err := LoadTrack("../../tracks/go-core-100/track.json")
 	if err != nil {
-		t.Fatalf("scanKataDirs returned error: %v", err)
+		t.Skipf("skipping integration test: %v", err)
 	}
-
-	if got["001"] != filepath.Join("katas", "kata-001-fizzbuzz") {
-		t.Fatalf("unexpected path for 001: %q", got["001"])
+	first, _, ok := track.FindKata("001")
+	if !ok || first.EvaluatorStatus != "incomplete" {
+		t.Fatalf("expected kata 001 to be incomplete, got %+v", first)
 	}
-	if got["002"] != "kata-002-sum" {
-		t.Fatalf("unexpected path for 002: %q", got["002"])
+	bug, _, ok := track.FindKata("131")
+	if !ok || bug.EvaluatorStatus != "ready" {
+		t.Fatalf("expected kata 131 to be ready, got %+v", bug)
 	}
 }
 
-func TestScanKataDirsRejectsDuplicateIDsAcrossRoots(t *testing.T) {
-	repoRoot := t.TempDir()
-
-	if err := os.MkdirAll(filepath.Join(repoRoot, "katas", "kata-001-fizzbuzz"), 0o755); err != nil {
-		t.Fatalf("create nested kata dir: %v", err)
+func TestAllKatasReturnsAllEmbedded(t *testing.T) {
+	track, err := LoadTrack("../../tracks/go-core-100/track.json")
+	if err != nil {
+		t.Skipf("skipping: %v", err)
 	}
-	if err := os.MkdirAll(filepath.Join(repoRoot, "kata-001-fizzbuzz-copy"), 0o755); err != nil {
-		t.Fatalf("create root kata dir: %v", err)
-	}
-
-	_, err := scanKataDirs(repoRoot)
-	if err == nil {
-		t.Fatalf("expected duplicate ID error, got nil")
-	}
-	if !strings.Contains(err.Error(), "duplicate kata id 001") {
-		t.Fatalf("unexpected error: %v", err)
+	all := track.AllKatas()
+	if len(all) != len(katas.Content) {
+		t.Fatalf("expected %d katas, got %d", len(katas.Content), len(all))
 	}
 }

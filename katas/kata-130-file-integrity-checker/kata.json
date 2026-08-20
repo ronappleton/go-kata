@@ -1,0 +1,13 @@
+{
+  "id": "130",
+  "slug": "file-integrity-checker",
+  "title": "File Integrity Checker",
+  "focus": "io, crypto/sha256",
+  "signature": "func SHA256File(path string) (string, error)",
+  "rules": [
+    "stream file",
+    "hex digest",
+    "error on read"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "039",
+  "slug": "error-wrapping-patterns",
+  "title": "Error Wrapping Patterns",
+  "focus": "error wrapping, fmt.Errorf, %w, errors.Is, errors.As",
+  "signature": "func FindUser(id int) (string, error)",
+  "rules": [
+    "existing user =\u003e returns name, nil error",
+    "missing user =\u003e returns ErrNotFound"
+  ],
+  "evaluator_status": "ready"
+}

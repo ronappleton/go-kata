@@ -1,0 +1,27 @@
+package kata
+
+// Greeter is an interface for greeting people.
+type Greeter interface {
+	Greet(name string) string
+}
+
+// FormalGreeter greets formally.
+// Your task: implement the Greeter interface.
+type FormalGreeter struct{}
+
+func (f FormalGreeter) Greet(name string) string {
+	return ""
+}
+
+// CasualGreeter greets casually.
+// Your task: implement the Greeter interface.
+type CasualGreeter struct{}
+
+func (c CasualGreeter) Greet(name string) string {
+	return ""
+}
+
+// SayHello uses any Greeter to greet someone.
+func SayHello(g Greeter, name string) string {
+	return g.Greet(name)
+}

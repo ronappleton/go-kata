@@ -1,0 +1,42 @@
+package kata
+
+import "testing"
+
+func TestSanitizeInput(t *testing.T) {
+	tests := []struct {
+		name, input, want string
+	}{
+		{"clean", "hello", "hello"},
+		{"script tag", "<script>alert(1)</script>", ""},
+		{"sql inject", "'; DROP TABLE users;--", ""},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			got := SanitizeInput(tc.input)
+			if got != tc.want {
+				t.Errorf("SanitizeInput(%q) = %q, want %q", tc.input, got, tc.want)
+			}
+		})
+	}
+}
+
+func TestValidateEmail(t *testing.T) {
+	tests := []struct {
+		name, email string
+		want bool
+	}{
+		{"valid", "user@example.com", true},
+		{"no at", "userexample.com", false},
+		{"no domain", "user@", false},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			got := ValidateEmail(tc.email)
+			if got != tc.want {
+				t.Errorf("ValidateEmail(%q) = %v, want %v", tc.email, got, tc.want)
+			}
+		})
+	}
+}

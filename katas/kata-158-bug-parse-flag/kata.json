@@ -1,0 +1,13 @@
+{
+  "id": "158",
+  "slug": "bug-parse-flag",
+  "title": "Parse Flag Bug",
+  "focus": "strings.ToLower, explicit parsing, error handling",
+  "signature": "func ParseFlag(input string) (bool, error)",
+  "rules": [
+    "accept true values: `true`, `1`, `yes` (case-insensitive, trim input)",
+    "accept false values: `false`, `0`, `no` (case-insensitive, trim input)",
+    "all other values =\u003e non-nil error"
+  ],
+  "evaluator_status": "ready"
+}

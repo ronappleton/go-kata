@@ -1,0 +1,54 @@
+package kata
+
+import "testing"
+
+func TestIsExported(t *testing.T) {
+	tests := []struct {
+		name string
+		want bool
+	}{
+	{"MyFunc", true},
+	{"myFunc", false},
+	{"_myFunc", false},
+	{"MyFunc123", true},
+	{"", false},
+	{"A", true},
+	{"a", false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := IsExported(tt.name)
+			if got != tt.want {
+				t.Errorf("IsExported(%q) = %v, want %v", tt.name, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestFilterExported(t *testing.T) {
+	input := []string{"MyFunc", "myFunc", "Test", "_helper"}
+	got := FilterExported(input)
+	want := []string{"MyFunc", "Test"}
+	if len(got) != len(want) {
+		t.Fatalf("FilterExported() returned %d items, want %d", len(got), len(want))
+	}
+	for i, w := range want {
+		if got[i] != w {
+			t.Errorf("FilterExported()[%d] = %q, want %q", i, got[i], w)
+		}
+	}
+}
+
+func TestMaskUnexported(t *testing.T) {
+	input := []string{"MyFunc", "myFunc", "Test"}
+	got := MaskUnexported(input)
+	want := []string{"MyFunc", "***", "Test"}
+	if len(got) != len(want) {
+		t.Fatalf("MaskUnexported() returned %d items, want %d", len(got), len(want))
+	}
+	for i, w := range want {
+		if got[i] != w {
+			t.Errorf("MaskUnexported()[%d] = %q, want %q", i, got[i], w)
+		}
+	}
+}

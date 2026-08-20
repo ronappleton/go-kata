@@ -1,0 +1,13 @@
+{
+  "id": "035",
+  "slug": "rotate-slice",
+  "title": "Rotate Slice",
+  "focus": "Generics, indexing",
+  "signature": "func RotateLeft[T any](items []T, k int) []T",
+  "rules": [
+    "k can be \u003e len",
+    "k can be negative (rotate right)",
+    "nil =\u003e empty slice"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,14 @@
+package kata
+
+// ChartConfig represents a Helm chart configuration.
+type ChartConfig struct {
+	Name    string
+	Version string
+	AppVersion string
+	Description string
+}
+
+// GenerateChartYAML creates a Chart.yaml file.
+func GenerateChartYAML(config ChartConfig) string {
+	return ""
+}

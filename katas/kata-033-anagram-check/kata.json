@@ -1,0 +1,13 @@
+{
+  "id": "033",
+  "slug": "anagram-check",
+  "title": "Anagram Check",
+  "focus": "Rune counts, normalization",
+  "signature": "func IsAnagram(a, b string) bool",
+  "rules": [
+    "case-insensitive",
+    "ignore spaces/punctuation",
+    "Unicode-safe via rune counts"
+  ],
+  "evaluator_status": "incomplete"
+}

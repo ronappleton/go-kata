@@ -1,0 +1,13 @@
+{
+  "id": "133",
+  "slug": "merkle-tree",
+  "title": "Merkle Tree",
+  "focus": "Advanced practice",
+  "signature": "func Kata73() error",
+  "rules": [
+    "follow README spec",
+    "write tests",
+    "keep it idiomatic"
+  ],
+  "evaluator_status": "incomplete"
+}

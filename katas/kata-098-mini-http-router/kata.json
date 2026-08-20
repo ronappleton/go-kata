@@ -1,0 +1,13 @@
+{
+  "id": "098",
+  "slug": "mini-http-router",
+  "title": "Mini HTTP Router",
+  "focus": "net/http",
+  "signature": "func NewRouter() *Router",
+  "rules": [
+    "GET/POST register",
+    "path params /users/{id}",
+    "404 not found"
+  ],
+  "evaluator_status": "incomplete"
+}

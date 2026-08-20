@@ -1,0 +1,53 @@
+package kata
+
+import (
+	"strings"
+)
+
+// ParseMakefile reads a Makefile string and returns all target names.
+// Rules:
+// - A target line has format: "target:" at the start (possibly with tabs/spaces before)
+// - Ignore lines starting with # (comments)
+// - Ignore .PHONY declarations
+// - Ignore variable assignments (lines with = but no :)
+// - Return target names in order of appearance
+func ParseMakefile(content string) []string {
+	// TODO: Parse target names from Makefile content
+	return nil
+}
+
+// ExtractVariables reads a Makefile and returns variable assignments.
+// Rules:
+// - Variable lines have format: "VAR = value" or "VAR := value"
+// - Return map of variable name to value
+// - Trim whitespace from both name and value
+// - Ignore recursive vs simple assignment differences
+func ExtractVariables(content string) map[string]string {
+	// TODO: Parse variable assignments
+	return nil
+}
+
+// ValidateTargets checks if a Makefile has required targets.
+// Rules:
+// - required is a list of target names that must exist
+// - Return missing target names (empty slice means all present)
+// - Case-sensitive comparison
+func ValidateTargets(content string, required []string) []string {
+	// TODO: Check which required targets are missing
+	return nil
+}
+
+// GenerateMakefile creates a simple Makefile for a Go project.
+// Rules:
+// - Include .PHONY for all targets
+// - Include build, test, clean, and lint targets
+// - build: go build -o bin/app ./cmd/...
+// - test: go test ./...
+// - clean: rm -rf bin/
+// - lint: go vet ./...
+// - Format with proper tabs for recipes
+func GenerateMakefile() string {
+	var b strings.Builder
+	// TODO: Generate a proper Makefile
+	return b.String()
+}

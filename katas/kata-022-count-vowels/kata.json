@@ -1,0 +1,13 @@
+{
+  "id": "022",
+  "slug": "count-vowels",
+  "title": "Count Vowels",
+  "focus": "Loops, unicode, maps",
+  "signature": "func CountVowels(s string) int",
+  "rules": [
+    "count a,e,i,o,u (case-insensitive)",
+    "treat vowels as ASCII set only",
+    "empty =\u003e 0"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,15 @@
+package kata
+
+// User represents a database record.
+type User struct {
+	ID    int
+	Name  string
+	Email string
+}
+
+// UserStore provides access to user data.
+// Your task: implement the interface.
+type UserStore interface {
+	GetByID(id int) (User, error)
+	Create(name, email string) (int, error)
+}

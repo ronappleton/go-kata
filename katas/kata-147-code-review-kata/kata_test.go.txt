@@ -1,0 +1,11 @@
+package kata
+
+import "testing"
+
+func TestReviewCode(t *testing.T) {
+	code := `func f(x int) int { return x * x }`
+	comments := ReviewCode(code)
+	if len(comments) == 0 {
+		t.Error("expected at least one review comment")
+	}
+}

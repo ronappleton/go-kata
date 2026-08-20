@@ -1,0 +1,79 @@
+{
+  "id": "164",
+  "slug": "app-structure",
+  "title": "Go Application Structure",
+  "focus": "cmd/, internal/, pkg/, directory layout, package naming conventions",
+  "signature": "",
+  "rules": [
+    "PackagePath returns the correct cmd/ import path",
+    "PackageName extracts the last component",
+    "IsInternal checks for /internal/ in the path"
+  ],
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "setup-and-toolchain",
+  "level": "junior",
+  "tags": [
+    "structure",
+    "layout",
+    "cmd",
+    "internal",
+    "pkg",
+    "packages",
+    "conventions"
+  ],
+  "prerequisites": [
+    "163"
+  ],
+  "estimated_minutes": 30,
+  "flashcards": [
+    {
+      "front": "What is the standard Go project layout?",
+      "back": "cmd/ for entry points, internal/ for private packages, pkg/ for public packages, with go.mod at root."
+    },
+    {
+      "front": "What does the internal/ directory mean in Go?",
+      "back": "Packages inside internal/ can only be imported by code in the parent directory tree. It enforces private packages."
+    },
+    {
+      "front": "What is the convention for package names?",
+      "back": "Short, lowercase, single-word. No underscores, no camelCase. The name should describe what the package provides."
+    },
+    {
+      "front": "Should a package directory name match the package name?",
+      "back": "Yes, ideally. If the directory is 'httputil', the package should be 'httputil' not 'utils'."
+    }
+  ],
+  "quiz_questions": [
+    {
+      "question": "Where do Go executable entry points go?",
+      "options": [
+        "pkg/",
+        "internal/",
+        "cmd/",
+        "bin/"
+      ],
+      "answer": "cmd/"
+    },
+    {
+      "question": "What enforces package privacy in Go?",
+      "options": [
+        "private keyword",
+        "internal/ directory",
+        "underscore prefix",
+        "visibility modifier"
+      ],
+      "answer": "internal/ directory"
+    },
+    {
+      "question": "Which is a valid Go package name?",
+      "options": [
+        "MyPackage",
+        "my_package",
+        "mypackage",
+        "package-my"
+      ],
+      "answer": "mypackage"
+    }
+  ]
+}

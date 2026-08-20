@@ -1,0 +1,26 @@
+package kata
+
+import "testing"
+
+func TestConcatStringsBuilder(t *testing.T) {
+	parts := []string{"hello", " ", "world"}
+	got := ConcatStringsBuilder(parts)
+	want := "hello world"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
+func BenchmarkConcatStrings(b *testing.B) {
+	parts := []string{"a", "b", "c", "d", "e"}
+	b.Run("loop", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			ConcatStrings(parts)
+		}
+	})
+	b.Run("builder", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			ConcatStringsBuilder(parts)
+		}
+	})
+}

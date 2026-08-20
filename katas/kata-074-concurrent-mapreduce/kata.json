@@ -1,0 +1,13 @@
+{
+  "id": "074",
+  "slug": "concurrent-mapreduce",
+  "title": "Concurrent MapReduce",
+  "focus": "Goroutines, channels",
+  "signature": "func MapReduce[T any, R any](items []T, workers int, mapFn func(T) R, reduceFn func([]R) R) (R, error)",
+  "rules": [
+    "workers\u003e=1",
+    "order not required",
+    "handle empty items"
+  ],
+  "evaluator_status": "incomplete"
+}

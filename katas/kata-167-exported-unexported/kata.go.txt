@@ -1,0 +1,42 @@
+package kata
+
+// This kata teaches you about Go's exported/unexported naming convention.
+// In Go, uppercase = exported (public), lowercase = unexported (private).
+
+// Exported function - visible to other packages
+func ExportedName() string {
+	return "visible"
+}
+
+// unexported function - only visible within this package
+func unexportedName() string {
+	return "hidden"
+}
+
+// IsExported checks if a Go identifier is exported (starts with uppercase).
+// Rules:
+// - "MyFunc" => true
+// - "myFunc" => false
+// - "_myFunc" => false
+// - "MyFunc123" => true
+// - "" => false
+func IsExported(name string) bool {
+	// TODO: Check if first character is uppercase
+	return false
+}
+
+// FilterExported returns only the exported identifiers from a list.
+// Rules:
+// - FilterExported(["MyFunc", "myFunc", "Test", "_helper"]) => ["MyFunc", "Test"]
+func FilterExported(names []string) []string {
+	// TODO: Return only names where IsExported is true
+	return nil
+}
+
+// MaskUnexported replaces unexported names with "***" in a list.
+// Rules:
+// - MaskUnexported(["MyFunc", "myFunc", "Test"]) => ["MyFunc", "***", "Test"]
+func MaskUnexported(names []string) []string {
+	// TODO: Replace unexported names with "***"
+	return nil
+}

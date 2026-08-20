@@ -1,0 +1,19 @@
+package kata
+
+import (
+	"strings"
+	"testing"
+)
+
+func TestGenerateMainTF(t *testing.T) {
+	tf := GenerateMainTF("aws_instance", "web")
+	if !strings.Contains(tf, "resource") {
+		t.Error("expected Terraform resource block")
+	}
+	if !strings.Contains(tf, "aws_instance") {
+		t.Error("expected resource type")
+	}
+	if !strings.Contains(tf, "web") {
+		t.Error("expected resource name")
+	}
+}

@@ -1,0 +1,12 @@
+{
+  "id": "083",
+  "slug": "json-patch-subset",
+  "title": "JSON Patch (subset)",
+  "focus": "encoding/json",
+  "signature": "func ApplyPatch(doc []byte, patch []byte) ([]byte, error)",
+  "rules": [
+    "support add/replace/remove at top-level keys only",
+    "invalid =\u003e error"
+  ],
+  "evaluator_status": "incomplete"
+}

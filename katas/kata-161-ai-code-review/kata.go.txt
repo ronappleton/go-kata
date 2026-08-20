@@ -1,0 +1,20 @@
+package kata
+
+// ReviewWithAI takes code and returns suggested improvements.
+// Your task: implement a function that demonstrates
+// critical thinking about AI suggestions.
+//
+// The function should:
+// 1. Identify what the code does
+// 2. Flag potential issues (even if subtle)
+// 3. Suggest improvements with reasoning
+type ReviewResult struct {
+	Issues    []string
+	Suggestions []string
+	Confidence float64 // 0.0 to 1.0
+}
+
+// ReviewCode analyzes code and returns a structured review.
+func ReviewCode(code string) ReviewResult {
+	return ReviewResult{}
+}

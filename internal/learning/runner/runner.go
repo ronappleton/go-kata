@@ -5,10 +5,14 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"os/exec"
+	"errors"
+	"os"
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/ronappleton/golang-katas-1-100/internal/learning/evaluator"
+	"github.com/ronappleton/golang-katas-1-100/internal/learning/katas"
 )
 
 type Result struct {
@@ -26,33 +30,42 @@ type testEvent struct {
 	Elapsed float64 `json:"Elapsed"`
 }
 
-func RunKataTests(ctx context.Context, kataDir string) (Result, error) {
-	cmd := exec.CommandContext(ctx, "go", "test", "-json", "./...")
-	cmd.Dir = kataDir
-
-	outputBytes, execErr := cmd.CombinedOutput()
-	output := string(outputBytes)
-
-	result := parseTestOutput(output)
-
-	// Prefer structured package/test actions to decide pass/fail when available.
-	switch {
-	case len(result.PackageState) == 0:
-		result.Passed = execErr == nil
-	default:
-		result.Passed = true
-		for _, action := range result.PackageState {
-			if action != "pass" {
-				result.Passed = false
-				break
-			}
-		}
-		if len(result.FailedTests) > 0 {
-			result.Passed = false
-		}
+// RunKataTests is retained for CLI compatibility. All execution is delegated
+// to the rootless Podman evaluator; no learner code is executed on the host.
+func RunKataTests(ctx context.Context, kataID string, content katas.KataContent) (Result, error) {
+	image := strings.TrimSpace(os.Getenv("GOKATAS_RUNNER_IMAGE"))
+	if image == "" {
+		return Result{}, errors.New("GOKATAS_RUNNER_IMAGE must contain a digest-pinned evaluator image")
 	}
 
-	return result, execErr
+	runner, err := evaluator.NewRunner(image)
+	if err != nil {
+		return Result{}, err
+	}
+	run := runner.Run(ctx, evaluator.Request{
+		KataID:       kataID,
+		Module:       "kata" + kataID,
+		Code:         content.KataGo,
+		LearnerTests: "",
+		TrustedTests: content.KataTest,
+	})
+
+	result := Result{
+		Passed:       run.Passed,
+		FailedTests:  append([]string(nil), run.FailedTests...),
+		Elapsed:      run.Duration,
+		RawOutput:    run.Output,
+		PackageState: map[string]string{},
+	}
+	if run.Passed {
+		result.PackageState["kata"+kataID] = "pass"
+	} else {
+		result.PackageState["kata"+kataID] = "fail"
+	}
+	if run.EvaluatorError != "" {
+		return result, errors.New(run.EvaluatorError)
+	}
+	return result, nil
 }
 
 func parseTestOutput(output string) Result {
@@ -65,7 +78,6 @@ func parseTestOutput(output string) Result {
 	maxElapsed := 0.0
 
 	scanner := bufio.NewScanner(bytes.NewReader([]byte(output)))
-	// Keep scanner robust for larger output lines.
 	buf := make([]byte, 0, 1024*64)
 	scanner.Buffer(buf, 1024*1024)
 
@@ -102,6 +114,5 @@ func parseTestOutput(output string) Result {
 		result.FailedTests = append(result.FailedTests, testName)
 	}
 	sort.Strings(result.FailedTests)
-
 	return result
 }

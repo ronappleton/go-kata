@@ -1,0 +1,24 @@
+package kata
+
+import "testing"
+
+func TestBuildPrompt(t *testing.T) {
+	tests := []struct {
+		name        string
+		goal        string
+		constraints []string
+		wantMinLen  int
+	}{
+		{"simple goal", "sort a slice", nil, 10},
+		{"with constraints", "parse JSON", []string{"use encoding/json", "handle errors"}, 20},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			got := BuildPrompt(tc.goal, tc.constraints)
+			if len(got) < tc.wantMinLen {
+				t.Errorf("prompt too short: %d chars, want >= %d", len(got), tc.wantMinLen)
+			}
+		})
+	}
+}

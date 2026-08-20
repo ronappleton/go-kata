@@ -1,0 +1,78 @@
+{
+  "id": "171",
+  "slug": "naming-conventions",
+  "title": "Naming \u0026 Stuttering",
+  "focus": "No stuttering, clear names, receiver consistency, package naming",
+  "signature": "",
+  "rules": [
+    "FixStuttering removes package prefix from type names",
+    "ValidateReceiverNames checks method receiver consistency",
+    "SuggestMethodName follows Go naming conventions",
+    "CleanPackageName removes non-idiomatic patterns"
+  ],
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "language-basics",
+  "level": "junior",
+  "tags": [
+    "naming",
+    "stuttering",
+    "conventions",
+    "readability",
+    "gofmt"
+  ],
+  "prerequisites": [
+    "167"
+  ],
+  "estimated_minutes": 25,
+  "flashcards": [
+    {
+      "front": "What is 'stuttering' in Go naming?",
+      "back": "When a type name repeats the package name: http.HTTPClient is stuttering. The correct name is http.Client."
+    },
+    {
+      "front": "What is the receiver naming convention?",
+      "back": "Use short, consistent names. The first letter of the type name. Don't use 'this' or 'self'. Use the same name across all methods."
+    },
+    {
+      "front": "How should package names relate to directory names?",
+      "back": "They should match. A package in directory 'httputil' should be named 'httputil', not 'utils' or 'helpers'."
+    },
+    {
+      "front": "What makes a good Go function name?",
+      "back": "Verb or verb phrase. Short but clear. Avoid 'Get' prefix if the function doesn't fetch. Example: os.Open not os.GetOpen."
+    }
+  ],
+  "quiz_questions": [
+    {
+      "question": "Which is idiomatic Go naming?",
+      "options": [
+        "client.HTTPClient",
+        "client.Client",
+        "HTTPClient",
+        "GetClient"
+      ],
+      "answer": "client.Client"
+    },
+    {
+      "question": "What receiver name should String() use on type User?",
+      "options": [
+        "this",
+        "self",
+        "u",
+        "user"
+      ],
+      "answer": "u"
+    },
+    {
+      "question": "Which package name violates conventions?",
+      "options": [
+        "httputil",
+        "helpers",
+        "http",
+        "json"
+      ],
+      "answer": "helpers"
+    }
+  ]
+}

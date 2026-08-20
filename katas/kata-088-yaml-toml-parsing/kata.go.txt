@@ -1,0 +1,15 @@
+package kata
+
+// Config represents a simplified config file structure.
+type Config struct {
+	Name    string            `json:"name" yaml:"name" toml:"name"`
+	Version string            `json:"version" yaml:"version" toml:"version"`
+	Debug   bool              `json:"debug" yaml:"debug" toml:"debug"`
+	Tags    map[string]string `json:"tags" yaml:"tags" toml:"tags"`
+}
+
+// ParseConfig parses a JSON string into a Config struct.
+// Your task: implement the function below.
+func ParseConfig(data string) (Config, error) {
+	return Config{}, nil
+}

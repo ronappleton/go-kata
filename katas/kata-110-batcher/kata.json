@@ -1,0 +1,13 @@
+{
+  "id": "110",
+  "slug": "batcher",
+  "title": "Batcher",
+  "focus": "Time, channels",
+  "signature": "func Batch[T any](ctx context.Context, in \u003c-chan T, max int, every time.Duration) \u003c-chan []T",
+  "rules": [
+    "emit when max reached or timer fires",
+    "flush on close",
+    "no empty batches"
+  ],
+  "evaluator_status": "incomplete"
+}

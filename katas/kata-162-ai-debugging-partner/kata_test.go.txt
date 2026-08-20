@@ -1,0 +1,16 @@
+package kata
+
+import "testing"
+
+func TestStartDebugging(t *testing.T) {
+	session := StartDebugging("nil pointer dereference", "in user handler")
+	if len(session.Hypotheses) == 0 {
+		t.Error("expected at least one hypothesis")
+	}
+	if len(session.Tests) == 0 {
+		t.Error("expected at least one test")
+	}
+	if session.Conclusion != "" {
+		t.Error("conclusion should be empty until debugging is done")
+	}
+}

@@ -1,0 +1,13 @@
+{
+  "id": "148",
+  "slug": "docker-multi-stage-build",
+  "title": "Docker Multi-Stage Build",
+  "focus": "Dockerfile, multi-stage builds, Go binary, containerization",
+  "signature": "",
+  "rules": [
+    "Output contains FROM, COPY, RUN, EXPOSE",
+    "Multi-stage (at least 2 FROM statements)",
+    "Copies binary in final stage"
+  ],
+  "evaluator_status": "ready"
+}

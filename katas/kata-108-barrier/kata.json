@@ -1,0 +1,13 @@
+{
+  "id": "108",
+  "slug": "barrier",
+  "title": "Barrier",
+  "focus": "Concurrency coordination",
+  "signature": "func NewBarrier(parties int) (*Barrier, error)",
+  "rules": [
+    "Wait(ctx) error",
+    "reusable",
+    "no leaks"
+  ],
+  "evaluator_status": "incomplete"
+}

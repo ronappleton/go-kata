@@ -1,0 +1,12 @@
+{
+  "id": "089",
+  "slug": "structured-logging-slog",
+  "title": "Structured Logging (slog)",
+  "focus": "log/slog, structured logging, key-value pairs, log levels",
+  "signature": "",
+  "rules": [
+    "LogRequest logs method, path, status as structured fields",
+    "LogError logs message and error"
+  ],
+  "evaluator_status": "ready"
+}

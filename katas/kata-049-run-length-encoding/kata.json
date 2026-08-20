@@ -1,0 +1,13 @@
+{
+  "id": "049",
+  "slug": "run-length-encoding",
+  "title": "Run-Length Encoding",
+  "focus": "Strings.Builder, runes",
+  "signature": "func RLEncode(s string) string",
+  "rules": [
+    "encode runs as \u003cchar\u003e\u003ccount\u003e where count\u003e1",
+    "single chars stay as char only",
+    "Unicode-safe"
+  ],
+  "evaluator_status": "incomplete"
+}

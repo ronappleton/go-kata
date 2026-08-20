@@ -1,0 +1,14 @@
+{
+  "id": "065",
+  "slug": "io-count-lines",
+  "title": "Count Lines",
+  "focus": "bufio.Scanner, io.Reader",
+  "signature": "func CountLines(r io.Reader) (int, error)",
+  "rules": [
+    "nil reader =\u003e non-nil error",
+    "count logical lines from reader",
+    "empty input =\u003e 0 and nil error",
+    "scanner error =\u003e propagate error"
+  ],
+  "evaluator_status": "incomplete"
+}

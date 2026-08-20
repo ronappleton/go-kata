@@ -1,0 +1,77 @@
+{
+  "id": "165",
+  "slug": "constants-and-iota",
+  "title": "Constants \u0026 iota",
+  "focus": "const declarations, iota enum pattern, typed vs untyped constants",
+  "signature": "",
+  "rules": [
+    "Define Weekday type and iota-based constants",
+    "DayName returns the string name",
+    "IsWeekend and NextDay use the enum correctly"
+  ],
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "setup-and-toolchain",
+  "level": "junior",
+  "tags": [
+    "const",
+    "iota",
+    "enum",
+    "typed",
+    "untyped"
+  ],
+  "prerequisites": [
+    "163"
+  ],
+  "estimated_minutes": 20,
+  "flashcards": [
+    {
+      "front": "What is iota in Go?",
+      "back": "A special identifier that auto-increments in const declarations. Starts at 0 and increments by 1 for each const spec."
+    },
+    {
+      "front": "How do you create an enum in Go?",
+      "back": "Use const with iota: const ( A = iota; B; C ) gives A=0, B=1, C=2."
+    },
+    {
+      "front": "What is the difference between typed and untyped constants?",
+      "back": "Typed constants (const x int = 1) have a fixed type. Untyped constants (const x = 1) can be used with any compatible type."
+    },
+    {
+      "front": "Can you take the address of a constant?",
+      "back": "No. Constants are computed at compile time and have no address in memory."
+    }
+  ],
+  "quiz_questions": [
+    {
+      "question": "What value does iota have in the first const spec?",
+      "options": [
+        "1",
+        "0",
+        "-1",
+        "undefined"
+      ],
+      "answer": "0"
+    },
+    {
+      "question": "How do you skip a value in an iota sequence?",
+      "options": [
+        "_ = iota",
+        "skip",
+        "continue",
+        "blank identifier _"
+      ],
+      "answer": "blank identifier _"
+    },
+    {
+      "question": "What happens when you multiply iota by 2?",
+      "options": [
+        "0, 2, 4, 6",
+        "0, 1, 2, 3",
+        "2, 4, 6, 8",
+        "Error"
+      ],
+      "answer": "0, 2, 4, 6"
+    }
+  ]
+}

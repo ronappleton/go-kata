@@ -1,0 +1,13 @@
+{
+  "id": "093",
+  "slug": "fuzz-testing",
+  "title": "Fuzz Testing",
+  "focus": "testing.F, fuzzing, property-based testing, crash detection",
+  "signature": "",
+  "rules": [
+    "ParseInt(\"42\") =\u003e 42, nil",
+    "ParseInt(\"abc\") =\u003e 0, error",
+    "Fuzz test runs without crashes"
+  ],
+  "evaluator_status": "ready"
+}

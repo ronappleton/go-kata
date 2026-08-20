@@ -1,0 +1,13 @@
+{
+  "id": "067",
+  "slug": "ini-parser",
+  "title": "INI Parser",
+  "focus": "Sections, maps",
+  "signature": "func ParseINI(s string) (map[string]map[string]string, error)",
+  "rules": [
+    "sections [name]",
+    "key=value",
+    "comments start with ; or #"
+  ],
+  "evaluator_status": "incomplete"
+}

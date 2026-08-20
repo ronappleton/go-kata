@@ -1,0 +1,12 @@
+{
+  "id": "201",
+  "slug": "tf-modules",
+  "title": "Terraform Modules \u0026 Reusability",
+  "focus": "modules, variables, outputs, reusability, composition",
+  "signature": "",
+  "rules": [
+    "Output contains module block",
+    "Includes source, variables, and outputs"
+  ],
+  "evaluator_status": "ready"
+}

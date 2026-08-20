@@ -86,8 +86,15 @@ func BuildPrompt(in PromptInput) string {
 }
 
 func DefaultPromptPath(repoRoot, kataID string, now time.Time) string {
-	fileName := fmt.Sprintf("kata-%s-%s.md", kataID, now.Format("20060102-150405"))
-	return filepath.Join(repoRoot, ".learning", "marking", fileName)
+	return filepath.Join(repoRoot, ".learning", "marking", PromptFileName(kataID, now))
+}
+
+func DefaultDataPromptPath(dataRoot, kataID string, now time.Time) string {
+	return filepath.Join(dataRoot, "marking", PromptFileName(kataID, now))
+}
+
+func PromptFileName(kataID string, now time.Time) string {
+	return fmt.Sprintf("kata-%s-%s.md", kataID, now.Format("20060102-150405"))
 }
 
 func WritePrompt(path, content string) error {

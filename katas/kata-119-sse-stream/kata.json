@@ -1,0 +1,13 @@
+{
+  "id": "119",
+  "slug": "sse-stream",
+  "title": "SSE Stream",
+  "focus": "Advanced practice",
+  "signature": "func Kata82() error",
+  "rules": [
+    "follow README spec",
+    "write tests",
+    "keep it idiomatic"
+  ],
+  "evaluator_status": "incomplete"
+}

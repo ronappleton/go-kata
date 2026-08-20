@@ -1,0 +1,13 @@
+{
+  "id": "157",
+  "slug": "bug-first-non-empty",
+  "title": "First Non-Empty Bug",
+  "focus": "strings.TrimSpace, loop selection",
+  "signature": "func FirstNonEmpty(values []string, fallback string) string",
+  "rules": [
+    "return first value that is non-empty after trim",
+    "if none found =\u003e fallback",
+    "preserve selected non-empty value"
+  ],
+  "evaluator_status": "ready"
+}

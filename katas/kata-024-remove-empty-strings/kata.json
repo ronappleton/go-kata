@@ -1,0 +1,13 @@
+{
+  "id": "024",
+  "slug": "remove-empty-strings",
+  "title": "Remove Empty Strings",
+  "focus": "Filtering, loops, preserving order",
+  "signature": "func RemoveEmptyStrings(values []string) []string",
+  "rules": [
+    "remove only exact empty strings \"\"",
+    "keep original order of remaining elements",
+    "nil input =\u003e empty slice (not nil)"
+  ],
+  "evaluator_status": "incomplete"
+}

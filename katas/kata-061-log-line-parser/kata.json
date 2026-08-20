@@ -1,0 +1,13 @@
+{
+  "id": "061",
+  "slug": "log-line-parser",
+  "title": "Log Line Parser",
+  "focus": "Key=value parsing",
+  "signature": "func ParseLogLine(line string) (map[string]string, error)",
+  "rules": [
+    "key=value pairs separated by spaces",
+    "values may be quoted",
+    "duplicate keys last wins"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "107",
+  "slug": "semaphore",
+  "title": "Semaphore",
+  "focus": "Concurrency primitives",
+  "signature": "func NewSemaphore(n int) (*Semaphore, error)",
+  "rules": [
+    "Acquire(ctx) error",
+    "Release()",
+    "no deadlocks"
+  ],
+  "evaluator_status": "incomplete"
+}

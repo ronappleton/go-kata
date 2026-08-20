@@ -1,0 +1,14 @@
+package kata
+
+// Feedback represents mentoring feedback on code.
+type Feedback struct {
+	Category string // "positive", "improvement", "question"
+	Message  string
+	Priority string // "high", "medium", "low"
+}
+
+// ReviewAndMentor analyzes code and provides mentoring feedback.
+// Your task: implement the function below.
+func ReviewAndMentor(code string) []Feedback {
+	return nil
+}

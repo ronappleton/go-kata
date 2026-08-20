@@ -1,0 +1,13 @@
+{
+  "id": "142",
+  "slug": "generics-optional-result",
+  "title": "Generics: Optional/Result",
+  "focus": "Advanced practice",
+  "signature": "func Kata98() error",
+  "rules": [
+    "follow README spec",
+    "write tests",
+    "keep it idiomatic"
+  ],
+  "evaluator_status": "incomplete"
+}

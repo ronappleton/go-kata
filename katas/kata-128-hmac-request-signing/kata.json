@@ -1,0 +1,13 @@
+{
+  "id": "128",
+  "slug": "hmac-request-signing",
+  "title": "HMAC Request Signing",
+  "focus": "crypto/hmac",
+  "signature": "func SignRequest(method, path string, body []byte, secret []byte) string",
+  "rules": [
+    "canonicalize input",
+    "hex signature",
+    "write VerifyRequest helper"
+  ],
+  "evaluator_status": "incomplete"
+}

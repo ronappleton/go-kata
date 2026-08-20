@@ -1,0 +1,42 @@
+package kata
+
+import "testing"
+
+func TestDayName(t *testing.T) {
+	names := []string{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}
+	for i, want := range names {
+		got := DayName(Weekday(i))
+		if got != want {
+			t.Errorf("DayName(%d) = %q, want %q", i, got, want)
+		}
+	}
+	got := DayName(Weekday(99))
+	if got != "Unknown" {
+		t.Errorf("DayName(99) = %q, want %q", got, "Unknown")
+	}
+}
+
+func TestIsWeekend(t *testing.T) {
+	weekends := []Weekday{0, 6}
+	days := []Weekday{1, 2, 3, 4, 5}
+	for _, d := range weekends {
+		if !IsWeekend(d) {
+			t.Errorf("IsWeekend(%d) should be true", d)
+		}
+	}
+	for _, d := range days {
+		if IsWeekend(d) {
+			t.Errorf("IsWeekend(%d) should be false", d)
+		}
+	}
+}
+
+func TestNextDay(t *testing.T) {
+	expected := []Weekday{1, 2, 3, 4, 5, 6, 0} // Sun->Mon, ..., Sat->Sun
+	for i, want := range expected {
+		got := NextDay(Weekday(i))
+		if got != want {
+			t.Errorf("NextDay(%d) = %d, want %d", i, got, want)
+		}
+	}
+}

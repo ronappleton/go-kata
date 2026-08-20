@@ -1,0 +1,60 @@
+package kata
+
+import (
+	"fmt"
+	"strings"
+)
+
+// CaptureOutput simulates defer-based resource cleanup.
+// Rules:
+// - Record starts empty
+// - "open" appends "opened"
+// - "close" appends "closed"
+// - Must always pair open/close regardless of errors
+// - Returns the recorded actions
+func CaptureOutput(actions []string) []string {
+	// TODO: Implement using defer for close
+	return nil
+}
+
+// SafeDivide divides a/b with deferred error recovery.
+// Rules:
+// - If b == 0, panic with "divide by zero"
+// - Use defer/recover to catch the panic
+// - Return 0 and error message on panic
+// - Return quotient and nil error on success
+func SafeDivide(a, b int) (int, string) {
+	// TODO: Implement with defer/recover
+	return 0, ""
+}
+
+// Pipeline chains operations with cleanup.
+// Rules:
+// - stages is a list of operation names
+// - For each stage, record "started: <name>" and "completed: <name>"
+// - Use defer to ensure "completed" is always recorded
+// - If a stage contains "fail", record "started: <name>" then panic
+// - recover from panic, record "failed: <name>"
+// - Return all recorded messages
+func Pipeline(stages []string) []string {
+	var log []string
+	// TODO: Implement pipeline with defer-based cleanup
+	return log
+}
+
+// DeferredMultiply demonstrates argument evaluation.
+// Rules:
+// - x and y are multiplied immediately when defer is called
+// - The result is computed and stored
+// - If called with (3, 4), the deferred result is 12
+// - Return the result via a channel-like pattern (here, just return the value)
+func DeferredMultiply(x, y int) int {
+	result := 0
+	defer func() {
+		// This runs after the function returns
+		_ = result // result was set before defer
+	}()
+	// TODO: Set result = x * y, then use defer to confirm it
+	result = x * y
+	return result
+}

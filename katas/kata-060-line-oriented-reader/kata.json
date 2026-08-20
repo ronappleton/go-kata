@@ -1,0 +1,13 @@
+{
+  "id": "060",
+  "slug": "line-oriented-reader",
+  "title": "Line-Oriented Reader",
+  "focus": "bufio",
+  "signature": "func ReadLines(r io.Reader, maxLine int) ([]string, error)",
+  "rules": [
+    "error if any line exceeds maxLine",
+    "keep line content only",
+    "handles last line"
+  ],
+  "evaluator_status": "incomplete"
+}

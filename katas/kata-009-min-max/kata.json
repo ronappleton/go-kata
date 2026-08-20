@@ -1,0 +1,13 @@
+{
+  "id": "009",
+  "slug": "min-max",
+  "title": "Min/Max",
+  "focus": "Errors, edge cases",
+  "signature": "func MinMax(nums []int) (min int, max int, err error)",
+  "rules": [
+    "empty or nil =\u003e error",
+    "single element =\u003e min=max",
+    "handles negatives"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,13 @@
+package kata
+
+import "testing"
+
+func TestCreateADR(t *testing.T) {
+	adr := CreateADR("Use PostgreSQL", "We need a relational DB", "Use PostgreSQL for all services", "Requires DBA expertise")
+	if adr.Title == "" {
+		t.Fatal("expected non-empty title")
+	}
+	if adr.Status != "proposed" {
+		t.Errorf("expected status 'proposed', got %q", adr.Status)
+	}
+}

@@ -4,15 +4,15 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-export GOCACHE="${GOCACHE:-$ROOT_DIR/.gocache}"
-
-if ! go list github.com/webview/webview_go >/dev/null 2>&1; then
-  cat >&2 <<'MSG'
-Missing native webview dependency: github.com/webview/webview_go
-Install it first:
-  go get github.com/webview/webview_go@latest
-MSG
+if ! pkg-config --exists gtk4; then
+  echo "GTK4 development files are required. Install libgtk-4-dev and pkg-config." >&2
   exit 1
 fi
 
-exec go run -tags desktop_webview ./apps/learner-desktop -mode embedded "$@"
+if [[ -z "${GOKATAS_RUNNER_IMAGE:-}" && ! -f "${XDG_CONFIG_HOME:-$HOME/.config}/gokatas/runner-image" && ! -f /etc/gokatas/runner-image ]]; then
+  echo "No digest-pinned runner image is configured." >&2
+  echo "Run packaging/runner/setup.sh after preparing a local Podman image." >&2
+  exit 1
+fi
+
+exec go run -tags gtk4 ./apps/learner-desktop -content "$ROOT_DIR" "$@"

@@ -1,0 +1,25 @@
+package kata
+
+import (
+	"testing"
+)
+
+func TestInitModule(t *testing.T) {
+	tests := []struct {
+		name string
+		input string
+		want string
+	}{
+		{"simple module", "example.com/myapp", "example.com/myapp"},
+		{"with path", "github.com/user/repo", "github.com/user/repo"},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			got := InitModule(tc.input)
+			if got != tc.want {
+				t.Errorf("InitModule(%q) = %q, want %q", tc.input, got, tc.want)
+			}
+		})
+	}
+}

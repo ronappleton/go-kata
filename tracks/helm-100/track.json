@@ -1,0 +1,25 @@
+{
+  "id": "helm-100",
+  "title": "Container Orchestration: Helm",
+  "description": "Learn Helm charts for Kubernetes application deployment.",
+  "stages": [
+    {
+      "id": "foundation",
+      "title": "Helm Foundations",
+      "level": "junior",
+      "description": "Chart structure, templating, values, and deployment lifecycle.",
+      "categories": [
+        {
+          "id": "helm-basics",
+          "title": "Helm Basics",
+          "description": "Chart.yaml, values.yaml, Go templates, and helm commands.",
+          "learning_goal": "Create and manage Helm charts for Kubernetes applications.",
+          "kata_ids": [
+            "300",
+            "301"
+          ]
+        }
+      ]
+    }
+  ]
+}

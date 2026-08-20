@@ -1,0 +1,77 @@
+{
+  "id": "167",
+  "slug": "exported-unexported",
+  "title": "Exported vs Unexported Identifiers",
+  "focus": "uppercase/lowercase naming, visibility rules, API design",
+  "signature": "",
+  "rules": [
+    "IsExported returns true for uppercase-starting names",
+    "FilterExported returns only exported names",
+    "MaskUnexported replaces unexported names with \"***\""
+  ],
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "setup-and-toolchain",
+  "level": "junior",
+  "tags": [
+    "exported",
+    "unexported",
+    "visibility",
+    "naming",
+    "API"
+  ],
+  "prerequisites": [
+    "164"
+  ],
+  "estimated_minutes": 20,
+  "flashcards": [
+    {
+      "front": "How do you make a Go identifier exported (public)?",
+      "back": "Start with an uppercase letter. That's it \u2014 Go's visibility is purely based on the first character."
+    },
+    {
+      "front": "Can unexported identifiers be accessed from other packages?",
+      "back": "No. Only exported identifiers (uppercase first letter) are visible to other packages."
+    },
+    {
+      "front": "What is the convention for unexported helper functions?",
+      "back": "Use lowercase, often with a leading underscore or just lowercase. Keep them short and descriptive."
+    },
+    {
+      "front": "Should types be exported or unexported?",
+      "back": "Export types that form your API surface. Keep implementation details unexported."
+    }
+  ],
+  "quiz_questions": [
+    {
+      "question": "Which identifier is exported in Go?",
+      "options": [
+        "myFunc",
+        "MyFunc",
+        "_myFunc",
+        "my_func"
+      ],
+      "answer": "MyFunc"
+    },
+    {
+      "question": "Can package A access an unexported func in package B?",
+      "options": [
+        "Yes, if imported",
+        "No, never",
+        "Only with reflection",
+        "Only if in same directory"
+      ],
+      "answer": "No, never"
+    },
+    {
+      "question": "What is a common pattern for unexported types?",
+      "options": [
+        "Prefix with _",
+        "Use lowercase only",
+        "Add 'internal' suffix",
+        "Put in internal/"
+      ],
+      "answer": "Use lowercase only"
+    }
+  ]
+}

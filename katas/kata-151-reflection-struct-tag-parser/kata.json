@@ -1,0 +1,13 @@
+{
+  "id": "151",
+  "slug": "reflection-struct-tag-parser",
+  "title": "Reflection: Struct Tag Parser",
+  "focus": "reflect",
+  "signature": "func ParseTags(v any, tagKey string) (map[string]string, error)",
+  "rules": [
+    "struct only",
+    "map fieldName-\u003etagValue",
+    "skip empty tags"
+  ],
+  "evaluator_status": "incomplete"
+}

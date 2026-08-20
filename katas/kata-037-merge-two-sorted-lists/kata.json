@@ -1,0 +1,13 @@
+{
+  "id": "037",
+  "slug": "merge-two-sorted-lists",
+  "title": "Merge Two Sorted Lists",
+  "focus": "Two pointers",
+  "signature": "func MergeSorted(a, b []int) []int",
+  "rules": [
+    "result sorted",
+    "handles duplicates",
+    "nil treated as empty"
+  ],
+  "evaluator_status": "incomplete"
+}

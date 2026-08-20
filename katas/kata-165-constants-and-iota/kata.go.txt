@@ -1,0 +1,31 @@
+package kata
+
+// Define a Weekday enum using iota
+type Weekday int
+
+// TODO: Define const block with iota for Sunday through Saturday
+// Sunday = 0, Monday = 1, ..., Saturday = 6
+
+// DayName returns the name of the weekday.
+// Rules:
+// - Sunday => "Sunday"
+// - Monday => "Monday"
+// - ... through Saturday
+// - Invalid => "Unknown"
+func DayName(d Weekday) string {
+	// TODO: Implement using your enum
+	return "Unknown"
+}
+
+// IsWeekend returns true if the day is Saturday or Sunday.
+func IsWeekend(d Weekday) bool {
+	// TODO: Check if day is Saturday (6) or Sunday (0)
+	return false
+}
+
+// NextDay returns the next day of the week.
+// Saturday wraps to Sunday.
+func NextDay(d Weekday) Weekday {
+	// TODO: Return the next day, wrapping Saturday to Sunday
+	return 0
+}

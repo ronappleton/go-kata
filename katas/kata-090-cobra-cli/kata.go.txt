@@ -1,0 +1,15 @@
+package kata
+
+// CLIConfig holds the parsed CLI arguments.
+type CLIConfig struct {
+	Command string
+	Name    string
+	Verbose bool
+}
+
+// ParseCLI parses command-line arguments into a CLIConfig.
+// Commands: "greet --name=World --verbose"
+// Your task: implement the function below.
+func ParseCLI(args []string) (CLIConfig, error) {
+	return CLIConfig{}, nil
+}

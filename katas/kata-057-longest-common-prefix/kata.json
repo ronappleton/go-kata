@@ -1,0 +1,13 @@
+{
+  "id": "057",
+  "slug": "longest-common-prefix",
+  "title": "Longest Common Prefix",
+  "focus": "Strings",
+  "signature": "func LongestCommonPrefix(items []string) string",
+  "rules": [
+    "empty =\u003e empty",
+    "single =\u003e itself",
+    "case-sensitive"
+  ],
+  "evaluator_status": "incomplete"
+}

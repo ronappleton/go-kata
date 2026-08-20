@@ -1,0 +1,13 @@
+{
+  "id": "146",
+  "slug": "concurrent-test-harness",
+  "title": "Concurrent Test Harness",
+  "focus": "Advanced practice",
+  "signature": "func Kata95() error",
+  "rules": [
+    "follow README spec",
+    "write tests",
+    "keep it idiomatic"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,13 @@
+{
+  "id": "139",
+  "slug": "diff-line-based",
+  "title": "Diff (line-based)",
+  "focus": "Algorithms",
+  "signature": "func DiffLines(a, b []string) []DiffOp",
+  "rules": [
+    "LCS-based diff",
+    "ops: Add/Del/Keep",
+    "deterministic"
+  ],
+  "evaluator_status": "incomplete"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "138",
+  "slug": "csv-read-records",
+  "title": "Read CSV Records",
+  "focus": "encoding/csv reader loops",
+  "signature": "func ReadCSVRecords(r *csv.Reader) ([][]string, error)",
+  "rules": [
+    "nil reader =\u003e non-nil error",
+    "read all records until EOF",
+    "preserve field ordering",
+    "malformed CSV =\u003e non-nil error"
+  ],
+  "evaluator_status": "incomplete"
+}

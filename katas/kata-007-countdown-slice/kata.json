@@ -1,0 +1,13 @@
+{
+  "id": "007",
+  "slug": "countdown-slice",
+  "title": "Countdown Slice",
+  "focus": "Loops, slice construction, edge-case handling",
+  "signature": "func Countdown(start int) []int",
+  "rules": [
+    "start\u003c0 =\u003e empty slice (not nil)",
+    "start\u003e=0 =\u003e slice contains start down to 0 inclusive",
+    "order is strictly descending"
+  ],
+  "evaluator_status": "incomplete"
+}

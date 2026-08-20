@@ -1,0 +1,13 @@
+{
+  "id": "153",
+  "slug": "architecture-decision-records",
+  "title": "Architecture Decision Records",
+  "focus": "ADR, technical decision documentation, RFC process",
+  "signature": "",
+  "rules": [
+    "ADR has a title, status, context, decision, consequences",
+    "Status defaults to \"proposed\"",
+    "Document is well-structured"
+  ],
+  "evaluator_status": "ready"
+}

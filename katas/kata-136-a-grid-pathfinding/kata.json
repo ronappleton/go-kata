@@ -1,0 +1,13 @@
+{
+  "id": "136",
+  "slug": "a-grid-pathfinding",
+  "title": "A* Grid Pathfinding",
+  "focus": "Advanced practice",
+  "signature": "func Kata76() error",
+  "rules": [
+    "follow README spec",
+    "write tests",
+    "keep it idiomatic"
+  ],
+  "evaluator_status": "incomplete"
+}

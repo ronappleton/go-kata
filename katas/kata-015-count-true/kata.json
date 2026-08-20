@@ -1,0 +1,13 @@
+{
+  "id": "015",
+  "slug": "count-true",
+  "title": "Count True Values",
+  "focus": "Boolean logic, loop counting",
+  "signature": "func CountTrue(values []bool) int",
+  "rules": [
+    "returns number of true entries",
+    "nil or empty slice =\u003e 0",
+    "false values do not affect count"
+  ],
+  "evaluator_status": "incomplete"
+}

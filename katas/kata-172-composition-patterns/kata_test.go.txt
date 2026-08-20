@@ -1,0 +1,72 @@
+package kata
+
+import (
+	"strings"
+	"testing"
+)
+
+func TestBaseItemString(t *testing.T) {
+	item := BaseItem{ID: "1", Name: "Test"}
+	got := item.String()
+	if !strings.Contains(got, "1") || !strings.Contains(got, "Test") {
+		t.Errorf("String() = %q, want '1' and 'Test'", got)
+	}
+}
+
+func TestBaseItemHasTag(t *testing.T) {
+	item := BaseItem{ID: "1", Name: "Test", Tags: []string{"urgent", "backend"}}
+	if !item.HasTag("urgent") {
+		t.Error("HasTag('urgent') = false, want true")
+	}
+	if item.HasTag("frontend") {
+		t.Error("HasTag('frontend') = true, want false")
+	}
+}
+
+func TestTaskEmbedding(t *testing.T) {
+	task := Task{
+		BaseItem: BaseItem{ID: "t1", Name: "Do thing"},
+		Done:     false,
+		Priority: 1,
+	}
+	// Promoted method
+	if task.HasTag("x") {
+		t.Error("empty tags should not match")
+	}
+	task.Tags = []string{"go"}
+	if !task.HasTag("go") {
+		t.Error("HasTag should work through embedding")
+	}
+}
+
+func TestDescribeItem(t *testing.T) {
+	item := BaseItem{ID: "42", Name: "Widget"}
+	desc := DescribeItem(item) // item satisfies Stringer via promoted String()
+	if !strings.Contains(desc, "42") {
+		t.Errorf("DescribeItem() = %q, want contain '42'", desc)
+	}
+}
+
+func TestFilterItems(t *testing.T) {
+	items := []TagChecker{
+		BaseItem{ID: "1", Tags: []string{"go"}},
+		BaseItem{ID: "2", Tags: []string{"rust"}},
+		BaseItem{ID: "3", Tags: []string{"go", "web"}},
+	}
+	filtered := FilterItems(items, "go")
+	if len(filtered) != 2 {
+		t.Errorf("FilterItems(go) returned %d items, want 2", len(filtered))
+	}
+}
+
+func TestCounter(t *testing.T) {
+	c := NewCounter()
+	if c.Count() != 0 {
+		t.Errorf("new counter count = %d, want 0", c.Count())
+	}
+	c.Increment()
+	c.Increment()
+	if c.Count() != 2 {
+		t.Errorf("count = %d, want 2", c.Count())
+	}
+}

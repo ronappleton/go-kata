@@ -1,0 +1,13 @@
+{
+  "id": "062",
+  "slug": "top-n-words",
+  "title": "Top N Words",
+  "focus": "Sorting, ties",
+  "signature": "func TopNWords(s string, n int) []string",
+  "rules": [
+    "lowercase, split whitespace",
+    "ties sorted alphabetically",
+    "n\u003c=0 =\u003e empty slice"
+  ],
+  "evaluator_status": "incomplete"
+}

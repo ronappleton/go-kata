@@ -5,22 +5,33 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"path/filepath"
-	"regexp"
 	"sort"
 	"strconv"
 	"strings"
+
+	"github.com/ronappleton/golang-katas-1-100/internal/learning/katas"
 )
 
-var kataDirPattern = regexp.MustCompile(`^kata-(\d{3})-(.+)$`)
-
-type Track struct {
+// Stage represents a learning stage (Foundation, Practitioner, Senior, Lead).
+type Stage struct {
 	ID          string
 	Title       string
+	Level       string // "junior", "mid", "senior", "lead"
 	Description string
 	Categories  []Category
 }
 
+// Track is the top-level learning track.
+type Track struct {
+	ID          string
+	Title       string
+	Description string
+	Stages      []Stage
+	// Legacy: flat categories (for backward compat with old track.json)
+	Categories []Category
+}
+
+// Category holds a group of katas within a stage.
 type Category struct {
 	ID           string
 	Title        string
@@ -29,20 +40,40 @@ type Category struct {
 	Katas        []Kata
 }
 
+// Kata is a single exercise with all its metadata and content.
 type Kata struct {
-	ID         string
-	Slug       string
-	Title      string
-	Focus      string
-	Dir        string
-	ReadmePath string
-	Signature  string
-	Rules      []string
+	ID              string
+	Slug            string
+	Title           string
+	Focus           string
+	Signature       string
+	Rules           []string
+	EvaluatorStatus string
+	Stage           string   // "foundation", "practitioner", "senior", "lead"
+	Category        string   // category ID within the stage
+	Level           string   // "junior", "mid", "senior", "lead"
+	Tags            []string // topic tags for cross-kata queries
+	Prerequisites   []string // kata IDs that should be completed first
+	EstimatedMin    int      // estimated minutes to complete
+	Flashcards      []katas.Flashcard
+	QuizQuestions   []katas.QuizQuestion
+	Content         katas.KataContent
 }
+
+// ── JSON config types ──
 
 type trackConfig struct {
 	ID          string           `json:"id"`
 	Title       string           `json:"title"`
+	Description string           `json:"description"`
+	Stages      []stageConfig    `json:"stages"`
+	Categories  []categoryConfig `json:"categories"` // legacy flat format
+}
+
+type stageConfig struct {
+	ID          string           `json:"id"`
+	Title       string           `json:"title"`
+	Level       string           `json:"level"`
 	Description string           `json:"description"`
 	Categories  []categoryConfig `json:"categories"`
 }
@@ -61,7 +92,9 @@ type rangeConfig struct {
 	End   int `json:"end"`
 }
 
-func LoadTrack(trackConfigPath, repoRoot string) (Track, error) {
+// LoadTrack reads a track.json and returns a fully populated Track.
+// Supports both the new 4-stage format and the legacy flat-categories format.
+func LoadTrack(trackConfigPath string) (Track, error) {
 	configData, err := os.ReadFile(trackConfigPath)
 	if err != nil {
 		return Track{}, fmt.Errorf("read track config: %w", err)
@@ -72,97 +105,175 @@ func LoadTrack(trackConfigPath, repoRoot string) (Track, error) {
 		return Track{}, fmt.Errorf("parse track config: %w", err)
 	}
 
-	if cfg.ID == "" || len(cfg.Categories) == 0 {
-		return Track{}, errors.New("track config must include id and categories")
-	}
-
-	kataDirs, err := scanKataDirs(repoRoot)
-	if err != nil {
-		return Track{}, err
-	}
-
 	track := Track{
 		ID:          cfg.ID,
 		Title:       cfg.Title,
 		Description: cfg.Description,
-		Categories:  make([]Category, 0, len(cfg.Categories)),
 	}
 
-	for _, categoryCfg := range cfg.Categories {
-		ids, err := expandKataIDs(categoryCfg)
-		if err != nil {
-			return Track{}, fmt.Errorf("category %q: %w", categoryCfg.ID, err)
-		}
-
-		category := Category{
-			ID:           categoryCfg.ID,
-			Title:        categoryCfg.Title,
-			Description:  categoryCfg.Description,
-			LearningGoal: categoryCfg.LearningGoal,
-			Katas:        make([]Kata, 0, len(ids)),
-		}
-
-		for _, id := range ids {
-			dirName, ok := kataDirs[id]
-			if !ok {
-				return Track{}, fmt.Errorf("category %q references missing kata %s", categoryCfg.ID, id)
-			}
-
-			baseName := filepath.Base(dirName)
-			matches := kataDirPattern.FindStringSubmatch(baseName)
-			if len(matches) != 3 {
-				return Track{}, fmt.Errorf("invalid kata directory name %q", dirName)
-			}
-			slug := matches[2]
-			absDir := filepath.Join(repoRoot, dirName)
-			readmePath := filepath.Join(absDir, "README.md")
-
-			readmeMeta, err := parseReadmeMetadata(readmePath)
+	// New format: stages with nested categories
+	if len(cfg.Stages) > 0 {
+		track.Stages = make([]Stage, 0, len(cfg.Stages))
+		for _, stageCfg := range cfg.Stages {
+			stage, err := buildStage(stageCfg)
 			if err != nil {
-				return Track{}, fmt.Errorf("parse readme metadata for %s: %w", dirName, err)
+				return Track{}, fmt.Errorf("stage %q: %w", stageCfg.ID, err)
 			}
-
-			category.Katas = append(category.Katas, Kata{
-				ID:         id,
-				Slug:       slug,
-				Title:      readmeMeta.title,
-				Focus:      readmeMeta.focus,
-				Dir:        absDir,
-				ReadmePath: readmePath,
-				Signature:  readmeMeta.signature,
-				Rules:      readmeMeta.rules,
-			})
+			track.Stages = append(track.Stages, stage)
 		}
+		return track, nil
+	}
 
-		sort.Slice(category.Katas, func(i, j int) bool {
-			return category.Katas[i].ID < category.Katas[j].ID
-		})
+	// Legacy format: flat categories
+	if len(cfg.Categories) == 0 {
+		return Track{}, errors.New("track config must include stages or categories")
+	}
 
-		track.Categories = append(track.Categories, category)
+	track.Categories = make([]Category, 0, len(cfg.Categories))
+	for _, catCfg := range cfg.Categories {
+		cat, err := buildCategory(catCfg)
+		if err != nil {
+			return Track{}, fmt.Errorf("category %q: %w", catCfg.ID, err)
+		}
+		track.Categories = append(track.Categories, cat)
 	}
 
 	return track, nil
 }
 
+func buildStage(cfg stageConfig) (Stage, error) {
+	stage := Stage{
+		ID:          cfg.ID,
+		Title:       cfg.Title,
+		Level:       cfg.Level,
+		Description: cfg.Description,
+		Categories:  make([]Category, 0, len(cfg.Categories)),
+	}
+
+	for _, catCfg := range cfg.Categories {
+		cat, err := buildCategory(catCfg)
+		if err != nil {
+			return Stage{}, err
+		}
+		stage.Categories = append(stage.Categories, cat)
+	}
+
+	return stage, nil
+}
+
+func buildCategory(cfg categoryConfig) (Category, error) {
+	ids, err := expandKataIDs(cfg)
+	if err != nil {
+		return Category{}, fmt.Errorf("category %q: %w", cfg.ID, err)
+	}
+
+	cat := Category{
+		ID:           cfg.ID,
+		Title:        cfg.Title,
+		Description:  cfg.Description,
+		LearningGoal: cfg.LearningGoal,
+		Katas:        make([]Kata, 0, len(ids)),
+	}
+
+	for _, id := range ids {
+		kata, err := loadKata(id, cfg.ID)
+		if err != nil {
+			return Category{}, err
+		}
+		cat.Katas = append(cat.Katas, kata)
+	}
+
+	sort.Slice(cat.Katas, func(i, j int) bool {
+		return cat.Katas[i].ID < cat.Katas[j].ID
+	})
+
+	return cat, nil
+}
+
+func loadKata(id, categoryID string) (Kata, error) {
+	content, ok := katas.Content[id]
+	if !ok {
+		return Kata{}, fmt.Errorf("category %q references missing embedded kata %s", categoryID, id)
+	}
+
+	var meta katas.KataMeta
+	if err := json.Unmarshal([]byte(content.JSON), &meta); err != nil {
+		return Kata{}, fmt.Errorf("parse embedded metadata for kata %s: %w", id, err)
+	}
+
+	return Kata{
+		ID:              id,
+		Slug:            content.Slug,
+		Title:           meta.Title,
+		Focus:           meta.Focus,
+		Signature:       meta.Signature,
+		Rules:           meta.Rules,
+		EvaluatorStatus: meta.EvaluatorStatus,
+		Stage:           meta.Stage,
+		Category:        meta.Category,
+		Level:           meta.Level,
+		Tags:            meta.Tags,
+		Prerequisites:   meta.Prerequisites,
+		EstimatedMin:    meta.EstimatedMinutes,
+		Flashcards:      meta.Flashcards,
+		QuizQuestions:   meta.QuizQuestions,
+		Content:         content,
+	}, nil
+}
+
+// ── Query methods ──
+
+// FindStage returns a stage by ID.
+func (t Track) FindStage(stageID string) (Stage, bool) {
+	for _, stage := range t.Stages {
+		if stage.ID == stageID {
+			return stage, true
+		}
+	}
+	return Stage{}, false
+}
+
+// FindCategory returns a category by ID, searching through all stages.
 func (t Track) FindCategory(categoryID string) (Category, bool) {
-	for _, category := range t.Categories {
-		if category.ID == categoryID {
-			return category, true
+	// Search in staged format
+	for _, stage := range t.Stages {
+		for _, cat := range stage.Categories {
+			if cat.ID == categoryID {
+				return cat, true
+			}
+		}
+	}
+	// Search in legacy flat format
+	for _, cat := range t.Categories {
+		if cat.ID == categoryID {
+			return cat, true
 		}
 	}
 	return Category{}, false
 }
 
+// FindKata returns a kata and its containing category by kata ID.
 func (t Track) FindKata(rawID string) (Kata, Category, bool) {
 	id, err := NormalizeKataID(rawID)
 	if err != nil {
 		return Kata{}, Category{}, false
 	}
 
-	for _, category := range t.Categories {
-		for _, kata := range category.Katas {
+	// Search in staged format
+	for _, stage := range t.Stages {
+		for _, cat := range stage.Categories {
+			for _, kata := range cat.Katas {
+				if kata.ID == id {
+					return kata, cat, true
+				}
+			}
+		}
+	}
+	// Search in legacy flat format
+	for _, cat := range t.Categories {
+		for _, kata := range cat.Katas {
 			if kata.ID == id {
-				return kata, category, true
+				return kata, cat, true
 			}
 		}
 	}
@@ -170,23 +281,33 @@ func (t Track) FindKata(rawID string) (Kata, Category, bool) {
 	return Kata{}, Category{}, false
 }
 
+// AllKatas returns every kata in the track, sorted by ID.
 func (t Track) AllKatas() []Kata {
-	total := 0
-	for _, category := range t.Categories {
-		total += len(category.Katas)
+	var all []Kata
+
+	// Collect from staged format
+	for _, stage := range t.Stages {
+		for _, cat := range stage.Categories {
+			all = append(all, cat.Katas...)
+		}
+	}
+	// Collect from legacy flat format
+	for _, cat := range t.Categories {
+		all = append(all, cat.Katas...)
 	}
 
-	katas := make([]Kata, 0, total)
-	for _, category := range t.Categories {
-		katas = append(katas, category.Katas...)
-	}
-
-	sort.Slice(katas, func(i, j int) bool {
-		return katas[i].ID < katas[j].ID
+	sort.Slice(all, func(i, j int) bool {
+		return all[i].ID < all[j].ID
 	})
-	return katas
+	return all
 }
 
+// Stages returns all stages. If using legacy format, returns nil.
+func (t Track) StagesList() []Stage {
+	return t.Stages
+}
+
+// NormalizeKataID converts a raw kata ID string to a zero-padded 3-digit ID.
 func NormalizeKataID(raw string) (string, error) {
 	trimmed := strings.TrimSpace(raw)
 	if trimmed == "" {
@@ -203,53 +324,10 @@ func NormalizeKataID(raw string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("invalid kata id %q", raw)
 	}
-	if n < 1 || n > 999 {
+	if n < 0 || n > 999 {
 		return "", fmt.Errorf("kata id out of range: %d", n)
 	}
 	return fmt.Sprintf("%03d", n), nil
-}
-
-func scanKataDirs(repoRoot string) (map[string]string, error) {
-	out := make(map[string]string)
-	searchRoots := []string{
-		filepath.Join(repoRoot, "katas"),
-		repoRoot,
-	}
-
-	for _, root := range searchRoots {
-		entries, err := os.ReadDir(root)
-		if err != nil {
-			if errors.Is(err, os.ErrNotExist) {
-				continue
-			}
-			return nil, fmt.Errorf("read kata directory root %q: %w", root, err)
-		}
-
-		for _, entry := range entries {
-			if !entry.IsDir() {
-				continue
-			}
-
-			matches := kataDirPattern.FindStringSubmatch(entry.Name())
-			if len(matches) != 3 {
-				continue
-			}
-
-			absDir := filepath.Join(root, entry.Name())
-			relDir, err := filepath.Rel(repoRoot, absDir)
-			if err != nil {
-				return nil, fmt.Errorf("resolve kata directory %q: %w", absDir, err)
-			}
-
-			id := matches[1]
-			if existing, exists := out[id]; exists && existing != relDir {
-				return nil, fmt.Errorf("duplicate kata id %s found in %s and %s", id, existing, relDir)
-			}
-			out[id] = relDir
-		}
-	}
-
-	return out, nil
 }
 
 func expandKataIDs(cfg categoryConfig) ([]string, error) {
@@ -257,7 +335,7 @@ func expandKataIDs(cfg categoryConfig) ([]string, error) {
 	ids := make([]string, 0, len(cfg.KataIDs))
 
 	for _, rule := range cfg.KataRanges {
-		if rule.Start <= 0 || rule.End <= 0 || rule.End < rule.Start {
+		if rule.Start < 0 || rule.End < 0 || rule.End < rule.Start {
 			return nil, fmt.Errorf("invalid kata range %d-%d", rule.Start, rule.End)
 		}
 		for i := rule.Start; i <= rule.End; i++ {
@@ -286,83 +364,4 @@ func expandKataIDs(cfg categoryConfig) ([]string, error) {
 
 	sort.Strings(ids)
 	return ids, nil
-}
-
-type readmeMetadata struct {
-	title     string
-	focus     string
-	signature string
-	rules     []string
-}
-
-func parseReadmeMetadata(readmePath string) (readmeMetadata, error) {
-	data, err := os.ReadFile(readmePath)
-	if err != nil {
-		return readmeMetadata{}, err
-	}
-
-	lines := strings.Split(string(data), "\n")
-	meta := readmeMetadata{
-		title: filepath.Base(filepath.Dir(readmePath)),
-	}
-
-	for _, line := range lines {
-		if strings.HasPrefix(line, "# Kata ") {
-			meta.title = parseTitle(line)
-		}
-		if strings.HasPrefix(line, "**Focus:**") {
-			meta.focus = strings.TrimSpace(strings.TrimPrefix(line, "**Focus:**"))
-		}
-	}
-
-	if meta.focus == "" {
-		meta.focus = "General Go practice"
-	}
-
-	meta.signature = extractSignature(lines)
-	meta.rules = extractRules(lines)
-
-	return meta, nil
-}
-
-func parseTitle(line string) string {
-	parts := strings.SplitN(line, "—", 2)
-	if len(parts) == 2 {
-		return strings.TrimSpace(parts[1])
-	}
-	return strings.TrimSpace(strings.TrimPrefix(line, "#"))
-}
-
-func extractSignature(lines []string) string {
-	inGoBlock := false
-	for _, line := range lines {
-		trimmed := strings.TrimSpace(line)
-		switch {
-		case trimmed == "```go":
-			inGoBlock = true
-		case inGoBlock && trimmed == "```":
-			return ""
-		case inGoBlock && strings.HasPrefix(trimmed, "func "):
-			return trimmed
-		}
-	}
-	return ""
-}
-
-func extractRules(lines []string) []string {
-	rules := []string{}
-	inRules := false
-
-	for _, line := range lines {
-		trimmed := strings.TrimSpace(line)
-		switch {
-		case trimmed == "## Rules / Expectations":
-			inRules = true
-		case inRules && strings.HasPrefix(trimmed, "## "):
-			return rules
-		case inRules && strings.HasPrefix(trimmed, "- "):
-			rules = append(rules, strings.TrimSpace(strings.TrimPrefix(trimmed, "- ")))
-		}
-	}
-	return rules
 }

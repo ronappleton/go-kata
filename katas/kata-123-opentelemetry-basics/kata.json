@@ -1,0 +1,13 @@
+{
+  "id": "123",
+  "slug": "opentelemetry-basics",
+  "title": "OpenTelemetry Basics",
+  "focus": "tracing, spans, context propagation, observability",
+  "signature": "",
+  "rules": [
+    "StartSpan creates a span",
+    "FinishSpan marks it done",
+    "Parent-child relationships are tracked"
+  ],
+  "evaluator_status": "ready"
+}

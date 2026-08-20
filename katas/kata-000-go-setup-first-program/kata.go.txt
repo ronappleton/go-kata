@@ -1,0 +1,9 @@
+package kata
+
+// InitModule creates a new Go module by running "go mod init".
+// It should return the module name created.
+//
+// Your task: implement the function below.
+func InitModule(name string) string {
+	return ""
+}

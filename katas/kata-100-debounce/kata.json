@@ -1,0 +1,12 @@
+{
+  "id": "100",
+  "slug": "debounce",
+  "title": "Debounce",
+  "focus": "Time, channels",
+  "signature": "func Debounce(d time.Duration, in \u003c-chan struct{}) \u003c-chan struct{}",
+  "rules": [
+    "emit after quiet period",
+    "close output when input closes"
+  ],
+  "evaluator_status": "incomplete"
+}
