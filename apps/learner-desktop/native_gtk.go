@@ -40,6 +40,7 @@ type nativeApp struct {
 	runner     *evaluator.Runner
 
 	window       *gtk.ApplicationWindow
+	headerBox    *gtk.Box
 	kataList     *gtk.Box
 	title        *gtk.Label
 	subtitle     *gtk.Label
@@ -144,7 +145,8 @@ func (n *nativeApp) build(app *gtk.Application) {
 	n.catProgressBars = make(map[string]*gtk.ProgressBar)
 
 	root := gtk.NewBox(gtk.OrientationVertical, 0)
-	root.Append(n.buildHeader())
+	n.headerBox = n.buildHeader()
+	root.Append(n.headerBox)
 	body := gtk.NewPaned(gtk.OrientationHorizontal)
 	body.SetPosition(380)
 	body.SetStartChild(n.buildSidebar())
@@ -156,6 +158,7 @@ func (n *nativeApp) build(app *gtk.Application) {
 		n.selectKata(n.track.AllKatas()[0])
 	}
 	n.startDiagnostics()
+	n.initUpdateCheck()
 }
 
 func (n *nativeApp) startDiagnostics() {
