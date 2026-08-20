@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoKatas — App Preview</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0d1117; color: #e7ecf3; }
+    
+    .app-container { display: flex; height: 100vh; }
+    
+    /* Sidebar */
+    .sidebar { width: 320px; background: #161b22; border-right: 1px solid #30363d; display: flex; flex-direction: column; }
+    .sidebar-header { padding: 20px; border-bottom: 1px solid #30363d; }
+    .sidebar-header h1 { font-size: 24px; color: #14b8a6; }
+    .sidebar-header p { font-size: 12px; color: #6b7280; margin-top: 4px; }
+    
+    .kata-list { flex: 1; overflow-y: auto; padding: 12px; }
+    .stage-header { font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; margin: 16px 0 8px; letter-spacing: 0.5px; }
+    .kata-item { padding: 10px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; margin-bottom: 2px; }
+    .kata-item:hover { background: #1f2937; }
+    .kata-item.active { background: #14b8a620; border-left: 3px solid #14b8a6; }
+    .kata-dot { width: 8px; height: 8px; border-radius: 50%; background: #374151; }
+    .kata-dot.completed { background: #22c55e; }
+    .kata-dot.ready { background: #f59e0b; }
+    .kata-id { font-size: 12px; color: #6b7280; width: 30px; }
+    .kata-title { font-size: 13px; color: #e7ecf3; }
+    
+    /* Main content */
+    .main { flex: 1; display: flex; flex-direction: column; }
+    .main-header { padding: 16px 24px; border-bottom: 1px solid #30363d; background: #161b22; }
+    .main-header h2 { font-size: 18px; color: #e7ecf3; }
+    .main-header p { font-size: 12px; color: #6b7280; margin-top: 4px; }
+    
+    .tabs { display: flex; gap: 0; border-bottom: 1px solid #30363d; background: #0d1117; }
+    .tab { padding: 12px 20px; font-size: 13px; color: #6b7280; cursor: pointer; border-bottom: 2px solid transparent; }
+    .tab.active { color: #e7ecf3; border-bottom-color: #14b8a6; }
+    .tab:hover { color: #e7ecf3; }
+    
+    .content { flex: 1; display: flex; }
+    
+    /* Code editor */
+    .editor { flex: 1; display: flex; flex-direction: column; border-right: 1px solid #30363d; }
+    .editor-tabs { display: flex; gap: 0; background: #161b22; border-bottom: 1px solid #30363d; padding: 0 16px; }
+    .editor-tab { padding: 10px 16px; font-size: 12px; color: #6b7280; cursor: pointer; border-bottom: 2px solid transparent; }
+    .editor-tab.active { color: #e7ecf3; border-bottom-color: #14b8a6; }
+    
+    .code { flex: 1; padding: 16px; font-family: 'JetBrains Mono', 'Fira Code', monospace; font-size: 13px; line-height: 1.7; background: #0d1117; overflow: auto; }
+    .code .keyword { color: #7c3aed; }
+    .code .function { color: #22c55e; }
+    .code .string { color: #f59e0b; }
+    .code .comment { color: #6b7280; }
+    .code .type { color: #14b8a6; }
+    .code .number { color: #f472b6; }
+    
+    /* Output panel */
+    .output { width: 360px; background: #0d1117; display: flex; flex-direction: column; }
+    .output-header { padding: 12px 16px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; background: #161b22; }
+    .output-header h3 { font-size: 13px; font-weight: 600; }
+    .run-btn { background: #22c55e; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .output-content { flex: 1; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6; overflow: auto; }
+    .output-content .cmd { color: #6b7280; }
+    .output-content .fail { color: #ef4444; }
+    .output-content .info { color: #9ca3af; }
+    .output-content .success { color: #22c55e; }
+    
+    /* Flashcard */
+    .flashcard { background: #1f2937; border-radius: 8px; padding: 20px; margin: 16px; border-left: 4px solid #14b8a6; }
+    .flashcard-label { font-size: 10px; color: #6b7280; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .flashcard-text { font-size: 14px; color: #e7ecf3; line-height: 1.6; }
+    
+    /* Quiz */
+    .quiz { margin: 16px; }
+    .quiz-question { font-size: 14px; color: #e7ecf3; margin-bottom: 12px; }
+    .quiz-option { padding: 12px 16px; background: #1f2937; border-radius: 6px; margin-bottom: 8px; cursor: pointer; border: 1px solid #30363d; }
+    .quiz-option:hover { border-color: #14b8a6; }
+    .quiz-option.selected { border-color: #22c55e; background: #22c55e10; }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h1>GoKatas</h1>
+        <p>Junior to Lead — Go Mastery</p>
+      </div>
+      <div class="kata-list">
+        <div class="stage-header">Foundation (Junior)</div>
+        <div class="kata-item active">
+          <div class="kata-dot ready"></div>
+          <span class="kata-id">006</span>
+          <span class="kata-title">FizzBuzz</span>
+        </div>
+        <div class="kata-item">
+          <div class="kata-dot"></div>
+          <span class="kata-id">007</span>
+          <span class="kata-title">Countdown Slice</span>
+        </div>
+        <div class="kata-item">
+          <div class="kata-dot completed"></div>
+          <span class="kata-id">008</span>
+          <span class="kata-title">Reverse String</span>
+        </div>
+        <div class="kata-item">
+          <div class="kata-dot"></div>
+          <span class="kata-id">009</span>
+          <span class="kata-title">Min/Max</span>
+        </div>
+        
+        <div class="stage-header">Practitioner (Mid)</div>
+        <div class="kata-item">
+          <div class="kata-dot"></div>
+          <span class="kata-id">044</span>
+          <span class="kata-title">Normalize Tags</span>
+        </div>
+        <div class="kata-item">
+          <div class="kata-dot ready"></div>
+          <span class="kata-id">045</span>
+          <span class="kata-title">Is Within Business Hours</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Main content -->
+    <div class="main">
+      <div class="main-header">
+        <h2>006 — FizzBuzz</h2>
+        <p>Basics: loops, conditionals, slices, strconv · ~15 min · evaluator: ready</p>
+      </div>
+      
+      <div class="tabs">
+        <div class="tab active">Docs</div>
+        <div class="tab">Workbench</div>
+        <div class="tab">Flashcards</div>
+        <div class="tab">Quiz</div>
+        <div class="tab">Reflection</div>
+      </div>
+      
+      <div class="content">
+        <!-- Code editor -->
+        <div class="editor">
+          <div class="editor-tabs">
+            <div class="editor-tab active">solution.go</div>
+            <div class="editor-tab">learner_test.go</div>
+          </div>
+          <div class="code">
+<span class="keyword">package</span> <span class="type">kata</span>
+
+<span class="keyword">import</span> <span class="string">"strconv"</span>
+
+<span class="comment">// FizzBuzz returns a slice of strings for numbers 1 through n.</span>
+<span class="comment">// Multiples of 3 become "Fizz", 5 become "Buzz", both become "FizzBuzz".</span>
+<span class="keyword">func</span> <span class="function">FizzBuzz</span>(n <span class="type">int</span>) []<span class="type">string</span> {
+    <span class="keyword">if</span> n &lt;= <span class="number">0</span> {
+        <span class="keyword">return</span> []<span class="type">string</span>{}
+    }
+    
+    result := <span class="keyword">make</span>([]<span class="type">string</span>, n)
+    <span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= n; i++ {
+        <span class="keyword">switch</span> {
+        <span class="keyword">case</span> i%<span class="number">15</span> == <span class="number">0</span>:
+            result[i-<span class="number">1</span>] = <span class="string">"FizzBuzz"</span>
+        <span class="keyword">case</span> i%<span class="number">3</span> == <span class="number">0</span>:
+            result[i-<span class="number">1</span>] = <span class="string">"Fizz"</span>
+        <span class="keyword">case</span> i%<span class="number">5</span> == <span class="number">0</span>:
+            result[i-<span class="number">1</span>] = <span class="string">"Buzz"</span>
+        <span class="keyword">default</span>:
+            result[i-<span class="number">1</span>] = strconv.Itoa(i)
+        }
+    }
+    <span class="keyword">return</span> result
+}
+          </div>
+        </div>
+        
+        <!-- Output panel -->
+        <div class="output">
+          <div class="output-header">
+            <h3>Output</h3>
+            <button class="run-btn">▶ Run in sandbox</button>
+          </div>
+          <div class="output-content">
+            <div class="cmd">$ go test ./...</div>
+            <div class="success">--- PASS: TestFizzBuzz (0.00s)</div>
+            <div class="success">PASS</div>
+            <div class="success">ok    kata  0.001s</div>
+            <br>
+            <div class="info">✓ FizzBuzz is complete!</div>
+            <div class="info">  Ready to move to the next kata.</div>
+            <br>
+            <div style="border-top: 1px solid #30363d; padding-top: 12px;">
+              <div style="color: #6b7280; margin-bottom: 8px;">Related flashcards:</div>
+              <div class="flashcard">
+                <div class="flashcard-label">Front</div>
+                <div class="flashcard-text">What are the rules for FizzBuzz?</div>
+              </div>
+              <div class="flashcard" style="border-left-color: #f59e0b;">
+                <div class="flashcard-label">Quiz</div>
+                <div class="flashcard-text">Which test case fails first for an incomplete solution?</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

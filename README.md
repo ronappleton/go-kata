@@ -32,11 +32,11 @@ Flashcards help reinforce key concepts. Click **Flip** to reveal the answer, the
 
 ![GoKatas Flashcard Review](docs/screenshots/flashcard-front.png)
 
-### Code Editor
+### Code Editor & Workbench
 
 The workbench shows the code editor with syntax highlighting, a test runner output panel, and related flashcards/quiz questions. Click **Run in sandbox** to execute your code in an isolated Podman container.
 
-![GoKatas Code Editor](docs/screenshots/editor-view.png)
+![GoKatas Code Editor](docs/screenshots/gtk4-app-mockup.png)
 
 ### Full Curriculum
 
