@@ -32,6 +32,12 @@ Flashcards help reinforce key concepts. Click **Flip** to reveal the answer, the
 
 ![GoKatas Flashcard Review](docs/screenshots/flashcard-front.png)
 
+### Code Editor
+
+The workbench shows the code editor with syntax highlighting, a test runner output panel, and related flashcards/quiz questions. Click **Run in sandbox** to execute your code in an isolated Podman container.
+
+![GoKatas Code Editor](docs/screenshots/editor-view.png)
+
 ### Full Curriculum
 
 Every kata across all four stages — Foundation, Practitioner, Senior, and Lead — with status dots (gray = not started, amber = evaluator ready, green = completed), per-category progress bars, and tag filters.
