@@ -16,9 +16,21 @@ A native desktop Go learning environment. Structured curriculum from junior to l
 
 ### Curriculum Overview
 
-The curriculum viewer shows all 180 katas across 4 tracks — Go Mastery, Terraform, Helm, and Security & CVE Awareness. Track each stage's progress with color-coded level badges (Junior → Lead), and switch between learning modes.
+The main curriculum view shows all 180 katas across 4 tracks — Go Mastery, Terraform, Helm, and Security & CVE Awareness. Track each stage's progress with color-coded level badges (Junior → Lead), and switch between learning modes.
 
 ![GoKatas Curriculum Overview](docs/screenshots/curriculum-overview.png)
+
+### Foundation Stage (Junior)
+
+The Foundation stage covers Go fundamentals with 13 katas in Go Setup & Toolchain, 19 in Language Basics, 18 in Data Structures, and more. Each kata includes focus tags and estimated completion time.
+
+![GoKatas Foundation Stage](docs/screenshots/practitioner-stage.png)
+
+### Flashcard Review
+
+Flashcards help reinforce key concepts. Click **Flip** to reveal the answer, then rate your confidence with Again/Hard/Good/Easy buttons for spaced repetition.
+
+![GoKatas Flashcard Review](docs/screenshots/flashcard-front.png)
 
 ### Full Curriculum
 
