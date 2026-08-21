@@ -49,11 +49,11 @@ func TestBulletItem(t *testing.T) {
 func TestFencedCodeBlock(t *testing.T) {
 	input := "```go\nfunc main() {}\n```"
 	got := MarkdownToPango(input)
-	if !strings.Contains(got, "<tt>") {
-		t.Fatalf("expected <tt> open tag, got %q", got)
+	if !strings.Contains(got, `font_family="monospace"`) {
+		t.Fatalf("expected monospace span open tag, got %q", got)
 	}
-	if !strings.Contains(got, "</tt>") {
-		t.Fatalf("expected </tt> close tag, got %q", got)
+	if !strings.Contains(got, "</span>") {
+		t.Fatalf("expected </span> close tag, got %q", got)
 	}
 	if !strings.Contains(got, "func main()") {
 		t.Fatalf("expected code content, got %q", got)
@@ -103,7 +103,7 @@ func hello() string
 	if !strings.Contains(got, "•") {
 		t.Fatalf("expected bullet, got %q", got)
 	}
-	if !strings.Contains(got, "<tt>") {
+	if !strings.Contains(got, `font_family="monospace"`) {
 		t.Fatalf("expected code block, got %q", got)
 	}
 }
@@ -132,7 +132,7 @@ func TestNestedInlineInHeading(t *testing.T) {
 func TestUnclosedCodeBlockClosesAutomatically(t *testing.T) {
 	input := "```go\nfunc main() {}"
 	got := MarkdownToPango(input)
-	if !strings.Contains(got, "</tt>") {
+	if !strings.Contains(got, "</span>") {
 		t.Fatalf("expected auto-closed code block, got %q", got)
 	}
 }

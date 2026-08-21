@@ -42,17 +42,17 @@ func MarkdownToPango(md string) string {
 
 		// Fenced code block toggle
 		if reFenceStart.MatchString(line) {
-			if inCodeBlock {
-				inCodeBlock = false
-				out.WriteString("</tt>\n")
-			} else {
-				inCodeBlock = true
-				out.WriteString(`<tt>`)
-				// Close any open bullet list
-				if inBulletList {
-					inBulletList = false
-				}
+		if inCodeBlock {
+			inCodeBlock = false
+			out.WriteString("</span>\n")
+		} else {
+			inCodeBlock = true
+			out.WriteString(`<span font_family="monospace">`)
+			// Close any open bullet list
+			if inBulletList {
+				inBulletList = false
 			}
+		}
 			continue
 		}
 
@@ -107,7 +107,7 @@ func MarkdownToPango(md string) string {
 
 	// Close unclosed code block
 	if inCodeBlock {
-		out.WriteString("</tt>\n")
+		out.WriteString("</span>\n")
 	}
 
 	return strings.TrimRight(out.String(), "\n")
@@ -126,7 +126,7 @@ func inlinePango(line string) string {
 
 	line = reInlineCode.ReplaceAllStringFunc(line, func(match string) string {
 		content := match[1 : len(match)-1]
-		return `<tt foreground="#14b8a6">` + content + `</tt>`
+		return `<span font_family="monospace" foreground="#14b8a6">` + content + `</span>`
 	})
 
 	line = reURL.ReplaceAllStringFunc(line, func(match string) string {
