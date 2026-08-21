@@ -45,6 +45,7 @@ type Kata struct {
 	ID              string
 	Slug            string
 	Title           string
+	Language        string // "go", "rust", ...; empty means go
 	Focus           string
 	Signature       string
 	Rules           []string

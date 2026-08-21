@@ -86,7 +86,7 @@ make docker-build    # reproducible Linux build in container
 ## Running
 
 ```bash
-# From source
+# From source (uses the checked-out curriculum as a development override)
 ./dist/bin/gokatas -content .
 
 # Installed (via .deb or manual install)
@@ -168,7 +168,7 @@ Katas are distributed via a separate content repository:
 - **Repository**: [github.com/ronappleton/gokatas-content](https://github.com/ronappleton/gokatas-content)
 - **Raw URL**: `https://raw.githubusercontent.com/ronappleton/gokatas-content/main`
 
-The app fetches content on first launch, caches locally, and checks for updates periodically. Embedded fallback works offline.
+The app fetches content on first launch, caches it per user, and checks for updates periodically. After the first sync, the cached curriculum works offline. A missing or unavailable curriculum is shown as an actionable loading/error state rather than an empty sidebar.
 
 ### Updating Content
 

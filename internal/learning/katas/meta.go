@@ -19,6 +19,7 @@ type KataMeta struct {
 	ID               string         `json:"id"`
 	Slug             string         `json:"slug"`
 	Title            string         `json:"title"`
+	Language         string         `json:"language,omitempty"` // "go", "rust", ...; empty means go
 	Focus            string         `json:"focus"`
 	Signature        string         `json:"signature"`
 	Rules            []string       `json:"rules"`

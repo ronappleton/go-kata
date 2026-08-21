@@ -19,7 +19,8 @@ capabilities, no-new-privileges, CPU/memory/PID/output/time limits).
 
 Content is distributed via a separate GitHub repository
 (`gokatas-content`) and fetched on first launch with local caching.
-Embedded fallback provides offline support.
+The production package does not bundle mutable curriculum; cached content
+provides offline support after the first successful sync.
 
 ## Users
 

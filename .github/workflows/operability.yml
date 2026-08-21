@@ -1,4 +1,4 @@
-name: Operability
+name: Ubuntu Native Operability
 
 on:
   push:
@@ -10,12 +10,17 @@ on:
 
 jobs:
   operability:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Install native and sandbox prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential pkg-config libgtk-4-dev podman dpkg
 
       - name: Setup Go
         uses: actions/setup-go@v5
@@ -23,5 +28,8 @@ jobs:
           go-version-file: go.mod
           cache: true
 
-      - name: Verify operability
+      - name: Verify Ubuntu native operability
         run: ./scripts/test_operability.sh
+
+      - name: Build Debian package
+        run: ./packaging/build_deb.sh 0.0.0-ci

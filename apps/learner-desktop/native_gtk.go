@@ -7,13 +7,21 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
+	"sync"
 	"time"
 
+	"github.com/diamondburned/gotk4/pkg/cairo"
+	"github.com/diamondburned/gotk4/pkg/gdk/v4"
 	"github.com/diamondburned/gotk4/pkg/gio/v2"
 	"github.com/diamondburned/gotk4/pkg/glib/v2"
 	"github.com/diamondburned/gotk4/pkg/gtk/v4"
+	"github.com/diamondburned/gotk4/pkg/pango"
+	"github.com/diamondburned/gotk4/pkg/pangocairo"
+	"github.com/ronappleton/golang-katas-1-100/internal/languages"
 	"github.com/ronappleton/golang-katas-1-100/internal/learning/catalog"
+	"github.com/ronappleton/golang-katas-1-100/internal/learning/content"
 	"github.com/ronappleton/golang-katas-1-100/internal/learning/diagnostics"
 	"github.com/ronappleton/golang-katas-1-100/internal/learning/evaluator"
 	"github.com/ronappleton/golang-katas-1-100/internal/learning/progress"
@@ -40,35 +48,41 @@ type nativeApp struct {
 	progress   *progress.Store
 	runner     *evaluator.Runner
 
-	window       *gtk.ApplicationWindow
-	headerBox    *gtk.Box
-	kataList     *gtk.Box
-	title        *gtk.Label
-	subtitle     *gtk.Label
-	status       *gtk.Label
-	docs         *gtk.TextBuffer
-	code         *gtk.TextBuffer
-	learnerTests *gtk.TextBuffer
-	output       *gtk.TextBuffer
-	reflection   *gtk.TextBuffer
-	stack        *gtk.Stack
-	runButton    *gtk.Button
-	saveButton   *gtk.Button
-	flashText    *gtk.Label
-	flashSide    *gtk.Label
-	flashIndex   int
-	quizText     *gtk.Label
-	quizFeedback *gtk.Label
-	quizIndex    int
-	bugText      *gtk.Label
-	outputSpinner *gtk.Button
+	// Language system: registry plus per-editor highlight/check state.
+	langRegistry   *languages.Registry
+	editorContexts []*editorCtx
+
+	window         *gtk.ApplicationWindow
+	headerBox      *gtk.Box
+	kataList       *gtk.Box
+	title          *gtk.Label
+	subtitle       *gtk.Label
+	status         *gtk.Label
+	docs           *gtk.TextBuffer
+	code           *gtk.TextBuffer
+	learnerTests   *gtk.TextBuffer
+	output         *gtk.TextBuffer
+	reflection     *gtk.TextBuffer
+	stack          *gtk.Stack
+	runButton      *gtk.Button
+	saveButton     *gtk.Button
+	flashText      *gtk.Label
+	flashSide      *gtk.Label
+	flashIndex     int
+	quizText       *gtk.Label
+	quizFeedback   *gtk.Label
+	quizIndex      int
+	bugText        *gtk.Label
+	outputSpinner  *gtk.Button
 	startCodingBtn *gtk.Button
-	selected     catalog.Kata
-	running      bool
-	kataButtons  map[string]*gtk.Button
+	selected       catalog.Kata
+	running        bool
+	kataButtons    map[string]*gtk.Button
 	// Learning mode
-	mode        LearningMode
-	modeButtons []*gtk.ToggleButton
+	mode            LearningMode
+	modeSelector    *gtk.DropDown
+	contentProvider content.ContentManager
+	contentMu       sync.Mutex
 	// Progress bars
 	stageProgressBars map[string]*gtk.ProgressBar
 	catProgressBars   map[string]*gtk.ProgressBar
@@ -117,12 +131,31 @@ func (n *nativeApp) build(app *gtk.Application) {
 	window.SetDefaultSize(1440, 920)
 	window.AddCSSClass("gokatas")
 
-	track, err := catalog.LoadTrack(filepath.Join(n.config.ContentRoot, "tracks", "go-core-100", "track.json"))
-	if err != nil {
-		n.showFatal(window, fmt.Sprintf("Curriculum could not be loaded:\n\n%v", err))
-		return
+	// Language system: registry drives highlighting, auto-pair, and checking.
+	n.langRegistry = languages.NewRegistry()
+
+	if n.config.ContentRoot != "" {
+		track, err := catalog.LoadTrack(filepath.Join(n.config.ContentRoot, "tracks", "go-core-100", "track.json"))
+		if err != nil {
+			n.showFatal(window, fmt.Sprintf("Curriculum could not be loaded:\n\n%v", err))
+			return
+		}
+		n.track = track
 	}
-	n.track = track
+
+	if n.config.ContentRoot == "" {
+		contentDir, err := contentCacheDir()
+		if err != nil {
+			n.showFatal(window, fmt.Sprintf("Curriculum cache could not be resolved:\n\n%v", err))
+			return
+		}
+		provider, err := content.NewProvider(content.ProviderConfig{ContentDir: contentDir, RemoteURL: n.config.ContentURL})
+		if err != nil {
+			n.showFatal(window, fmt.Sprintf("Curriculum provider could not be created:\n\n%v", err))
+			return
+		}
+		n.contentProvider = provider
+	}
 
 	paths, err := workspace.ResolvePaths("gokatas")
 	if err != nil {
@@ -159,6 +192,21 @@ func (n *nativeApp) build(app *gtk.Application) {
 
 	if len(n.track.AllKatas()) > 0 {
 		n.selectKata(n.track.AllKatas()[0])
+	} else if n.contentProvider != nil {
+		n.setStatus("Downloading curriculum…")
+	}
+	if n.contentProvider != nil {
+		// Report per-kata download progress from the sync worker goroutines.
+		if p, ok := n.contentProvider.(interface{ SetProgress(func(int, int)) }); ok {
+			p.SetProgress(func(completed, total int) {
+				n.postToMain(func() {
+					if n.status != nil {
+						n.setStatus(fmt.Sprintf("Downloading curriculum… %d/%d", completed, total))
+					}
+				})
+			})
+		}
+		go n.bootstrapRemoteContent(window)
 	}
 	n.startDiagnostics()
 	n.initUpdateCheck()
@@ -192,46 +240,31 @@ func (n *nativeApp) buildHeader() *gtk.Box {
 	brand.SetHExpand(true)
 	header.Append(brand)
 
-	// Mode selector (toggle buttons)
-	modeLabel := gtk.NewLabel("Mode:")
+	modeLabel := gtk.NewLabel("Learning mode")
 	modeLabel.AddCSSClass("body")
 	header.Append(modeLabel)
-	modeBox := gtk.NewBox(gtk.OrientationHorizontal, 2)
-	n.modeButtons = make([]*gtk.ToggleButton, 3)
-	modes := []string{"Linear", "ADHD", "Review"}
-	for i, name := range modes {
-		btn := gtk.NewToggleButtonWithLabel(name)
-		btn.AddCSSClass("mode-btn")
-		if i == 0 {
-			btn.SetActive(true)
-			btn.AddCSSClass("active")
+	modeSelector := gtk.NewDropDownFromStrings([]string{"Linear · guided progression", "ADHD · flexible quick wins", "Review · recall practice"})
+	n.modeSelector = modeSelector
+	modeSelector.SetSelected(0)
+	modeSelector.SetTooltipText("Choose how GoKatas guides your next step")
+	modeSelector.Connect("notify::selected", func() {
+		idx := modeSelector.Selected()
+		if idx > 2 {
+			return
 		}
-		idx := i
-		btn.ConnectToggled(func() {
-			if btn.Active() {
-				n.mode = LearningMode(idx)
-				n.rebuildSidebar()
-				n.buildFlashDeck()
-				n.buildQuizDeck()
-				n.kataCount = 0
-				// Update button styles
-				for j, b := range n.modeButtons {
-					if j == idx {
-						b.AddCSSClass("active")
-					} else {
-						b.RemoveCSSClass("active")
-					}
-				}
-			}
-		})
-		n.modeButtons[i] = btn
-		modeBox.Append(btn)
-	}
-	header.Append(modeBox)
+		n.mode = LearningMode(idx)
+		n.rebuildSidebar()
+		n.buildFlashDeck()
+		n.buildQuizDeck()
+		n.kataCount = 0
+	})
+	header.Append(modeSelector)
 
 	// Track selector
 	n.trackPaths = make(map[string]string)
-	n.allTracks, _ = catalog.DiscoverTracks(filepath.Join(n.config.ContentRoot, "tracks"))
+	if n.config.ContentRoot != "" {
+		n.allTracks, _ = catalog.DiscoverTracks(filepath.Join(n.config.ContentRoot, "tracks"))
+	}
 	if len(n.allTracks) > 1 {
 		trackNames := make([]string, len(n.allTracks))
 		for i, t := range n.allTracks {
@@ -292,6 +325,12 @@ func (n *nativeApp) buildSidebar() *gtk.Widget {
 	scroll.SetPolicy(gtk.PolicyNever, gtk.PolicyAutomatic)
 	n.kataList = gtk.NewBox(gtk.OrientationVertical, 2)
 	n.kataButtons = make(map[string]*gtk.Button)
+	if len(n.track.Stages) == 0 {
+		loading := gtk.NewLabel("Downloading curriculum…")
+		loading.AddCSSClass("empty-state")
+		loading.SetHAlign(gtk.AlignStart)
+		n.kataList.Append(loading)
+	}
 
 	for _, stage := range n.track.Stages {
 		// Stage header with level badge
@@ -403,6 +442,12 @@ func (n *nativeApp) rebuildSidebar() {
 	n.stageProgressBars = make(map[string]*gtk.ProgressBar)
 	n.catProgressBars = make(map[string]*gtk.ProgressBar)
 	n.breakReminder = nil
+	if len(n.track.Stages) == 0 {
+		loading := gtk.NewLabel("Downloading curriculum…")
+		loading.AddCSSClass("empty-state")
+		loading.SetHAlign(gtk.AlignStart)
+		n.kataList.Append(loading)
+	}
 
 	for _, stage := range n.track.Stages {
 		stageBox := gtk.NewBox(gtk.OrientationHorizontal, 8)
@@ -571,6 +616,123 @@ func (n *nativeApp) kataButton(kata catalog.Kata, available bool) *gtk.Button {
 	return button
 }
 
+func contentCacheDir() (string, error) {
+	base, err := os.UserCacheDir()
+	if err != nil {
+		return "", err
+	}
+	return filepath.Join(base, "gokatas", "content"), nil
+}
+
+// bootstrapRemoteContent drives the remote-first curriculum load:
+//
+//  1. Show any cached curriculum immediately (offline-safe fast start).
+//  2. Sync with the remote (concurrent downloads, retries, progress reporting).
+//  3. Reload the freshest track and reflect partial failures in the status.
+//
+// All GTK mutations are marshalled to the main thread; network work happens on
+// this goroutine.
+func (n *nativeApp) bootstrapRemoteContent(window *gtk.ApplicationWindow) {
+	ctx := context.Background()
+
+	n.postToMain(func() { n.setStatus("Checking curriculum…") })
+
+	// 1. Cached curriculum first — usable immediately, even offline.
+	if manifest, err := n.contentProvider.GetManifest(ctx); err == nil && len(manifest.Tracks) > 0 {
+		if cached, err := catalog.LoadTrackFromContent(ctx, n.contentProvider, manifest.Tracks[0].ID); err == nil {
+			n.postToMain(func() {
+				n.applyTrack(cached, "Using cached curriculum · updating…")
+			})
+		}
+	}
+
+	// 2. Sync with the remote.
+	syncResult, err := n.contentProvider.Sync(ctx)
+	if err != nil {
+		// A cached curriculum is still usable when an update check fails.
+		if n.hasCurriculum() {
+			n.postToMain(func() { n.setStatus("Using cached curriculum · update unavailable") })
+			return
+		}
+		n.postToMain(func() { n.showContentUnavailable(window, err) })
+		return
+	}
+
+	// 3. Reload the freshest track.
+	manifest, err := n.contentProvider.GetManifest(ctx)
+	if err != nil || len(manifest.Tracks) == 0 {
+		if err == nil {
+			err = fmt.Errorf("content manifest contains no tracks")
+		}
+		if !n.hasCurriculum() {
+			n.postToMain(func() { n.showContentUnavailable(window, err) })
+		}
+		return
+	}
+	track, loadErr := catalog.LoadTrackFromContent(ctx, n.contentProvider, manifest.Tracks[0].ID)
+	if loadErr != nil && len(track.Stages) == 0 {
+		if !n.hasCurriculum() {
+			n.postToMain(func() { n.showContentUnavailable(window, loadErr) })
+		}
+		return
+	}
+
+	status := fmt.Sprintf("Curriculum ready · %d katas", len(track.AllKatas()))
+	if loadErr != nil {
+		status += " · some katas unavailable"
+	} else if len(syncResult.Failed) > 0 {
+		status += fmt.Sprintf(" · %d sync warnings", len(syncResult.Failed))
+	}
+	n.postToMain(func() {
+		n.applyTrack(track, status)
+	})
+}
+
+// postToMain schedules fn on the GTK main loop from any goroutine.
+func (n *nativeApp) postToMain(fn func()) {
+	glib.MainContextDefault().InvokeFull(0, func() bool {
+		fn()
+		return false
+	})
+}
+
+// applyTrack installs a loaded track into the UI (main thread only).
+func (n *nativeApp) applyTrack(track catalog.Track, status string) {
+	n.contentMu.Lock()
+	n.track = track
+	n.contentMu.Unlock()
+	n.rebuildSidebar()
+	all := n.track.AllKatas()
+	if len(all) > 0 && n.selected.ID == "" {
+		n.selectKata(all[0])
+	}
+	n.setStatus(status)
+}
+
+func (n *nativeApp) hasCurriculum() bool {
+	n.contentMu.Lock()
+	defer n.contentMu.Unlock()
+	return len(n.track.AllKatas()) > 0
+}
+
+func (n *nativeApp) showContentUnavailable(window *gtk.ApplicationWindow, err error) {
+	if n.status != nil {
+		n.setStatus("Curriculum unavailable · check connection and retry")
+	}
+	if n.title != nil {
+		n.title.SetText("Curriculum unavailable")
+	}
+	if n.subtitle != nil {
+		n.subtitle.SetText(err.Error())
+	}
+	if n.docs != nil {
+		n.docs.SetText("Curriculum is not available yet. Check your connection, then restart GoKatas to retry the download.")
+	}
+	if n.kataList != nil && !n.hasCurriculum() {
+		n.rebuildSidebar()
+	}
+}
+
 func (n *nativeApp) buildContent() *gtk.Widget {
 	outer := gtk.NewBox(gtk.OrientationVertical, 10)
 	outer.SetMarginStart(16)
@@ -609,6 +771,7 @@ func (n *nativeApp) buildDocs() *gtk.Widget {
 	scroll := gtk.NewScrolledWindow()
 	scroll.SetPolicy(gtk.PolicyAutomatic, gtk.PolicyAutomatic)
 	view := gtk.NewTextViewWithBuffer(n.docs)
+	view.AddCSSClass("docs-view")
 	view.SetEditable(false)
 	view.SetWrapMode(gtk.WrapWordChar)
 	view.SetVExpand(true)
@@ -619,6 +782,7 @@ func (n *nativeApp) buildDocs() *gtk.Widget {
 	// Start Coding button
 	n.startCodingBtn = gtk.NewButtonWithLabel("\u25b6  Start Coding")
 	n.startCodingBtn.AddCSSClass("suggested-action")
+	n.startCodingBtn.AddCSSClass("start-coding-btn")
 	n.startCodingBtn.SetTooltipText("Switch to the Workbench to write and test your solution")
 	n.startCodingBtn.ConnectClicked(func() {
 		n.stack.SetVisibleChildName("workbench")
@@ -664,12 +828,28 @@ func (n *nativeApp) buildWorkbench() *gtk.Widget {
 	return &outer.Widget
 }
 
+// editorCtx is the state attached to one editable code pane: its highlight and
+// error tags, the currently selected language, and a debounced checker.
+type editorCtx struct {
+	buffer  *gtk.TextBuffer
+	view    *gtk.TextView
+	tags    map[string]*gtk.TextTag
+	errTag  *gtk.TextTag
+	lang    *languages.Language
+	checker languages.Checker
+	checkID uint // debounce generation counter
+}
+
+// editorPane builds a code editor: a line-number gutter beside the text view,
+// language-driven syntax highlighting, auto-pairing, and (for editable panes)
+// syntax error indication. Language can be changed later via setEditorLanguage.
 func (n *nativeApp) editorPane(label string, buffer *gtk.TextBuffer, editable bool) *gtk.Widget {
 	box := gtk.NewBox(gtk.OrientationVertical, 6)
 	heading := gtk.NewLabel(label)
 	heading.AddCSSClass("panel-title")
 	heading.SetHAlign(gtk.AlignStart)
 	box.Append(heading)
+
 	view := gtk.NewTextViewWithBuffer(buffer)
 	view.SetEditable(editable)
 	view.SetMonospace(true)
@@ -677,11 +857,368 @@ func (n *nativeApp) editorPane(label string, buffer *gtk.TextBuffer, editable bo
 	view.SetVExpand(true)
 	view.SetHExpand(true)
 	view.AddCSSClass("editor")
+	// Padding so the cursor never sits flush against the edges.
+	view.SetLeftMargin(16)
+	view.SetRightMargin(16)
+	view.SetTopMargin(10)
+	view.SetBottomMargin(10)
+
 	scroll := gtk.NewScrolledWindow()
 	scroll.SetChild(view)
 	scroll.SetVExpand(true)
-	box.Append(scroll)
+
+	// Line-number gutter, drawn on demand and kept in sync with scrolling.
+	gutter := gtk.NewDrawingArea()
+	gutter.SetSizeRequest(52, -1)
+	gutter.AddCSSClass("editor-gutter")
+	gutter.SetDrawFunc(func(area *gtk.DrawingArea, cr *cairo.Context, width, height int) {
+		n.drawLineNumbers(area, cr, width, height, view, buffer, scroll)
+	})
+	adj := scroll.VAdjustment()
+	adj.Connect("value-changed", func() { gutter.QueueDraw() })
+	buffer.ConnectChanged(func() { gutter.QueueDraw() })
+
+	editorBox := gtk.NewBox(gtk.OrientationHorizontal, 0)
+	editorBox.Append(gutter)
+	editorBox.Append(scroll)
+	editorBox.SetVExpand(true)
+	box.Append(editorBox)
+
+	if editable {
+		ctx := &editorCtx{buffer: buffer, view: view, tags: make(map[string]*gtk.TextTag)}
+		ctx.lang = n.langRegistry.Default()
+		n.installEditorTags(ctx)
+		n.editorContexts = append(n.editorContexts, ctx)
+		// Auto-pair + smart indent + backspace handling.
+		n.installEditorKeys(ctx)
+	}
 	return &box.Widget
+}
+
+// setEditorLanguage swaps the highlighting/checker language for every editor.
+func (n *nativeApp) setEditorLanguage(lang *languages.Language) {
+	if lang == nil {
+		lang = n.langRegistry.Default()
+	}
+	for _, ctx := range n.editorContexts {
+		ctx.lang = lang
+		ctx.checker = lang.Checker
+		n.rehighlight(ctx)
+		n.scheduleCheck(ctx)
+	}
+}
+
+// installEditorTags creates the highlight and error text tags for an editor.
+func (n *nativeApp) installEditorTags(ctx *editorCtx) {
+	table := ctx.buffer.TagTable()
+	for name, fg := range map[string]string{
+		languages.TagKeyword: "#ff7b72",
+		languages.TagString:  "#a5d6ff",
+		languages.TagComment: "#8b949e",
+		languages.TagNumber:  "#79c0ff",
+		languages.TagType:    "#7ee787",
+		languages.TagFunc:    "#d2a8ff",
+	} {
+		tag := gtk.NewTextTag(name)
+		tag.SetObjectProperty("foreground", fg)
+		table.Add(tag)
+		ctx.tags[name] = tag
+	}
+	// Syntax error squiggle.
+	errTag := gtk.NewTextTag("hl-error")
+	errTag.SetObjectProperty("foreground", "#f87171")
+	errTag.SetObjectProperty("underline", int(pango.UnderlineError))
+	table.Add(errTag)
+	ctx.errTag = errTag
+
+	ctx.buffer.ConnectChanged(func() {
+		n.rehighlight(ctx)
+		n.scheduleCheck(ctx)
+	})
+	n.rehighlight(ctx)
+}
+
+// rehighlight re-lexes the editor buffer with the current language.
+func (n *nativeApp) rehighlight(ctx *editorCtx) {
+	start, end := ctx.buffer.Bounds()
+	for _, tag := range ctx.tags {
+		ctx.buffer.RemoveTag(tag, start, end)
+	}
+	spans := languages.Lex(ctx.buffer.Text(start, end, false), ctx.lang)
+	for _, s := range spans {
+		if tag, ok := ctx.tags[s.Tag]; ok {
+			ts := ctx.buffer.IterAtOffset(s.Start)
+			te := ctx.buffer.IterAtOffset(s.End)
+			ctx.buffer.ApplyTag(tag, ts, te)
+		}
+	}
+}
+
+// scheduleCheck runs the language syntax checker after a short debounce.
+func (n *nativeApp) scheduleCheck(ctx *editorCtx) {
+	if ctx.checker == nil {
+		return
+	}
+	ctx.checkID++
+	gen := ctx.checkID
+	glib.TimeoutAdd(600, func() bool {
+		if gen != ctx.checkID {
+			return false // superseded by a newer edit
+		}
+		src := ctx.buffer.Text(ctx.buffer.StartIter(), ctx.buffer.EndIter(), false)
+		go func() {
+			diags := ctx.checker.Check(src)
+			glib.MainContextDefault().InvokeFull(0, func() bool {
+				if gen != ctx.checkID {
+					return false
+				}
+				n.applyDiagnostics(ctx, diags)
+				return false
+			})
+		}()
+		return false
+	})
+}
+
+// applyDiagnostics paints error squiggles for the given diagnostics.
+func (n *nativeApp) applyDiagnostics(ctx *editorCtx, diags []languages.Diagnostic) {
+	start, end := ctx.buffer.Bounds()
+	ctx.buffer.RemoveTag(ctx.errTag, start, end)
+	for _, d := range diags {
+		ts, ok := ctx.buffer.IterAtLineOffset(d.Line, d.Col)
+		if !ok {
+			ts = ctx.buffer.EndIter()
+		}
+		var te *gtk.TextIter
+		if d.EndLine >= 0 {
+			var okEnd bool
+			te, okEnd = ctx.buffer.IterAtLineOffset(d.EndLine, d.EndCol)
+			if !okEnd {
+				te = ctx.buffer.EndIter()
+			}
+		} else {
+			te = ts.Copy()
+			te.ForwardChar()
+		}
+		ctx.buffer.ApplyTag(ctx.errTag, ts, te)
+	}
+}
+
+// installEditorKeys wires auto-pairing and smart indentation for an editable
+// editor: typing an opening char inserts its closer, Enter inside an empty pair
+// puts the closer on the next line, Backspace deletes an empty pair, and typing
+// a closer that already follows the cursor skips over it.
+func (n *nativeApp) installEditorKeys(ctx *editorCtx) {
+	keyCtrl := gtk.NewEventControllerKey()
+	keyCtrl.ConnectKeyPressed(func(keyval, keycode uint, state gdk.ModifierType) bool {
+		// Let shortcuts (Ctrl/Cmd) through untouched.
+		if state&(gdk.ControlMask|gdk.AltMask|gdk.MetaMask) != 0 {
+			return false
+		}
+		buffer := ctx.buffer
+		cursor := buffer.IterAtMark(buffer.GetInsert())
+
+		if keyval == gdk.KEY_Return {
+			return n.handleEnter(ctx, cursor)
+		}
+		if keyval == gdk.KEY_BackSpace {
+			return n.handleBackspace(ctx, cursor)
+		}
+
+		// Only single-char pairs participate (printable ASCII keyvals).
+		if keyval > 0x7F {
+			return false
+		}
+		ch := rune(keyval)
+
+		// Typing a closer that already follows the cursor: skip over it.
+		if closer, ok := n.closeForOpen(ch); ok {
+			// Skip only when the next char is exactly the closer.
+			next := charAt(buffer, cursor)
+			if next == closer {
+				cursor.ForwardChar()
+				buffer.PlaceCursor(cursor)
+				return true
+			}
+			return false
+		}
+
+		// Typing an opener: insert open+close, cursor between.
+		if closer, ok := n.openForClose(ch); ok {
+			buffer.Insert(cursor, string(ch))
+			cursor = buffer.IterAtMark(buffer.GetInsert())
+			buffer.Insert(cursor, string(closer))
+			cursor.BackwardChar()
+			buffer.PlaceCursor(cursor)
+			return true
+		}
+		return false
+	})
+	ctx.view.AddController(keyCtrl)
+}
+
+// handleEnter implements smart indentation. Inside an empty pair it moves the
+// closer to a new line (the "closing brace on the next line" behaviour);
+// otherwise it indents to match the previous line.
+func (n *nativeApp) handleEnter(ctx *editorCtx, cursor *gtk.TextIter) bool {
+	buffer := ctx.buffer
+	prev := cursor.Copy()
+	prev.BackwardChar()
+
+	if prev.Char() != 0 && prev.Char() != '\n' {
+		closer, isOpen := n.openForClose(rune(prev.Char()))
+		next := charAt(buffer, cursor)
+		if isOpen && next == closer {
+			indent := currentLineIndent(buffer, cursor)
+			inner := indent + ctx.lang.Indent
+			buffer.Insert(cursor, "\n"+inner)
+			cursor = buffer.IterAtMark(buffer.GetInsert())
+			buffer.Insert(cursor, "\n"+indent+string(closer))
+			cursor = buffer.IterAtMark(buffer.GetInsert())
+			cursor.BackwardChars(1 + len(indent))
+			buffer.PlaceCursor(cursor)
+			return true
+		}
+	}
+
+	// Plain enter: indent the new line to match the previous line.
+	indent := currentLineIndent(buffer, cursor)
+	buffer.Insert(cursor, "\n"+indent)
+	cursor = buffer.IterAtMark(buffer.GetInsert())
+	buffer.PlaceCursor(cursor)
+	return true
+}
+
+// handleBackspace deletes an empty auto-paired pair in one keystroke.
+func (n *nativeApp) handleBackspace(ctx *editorCtx, cursor *gtk.TextIter) bool {
+	buffer := ctx.buffer
+	if cursor.Offset() == 0 {
+		return false
+	}
+	prev := cursor.Copy()
+	prev.BackwardChar()
+	opener := prev.Char()
+	if opener == 0 {
+		return false
+	}
+	closer, isOpen := n.openForClose(rune(opener))
+	if isOpen && charAt(buffer, cursor) == closer {
+		// Delete the closer first, then the opener.
+		end := cursor.Copy()
+		end.ForwardChar()
+		buffer.Delete(cursor, end)
+		start := buffer.IterAtOffset(cursor.Offset() - 1)
+		end2 := buffer.IterAtOffset(cursor.Offset())
+		buffer.Delete(start, end2)
+		buffer.PlaceCursor(buffer.IterAtOffset(cursor.Offset() - 1))
+		return true
+	}
+	return false
+}
+
+// openForClose returns the opening char that pairs with ch, if ch is an
+// opener in the current language's auto-pair table.
+func (n *nativeApp) openForClose(ch rune) (rune, bool) {
+	if ctx := n.activeEditorCtx(); ctx != nil && ctx.lang != nil {
+		for _, p := range ctx.lang.AutoPairs {
+			if p.Open == ch {
+				return p.Close, true
+			}
+		}
+	}
+	return 0, false
+}
+
+// closeForOpen reports whether ch is a closer in the current language's
+// auto-pair table.
+func (n *nativeApp) closeForOpen(ch rune) (rune, bool) {
+	if ctx := n.activeEditorCtx(); ctx != nil && ctx.lang != nil {
+		for _, p := range ctx.lang.AutoPairs {
+			if p.Close == ch {
+				return p.Close, true
+			}
+		}
+	}
+	return 0, false
+}
+
+// activeEditorCtx returns the most recently created editor context (the
+// solution pane) so pair lookup has a language to consult.
+func (n *nativeApp) activeEditorCtx() *editorCtx {
+	if len(n.editorContexts) == 0 {
+		return nil
+	}
+	return n.editorContexts[0]
+}
+
+// charAt returns the character at iter, or 0 at end of buffer.
+func charAt(buffer *gtk.TextBuffer, iter *gtk.TextIter) rune {
+	if iter == nil || iter.Offset() >= buffer.CharCount() {
+		return 0
+	}
+	return rune(iter.Char())
+}
+
+// currentLineIndent returns the leading whitespace of the line containing iter.
+func currentLineIndent(buffer *gtk.TextBuffer, iter *gtk.TextIter) string {
+	lineStart := iter.Copy()
+	lineStart.SetLineOffset(0)
+	lineEnd := iter.Copy()
+	lineEnd.ForwardToLineEnd()
+	line := buffer.Slice(lineStart, lineEnd, false)
+	i := 0
+	for i < len(line) && (line[i] == ' ' || line[i] == '\t') {
+		i++
+	}
+	return line[:i]
+}
+
+// drawLineNumbers paints the current line numbers into the gutter, aligned with
+// the text view's visible lines and scrolled offset.
+func (n *nativeApp) drawLineNumbers(area *gtk.DrawingArea, cr *cairo.Context, width, height int, view *gtk.TextView, buffer *gtk.TextBuffer, scroll *gtk.ScrolledWindow) {
+	// Gutter background.
+	cr.SetSourceRGB(0.051, 0.067, 0.09)
+	cr.Rectangle(0, 0, float64(width), float64(height))
+	cr.Fill()
+
+	if view == nil || buffer == nil || scroll == nil {
+		return
+	}
+
+	layout := pangocairo.CreateLayout(cr)
+	layout.SetFontDescription(n.editorFont(view))
+	layout.SetText("0")
+	_, lineHeight := layout.PixelSize()
+	if lineHeight <= 0 {
+		lineHeight = 18
+	}
+	topMargin := 10
+	first := int(scroll.VAdjustment().Value()) / lineHeight
+	total := buffer.LineCount()
+	visible := height/lineHeight + 2
+
+	cr.SetSourceRGB(0.42, 0.47, 0.55)
+	for i := first; i < first+visible && i < total; i++ {
+		layout.SetText(strconv.Itoa(i + 1))
+		w, _ := layout.PixelSize()
+		y := float64(i*lineHeight+topMargin) - scroll.VAdjustment().Value()
+		cr.MoveTo(float64(width)-float64(w)-12, y)
+		pangocairo.ShowLayout(cr, layout)
+	}
+}
+
+// editorFont returns the monospace font description used by the editor views,
+// falling back to a default if the widget is not realized yet.
+func (n *nativeApp) editorFont(view *gtk.TextView) *pango.FontDescription {
+	if ctx := view.PangoContext(); ctx != nil {
+		if fd := ctx.FontDescription(); fd != nil {
+			return fd
+		}
+	}
+	fd := pango.NewFontDescription()
+	fd.SetFamily("monospace")
+	fd.SetSize(13 * 1024)
+	return fd
 }
 
 func (n *nativeApp) selectKata(kata catalog.Kata) {
@@ -695,7 +1232,15 @@ func (n *nativeApp) selectKata(kata catalog.Kata) {
 	}
 	readme := []byte(kata.Content.Readme)
 	starter := []byte(kata.Content.KataGo)
-	solution, err := n.workspace.ReadSolution(kata.ID)
+
+	// Resolve the kata's language (defaults to Go) and its workspace filenames.
+	lang := n.langRegistry.Lookup(kata.Language)
+	if lang == nil {
+		lang = n.langRegistry.Default()
+	}
+	n.setEditorLanguage(lang)
+
+	solution, err := n.workspace.ReadSolutionAs(kata.ID, lang.SourceFilename)
 	if err != nil {
 		n.setStatus(fmt.Sprintf("Unable to read workspace: %v", err))
 		return
@@ -703,16 +1248,21 @@ func (n *nativeApp) selectKata(kata catalog.Kata) {
 	if solution == "" {
 		solution = string(starter)
 	}
-	learnerTests, err := n.workspace.ReadLearnerTests(kata.ID)
+	learnerTests, err := n.workspace.ReadLearnerTestsAs(kata.ID, lang.TestsFilename)
 	if err != nil {
 		n.setStatus(fmt.Sprintf("Unable to read learner tests: %v", err))
 		return
 	}
 
 	n.title.SetText(fmt.Sprintf("%s — %s", kata.ID, kata.Title))
-	n.subtitle.SetText(fmt.Sprintf("%s · %s · %s · evaluator: %s", kata.Focus, kata.Signature, strings.ToUpper(kata.EvaluatorStatus), kata.EvaluatorStatus))
+	langLabel := lang.Name
+	if lang.ID != "go" {
+		langLabel += " · sandbox runner currently Go-only"
+	}
+	n.subtitle.SetText(fmt.Sprintf("%s · %s · %s · %s · evaluator: %s", kata.Focus, langLabel, kata.Signature, strings.ToUpper(kata.EvaluatorStatus), kata.EvaluatorStatus))
 	pango := rendering.MarkdownToPango(string(readme))
-	n.docs.SetText(pango)
+	n.docs.SetText("")
+	n.docs.InsertMarkup(n.docs.EndIter(), pango)
 	n.code.SetText(solution)
 	n.learnerTests.SetText(learnerTests)
 	n.output.SetText("")
@@ -721,12 +1271,16 @@ func (n *nativeApp) selectKata(kata catalog.Kata) {
 	n.quizAnswered = false
 	n.updateModes()
 	n.saveButton.SetSensitive(true)
-	n.runButton.SetSensitive(n.runner != nil && kata.EvaluatorStatus == "ready")
-	if n.runner == nil {
+	canRun := n.runner != nil && kata.EvaluatorStatus == "ready" && (lang == nil || lang.ID == "go")
+	n.runButton.SetSensitive(canRun)
+	switch {
+	case n.runner == nil:
 		n.setStatus("Podman runner is not configured. Set a digest-pinned runner image in setup.")
-	} else if kata.EvaluatorStatus != "ready" {
+	case kata.EvaluatorStatus != "ready":
 		n.setStatus("This kata does not yet have a complete trusted evaluator.")
-	} else {
+	case lang != nil && lang.ID != "go":
+		n.setStatus(fmt.Sprintf("%s katas are editable and highlighted now; the sandbox runner currently supports Go only.", lang.Name))
+	default:
 		n.setStatus("Ready. Run executes in a disposable rootless Podman container.")
 	}
 }
@@ -737,11 +1291,15 @@ func (n *nativeApp) saveCurrent() {
 	}
 	code := n.bufferText(n.code)
 	tests := n.bufferText(n.learnerTests)
-	if err := n.workspace.SaveSolution(n.selected.ID, code, evaluator.DefaultCodeLimitBytes); err != nil {
+	lang := n.langRegistry.Lookup(n.selected.Language)
+	if lang == nil {
+		lang = n.langRegistry.Default()
+	}
+	if err := n.workspace.SaveSolutionAs(n.selected.ID, code, evaluator.DefaultCodeLimitBytes, lang.SourceFilename); err != nil {
 		n.setStatus(fmt.Sprintf("Save failed: %v", err))
 		return
 	}
-	if err := n.workspace.SaveLearnerTests(n.selected.ID, tests, evaluator.DefaultTestsLimitBytes); err != nil {
+	if err := n.workspace.SaveLearnerTestsAs(n.selected.ID, tests, evaluator.DefaultTestsLimitBytes, lang.TestsFilename); err != nil {
 		n.setStatus(fmt.Sprintf("Save failed: %v", err))
 		return
 	}
@@ -749,6 +1307,11 @@ func (n *nativeApp) saveCurrent() {
 }
 
 func (n *nativeApp) runCurrent() {
+	lang := n.langRegistry.Lookup(n.selected.Language)
+	if lang != nil && lang.ID != "go" {
+		n.setStatus(fmt.Sprintf("%s execution isn't wired to the sandbox runner yet.", lang.Name))
+		return
+	}
 	if n.selected.ID == "" || n.runner == nil || n.running || n.selected.EvaluatorStatus != "ready" {
 		return
 	}

@@ -48,10 +48,9 @@ window.gokatas {
   font-weight: 800;
   color: @text;
 }
-.brand-sub {
-  font-size: 12px;
-  color: @text_dim;
-  margin-top: 1px;
+.brand-sub {	font-size: 12px;
+	color: @text_dim;
+	margin-top: 1px;
 }
 .status-pill {
   background-color: @surface_hi;
@@ -109,9 +108,16 @@ button.suggested-action:disabled {
 
 /* ==== Sidebar ==== */
 .sidebar {
+  min-width: 300px;
   background-color: @surface;
   border-right: 1px solid @border;
 }
+.empty-state {
+  color: @text_dim;
+  font-size: 14px;
+  padding: 24px 12px;
+}
+
 .sidebar-category {
   color: @text_faint;
   font-size: 11px;
@@ -212,6 +218,19 @@ button.suggested-action:disabled {
   font-size: 10px;
 }
 
+/**** Mode and track selectors ****/
+dropdown {
+  min-width: 210px;
+  min-height: 34px;
+  background-color: @surface_hi;
+  color: @text;
+  border: 1px solid @border;
+  border-radius: 8px;
+}
+dropdown:hover {
+  border-color: @accent;
+}
+
 /* ==== Tabs (StackSwitcher) ==== */
 stackswitcher {
   background-color: @surface;
@@ -270,11 +289,20 @@ textview.mono text {
 .editor {
   background-color: @bg;
   border: 1px solid @border;
-  border-radius: 10px;
+  border-radius: 0 10px 10px 0;
 }
 .editor text {
   background-color: transparent;
   color: @text;
+}
+.editor-gutter {
+  background-color: #0a0e14;
+  border: 1px solid @border;
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+}
+.editor-gutter text {
+  color: @text_faint;
 }
 .console {
   background-color: #0a0d12;
@@ -284,6 +312,14 @@ textview.mono text {
 .console text {
   background-color: transparent;
   color: @text_dim;
+}
+
+/* ==== Documentation ==== */
+.docs-view {
+  background-color: @surface;
+  border: 1px solid @border;
+  border-radius: 12px;
+  padding: 20px;
 }
 
 /* ==== Body copy ==== */

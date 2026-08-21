@@ -19,14 +19,14 @@ import (
 )
 
 var (
-	reHeading1    = regexp.MustCompile(`^#{1}\s+(.+)$`)
-	reHeading2    = regexp.MustCompile(`^#{2,6}\s+(.+)$`)
-	reBold        = regexp.MustCompile(`\*\*(.+?)\*\*`)
-	reInlineCode  = regexp.MustCompile("`(.*?)`")
-	reBullet      = regexp.MustCompile(`^\s*[-*]\s+(.+)$`)
-	reHRule       = regexp.MustCompile(`^---+\s*$`)
-	reFenceStart  = regexp.MustCompile("^```")
-	reURL         = regexp.MustCompile(`https?://[^\s<>"']+`)
+	reHeading1   = regexp.MustCompile(`^#{1}\s+(.+)$`)
+	reHeading2   = regexp.MustCompile(`^#{2,6}\s+(.+)$`)
+	reBold       = regexp.MustCompile(`\*\*(.+?)\*\*`)
+	reInlineCode = regexp.MustCompile("`(.*?)`")
+	reBullet     = regexp.MustCompile(`^\s*[-*]\s+(.+)$`)
+	reHRule      = regexp.MustCompile(`^---+\s*$`)
+	reFenceStart = regexp.MustCompile("^```")
+	reURL        = regexp.MustCompile(`https?://[^\s<>"']+`)
 )
 
 // MarkdownToPango converts markdown text into Pango markup suitable for
@@ -115,18 +115,22 @@ func MarkdownToPango(md string) string {
 
 // inlinePango applies inline formatting (bold, inline code, URLs) to a line.
 func inlinePango(line string) string {
+	// Escape first so README prose such as `<Name>` and `a & b` can never be
+	// interpreted as Pango markup. Formatting is then applied to the escaped
+	// representation.
+	line = html.EscapeString(line)
 	line = reBold.ReplaceAllStringFunc(line, func(match string) string {
 		content := match[2 : len(match)-2]
-		return `<b>` + html.EscapeString(content) + `</b>`
+		return `<b>` + content + `</b>`
 	})
 
 	line = reInlineCode.ReplaceAllStringFunc(line, func(match string) string {
 		content := match[1 : len(match)-1]
-		return `<tt foreground="#14b8a6">` + html.EscapeString(content) + `</tt>`
+		return `<tt foreground="#14b8a6">` + content + `</tt>`
 	})
 
 	line = reURL.ReplaceAllStringFunc(line, func(match string) string {
-		return `<span foreground="#14b8a6">` + html.EscapeString(match) + `</span>`
+		return `<span foreground="#14b8a6">` + match + `</span>`
 	})
 
 	return line

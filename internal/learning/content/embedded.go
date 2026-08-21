@@ -22,10 +22,10 @@ func (e *embeddedStore) GetManifest(ctx context.Context) (*Manifest, error) {
 	ids := katas.IDs()
 	// Group by track (IDs < 200 = go-core-100, 200-299 = terraform, etc.)
 	trackCounts := map[string]int{
-		"go-core-100":     0,
-		"terraform-100":   0,
-		"helm-100":        0,
-		"security-100":    0,
+		"go-core-100":   0,
+		"terraform-100": 0,
+		"helm-100":      0,
+		"security-100":  0,
 	}
 	for _, id := range ids {
 		switch {
@@ -59,8 +59,8 @@ func (e *embeddedStore) GetManifest(ctx context.Context) (*Manifest, error) {
 	}
 
 	return &Manifest{
-		Version:   "embedded",
-		Tracks:    tracks,
+		Version: "embedded",
+		Tracks:  tracks,
 	}, nil
 }
 

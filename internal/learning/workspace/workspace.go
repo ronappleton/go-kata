@@ -79,26 +79,29 @@ func (m *Manager) Workspace(kataID string) (string, error) {
 }
 
 func (m *Manager) ReadSolution(kataID string) (string, error) {
-	root, err := m.Workspace(kataID)
-	if err != nil {
-		return "", err
-	}
-	data, err := os.ReadFile(filepath.Join(root, "solution.go"))
-	if err != nil {
-		if errors.Is(err, os.ErrNotExist) {
-			return "", nil
-		}
-		return "", err
-	}
-	return string(data), nil
+	return m.ReadSolutionAs(kataID, "solution.go")
 }
 
 func (m *Manager) ReadLearnerTests(kataID string) (string, error) {
+	return m.ReadLearnerTestsAs(kataID, "learner_test.go")
+}
+
+func (m *Manager) SaveSolution(kataID, source string, maxBytes int64) error {
+	return m.SaveSolutionAs(kataID, source, maxBytes, "solution.go")
+}
+
+func (m *Manager) SaveLearnerTests(kataID, source string, maxBytes int64) error {
+	return m.SaveLearnerTestsAs(kataID, source, maxBytes, "learner_test.go")
+}
+
+// ReadSolutionAs reads the solution file with the given (language-specific)
+// file name. Missing files return an empty string, not an error.
+func (m *Manager) ReadSolutionAs(kataID, filename string) (string, error) {
 	root, err := m.Workspace(kataID)
 	if err != nil {
 		return "", err
 	}
-	data, err := os.ReadFile(filepath.Join(root, "learner_test.go"))
+	data, err := os.ReadFile(filepath.Join(root, filename))
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			return "", nil
@@ -108,7 +111,25 @@ func (m *Manager) ReadLearnerTests(kataID string) (string, error) {
 	return string(data), nil
 }
 
-func (m *Manager) SaveSolution(kataID, source string, maxBytes int64) error {
+// ReadLearnerTestsAs reads the learner tests file with the given
+// (language-specific) file name.
+func (m *Manager) ReadLearnerTestsAs(kataID, filename string) (string, error) {
+	root, err := m.Workspace(kataID)
+	if err != nil {
+		return "", err
+	}
+	data, err := os.ReadFile(filepath.Join(root, filename))
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			return "", nil
+		}
+		return "", err
+	}
+	return string(data), nil
+}
+
+// SaveSolutionAs writes the solution file with the given file name.
+func (m *Manager) SaveSolutionAs(kataID, source string, maxBytes int64, filename string) error {
 	if int64(len(source)) > maxBytes {
 		return fmt.Errorf("solution exceeds %d bytes", maxBytes)
 	}
@@ -116,10 +137,11 @@ func (m *Manager) SaveSolution(kataID, source string, maxBytes int64) error {
 	if err != nil {
 		return err
 	}
-	return AtomicWrite(filepath.Join(root, "solution.go"), []byte(source), 0o600)
+	return AtomicWrite(filepath.Join(root, filename), []byte(source), 0o600)
 }
 
-func (m *Manager) SaveLearnerTests(kataID, source string, maxBytes int64) error {
+// SaveLearnerTestsAs writes the learner tests file with the given file name.
+func (m *Manager) SaveLearnerTestsAs(kataID, source string, maxBytes int64, filename string) error {
 	if int64(len(source)) > maxBytes {
 		return fmt.Errorf("learner tests exceed %d bytes", maxBytes)
 	}
@@ -127,7 +149,7 @@ func (m *Manager) SaveLearnerTests(kataID, source string, maxBytes int64) error 
 	if err != nil {
 		return err
 	}
-	return AtomicWrite(filepath.Join(root, "learner_test.go"), []byte(source), 0o600)
+	return AtomicWrite(filepath.Join(root, filename), []byte(source), 0o600)
 }
 
 func AtomicWrite(path string, data []byte, mode os.FileMode) error {

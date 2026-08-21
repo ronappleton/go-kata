@@ -28,21 +28,36 @@ func NewRemoteStore(baseURL string) *remoteStore {
 	}
 }
 
+const maxFetchAttempts = 4
+
+// fetch retrieves path from the remote base URL, retrying transient failures
+// (network errors, 5xx, 429) with exponential backoff. Permanent 4xx responses
+// (e.g. a genuinely missing kata) are returned immediately.
 func (r *remoteStore) fetch(ctx context.Context, path string) ([]byte, error) {
-	url := r.baseURL + "/" + path
+	return r.fetchURL(ctx, r.baseURL+"/"+path)
+}
+
+// fetchAttempt performs a single HTTP GET. The bool return reports whether the
+// failure is permanent (a 4xx other than 429) and should not be retried.
+func (r *remoteStore) fetchAttempt(ctx context.Context, url string) ([]byte, bool, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
-		return nil, fmt.Errorf("create request: %w", err)
+		return nil, true, fmt.Errorf("create request: %w", err)
 	}
 	resp, err := r.httpClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("fetch %s: %w", url, err)
+		return nil, false, fmt.Errorf("fetch %s: %w", url, err)
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("fetch %s: status %d", url, resp.StatusCode)
+		permanent := resp.StatusCode >= 400 && resp.StatusCode < 500 && resp.StatusCode != http.StatusTooManyRequests
+		return nil, permanent, fmt.Errorf("fetch %s: status %d", url, resp.StatusCode)
 	}
-	return io.ReadAll(resp.Body)
+	data, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, false, fmt.Errorf("read %s: %w", url, err)
+	}
+	return data, false, nil
 }
 
 // GetManifest fetches the manifest from the remote source.

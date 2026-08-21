@@ -6,7 +6,8 @@ import (
 )
 
 // ContentManager provides access to kata content from multiple sources.
-// Resolution order: local cache → remote fetch → embedded fallback.
+// Resolution order: local cache → remote fetch. Production callers should
+// provide a remote URL and rely on the local cache after first sync.
 type ContentManager interface {
 	// GetManifest returns the current manifest of available tracks.
 	GetManifest(ctx context.Context) (*Manifest, error)
@@ -32,35 +33,35 @@ type ContentManager interface {
 
 // Manifest describes available content and versions.
 type Manifest struct {
-	Version      string       `json:"version"`
-	MinAppVer    string       `json:"min_app_version"`
-	Tracks       []TrackEntry `json:"tracks"`
-	UpdatedAt    time.Time    `json:"updated_at"`
+	Version   string       `json:"version"`
+	MinAppVer string       `json:"min_app_version"`
+	Tracks    []TrackEntry `json:"tracks"`
+	UpdatedAt time.Time    `json:"updated_at"`
 }
 
 // TrackEntry is a lightweight track summary in the manifest.
 type TrackEntry struct {
-	ID         string `json:"id"`
-	Title      string `json:"title"`
-	KataCount  int    `json:"kata_count"`
-	Checksum   string `json:"checksum,omitempty"`
+	ID        string `json:"id"`
+	Title     string `json:"title"`
+	KataCount int    `json:"kata_count"`
+	Checksum  string `json:"checksum,omitempty"`
 }
 
 // TrackMeta is the full track definition with categories and kata IDs.
 type TrackMeta struct {
-	ID          string           `json:"id"`
-	Title       string           `json:"title"`
-	Description string           `json:"description"`
-	Stages      []StageMeta      `json:"stages"`
+	ID          string      `json:"id"`
+	Title       string      `json:"title"`
+	Description string      `json:"description"`
+	Stages      []StageMeta `json:"stages"`
 }
 
 // StageMeta is a stage within a track.
 type StageMeta struct {
-	ID          string          `json:"id"`
-	Title       string          `json:"title"`
-	Level       string          `json:"level"`
-	Description string          `json:"description"`
-	Categories  []CategoryMeta  `json:"categories"`
+	ID          string         `json:"id"`
+	Title       string         `json:"title"`
+	Level       string         `json:"level"`
+	Description string         `json:"description"`
+	Categories  []CategoryMeta `json:"categories"`
 }
 
 // CategoryMeta is a category within a stage.
@@ -77,7 +78,7 @@ type KataContent struct {
 	ID        string `json:"id"`
 	Slug      string `json:"slug"`
 	Title     string `json:"title"`
-	Version   string `json:"version"`                      // Semantic version (e.g., "1.0.0")
+	Version   string `json:"version"` // Semantic version (e.g., "1.0.0")
 	KataGo    string `json:"kata_go"`
 	KataTest  string `json:"kata_test"`
 	BuggyKata string `json:"buggy_kata,omitempty"`
@@ -87,9 +88,9 @@ type KataContent struct {
 
 // SyncResult describes what changed during a sync.
 type SyncResult struct {
-	Updated   int
-	Added     int
-	Removed   int
-	Failed    []string
-	SyncedAt  time.Time
+	Updated  int
+	Added    int
+	Removed  int
+	Failed   []string
+	SyncedAt time.Time
 }

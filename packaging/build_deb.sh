@@ -17,7 +17,8 @@ mkdir -p "$PACKAGE_DIR/DEBIAN" "$PACKAGE_DIR/usr/bin" \
 CGO_ENABLED=1 go build -trimpath -tags gtk4 -ldflags "-s -w -X main.version=$VERSION" \
   -o "$PACKAGE_DIR/usr/bin/gokatas" ./apps/learner-desktop
 
-cp -R tracks katas "$PACKAGE_DIR/usr/share/gokatas/"
+# Curriculum is downloaded on first launch and cached per user. Do not bundle
+# the mutable curriculum into the application package.
 cp packaging/gokatas.desktop "$PACKAGE_DIR/usr/share/applications/"
 cp packaging/gokatas.svg "$PACKAGE_DIR/usr/share/icons/hicolor/scalable/apps/gokatas.svg"
 cp packaging/runner/setup.sh "$PACKAGE_DIR/usr/lib/gokatas/setup-runner.sh"

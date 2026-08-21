@@ -21,7 +21,7 @@ func NewLocalStore(contentDir string) (*localStore, error) {
 	return &localStore{dir: contentDir}, nil
 }
 
-func (l *localStore) manifestPath() string    { return filepath.Join(l.dir, "manifest.json") }
+func (l *localStore) manifestPath() string { return filepath.Join(l.dir, "manifest.json") }
 func (l *localStore) trackPath(id string) string {
 	return filepath.Join(l.dir, "tracks", id, "track.json")
 }
@@ -51,7 +51,7 @@ func (l *localStore) SaveManifest(m *Manifest) error {
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(l.manifestPath(), data, 0o644)
+	return atomicWriteFile(l.manifestPath(), data, 0o644)
 }
 
 func (l *localStore) GetTrack(trackID string) (*TrackMeta, error) {
@@ -75,7 +75,7 @@ func (l *localStore) SaveTrack(trackID string, t *TrackMeta) error {
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(l.trackPath(trackID), data, 0o644)
+	return atomicWriteFile(l.trackPath(trackID), data, 0o644)
 }
 
 func (l *localStore) GetKata(trackID, kataID string) (*KataContent, error) {
@@ -99,7 +99,32 @@ func (l *localStore) SaveKata(trackID string, k *KataContent) error {
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(l.kataPath(trackID, k.ID), data, 0o644)
+	return atomicWriteFile(l.kataPath(trackID, k.ID), data, 0o644)
+}
+
+func atomicWriteFile(path string, data []byte, mode os.FileMode) error {
+	tmp, err := os.CreateTemp(filepath.Dir(path), ".gokatas-*")
+	if err != nil {
+		return err
+	}
+	tmpName := tmp.Name()
+	defer os.Remove(tmpName)
+	if err := tmp.Chmod(mode); err != nil {
+		tmp.Close()
+		return err
+	}
+	if _, err := tmp.Write(data); err != nil {
+		tmp.Close()
+		return err
+	}
+	if err := tmp.Sync(); err != nil {
+		tmp.Close()
+		return err
+	}
+	if err := tmp.Close(); err != nil {
+		return err
+	}
+	return os.Rename(tmpName, path)
 }
 
 func (l *localStore) LastSyncTime() time.Time {

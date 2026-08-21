@@ -15,12 +15,23 @@ import (
 	"sync"
 	"time"
 
+	"github.com/ronappleton/golang-katas-1-100/internal/languages"
 	"github.com/ronappleton/golang-katas-1-100/internal/learning/catalog"
 	"github.com/ronappleton/golang-katas-1-100/internal/learning/diagnostics"
 	"github.com/ronappleton/golang-katas-1-100/internal/learning/evaluator"
 	"github.com/ronappleton/golang-katas-1-100/internal/learning/progress"
 	"github.com/ronappleton/golang-katas-1-100/internal/learning/workspace"
 )
+
+// catalogLanguage resolves a kata's language identifier to a Language
+// definition, defaulting to Go when unknown.
+func catalogLanguage(id string) *languages.Language {
+	reg := languages.NewRegistry()
+	if lang := reg.Lookup(id); lang != nil {
+		return lang
+	}
+	return reg.Default()
+}
 
 // ── Learning mode ──────────────────────────────────────────────────────────
 
@@ -63,12 +74,12 @@ type QuizEntry struct {
 // ── Callbacks the view layer registers ────────────────────────────────────
 
 type Callbacks struct {
-	OnKataChanged       func(kata catalog.Kata)
-	OnModeChanged       func(mode LearningMode)
-	OnRunStarted        func()
-	OnRunCompleted      func(result evaluator.Result, passed bool, failedTests []string)
-	OnProgressUpdated   func(stageID, categoryID string, fraction float64)
-	OnStatusChanged     func(message string)
+	OnKataChanged        func(kata catalog.Kata)
+	OnModeChanged        func(mode LearningMode)
+	OnRunStarted         func()
+	OnRunCompleted       func(result evaluator.Result, passed bool, failedTests []string)
+	OnProgressUpdated    func(stageID, categoryID string, fraction float64)
+	OnStatusChanged      func(message string)
 	OnRunnerStateChanged func(available bool)
 }
 
@@ -98,10 +109,10 @@ type AppViewModel struct {
 	CB Callbacks
 
 	// workspace-derived text (cached per-select)
-	Readme        string
-	Solution      string
-	LearnerTests  string
-	Output        string
+	Readme       string
+	Solution     string
+	LearnerTests string
+	Output       string
 
 	// flashcard / quiz decks (current selection)
 	FlashDeck    []FlashcardEntry
@@ -127,10 +138,10 @@ type desktopConfig struct {
 
 func New(cfg desktopConfig) *AppViewModel {
 	return &AppViewModel{
-		Config:    cfg,
-		Mode:      ModeLinear,
+		Config:     cfg,
+		Mode:       ModeLinear,
 		TrackPaths: make(map[string]string),
-		FlashSide: "Front",
+		FlashSide:  "Front",
 	}
 }
 
@@ -189,7 +200,8 @@ func (vm *AppViewModel) SelectKata(kata catalog.Kata) {
 
 	vm.Selected = kata
 
-	solution, err := vm.Workspace.ReadSolution(kata.ID)
+	lang := catalogLanguage(kata.Language)
+	solution, err := vm.Workspace.ReadSolutionAs(kata.ID, lang.SourceFilename)
 	if err != nil {
 		vm.setStatus(fmt.Sprintf("Unable to read workspace: %v", err))
 		return
@@ -199,7 +211,7 @@ func (vm *AppViewModel) SelectKata(kata catalog.Kata) {
 	}
 	vm.Solution = solution
 
-	learnerTests, err := vm.Workspace.ReadLearnerTests(kata.ID)
+	learnerTests, err := vm.Workspace.ReadLearnerTestsAs(kata.ID, lang.TestsFilename)
 	if err != nil {
 		vm.setStatus(fmt.Sprintf("Unable to read workspace: %v", err))
 		return
@@ -240,11 +252,12 @@ func (vm *AppViewModel) SaveCurrent() {
 	if vm.Selected.ID == "" || vm.Workspace == nil {
 		return
 	}
-	if err := vm.Workspace.SaveSolution(vm.Selected.ID, vm.Solution, evaluator.DefaultCodeLimitBytes); err != nil {
+	lang := catalogLanguage(vm.Selected.Language)
+	if err := vm.Workspace.SaveSolutionAs(vm.Selected.ID, vm.Solution, evaluator.DefaultCodeLimitBytes, lang.SourceFilename); err != nil {
 		vm.setStatus(fmt.Sprintf("Save failed: %v", err))
 		return
 	}
-	if err := vm.Workspace.SaveLearnerTests(vm.Selected.ID, vm.LearnerTests, evaluator.DefaultTestsLimitBytes); err != nil {
+	if err := vm.Workspace.SaveLearnerTestsAs(vm.Selected.ID, vm.LearnerTests, evaluator.DefaultTestsLimitBytes, lang.TestsFilename); err != nil {
 		vm.setStatus(fmt.Sprintf("Save failed: %v", err))
 		return
 	}
@@ -381,10 +394,10 @@ func (vm *AppViewModel) SetTrack(title string) {
 
 // SidebarData returns the flattened list of items for the sidebar builder.
 type SidebarStage struct {
-	ID       string
-	Title    string
-	Level    string
-	Katas    []SidebarKata
+	ID    string
+	Title string
+	Level string
+	Katas []SidebarKata
 }
 
 type SidebarKata struct {

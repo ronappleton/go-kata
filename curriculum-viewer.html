@@ -273,5 +273,92 @@ function nextQuiz() { if (quizIdx < QUIZ.length - 1) { quizIdx++; renderQuiz(); 
 
 init();
 </script>
+
+<!-- Simulated Editor Panel -->
+<div id="editor-panel" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.85); z-index:1000; padding:40px;">
+  <div style="max-width:1200px; margin:0 auto; background:#1a1f2e; border-radius:12px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+    <!-- Editor Header -->
+    <div style="background:#0d1117; padding:12px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #30363d;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span style="color:#14b8a6; font-weight:700; font-size:14px;">KATA 006</span>
+        <span style="color:#e7ecf3; font-size:14px; font-weight:600;">FizzBuzz</span>
+        <span style="background:#22c55e20; color:#22c55e; padding:2px 8px; border-radius:4px; font-size:11px;">FOUNDATION</span>
+      </div>
+      <button onclick="document.getElementById('editor-panel').style.display='none'" style="background:#ef4444; color:white; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:12px;">Close ✕</button>
+    </div>
+    
+    <!-- Editor Body -->
+    <div style="display:flex; height:500px;">
+      <!-- Code Editor -->
+      <div style="flex:1; border-right:1px solid #30363d;">
+        <div style="background:#161b22; padding:8px 16px; border-bottom:1px solid #30363d; display:flex; gap:16px;">
+          <span style="color:#e7ecf3; font-size:12px; border-bottom:2px solid #14b8a6; padding-bottom:4px;">solution.go</span>
+          <span style="color:#6b7280; font-size:12px;">learner_test.go</span>
+        </div>
+        <div style="padding:16px; font-family:'JetBrains Mono',monospace; font-size:13px; line-height:1.6; color:#e7ecf3; background:#0d1117; height:calc(100% - 40px); overflow:auto;">
+          <div><span style="color:#7c3aed;">package</span> <span style="color:#14b8a6;">kata</span></div>
+          <div>&nbsp;</div>
+          <div><span style="color:#7c3aed;">import</span> <span style="color:#e7ecf3;">"strconv"</span></div>
+          <div>&nbsp;</div>
+          <div><span style="color:#6b7280;">// FizzBuzz returns a slice of strings for numbers 1 through n.</span></div>
+          <div><span style="color:#6b7280;">// Multiples of 3 become "Fizz", 5 become "Buzz", both become "FizzBuzz".</span></div>
+          <div><span style="color:#7c3aed;">func</span> <span style="color:#22c55e;">FizzBuzz</span><span style="color:#e7ecf3;">(n </span><span style="color:#14b8a6;">int</span><span style="color:#e7ecf3;">) []</span><span style="color:#14b8a6;">string</span> <span style="color:#e7ecf3;">{</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7c3aed;">if</span> <span style="color:#e7ecf3;">n &lt;= </span><span style="color:#22c55e;">0</span> <span style="color:#e7ecf3;">{</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7c3aed;">return</span> <span style="color:#e7ecf3;">[]</span><span style="color:#14b8a6;">string</span><span style="color:#e7ecf3;">{}</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#e7ecf3;">}</span></div>
+          <div>&nbsp;</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#e7ecf3;">result := </span><span style="color:#7c3aed;">make</span><span style="color:#e7ecf3;">([]</span><span style="color:#14b8a6;">string</span><span style="color:#e7ecf3;">, n)</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7c3aed;">for</span> <span style="color:#e7ecf3;">i := </span><span style="color:#22c55e;">1</span><span style="color:#e7ecf3;">; i &lt;= n; i++ {</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7c3aed;">switch</span> <span style="color:#e7ecf3;">{</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#e7ecf3;">}</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#e7ecf3;">}</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#7c3aed;">return</span> <span style="color:#e7ecf3;">result</span></div>
+          <div><span style="color:#e7ecf3;">}</span></div>
+        </div>
+      </div>
+      
+      <!-- Test Runner Output -->
+      <div style="width:380px; background:#0d1117;">
+        <div style="background:#161b22; padding:10px 16px; border-bottom:1px solid #30363d; display:flex; justify-content:space-between; align-items:center;">
+          <span style="color:#e7ecf3; font-size:13px; font-weight:600;">Output</span>
+          <button style="background:#22c55e; color:white; border:none; padding:6px 14px; border-radius:6px; cursor:pointer; font-size:12px; font-weight:600;">▶ Run in sandbox</button>
+        </div>
+        <div style="padding:16px; font-family:'JetBrains Mono',monospace; font-size:12px; color:#9ca3af; height:calc(100% - 48px); overflow:auto;">
+          <div style="color:#6b7280;">$ go test ./...</div>
+          <div style="color:#ef4444;">--- FAIL: TestFizzBuzz (0.00s)</div>
+          <div style="color:#9ca3af;">&nbsp;&nbsp;&nbsp;&nbsp;kata_test.go:15: got []string{"1","2","Fizz","4","Buzz"}</div>
+          <div style="color:#9ca3af;">&nbsp;&nbsp;&nbsp;&nbsp;expected []string{"1","2","Fizz","4","FizzBuzz"}</div>
+          <div style="color:#ef4444;">FAIL</div>
+          <div style="color:#6b7280; margin-top:16px;">— FizzBuzz is not yet complete</div>
+          <div style="color:#6b7280;">&nbsp;Write your solution and run again</div>
+          <div style="margin-top:24px; padding-top:16px; border-top:1px solid #30363d;">
+            <div style="color:#6b7280; margin-bottom:8px;">Related flashcards:</div>
+            <div style="background:#1a1f2e; padding:10px; border-radius:6px; margin-bottom:8px; border-left:3px solid #14b8a6;">
+              <div style="color:#6b7280; font-size:10px;">FRONT</div>
+              <div style="color:#e7ecf3; font-size:12px;">What are the rules for FizzBuzz?</div>
+            </div>
+            <div style="background:#1a1f2e; padding:10px; border-radius:6px; border-left:3px solid #f59e0b;">
+              <div style="color:#6b7280; font-size:10px;">QUIZ</div>
+              <div style="color:#e7ecf3; font-size:12px;">Which test case fails first for an incomplete solution?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Make kata items clickable to show editor
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.kata-item, li');
+  items.forEach(item => {
+    item.style.cursor = 'pointer';
+    item.addEventListener('click', function() {
+      document.getElementById('editor-panel').style.display = 'block';
+    });
+  });
+});
+</script>
 </body>
 </html>

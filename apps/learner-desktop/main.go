@@ -11,25 +11,34 @@ import (
 
 var version = "dev"
 
+const defaultContentURL = "https://raw.githubusercontent.com/ronappleton/gokatas-content/main"
+
 type desktopConfig struct {
 	ContentRoot string
+	ContentURL  string
 	Image       string
 	DevMode     bool
 }
 
 func main() {
-	contentFlag := flag.String("content", "", "Path to immutable curriculum content")
+	contentFlag := flag.String("content", "", "Path to immutable curriculum content (development override)")
+	contentURLFlag := flag.String("content-url", strings.TrimSpace(os.Getenv("GOKATAS_CONTENT_URL")), "Remote curriculum base URL")
 	imageFlag := flag.String("runner-image", defaultRunnerImage(), "Digest-pinned Podman runner image")
 	devFlag := flag.Bool("dev", false, "Enable developer diagnostics")
 	flag.Parse()
 
 	contentRoot, err := resolveContentRoot(*contentFlag)
-	if err != nil {
+	if err != nil && strings.TrimSpace(*contentFlag) != "" {
 		fatalf("resolve curriculum content: %v", err)
+	}
+	contentURL := strings.TrimSpace(*contentURLFlag)
+	if contentURL == "" {
+		contentURL = defaultContentURL
 	}
 
 	code := runNative(desktopConfig{
 		ContentRoot: contentRoot,
+		ContentURL:  contentURL,
 		Image:       strings.TrimSpace(*imageFlag),
 		DevMode:     *devFlag,
 	})
