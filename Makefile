@@ -89,6 +89,12 @@ test-cover: ## Run tests with coverage
 	go test -coverprofile=$(DIST)/coverage.out ./...
 	go tool cover -html=$(DIST)/coverage.out -o $(DIST)/coverage.html
 
+test-gtk: ## Run GTK integration tests in virtual display
+	xvfb-run go test -tags gtk4 -v ./apps/learner-desktop/... -count=1
+
+test-viewmodel: ## Run ViewModel unit tests (no display needed)
+	go test -v ./apps/learner-desktop/viewmodel/... -count=1
+
 # --- Lint ---
 
 vet: ## Run go vet

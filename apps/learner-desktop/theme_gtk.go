@@ -383,4 +383,29 @@ scrolledwindow undershoot.left,
 scrolledwindow undershoot.right {
   background-color: transparent;
 }
+
+/* ==== Sandbox spinner ==== */
+.spinner-active {
+  background-color: rgba(251,191,36,0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(251,191,36,0.35);
+  border-radius: 8px;
+  padding: 4px 12px;
+  font-weight: 600;
+}
+
+/* ==== Start Coding button ==== */
+.start-coding-btn {
+  background-color: #14b8a6;
+  color: #071014;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 15px;
+  font-weight: 700;
+  min-height: 40px;
+}
+.start-coding-btn:hover {
+  background-color: #2dd4bf;
+}
 `

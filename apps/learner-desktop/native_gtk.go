@@ -18,6 +18,7 @@ import (
 	"github.com/ronappleton/golang-katas-1-100/internal/learning/evaluator"
 	"github.com/ronappleton/golang-katas-1-100/internal/learning/progress"
 	"github.com/ronappleton/golang-katas-1-100/internal/learning/workspace"
+	"github.com/ronappleton/golang-katas-1-100/internal/rendering"
 )
 
 // LearningMode controls how the sidebar and flashcards/quiz behave.
@@ -60,6 +61,8 @@ type nativeApp struct {
 	quizFeedback *gtk.Label
 	quizIndex    int
 	bugText      *gtk.Label
+	outputSpinner *gtk.Button
+	startCodingBtn *gtk.Button
 	selected     catalog.Kata
 	running      bool
 	kataButtons  map[string]*gtk.Button
@@ -602,6 +605,7 @@ func (n *nativeApp) buildContent() *gtk.Widget {
 }
 
 func (n *nativeApp) buildDocs() *gtk.Widget {
+	box := gtk.NewBox(gtk.OrientationVertical, 10)
 	scroll := gtk.NewScrolledWindow()
 	scroll.SetPolicy(gtk.PolicyAutomatic, gtk.PolicyAutomatic)
 	view := gtk.NewTextViewWithBuffer(n.docs)
@@ -609,7 +613,22 @@ func (n *nativeApp) buildDocs() *gtk.Widget {
 	view.SetWrapMode(gtk.WrapWordChar)
 	view.SetVExpand(true)
 	scroll.SetChild(view)
-	return &scroll.Widget
+	scroll.SetVExpand(true)
+	box.Append(scroll)
+
+	// Start Coding button
+	n.startCodingBtn = gtk.NewButtonWithLabel("\u25b6  Start Coding")
+	n.startCodingBtn.AddCSSClass("suggested-action")
+	n.startCodingBtn.SetTooltipText("Switch to the Workbench to write and test your solution")
+	n.startCodingBtn.ConnectClicked(func() {
+		n.stack.SetVisibleChildName("workbench")
+	})
+	btnBox := gtk.NewBox(gtk.OrientationHorizontal, 0)
+	btnBox.SetMarginTop(8)
+	btnBox.Append(n.startCodingBtn)
+	box.Append(btnBox)
+
+	return &box.Widget
 }
 
 func (n *nativeApp) buildWorkbench() *gtk.Widget {
@@ -621,10 +640,18 @@ func (n *nativeApp) buildWorkbench() *gtk.Widget {
 	paned.SetVExpand(true)
 	outer.Append(paned)
 
+	// Output header with spinner
+	outputHeaderBox := gtk.NewBox(gtk.OrientationHorizontal, 8)
 	outputHeading := gtk.NewLabel("Output")
 	outputHeading.AddCSSClass("panel-title")
 	outputHeading.SetHAlign(gtk.AlignStart)
-	outer.Append(outputHeading)
+	outputHeaderBox.Append(outputHeading)
+	n.outputSpinner = gtk.NewButtonWithLabel("\u23f3 Running\u2026")
+	n.outputSpinner.AddCSSClass("warning")
+	n.outputSpinner.SetVisible(false)
+	n.outputSpinner.SetTooltipText("Sandbox execution in progress\u2026 press Escape to cancel")
+	outputHeaderBox.Append(n.outputSpinner)
+	outer.Append(outputHeaderBox)
 
 	outputView := gtk.NewTextViewWithBuffer(n.output)
 	outputView.SetEditable(false)
@@ -684,7 +711,8 @@ func (n *nativeApp) selectKata(kata catalog.Kata) {
 
 	n.title.SetText(fmt.Sprintf("%s — %s", kata.ID, kata.Title))
 	n.subtitle.SetText(fmt.Sprintf("%s · %s · %s · evaluator: %s", kata.Focus, kata.Signature, strings.ToUpper(kata.EvaluatorStatus), kata.EvaluatorStatus))
-	n.docs.SetText(string(readme))
+	pango := rendering.MarkdownToPango(string(readme))
+	n.docs.SetText(pango)
 	n.code.SetText(solution)
 	n.learnerTests.SetText(learnerTests)
 	n.output.SetText("")
@@ -730,6 +758,7 @@ func (n *nativeApp) runCurrent() {
 	trustedTests := []byte(n.selected.Content.KataTest)
 
 	n.running = true
+	n.outputSpinner.SetVisible(true)
 	n.runButton.SetSensitive(false)
 	n.output.SetText("Running in rootless Podman…")
 	kata := n.selected
@@ -744,6 +773,7 @@ func (n *nativeApp) runCurrent() {
 		})
 		glib.MainContextDefault().InvokeFull(0, func() bool {
 			n.running = false
+			n.outputSpinner.SetVisible(false)
 			n.runButton.SetSensitive(n.runner != nil && kata.EvaluatorStatus == "ready")
 			n.output.SetText(formatResult(result))
 			if n.progress != nil {
