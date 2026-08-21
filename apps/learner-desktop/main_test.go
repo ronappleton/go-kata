@@ -12,7 +12,7 @@ func TestResolveContentRoot(t *testing.T) {
 	if err := os.MkdirAll(filepath.Dir(trackPath), 0o700); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.WriteFile(trackPath, []byte(`{"id":"test","categories":[]}`), 0o600); err != nil {
+	if err := os.WriteFile(trackPath, []byte(`{"id":"test","stages":[{"id":"s1","title":"Stage 1","level":"junior","categories":[{"id":"c1","title":"Cat 1","kata_ids":[]}]}]}`), 0o600); err != nil {
 		t.Fatal(err)
 	}
 
@@ -28,5 +28,20 @@ func TestResolveContentRoot(t *testing.T) {
 func TestResolveContentRootRejectsMissingContent(t *testing.T) {
 	if _, err := resolveContentRoot(filepath.Join(t.TempDir(), "missing")); err == nil {
 		t.Fatal("expected missing content to be rejected")
+	}
+}
+
+func TestResolveContentRootRejectsOldFormat(t *testing.T) {
+	root := t.TempDir()
+	trackPath := filepath.Join(root, "tracks", "go-core-100", "track.json")
+	if err := os.MkdirAll(filepath.Dir(trackPath), 0o700); err != nil {
+		t.Fatal(err)
+	}
+	// Old format: categories at top level, no stages
+	if err := os.WriteFile(trackPath, []byte(`{"id":"test","categories":[]}`), 0o600); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := resolveContentRoot(root); err == nil {
+		t.Fatal("expected old-format track to be rejected")
 	}
 }

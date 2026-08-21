@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"flag"
 	"fmt"
@@ -83,9 +84,18 @@ func resolveContentRoot(requested string) (string, error) {
 		if err != nil {
 			continue
 		}
-		if _, err := os.Stat(filepath.Join(root, "tracks", "go-core-100", "track.json")); err == nil {
-			return root, nil
+		trackPath := filepath.Join(root, "tracks", "go-core-100", "track.json")
+		if _, err := os.Stat(trackPath); err != nil {
+			continue
 		}
+		// Validate that the track actually contains stages — an old-format
+		// file (categories at top level) would produce an empty sidebar
+		// with no content provider fallback.
+		if !trackHasStages(trackPath) {
+			fmt.Fprintf(os.Stderr, "warning: %s has no stages (old format), skipping\n", trackPath)
+			continue
+		}
+		return root, nil
 	}
 	return "", errors.New("no curriculum found; use -content pointing at the installed content root")
 }
@@ -93,4 +103,24 @@ func resolveContentRoot(requested string) (string, error) {
 func fatalf(format string, args ...any) {
 	_, _ = fmt.Fprintf(os.Stderr, "error: "+format+"\n", args...)
 	os.Exit(1)
+}
+
+// trackHasStages checks that a track.json file actually contains the
+// "stages" key with at least one entry. Old-format files have
+// "categories" at the top level and produce an empty sidebar.
+func trackHasStages(path string) bool {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return false
+	}
+	var raw struct {
+		Stages json.RawMessage `json:"stages"`
+	}
+	if err := json.Unmarshal(data, &raw); err != nil {
+		return false
+	}
+	if len(raw.Stages) == 0 || string(raw.Stages) == "null" || string(raw.Stages) == "[]" {
+		return false
+	}
+	return true
 }
