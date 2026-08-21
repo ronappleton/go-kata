@@ -9,5 +9,23 @@
     "keep line content only",
     "handles last line"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "bufio",
+    "line",
+    "oriented",
+    "reader"
+  ],
+  "prerequisites": [
+    "057",
+    "058",
+    "059"
+  ],
+  "estimated_minutes": 30
 }

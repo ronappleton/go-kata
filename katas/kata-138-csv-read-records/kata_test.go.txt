@@ -1,7 +1,55 @@
 package kata
 
-import "testing"
+import (
+	"encoding/csv"
+	"reflect"
+	"strings"
+	"testing"
+)
 
-func Test_Kata138(t *testing.T) {
-	t.Skip("TODO: write tests for kata 138 based on README.md")
+func TestReadCSVRecords(t *testing.T) {
+	r := csv.NewReader(strings.NewReader("a,b,c\n1,2,3\n"))
+	got, err := ReadCSVRecords(r)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := [][]string{{"a", "b", "c"}, {"1", "2", "3"}}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got = %v, want %v", got, want)
+	}
+}
+
+func TestReadCSVRecordsPreservesOrder(t *testing.T) {
+	r := csv.NewReader(strings.NewReader("x,y\n9,8\n7,6\n"))
+	got, err := ReadCSVRecords(r)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got[0][0] != "x" || got[1][0] != "9" || got[2][0] != "7" {
+		t.Errorf("order not preserved: %v", got)
+	}
+}
+
+func TestReadCSVRecordsNilReader(t *testing.T) {
+	if _, err := ReadCSVRecords(nil); err == nil {
+		t.Error("expected error for nil reader")
+	}
+}
+
+func TestReadCSVRecordsEmpty(t *testing.T) {
+	r := csv.NewReader(strings.NewReader(""))
+	got, err := ReadCSVRecords(r)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(got) != 0 {
+		t.Errorf("got = %v, want no records", got)
+	}
+}
+
+func TestReadCSVRecordsMalformed(t *testing.T) {
+	r := csv.NewReader(strings.NewReader("a,b\n\"unterminated"))
+	if _, err := ReadCSVRecords(r); err == nil {
+		t.Error("expected error for malformed CSV")
+	}
 }

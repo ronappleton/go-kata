@@ -2,6 +2,25 @@ package kata
 
 import "testing"
 
-func Test_ToCamel(t *testing.T) {
-    t.Skip("TODO: write tests for ToCamel based on README.md")
+func TestToCamel(t *testing.T) {
+	tests := []struct {
+		name string
+		in   string
+		want string
+	}{
+		{"kebab", "hello-world", "helloWorld"},
+		{"snake", "hello_world", "helloWorld"},
+		{"multiple", "foo-bar-baz", "fooBarBaz"},
+		{"collapsed separators", "a--b__c", "aBC"},
+		{"single word", "hello", "hello"},
+		{"empty", "", ""},
+		{"starts with separator", "-hello", "hello"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ToCamel(tt.in); got != tt.want {
+				t.Errorf("ToCamel(%q) = %q, want %q", tt.in, got, tt.want)
+			}
+		})
+	}
 }

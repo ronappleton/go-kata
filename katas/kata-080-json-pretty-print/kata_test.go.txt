@@ -1,7 +1,35 @@
 package kata
 
-import "testing"
+import (
+	"encoding/json"
+	"strings"
+	"testing"
+)
 
-func Test_PrettyJSON(t *testing.T) {
-    t.Skip("TODO: write tests for PrettyJSON based on README.md")
+func TestPrettyJSON(t *testing.T) {
+	t.Run("invalid errors", func(t *testing.T) {
+		if _, err := PrettyJSON([]byte("{nope")); err == nil {
+			t.Error("expected error for invalid JSON")
+		}
+	})
+	t.Run("indent 2 spaces stable", func(t *testing.T) {
+		got, err := PrettyJSON([]byte("{\"a\":1}"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !json.Valid(got) {
+			t.Fatalf("not valid JSON: %s", got)
+		}
+		if !strings.Contains(string(got), "\n  ") {
+			t.Errorf("expected newline + 2-space indent: %q", got)
+		}
+	})
+	t.Run("stable across calls", func(t *testing.T) {
+		in := []byte("{\"b\":2,\"a\":[1,2]}")
+		g1, _ := PrettyJSON(in)
+		g2, _ := PrettyJSON(in)
+		if string(g1) != string(g2) {
+			t.Errorf("not stable: %q vs %q", g1, g2)
+		}
+	})
 }

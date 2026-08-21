@@ -6,7 +6,25 @@
   "signature": "func ApplyPatch(doc []byte, patch []byte) ([]byte, error)",
   "rules": [
     "support add/replace/remove at top-level keys only",
-    "invalid =\u003e error"
+    "invalid => error"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "data-serialization",
+  "level": "mid",
+  "tags": [
+    "serialization",
+    "json",
+    "yaml",
+    "csv",
+    "encoding",
+    "patch",
+    "subset"
+  ],
+  "prerequisites": [
+    "080",
+    "081",
+    "082"
+  ],
+  "estimated_minutes": 30
 }

@@ -5,9 +5,27 @@
   "focus": "Parsing, errors",
   "signature": "func RLDecode(s string) (string, error)",
   "rules": [
-    "invalid format =\u003e error",
+    "invalid format => error",
     "count can be multiple digits",
     "roundtrip with encode for valid inputs"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "errors",
+    "run",
+    "length",
+    "decoding"
+  ],
+  "prerequisites": [
+    "047",
+    "048",
+    "049"
+  ],
+  "estimated_minutes": 30
 }

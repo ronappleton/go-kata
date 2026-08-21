@@ -7,7 +7,24 @@
   "rules": [
     "include only values strictly greater than zero",
     "ignore zero and negative numbers",
-    "empty input =\u003e 0"
+    "empty input => 0"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "lead",
+  "category": "bug-fix-lab",
+  "level": "lead",
+  "tags": [
+    "bug-fixing",
+    "debugging",
+    "loops",
+    "integer",
+    "filtering",
+    "bug",
+    "sum",
+    "positive"
+  ],
+  "prerequisites": [
+    "155"
+  ],
+  "estimated_minutes": 60
 }

@@ -9,5 +9,26 @@
     "append remaining tail when lengths differ",
     "nil inputs are handled as empty slices"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "data-structures",
+  "level": "junior",
+  "tags": [
+    "data-structures",
+    "slices",
+    "maps",
+    "strings",
+    "two",
+    "pointer",
+    "merge",
+    "slice",
+    "appends",
+    "alternating"
+  ],
+  "prerequisites": [
+    "024",
+    "025",
+    "026"
+  ],
+  "estimated_minutes": 20
 }

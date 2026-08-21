@@ -1,10 +1,35 @@
 package kata
 
-// Kata74 — TODO: implement as specified in README.md
-//
-// Signature:
-//   func Kata74() error
-func Kata74() error {
-    // TODO: your implementation here
-    return nil
+// NewPriorityQueue — TODO: implement as specified in README.md
+func NewPriorityQueue(minHeap bool) *PriorityQueue {
+	// TODO: your implementation here
+	return nil
+}
+
+// PriorityQueue — a binary-heap priority queue. Implement as specified in README.md.
+type PriorityQueue struct {
+	// TODO: your implementation here
+}
+
+// Push — TODO: implement as specified in README.md
+func (q *PriorityQueue) Push(priority int, value string) {
+	// TODO: your implementation here
+}
+
+// Pop — TODO: implement as specified in README.md
+func (q *PriorityQueue) Pop() (priority int, value string, ok bool) {
+	// TODO: your implementation here
+	return 0, "", false
+}
+
+// Peek — TODO: implement as specified in README.md
+func (q *PriorityQueue) Peek() (priority int, value string, ok bool) {
+	// TODO: your implementation here
+	return 0, "", false
+}
+
+// Len — TODO: implement as specified in README.md
+func (q *PriorityQueue) Len() int {
+	// TODO: your implementation here
+	return 0
 }

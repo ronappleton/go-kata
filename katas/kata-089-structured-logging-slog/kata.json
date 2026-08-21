@@ -8,5 +8,22 @@
     "LogRequest logs method, path, status as structured fields",
     "LogError logs message and error"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "real-world-packages",
+  "level": "mid",
+  "tags": [
+    "packages",
+    "libraries",
+    "log",
+    "slog",
+    "structured",
+    "logging",
+    "key",
+    "value",
+    "pairs",
+    "levels"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 30
 }

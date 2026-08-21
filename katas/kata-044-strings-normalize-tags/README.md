@@ -1,4 +1,4 @@
-# Kata 021 — Normalize Tags
+# Kata 044 — Normalize Tags
 
 **Focus:** strings.Split, strings.TrimSpace, strings.ToLower
 

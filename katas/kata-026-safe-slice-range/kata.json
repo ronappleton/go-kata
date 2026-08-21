@@ -6,8 +6,32 @@
   "signature": "func SafeSlice(values []int, start, end int) []int",
   "rules": [
     "indices are clamped into [0,len(values)]",
-    "if start\u003e=end after clamping =\u003e empty slice (not nil)",
+    "if start>=end after clamping => empty slice (not nil)",
     "returns copied range values[start:end]"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "data-structures",
+  "level": "junior",
+  "tags": [
+    "data-structures",
+    "slices",
+    "maps",
+    "strings",
+    "indices",
+    "bounds",
+    "clamping",
+    "non",
+    "panicking",
+    "behavior",
+    "safe",
+    "slice",
+    "range"
+  ],
+  "prerequisites": [
+    "023",
+    "024",
+    "025"
+  ],
+  "estimated_minutes": 20
 }

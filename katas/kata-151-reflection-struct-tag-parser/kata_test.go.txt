@@ -1,7 +1,77 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_ParseTags(t *testing.T) {
-    t.Skip("TODO: write tests for ParseTags based on README.md")
+type tagged struct {
+	Name  string `json:"name"`
+	Age   int    `json:"age"`
+	Skip  string `json:"-"`
+	Plain string
+}
+
+func TestParseTags(t *testing.T) {
+	got, err := ParseTags(tagged{}, "json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := map[string]string{"Name": "name", "Age": "age", "Skip": "-"}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}
+
+func TestParseTagsEmptyValue(t *testing.T) {
+	type t2 struct {
+		A string `json:""`
+		B string `json:"b"`
+	}
+	got, err := ParseTags(t2{}, "json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	// empty tag value is skipped entirely
+	if _, ok := got["A"]; ok {
+		t.Errorf("field with empty tag value should be skipped: %v", got)
+	}
+	if got["B"] != "b" {
+		t.Errorf("got %v", got)
+	}
+}
+
+func TestParseTagsPointer(t *testing.T) {
+	got, err := ParseTags(&tagged{}, "json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got["Name"] != "name" {
+		t.Errorf("got %v", got)
+	}
+}
+
+func TestParseTagsNonStruct(t *testing.T) {
+	if _, err := ParseTags(42, "json"); err == nil {
+		t.Error("expected error for non-struct input")
+	}
+	if _, err := ParseTags("hello", "json"); err == nil {
+		t.Error("expected error for string input")
+	}
+	if _, err := ParseTags([]int{1}, "json"); err == nil {
+		t.Error("expected error for slice input")
+	}
+}
+
+func TestParseTagsDifferentKey(t *testing.T) {
+	type t3 struct {
+		A string `db:"col_a"`
+	}
+	got, err := ParseTags(t3{}, "db")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got["A"] != "col_a" {
+		t.Errorf("got %v", got)
+	}
 }

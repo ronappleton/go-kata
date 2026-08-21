@@ -2,9 +2,15 @@ package kata
 
 // HashPassword — TODO: implement as specified in README.md
 //
-// Signature:
-//   func HashPassword(pw string) (string, error)
+// Uses stdlib PBKDF2-HMAC-SHA256 (no external deps). Returns a string in
+// the format: pbkdf2$<iterations>$<salt-hex>$<key-hex>
 func HashPassword(pw string) (string, error) {
-    // TODO: your implementation here
-    return "", nil
+	// TODO: your implementation here
+	return "", nil
+}
+
+// VerifyPassword — TODO: implement as specified in README.md
+func VerifyPassword(pw, hash string) bool {
+	// TODO: your implementation here
+	return false
 }

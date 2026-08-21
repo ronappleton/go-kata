@@ -1,4 +1,4 @@
-# Kata 022 — Parse Positive Int
+# Kata 017 — Parse Positive Int
 
 **Focus:** strconv.Atoi, strings.TrimSpace, input validation
 

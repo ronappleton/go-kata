@@ -1,4 +1,4 @@
-# Kata 083 — Line-Oriented Reader
+# Kata 060 — Line-Oriented Reader
 
 **Focus:** bufio
 

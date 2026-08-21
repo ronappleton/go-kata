@@ -5,10 +5,29 @@
   "focus": "encoding/csv reader loops",
   "signature": "func ReadCSVRecords(r *csv.Reader) ([][]string, error)",
   "rules": [
-    "nil reader =\u003e non-nil error",
+    "nil reader => non-nil error",
     "read all records until EOF",
     "preserve field ordering",
-    "malformed CSV =\u003e non-nil error"
+    "malformed CSV => non-nil error"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "senior",
+  "category": "advanced-data",
+  "level": "senior",
+  "tags": [
+    "advanced-data",
+    "algorithms",
+    "encoding",
+    "csv",
+    "reader",
+    "loops",
+    "read",
+    "records"
+  ],
+  "prerequisites": [
+    "135",
+    "136",
+    "137"
+  ],
+  "estimated_minutes": 45
 }

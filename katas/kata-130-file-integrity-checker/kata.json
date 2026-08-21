@@ -9,5 +9,23 @@
     "hex digest",
     "error on read"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "senior",
+  "category": "security",
+  "level": "senior",
+  "tags": [
+    "security",
+    "hardening",
+    "crypto",
+    "sha256",
+    "file",
+    "integrity",
+    "checker"
+  ],
+  "prerequisites": [
+    "127",
+    "128",
+    "129"
+  ],
+  "estimated_minutes": 45
 }

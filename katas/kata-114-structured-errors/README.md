@@ -1,19 +1,19 @@
-# Kata 093 — Structured Errors
+# Kata 114 — Structured Errors
 
-**Focus:** Advanced practice
+**Focus:** Error handling, idioms
 
 ## Your task
 Implement:
 
 ```go
-func Kata63() error
+var ErrNotFound, ErrUnauthorized error; type AppError; func IsNotFound(err error) bool; func IsUnauthorized(err error) bool
 ```
 
 ### Learning goal
-- What you are building: Build `func Kata63() error` as a reliable contract. Focus: real-world Go integration and testing.
-- Why this matters in real projects: This is everyday Go work: small rules, clear behavior, zero surprises.
-- How this grows your Go skills: You practice zero-value handling, explicit branching, and table-driven tests.
-- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: match the full README contract; include tests for happy path and edge cases; and keep API and error style idiomatic Go.
+- What you are building: var ErrNotFound, ErrUnauthorized error; type AppError; func IsNotFound(err error) bool; func IsUnauthorized(err error) bool as a reliable contract. Focus: Error handling, idioms.
+- Why this matters in real projects: real systems depend on exact, testable behavior here.
+- How this grows your Go skills: you practice invariants, edge cases, and test-first discipline.
+- Definition of done (plain English): AppError carries Code/Message/cause; errors.Is/As work; sentinels ErrNotFound/ErrUnauthorized; Is* helpers unwrap chains.
 
 ### Tips
 - Write tests from the rules before implementation.
@@ -21,18 +21,19 @@ func Kata63() error
 - Keep logic linear; branch only when a rule requires it.
 
 ## Rules / Expectations
-- follow README spec
-- write tests
-- keep it idiomatic
+- AppError type with Code int, Message string, cause
+- sentinels ErrNotFound and ErrUnauthorized
+- IsNotFound/IsUnauthorized helpers
+- errors.Is and errors.As interoperate
 
 ## Prior reading
 - [Go: Effective Go](https://go.dev/doc/effective_go)
-- [Go package documentation index](https://pkg.go.dev/std)
-- [Go language specification](https://go.dev/ref/spec)
+- [Go errors package](https://pkg.go.dev/errors)
+- [Go error handling overview](https://go.dev/blog/go1.13-errors)
 
 ## What this kata is about (and why it matters)
-- Core lesson: turn plain rules into deterministic Go behavior.
-- After this kata, you should be able to write rule-first tests and explain each edge case clearly.
+- Core lesson: treat errors as data: structured, comparable via errors.Is, and never string-matched.
+- After this kata, you should be able to justify every rule with a test.
 
 ## What you must submit for marking
 - `kata.go`

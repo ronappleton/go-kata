@@ -1,10 +1,40 @@
 package kata
 
-// Kata62 — TODO: implement as specified in README.md
+import (
+	"context"
+	"io"
+)
+
+// Level — severity of a log line. Implement as specified in README.md.
+type Level int
+
+const (
+	LevelInfo Level = iota
+	LevelWarn
+	LevelError
+)
+
+// Logger — a context-aware logger. Implement as specified in README.md.
+type Logger struct {
+	// TODO: your implementation here
+}
+
+// NewLogger — TODO: implement as specified in README.md
+func NewLogger(w io.Writer) *Logger {
+	// TODO: your implementation here
+	return nil
+}
+
+// Log — TODO: implement as specified in README.md
 //
-// Signature:
-//   func Kata62() error
-func Kata62() error {
-    // TODO: your implementation here
-    return nil
+// Writes: <RFC3339 timestamp> LEVEL [request_id] msg
+// The [request_id] segment is present only when ctx carries one.
+func (l *Logger) Log(ctx context.Context, level Level, msg string) {
+	// TODO: your implementation here
+}
+
+// WithRequestID — TODO: implement as specified in README.md
+func WithRequestID(ctx context.Context, id string) context.Context {
+	// TODO: your implementation here
+	return nil
 }

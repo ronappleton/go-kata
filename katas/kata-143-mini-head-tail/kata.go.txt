@@ -4,6 +4,10 @@ package kata
 //
 // Signature:
 //   func Run(args []string, r io.Reader, w io.Writer) error
+import (
+	"io"
+)
+
 func Run(args []string, r io.Reader, w io.Writer) error {
     // TODO: your implementation here
     return nil

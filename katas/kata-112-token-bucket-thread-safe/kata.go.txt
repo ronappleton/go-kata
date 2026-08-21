@@ -1,10 +1,23 @@
 package kata
 
-// Kata71 — TODO: implement as specified in README.md
-//
-// Signature:
-//   func Kata71() error
-func Kata71() error {
-    // TODO: your implementation here
-    return nil
+import (
+	"sync"
+)
+
+// NewTokenBucket — TODO: implement as specified in README.md
+func NewTokenBucket(ratePerSec int, burst int) (*TokenBucket, error) {
+	// TODO: your implementation here
+	return nil, nil
+}
+
+// TokenBucket — a thread-safe token bucket. Implement as specified in README.md.
+type TokenBucket struct {
+	mu    sync.Mutex
+	// TODO: your implementation here
+}
+
+// Allow — TODO: implement as specified in README.md
+func (t *TokenBucket) Allow() bool {
+	// TODO: your implementation here
+	return false
 }

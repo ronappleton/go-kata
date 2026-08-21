@@ -9,5 +9,25 @@
     "Sum(last duration)",
     "thread-safe"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "time",
+    "buckets",
+    "fixed",
+    "window",
+    "metrics"
+  ],
+  "prerequisites": [
+    "101",
+    "102",
+    "103"
+  ],
+  "estimated_minutes": 30
 }

@@ -5,10 +5,29 @@
   "focus": "io.ReadFull semantics",
   "signature": "func ReadExactlyN(r io.Reader, n int) ([]byte, error)",
   "rules": [
-    "n \u003c 0 =\u003e non-nil error",
-    "n == 0 =\u003e empty slice and nil error",
+    "n < 0 => non-nil error",
+    "n == 0 => empty slice and nil error",
     "return exactly n bytes or error",
-    "short read =\u003e non-nil error"
+    "short read => non-nil error"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "data-serialization",
+  "level": "mid",
+  "tags": [
+    "serialization",
+    "json",
+    "yaml",
+    "csv",
+    "readfull",
+    "semantics",
+    "read",
+    "exactly"
+  ],
+  "prerequisites": [
+    "079",
+    "080",
+    "081"
+  ],
+  "estimated_minutes": 30
 }

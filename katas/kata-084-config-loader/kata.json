@@ -9,5 +9,24 @@
     "override with env",
     "trim spaces"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "data-serialization",
+  "level": "mid",
+  "tags": [
+    "serialization",
+    "json",
+    "yaml",
+    "csv",
+    "env",
+    "file",
+    "config",
+    "loader"
+  ],
+  "prerequisites": [
+    "081",
+    "082",
+    "083"
+  ],
+  "estimated_minutes": 30
 }

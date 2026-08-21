@@ -5,9 +5,30 @@
   "focus": "Errors, edge cases",
   "signature": "func MinMax(nums []int) (min int, max int, err error)",
   "rules": [
-    "empty or nil =\u003e error",
-    "single element =\u003e min=max",
+    "empty or nil => error",
+    "single element => min=max",
     "handles negatives"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "language-basics",
+  "level": "junior",
+  "tags": [
+    "basics",
+    "types",
+    "functions",
+    "conditionals",
+    "loops",
+    "errors",
+    "edge",
+    "cases",
+    "min",
+    "max"
+  ],
+  "prerequisites": [
+    "006",
+    "007",
+    "008"
+  ],
+  "estimated_minutes": 20
 }

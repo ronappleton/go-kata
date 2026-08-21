@@ -1,7 +1,46 @@
 package kata
 
-import "testing"
+import (
+	"context"
+	"testing"
+	"time"
+)
 
-func Test_Kata028(t *testing.T) {
-	t.Skip("TODO: write tests for kata 028 based on README.md")
+func TestWaitForContextOrDuration(t *testing.T) {
+	t.Run("non-positive duration returns completed", func(t *testing.T) {
+		for _, d := range []time.Duration{0, -time.Second} {
+			if got := WaitForContextOrDuration(context.Background(), d); got != "completed" {
+				t.Errorf("WaitForContextOrDuration(bg, %v) = %q, want \"completed\"", d, got)
+			}
+		}
+	})
+	t.Run("duration elapses first", func(t *testing.T) {
+		ctx := context.Background()
+		start := time.Now()
+		got := WaitForContextOrDuration(ctx, 20*time.Millisecond)
+		if got != "completed" {
+			t.Errorf("WaitForContextOrDuration(bg, 20ms) = %q, want \"completed\"", got)
+		}
+		if time.Since(start) < 15*time.Millisecond {
+			t.Errorf("WaitForContextOrDuration returned too early: %v", time.Since(start))
+		}
+	})
+	t.Run("context cancellation wins", func(t *testing.T) {
+		ctx, cancel := context.WithCancel(context.Background())
+		go func() {
+			time.Sleep(5 * time.Millisecond)
+			cancel()
+		}()
+		got := WaitForContextOrDuration(ctx, time.Second)
+		if got != "cancelled" {
+			t.Errorf("WaitForContextOrDuration(cancelled ctx, 1s) = %q, want \"cancelled\"", got)
+		}
+	})
+	t.Run("pre-cancelled context", func(t *testing.T) {
+		ctx, cancel := context.WithCancel(context.Background())
+		cancel()
+		if got := WaitForContextOrDuration(ctx, time.Second); got != "cancelled" {
+			t.Errorf("WaitForContextOrDuration(pre-cancelled, 1s) = %q, want \"cancelled\"", got)
+		}
+	})
 }

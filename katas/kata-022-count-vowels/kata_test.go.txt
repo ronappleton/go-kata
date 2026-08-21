@@ -2,6 +2,24 @@ package kata
 
 import "testing"
 
-func Test_CountVowels(t *testing.T) {
-    t.Skip("TODO: write tests for CountVowels based on README.md")
+func TestCountVowels(t *testing.T) {
+	tests := []struct {
+		name string
+		in   string
+		want int
+	}{
+		{"empty", "", 0},
+		{"no vowels", "rhythm", 0},
+		{"lowercase", "hello", 2},
+		{"uppercase", "HELLO", 2},
+		{"mixed case", "aEiOu", 5},
+		{"no y counted", "sky", 0},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := CountVowels(tt.in); got != tt.want {
+				t.Errorf("CountVowels(%q) = %d, want %d", tt.in, got, tt.want)
+			}
+		})
+	}
 }

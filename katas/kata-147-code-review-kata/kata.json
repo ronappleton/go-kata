@@ -8,5 +8,25 @@
     "Returns at least one suggestion for unclear code",
     "Suggestions are actionable"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "lead",
+  "category": "code-quality-review",
+  "level": "lead",
+  "tags": [
+    "code-review",
+    "quality",
+    "refactoring",
+    "code",
+    "review",
+    "patterns",
+    "readability",
+    "maintainability",
+    "kata"
+  ],
+  "prerequisites": [
+    "144",
+    "145",
+    "146"
+  ],
+  "estimated_minutes": 60
 }

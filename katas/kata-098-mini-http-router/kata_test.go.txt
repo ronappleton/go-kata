@@ -1,7 +1,51 @@
 package kata
 
-import "testing"
+import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
+)
 
-func Test_NewRouter(t *testing.T) {
-    t.Skip("TODO: write tests for NewRouter based on README.md")
+func TestRouter(t *testing.T) {
+	r := NewRouter()
+	r.Handle("GET", "/users/{id}", http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+		w.WriteHeader(200)
+		w.Write([]byte("user"))
+	}))
+	r.Handle("POST", "/users", http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+		w.WriteHeader(201)
+	}))
+
+	t.Run("registered route", func(t *testing.T) {
+		req := httptest.NewRequest("GET", "/users/42", nil)
+		rec := httptest.NewRecorder()
+		r.ServeHTTP(rec, req)
+		if rec.Code != 200 {
+			t.Errorf("code = %d, want 200", rec.Code)
+		}
+	})
+	t.Run("post route", func(t *testing.T) {
+		req := httptest.NewRequest("POST", "/users", nil)
+		rec := httptest.NewRecorder()
+		r.ServeHTTP(rec, req)
+		if rec.Code != 201 {
+			t.Errorf("code = %d, want 201", rec.Code)
+		}
+	})
+	t.Run("not found", func(t *testing.T) {
+		req := httptest.NewRequest("GET", "/missing", nil)
+		rec := httptest.NewRecorder()
+		r.ServeHTTP(rec, req)
+		if rec.Code != 404 {
+			t.Errorf("code = %d, want 404", rec.Code)
+		}
+	})
+	t.Run("wrong method", func(t *testing.T) {
+		req := httptest.NewRequest("DELETE", "/users/1", nil)
+		rec := httptest.NewRecorder()
+		r.ServeHTTP(rec, req)
+		if rec.Code != 404 {
+			t.Errorf("code = %d, want 404", rec.Code)
+		}
+	})
 }

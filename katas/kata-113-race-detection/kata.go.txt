@@ -1,6 +1,5 @@
 package kata
 
-import "sync"
 
 // Counter is a concurrent-safe counter.
 // Your task: make it safe for concurrent use.

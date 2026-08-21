@@ -9,5 +9,23 @@
     "compare allocations",
     "document results in README"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "lead",
+  "category": "code-quality-review",
+  "level": "lead",
+  "tags": [
+    "code-review",
+    "quality",
+    "refactoring",
+    "testing",
+    "benchmark",
+    "benchmarking",
+    "kata"
+  ],
+  "prerequisites": [
+    "142",
+    "143",
+    "144"
+  ],
+  "estimated_minutes": 60
 }

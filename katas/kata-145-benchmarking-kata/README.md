@@ -1,4 +1,4 @@
-# Kata 126 — Benchmarking Kata
+# Kata 145 — Benchmarking Kata
 
 **Focus:** testing/benchmark
 

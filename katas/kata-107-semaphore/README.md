@@ -1,4 +1,4 @@
-# Kata 096 — Semaphore
+# Kata 107 — Semaphore
 
 **Focus:** Concurrency primitives
 

@@ -9,5 +9,24 @@
     "Benchmark runs without errors",
     "Code is efficient (O(n) expected)"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "senior",
+  "category": "performance",
+  "level": "senior",
+  "tags": [
+    "performance",
+    "benchmarking",
+    "optimization",
+    "runtime",
+    "pprof",
+    "profiling",
+    "cpu",
+    "memory",
+    "analysis",
+    "benchmarks"
+  ],
+  "prerequisites": [
+    "124"
+  ],
+  "estimated_minutes": 45
 }

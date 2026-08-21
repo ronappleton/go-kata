@@ -1,4 +1,4 @@
-# Kata 139 — Read Exactly N
+# Kata 082 — Read Exactly N
 
 **Focus:** io.ReadFull semantics
 

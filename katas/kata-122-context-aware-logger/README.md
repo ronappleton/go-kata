@@ -1,19 +1,19 @@
-# Kata 092 — Context-aware Logger
+# Kata 122 — Context-aware Logger
 
-**Focus:** Advanced practice
+**Focus:** context, io, log
 
 ## Your task
 Implement:
 
 ```go
-func Kata62() error
+type Level int; func NewLogger(w io.Writer) *Logger; func (l *Logger) Log(ctx context.Context, level Level, msg string); func WithRequestID(ctx context.Context, id string) context.Context
 ```
 
 ### Learning goal
-- What you are building: Build `func Kata62() error` as a reliable contract. Focus: real-world Go integration and testing.
-- Why this matters in real projects: This is everyday Go work: small rules, clear behavior, zero surprises.
-- How this grows your Go skills: You practice zero-value handling, explicit branching, and table-driven tests.
-- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: match the full README contract; include tests for happy path and edge cases; and keep API and error style idiomatic Go.
+- What you are building: type Level int; func NewLogger(w io.Writer) *Logger; func (l *Logger) Log(ctx context.Context, level Level, msg string); func WithRequestID(ctx context.Context, id string) context.Context as a reliable contract. Focus: context, io, log.
+- Why this matters in real projects: real systems depend on exact, testable behavior here.
+- How this grows your Go skills: you practice invariants, edge cases, and test-first discipline.
+- Definition of done (plain English): Log writes "timestamp LEVEL [request_id] msg" (request_id only when present in ctx) with RFC3339 timestamps and LEVEL in INFO/WARN/ERROR.
 
 ### Tips
 - Write tests from the rules before implementation.
@@ -21,19 +21,18 @@ func Kata62() error
 - Keep logic linear; branch only when a rule requires it.
 
 ## Rules / Expectations
-- follow README spec
-- write tests
-- keep it idiomatic
+- INFO/WARN/ERROR levels
+- timestamped lines
+- request id from context when present
+- writes to the injected writer
 
 ## Prior reading
 - [Go context package](https://pkg.go.dev/context)
-- [Go: Effective Go](https://go.dev/doc/effective_go)
-- [Go package documentation index](https://pkg.go.dev/std)
-- [Go language specification](https://go.dev/ref/spec)
+- [Go log package](https://pkg.go.dev/log)
 
 ## What this kata is about (and why it matters)
-- Core lesson: turn plain rules into deterministic Go behavior.
-- After this kata, you should be able to write rule-first tests and explain each edge case clearly.
+- Core lesson: logs are data: keep them structured, timestamped, and context-aware.
+- After this kata, you should be able to justify every rule with a test.
 
 ## What you must submit for marking
 - `kata.go`

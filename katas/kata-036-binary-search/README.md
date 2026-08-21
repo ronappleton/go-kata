@@ -1,4 +1,4 @@
-# Kata 044 — Binary Search
+# Kata 036 — Binary Search
 
 **Focus:** Algorithms, generics
 

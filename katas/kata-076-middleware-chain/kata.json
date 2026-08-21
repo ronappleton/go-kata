@@ -8,5 +8,22 @@
     "applies in order given",
     "nil middleware ignored"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "web-networking",
+  "level": "mid",
+  "tags": [
+    "http",
+    "networking",
+    "web",
+    "net",
+    "middleware",
+    "chain"
+  ],
+  "prerequisites": [
+    "073",
+    "074",
+    "075"
+  ],
+  "estimated_minutes": 30
 }

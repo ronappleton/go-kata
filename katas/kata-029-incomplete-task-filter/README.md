@@ -1,4 +1,4 @@
-# Kata 020 — Incomplete Task Filter
+# Kata 029 — Incomplete Task Filter
 
 **Focus:** Structs, slice filtering, business-rule selection
 

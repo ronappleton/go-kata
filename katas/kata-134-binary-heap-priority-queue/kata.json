@@ -9,5 +9,23 @@
     "write tests",
     "keep it idiomatic"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "senior",
+  "category": "advanced-data",
+  "level": "senior",
+  "tags": [
+    "advanced-data",
+    "algorithms",
+    "advanced",
+    "practice",
+    "binary",
+    "heap",
+    "priority",
+    "queue"
+  ],
+  "prerequisites": [
+    "132",
+    "133"
+  ],
+  "estimated_minutes": 45
 }

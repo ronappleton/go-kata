@@ -1,7 +1,82 @@
 package kata
 
-import "testing"
+import (
+	"context"
+	"io"
+	"net/http"
+	"net/http/httptest"
+	"strings"
+	"testing"
+)
 
-func Test_Kata82(t *testing.T) {
-    t.Skip("TODO: write tests for Kata82 based on README.md")
+func TestSSEHandlerStreamsEvents(t *testing.T) {
+	events := make(chan string, 3)
+	events <- "one"
+	events <- "two"
+	events <- "three"
+	close(events)
+
+	srv := httptest.NewServer(SSEHandler(events))
+	defer srv.Close()
+
+	resp, err := http.Get(srv.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	if ct := resp.Header.Get("Content-Type"); !strings.HasPrefix(ct, "text/event-stream") {
+		t.Errorf("Content-Type = %q, want text/event-stream", ct)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := "data: one\n\ndata: two\n\ndata: three\n\n"
+	if string(body) != want {
+		t.Errorf("body = %q, want %q", body, want)
+	}
 }
+
+func TestSSEHandlerEmptyStream(t *testing.T) {
+	events := make(chan string)
+	close(events)
+	srv := httptest.NewServer(SSEHandler(events))
+	defer srv.Close()
+
+	resp, err := http.Get(srv.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer resp.Body.Close()
+	body, _ := io.ReadAll(resp.Body)
+	if len(body) != 0 {
+		t.Errorf("expected empty body, got %q", body)
+	}
+}
+
+func TestSSEHandlerFlushesPerEvent(t *testing.T) {
+	events := make(chan string, 1)
+	events <- "first"
+	srv := httptest.NewServer(SSEHandler(events))
+	defer srv.Close()
+
+	resp, err := http.Get(srv.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	// The first event should arrive before the channel is closed.
+	buf := make([]byte, len("data: first\n\n"))
+	if _, err := io.ReadFull(resp.Body, buf); err != nil {
+		t.Fatalf("expected first event to arrive before close: %v", err)
+	}
+	if string(buf) != "data: first\n\n" {
+		t.Errorf("first chunk = %q", buf)
+	}
+	close(events)
+}
+
+var _ = context.Background

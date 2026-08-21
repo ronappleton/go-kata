@@ -5,9 +5,29 @@
   "focus": "Loops, slice construction, edge-case handling",
   "signature": "func Countdown(start int) []int",
   "rules": [
-    "start\u003c0 =\u003e empty slice (not nil)",
-    "start\u003e=0 =\u003e slice contains start down to 0 inclusive",
+    "start<0 => empty slice (not nil)",
+    "start>=0 => slice contains start down to 0 inclusive",
     "order is strictly descending"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "language-basics",
+  "level": "junior",
+  "tags": [
+    "basics",
+    "types",
+    "functions",
+    "conditionals",
+    "loops",
+    "slice",
+    "construction",
+    "edge",
+    "case",
+    "handling",
+    "countdown"
+  ],
+  "prerequisites": [
+    "006"
+  ],
+  "estimated_minutes": 20
 }

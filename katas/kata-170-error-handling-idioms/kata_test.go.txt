@@ -2,6 +2,7 @@ package kata
 
 import (
 	"errors"
+	"strings"
 	"testing"
 )
 

@@ -6,8 +6,28 @@
   "signature": "func CharFrequency(s string) map[rune]int",
   "rules": [
     "each rune count increments by occurrences in s",
-    "empty input =\u003e empty map (not nil)",
+    "empty input => empty map (not nil)",
     "counting is rune-based, not byte-based"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "data-structures",
+  "level": "junior",
+  "tags": [
+    "data-structures",
+    "slices",
+    "maps",
+    "strings",
+    "rune",
+    "iteration",
+    "unicode",
+    "safe",
+    "counting",
+    "char",
+    "frequency"
+  ],
+  "prerequisites": [
+    "020"
+  ],
+  "estimated_minutes": 20
 }

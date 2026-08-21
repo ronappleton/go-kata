@@ -9,5 +9,24 @@
     "preserve case",
     "non-letters unchanged"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "ascii",
+    "letters",
+    "shifting",
+    "caesar",
+    "cipher"
+  ],
+  "prerequisites": [
+    "048",
+    "049",
+    "050"
+  ],
+  "estimated_minutes": 30
 }

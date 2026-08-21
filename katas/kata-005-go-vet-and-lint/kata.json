@@ -1,11 +1,34 @@
 {
   "id": "005",
   "slug": "go-vet-and-lint",
-  "title": "Go Vet \u0026 Lint",
+  "title": "Go Vet & Lint",
   "focus": "go vet, golangci-lint, static analysis, code quality",
   "signature": "func CheckCode(code string) []string",
   "rules": [
-    "clean code =\u003e empty slice"
+    "clean code => empty slice"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "setup-and-toolchain",
+  "level": "junior",
+  "tags": [
+    "setup",
+    "toolchain",
+    "go-mod",
+    "go-run",
+    "go-build",
+    "vet",
+    "golangci",
+    "lint",
+    "static",
+    "analysis",
+    "code",
+    "quality"
+  ],
+  "prerequisites": [
+    "002",
+    "003",
+    "004"
+  ],
+  "estimated_minutes": 20
 }

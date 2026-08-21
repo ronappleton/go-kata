@@ -8,3 +8,20 @@ func NewLRU(capacity int) (*LRU, error) {
     // TODO: your implementation here
     return nil, nil
 }
+
+// LRU — TODO: implement as specified in README.md
+type LRU struct {
+	// TODO: your implementation here
+}
+
+// Get(key string) (value string, ok bool) — TODO: implement as specified in README.md
+func (t *LRU) Get(key string) (value string, ok bool) {
+	// TODO: your implementation here
+	return "", false
+}
+
+// Put(key, value string) — TODO: implement as specified in README.md
+func (t *LRU) Put(key, value string) {
+	// TODO: your implementation here
+	return
+}

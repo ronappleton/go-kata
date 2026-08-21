@@ -5,9 +5,30 @@
   "focus": "Structs, maps, list",
   "signature": "func NewLRU(capacity int) (*LRU, error)",
   "rules": [
-    "capacity\u003e0",
+    "capacity>0",
     "Get/Put methods",
     "evict least recently used"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "structs",
+    "maps",
+    "list",
+    "lru",
+    "cache",
+    "single",
+    "thread"
+  ],
+  "prerequisites": [
+    "052",
+    "053",
+    "054"
+  ],
+  "estimated_minutes": 30
 }

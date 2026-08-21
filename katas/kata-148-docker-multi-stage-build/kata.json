@@ -9,5 +9,22 @@
     "Multi-stage (at least 2 FROM statements)",
     "Copies binary in final stage"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "lead",
+  "category": "build-deploy",
+  "level": "lead",
+  "tags": [
+    "build",
+    "deploy",
+    "ci-cd",
+    "dockerfile",
+    "multi",
+    "stage",
+    "builds",
+    "binary",
+    "containerization",
+    "docker"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 60
 }

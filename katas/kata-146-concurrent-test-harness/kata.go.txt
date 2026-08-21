@@ -1,10 +1,16 @@
 package kata
 
-// Kata95 — TODO: implement as specified in README.md
+// TestCase — a single test to run. Implement as specified in README.md.
+type TestCase struct {
+	Name string
+	Run  func() error
+}
+
+// RunTests — TODO: implement as specified in README.md
 //
-// Signature:
-//   func Kata95() error
-func Kata95() error {
-    // TODO: your implementation here
-    return nil
+// Runs each test with at most workers concurrent. workers < 1 means
+// unlimited. Returns (passed, failed).
+func RunTests(tests []TestCase, workers int) (passed int, failed int) {
+	// TODO: your implementation here
+	return 0, 0
 }

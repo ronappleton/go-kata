@@ -1,7 +1,201 @@
 package kata
 
-import "testing"
+import (
+	"bufio"
+	"crypto/sha1"
+	"encoding/base64"
+	"fmt"
+	"net"
+	"net/http"
+	"strings"
+	"testing"
+	"time"
+)
 
-func Test_Kata81(t *testing.T) {
-    t.Skip("TODO: write tests for Kata81 based on README.md")
+const wsGUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
+
+// clientUpgrade writes a handshake and reads the 101 response.
+func clientUpgrade(t *testing.T, conn net.Conn, key string) string {
+	t.Helper()
+	req := fmt.Sprintf("GET /chat HTTP/1.1\r\nHost: localhost\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: %s\r\nSec-WebSocket-Version: 13\r\n\r\n", key)
+	if _, err := conn.Write([]byte(req)); err != nil {
+		t.Fatal(err)
+	}
+	resp, err := http.ReadResponse(bufio.NewReader(conn), &http.Request{Method: "GET"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 101 {
+		t.Fatalf("status = %d, want 101", resp.StatusCode)
+	}
+	return resp.Header.Get("Sec-WebSocket-Accept")
 }
+
+// clientMaskedText builds a masked text frame with the given payload.
+func clientMaskedText(payload string) []byte {
+	mask := []byte{0x11, 0x22, 0x33, 0x44}
+	b := []byte{0x81}
+	n := len(payload)
+	if n < 126 {
+		b = append(b, byte(0x80|n))
+	} else {
+		b = append(b, 0x80|126, byte(n>>8), byte(n))
+	}
+	b = append(b, mask...)
+	for i := 0; i < n; i++ {
+		b = append(b, payload[i]^mask[i%4])
+	}
+	return b
+}
+
+func clientCloseFrame() []byte {
+	mask := []byte{0x11, 0x22, 0x33, 0x44}
+	return []byte{0x88, 0x80, mask[0], mask[1], mask[2], mask[3]}
+}
+
+func TestAcceptKey(t *testing.T) {
+	// RFC 6455 example
+	key := "dGhlIHNhbXBsZSBub25jZQ=="
+	want := "s3pPLMBiTxaQ9kYGzzhZRbK+xOo="
+	h := sha1.Sum([]byte(key + wsGUID))
+	got := base64.StdEncoding.EncodeToString(h[:])
+	if got != want {
+		t.Errorf("accept = %q, want %q", got, want)
+	}
+}
+
+func TestHandleUpgrade(t *testing.T) {
+	client, server := net.Pipe()
+	defer client.Close()
+	defer server.Close()
+
+	go func() {
+		if err := HandleUpgrade(server); err != nil {
+			t.Errorf("HandleUpgrade: %v", err)
+		}
+	}()
+
+	key := "dGhlIHNhbXBsZSBub25jZQ=="
+	accept := clientUpgrade(t, client, key)
+	h := sha1.Sum([]byte(key + wsGUID))
+	want := base64.StdEncoding.EncodeToString(h[:])
+	if accept != want {
+		t.Errorf("accept = %q, want %q", accept, want)
+	}
+}
+
+func readServerFrame(t *testing.T, conn net.Conn) (opcode byte, payload string) {
+	t.Helper()
+	conn.SetReadDeadline(time.Now().Add(2 * time.Second))
+	var hdr [2]byte
+	if _, err := conn.Read(hdr[:]); err != nil {
+		t.Fatal(err)
+	}
+	if hdr[0]&0x80 == 0 {
+		t.Fatal("server frame should have FIN set")
+	}
+	opcode = hdr[0] & 0x0f
+	n := int(hdr[1] & 0x7f)
+	if n == 126 {
+		var ext [2]byte
+		conn.Read(ext[:])
+		n = int(ext[0])<<8 | int(ext[1])
+	}
+	if hdr[1]&0x80 != 0 {
+		t.Fatal("server frame must not be masked")
+	}
+	data := make([]byte, n)
+	if _, err := conn.Read(data); err != nil {
+		t.Fatal(err)
+	}
+	return opcode, string(data)
+}
+
+func TestHandleEcho(t *testing.T) {
+	client, server := net.Pipe()
+	defer client.Close()
+	defer server.Close()
+
+	done := make(chan error, 1)
+	go func() { done <- HandleEcho(server) }()
+
+	key := "dGhlIHNhbXBsZSBub25jZQ=="
+	clientUpgrade(t, client, key)
+
+	client.Write(clientMaskedText("hello"))
+	opcode, payload := readServerFrame(t, client)
+	if opcode != 0x1 || payload != "hello" {
+		t.Errorf("echo frame opcode=%d payload=%q, want 1/hello", opcode, payload)
+	}
+
+	client.Write(clientMaskedText("world"))
+	opcode, payload = readServerFrame(t, client)
+	if opcode != 0x1 || payload != "world" {
+		t.Errorf("echo frame opcode=%d payload=%q, want 1/world", opcode, payload)
+	}
+
+	client.Write(clientCloseFrame())
+	select {
+	case err := <-done:
+		if err != nil {
+			t.Errorf("HandleEcho returned %v, want nil on clean close", err)
+		}
+	case <-time.After(2 * time.Second):
+		t.Fatal("HandleEcho did not return after close frame")
+	}
+}
+
+func TestReadTextFrame(t *testing.T) {
+	client, server := net.Pipe()
+	defer client.Close()
+	defer server.Close()
+
+	go func() {
+		s, err := ReadTextFrame(server)
+		if err != nil {
+			t.Errorf("ReadTextFrame: %v", err)
+			return
+		}
+		if s != "ping" {
+			t.Errorf("payload = %q, want ping", s)
+		}
+	}()
+
+	client.Write(clientMaskedText("ping"))
+	time.Sleep(50 * time.Millisecond)
+}
+
+func TestWriteTextFrame(t *testing.T) {
+	client, server := net.Pipe()
+	defer client.Close()
+	defer server.Close()
+
+	go func() {
+		if err := WriteTextFrame(server, "pong"); err != nil {
+			t.Errorf("WriteTextFrame: %v", err)
+		}
+	}()
+	opcode, payload := readServerFrame(t, client)
+	if opcode != 0x1 || payload != "pong" {
+		t.Errorf("frame opcode=%d payload=%q, want 1/pong", opcode, payload)
+	}
+}
+
+func TestHandleUpgradeRejectsNonUpgrade(t *testing.T) {
+	client, server := net.Pipe()
+	defer client.Close()
+	defer server.Close()
+
+	go func() {
+		err := HandleUpgrade(server)
+		if err == nil {
+			t.Error("expected error for non-upgrade request")
+		}
+	}()
+
+	client.Write([]byte("GET / HTTP/1.1\r\nHost: x\r\n\r\n"))
+	time.Sleep(50 * time.Millisecond)
+}
+
+var _ = strings.TrimSpace

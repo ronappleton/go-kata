@@ -1,7 +1,37 @@
 package kata
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
-func Test_CounterWindow(t *testing.T) {
-    t.Skip("TODO: write tests for CounterWindow based on README.md")
+func TestCounterWindow(t *testing.T) {
+	t.Run("sum within window", func(t *testing.T) {
+		var c CounterWindow
+		c.Add(1)
+		c.Add(2)
+		time.Sleep(5 * time.Millisecond)
+		c.Add(3)
+		if s := c.Sum(time.Second); s != 6 {
+			t.Errorf("Sum = %d, want 6", s)
+		}
+	})
+	t.Run("expires old values", func(t *testing.T) {
+		var c CounterWindow
+		c.Add(5)
+		time.Sleep(20 * time.Millisecond)
+		if s := c.Sum(time.Millisecond); s != 0 {
+			t.Errorf("Sum = %d, want 0 after expiry", s)
+		}
+	})
+	t.Run("thread safe", func(t *testing.T) {
+		var c CounterWindow
+		for i := 0; i < 10; i++ {
+			go c.Add(1)
+		}
+		time.Sleep(10 * time.Millisecond)
+		if s := c.Sum(time.Second); s != 10 {
+			t.Errorf("Sum = %d, want 10", s)
+		}
+	})
 }

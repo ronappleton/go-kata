@@ -1,4 +1,4 @@
-# Kata 011 — Swap First and Last
+# Kata 023 — Swap First and Last
 
 **Focus:** Slice copying, mutation safety, indexing
 

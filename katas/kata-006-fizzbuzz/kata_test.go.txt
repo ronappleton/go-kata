@@ -1,7 +1,32 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_FizzBuzz(t *testing.T) {
-    t.Skip("TODO: write tests for FizzBuzz based on README.md")
+func TestFizzBuzz(t *testing.T) {
+	tests := []struct {
+		name string
+		in   int
+		want []string
+	}{
+		{"zero", 0, []string{}},
+		{"negative", -3, []string{}},
+		{"one", 1, []string{"1"}},
+		{"three", 3, []string{"1", "2", "Fizz"}},
+		{"five", 5, []string{"1", "2", "Fizz", "4", "Buzz"}},
+		{"fifteen", 15, []string{"1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz", "11", "Fizz", "13", "14", "FizzBuzz"}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := FizzBuzz(tt.in)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("FizzBuzz(%d) = %v, want %v", tt.in, got, tt.want)
+			}
+			if tt.in <= 0 && got != nil && len(got) != 0 {
+				t.Errorf("FizzBuzz(%d) must return empty slice, got %v", tt.in, got)
+			}
+		})
+	}
 }

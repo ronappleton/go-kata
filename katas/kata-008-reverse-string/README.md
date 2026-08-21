@@ -1,4 +1,4 @@
-# Kata 033 — Reverse String
+# Kata 008 — Reverse String
 
 **Focus:** Strings, runes vs bytes
 

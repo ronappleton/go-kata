@@ -1,4 +1,4 @@
-# Kata 016 — Safe Slice Range
+# Kata 026 — Safe Slice Range
 
 **Focus:** Indices, bounds clamping, non-panicking behavior
 

@@ -9,5 +9,23 @@
     "FinishSpan marks it done",
     "Parent-child relationships are tracked"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "senior",
+  "category": "observability",
+  "level": "senior",
+  "tags": [
+    "observability",
+    "logging",
+    "metrics",
+    "tracing",
+    "spans",
+    "context",
+    "propagation",
+    "opentelemetry",
+    "basics"
+  ],
+  "prerequisites": [
+    "122"
+  ],
+  "estimated_minutes": 45
 }

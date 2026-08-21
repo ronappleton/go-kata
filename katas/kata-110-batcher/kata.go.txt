@@ -4,6 +4,11 @@ package kata
 //
 // Signature:
 //   func Batch[T any](ctx context.Context, in <-chan T, max int, every time.Duration) <-chan []T
+import (
+	"context"
+	"time"
+)
+
 func Batch[T any](ctx context.Context, in <-chan T, max int, every time.Duration) <-chan []T {
     // TODO: your implementation here
     return nil

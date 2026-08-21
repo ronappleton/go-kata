@@ -5,10 +5,34 @@
   "focus": "Comparisons, boundary logic, defensive argument handling",
   "signature": "func Clamp(value, min, max int) int",
   "rules": [
-    "min greater than max =\u003e treat inputs as swapped bounds",
-    "value below lower bound =\u003e lower bound",
-    "value above upper bound =\u003e upper bound",
-    "value inside bounds =\u003e value unchanged"
+    "min greater than max => treat inputs as swapped bounds",
+    "value below lower bound => lower bound",
+    "value above upper bound => upper bound",
+    "value inside bounds => value unchanged"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "language-basics",
+  "level": "junior",
+  "tags": [
+    "basics",
+    "types",
+    "functions",
+    "conditionals",
+    "loops",
+    "comparisons",
+    "boundary",
+    "logic",
+    "defensive",
+    "argument",
+    "handling",
+    "clamp",
+    "value"
+  ],
+  "prerequisites": [
+    "008",
+    "009",
+    "010"
+  ],
+  "estimated_minutes": 20
 }

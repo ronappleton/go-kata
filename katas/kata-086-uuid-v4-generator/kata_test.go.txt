@@ -1,7 +1,28 @@
 package kata
 
-import "testing"
+import (
+	"regexp"
+	"strings"
+	"testing"
+)
 
-func Test_NewUUIDv4(t *testing.T) {
-    t.Skip("TODO: write tests for NewUUIDv4 based on README.md")
+func TestNewUUIDv4(t *testing.T) {
+	re := regexp.MustCompile(`^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$`)
+	for i := 0; i < 20; i++ {
+		u, err := NewUUIDv4()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !re.MatchString(u) {
+			t.Fatalf("UUID %q not in 8-4-4-4-12 lowercase format", u)
+		}
+		parts := strings.Split(u, "-")
+		if parts[2][0] != '4' {
+			t.Errorf("version nibble = %c, want 4 (%s)", parts[2][0], u)
+		}
+		variant := parts[3][0]
+		if variant != '8' && variant != '9' && variant != 'a' && variant != 'b' {
+			t.Errorf("variant nibble = %c, want 8/9/a/b (%s)", variant, u)
+		}
+	}
 }

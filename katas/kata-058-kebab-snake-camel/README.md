@@ -1,4 +1,4 @@
-# Kata 060 — Kebab/Snake → Camel
+# Kata 058 — Kebab/Snake → Camel
 
 **Focus:** String transforms
 

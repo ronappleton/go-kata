@@ -1,9 +1,5 @@
 package kata
 
-import (
-	"strings"
-	"unicode"
-)
 
 // FixStuttering removes stuttering from Go type names.
 // Rules:

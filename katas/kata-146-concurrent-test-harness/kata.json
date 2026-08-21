@@ -9,5 +9,24 @@
     "write tests",
     "keep it idiomatic"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "lead",
+  "category": "code-quality-review",
+  "level": "lead",
+  "tags": [
+    "code-review",
+    "quality",
+    "refactoring",
+    "advanced",
+    "practice",
+    "concurrent",
+    "test",
+    "harness"
+  ],
+  "prerequisites": [
+    "143",
+    "144",
+    "145"
+  ],
+  "estimated_minutes": 60
 }

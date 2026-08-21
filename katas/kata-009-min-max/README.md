@@ -1,4 +1,4 @@
-# Kata 042 — Min/Max
+# Kata 009 — Min/Max
 
 **Focus:** Errors, edge cases
 

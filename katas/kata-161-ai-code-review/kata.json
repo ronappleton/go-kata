@@ -9,5 +9,23 @@
     "Confidence score reflects actual certainty",
     "Suggestions are actionable and specific"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "ai-literacy",
+  "level": "junior",
+  "tags": [
+    "ai",
+    "prompting",
+    "using",
+    "code",
+    "review",
+    "verifying",
+    "suggestions",
+    "critical",
+    "thinking"
+  ],
+  "prerequisites": [
+    "160"
+  ],
+  "estimated_minutes": 20
 }

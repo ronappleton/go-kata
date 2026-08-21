@@ -1,4 +1,4 @@
-# Kata 029 — Increment Concurrently
+# Kata 042 — Increment Concurrently
 
 **Focus:** sync.WaitGroup, sync.Mutex, goroutine coordination
 

@@ -9,5 +9,20 @@
     "double quotes allow commas",
     "escaped quotes as \"\" inside quoted field"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "data-serialization",
+  "level": "mid",
+  "tags": [
+    "serialization",
+    "json",
+    "yaml",
+    "csv",
+    "parsing",
+    "quoted",
+    "parse",
+    "line"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 30
 }

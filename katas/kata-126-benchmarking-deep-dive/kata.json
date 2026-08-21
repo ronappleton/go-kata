@@ -9,5 +9,26 @@
     "Benchmark compares both implementations",
     "Builder version should be more efficient"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "senior",
+  "category": "performance",
+  "level": "senior",
+  "tags": [
+    "performance",
+    "benchmarking",
+    "optimization",
+    "benchmark",
+    "patterns",
+    "sub",
+    "benchmarks",
+    "comparison",
+    "regression",
+    "deep",
+    "dive"
+  ],
+  "prerequisites": [
+    "124",
+    "125"
+  ],
+  "estimated_minutes": 45
 }

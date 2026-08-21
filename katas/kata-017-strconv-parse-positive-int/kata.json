@@ -6,9 +6,34 @@
   "signature": "func ParsePositiveInt(input string) (int, error)",
   "rules": [
     "trim leading/trailing spaces before parsing",
-    "invalid numeric text =\u003e non-nil error",
-    "parsed value \u003c= 0 =\u003e non-nil error",
-    "valid positive value =\u003e return value and nil error"
+    "invalid numeric text => non-nil error",
+    "parsed value <= 0 => non-nil error",
+    "valid positive value => return value and nil error"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "language-basics",
+  "level": "junior",
+  "tags": [
+    "basics",
+    "types",
+    "functions",
+    "conditionals",
+    "loops",
+    "strconv",
+    "atoi",
+    "strings",
+    "trimspace",
+    "input",
+    "validation",
+    "parse",
+    "positive",
+    "int"
+  ],
+  "prerequisites": [
+    "014",
+    "015",
+    "016"
+  ],
+  "estimated_minutes": 20
 }

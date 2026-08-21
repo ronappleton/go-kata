@@ -5,9 +5,29 @@
   "focus": "testing.F, fuzzing, property-based testing, crash detection",
   "signature": "",
   "rules": [
-    "ParseInt(\"42\") =\u003e 42, nil",
-    "ParseInt(\"abc\") =\u003e 0, error",
+    "ParseInt(\"42\") => 42, nil",
+    "ParseInt(\"abc\") => 0, error",
     "Fuzz test runs without crashes"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "real-world-packages",
+  "level": "mid",
+  "tags": [
+    "packages",
+    "libraries",
+    "testing",
+    "fuzzing",
+    "property",
+    "based",
+    "crash",
+    "detection",
+    "fuzz"
+  ],
+  "prerequisites": [
+    "090",
+    "091",
+    "092"
+  ],
+  "estimated_minutes": 30
 }

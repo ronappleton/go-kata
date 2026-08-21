@@ -5,8 +5,24 @@
   "focus": "error wrapping, fmt.Errorf, %w, errors.Is, errors.As",
   "signature": "func FindUser(id int) (string, error)",
   "rules": [
-    "existing user =\u003e returns name, nil error",
-    "missing user =\u003e returns ErrNotFound"
+    "existing user => returns name, nil error",
+    "missing user => returns ErrNotFound"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "error-handling",
+  "level": "junior",
+  "tags": [
+    "errors",
+    "error-handling",
+    "error",
+    "wrapping",
+    "fmt",
+    "errorf",
+    "patterns"
+  ],
+  "prerequisites": [
+    "038"
+  ],
+  "estimated_minutes": 20
 }

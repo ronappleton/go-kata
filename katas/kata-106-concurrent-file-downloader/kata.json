@@ -9,5 +9,25 @@
     "cancel on ctx",
     "return data per url"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "net",
+    "http",
+    "concurrent",
+    "file",
+    "downloader"
+  ],
+  "prerequisites": [
+    "103",
+    "104",
+    "105"
+  ],
+  "estimated_minutes": 30
 }

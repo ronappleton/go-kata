@@ -1,40 +1,38 @@
-# Kata 105 — Dijkstra Shortest Path
+# Kata 135 — Dijkstra Shortest Path
 
-**Focus:** Advanced practice
+**Focus:** graphs, algorithms
 
 ## Your task
 Implement:
 
 ```go
-func Kata75() error
+func ShortestPath(edges map[string]map[string]int, start, goal string) (int, []string, error)
 ```
 
 ### Learning goal
-- What you are building: Build `func Kata75() error` as a reliable contract. Focus: real-world Go integration and testing.
-- Why this matters in real projects: This is how you keep features fast when input size grows.
-- How this grows your Go skills: You practice invariants and complexity reasoning, then prove both with tests.
-- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: match the full README contract; include tests for happy path and edge cases; and keep API and error style idiomatic Go.
+- What you are building: func ShortestPath(edges map[string]map[string]int, start, goal string) (int, []string, error) as a reliable contract. Focus: graphs, algorithms.
+- Why this matters in real projects: real systems depend on exact, testable behavior here.
+- How this grows your Go skills: you practice invariants, edge cases, and test-first discipline.
+- Definition of done (plain English): returns the minimum total cost and a path [start...goal] of nodes where every consecutive pair is an edge and the cost sums to the minimum; error when goal is unreachable.
 
 ### Tips
-- State the invariant first, then code.
-- Test shape edges early: empty, one item, duplicates.
-- Check complexity after correctness.
+- Write tests from the rules before implementation.
+- Name edge cases explicitly: nil, empty, min, max.
+- Keep logic linear; branch only when a rule requires it.
 
 ## Rules / Expectations
-- follow README spec
-- write tests
-- keep it idiomatic
+- minimum total cost
+- valid path (consecutive edges)
+- unreachable => error
+- start == goal => cost 0, path [start]
 
 ## Prior reading
+- [Dijkstra algorithm (Wikipedia)](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)
 - [Go container/heap package](https://pkg.go.dev/container/heap)
-- [Go sort package](https://pkg.go.dev/sort)
-- [Go: Effective Go](https://go.dev/doc/effective_go)
-- [Go package documentation index](https://pkg.go.dev/std)
-- [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- Core lesson: hold invariants first, then optimize safely.
-- After this kata, you should be able to defend algorithm choice, complexity, and corner-case behavior.
+- Core lesson: shortest-path correctness is checkable: verify the cost AND that the returned path is real and sums to it.
+- After this kata, you should be able to justify every rule with a test.
 
 ## What you must submit for marking
 - `kata.go`

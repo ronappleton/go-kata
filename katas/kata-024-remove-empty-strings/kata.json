@@ -7,7 +7,28 @@
   "rules": [
     "remove only exact empty strings \"\"",
     "keep original order of remaining elements",
-    "nil input =\u003e empty slice (not nil)"
+    "nil input => empty slice (not nil)"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "data-structures",
+  "level": "junior",
+  "tags": [
+    "data-structures",
+    "slices",
+    "maps",
+    "strings",
+    "filtering",
+    "loops",
+    "preserving",
+    "order",
+    "remove",
+    "empty"
+  ],
+  "prerequisites": [
+    "021",
+    "022",
+    "023"
+  ],
+  "estimated_minutes": 20
 }

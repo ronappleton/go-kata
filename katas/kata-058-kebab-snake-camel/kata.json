@@ -9,5 +9,24 @@
     "output lowerCamelCase",
     "collapse multiple separators"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "string",
+    "transforms",
+    "kebab",
+    "snake",
+    "camel"
+  ],
+  "prerequisites": [
+    "055",
+    "056",
+    "057"
+  ],
+  "estimated_minutes": 30
 }

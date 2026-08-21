@@ -12,5 +12,19 @@
     "5xx server",
     "otherwise unknown"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "web-networking",
+  "level": "mid",
+  "tags": [
+    "http",
+    "networking",
+    "web",
+    "switch",
+    "ranges",
+    "status",
+    "classifier"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 30
 }

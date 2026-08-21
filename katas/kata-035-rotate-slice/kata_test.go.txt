@@ -1,7 +1,30 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_RotateLeft(t *testing.T) {
-    t.Skip("TODO: write tests for RotateLeft based on README.md")
+func TestRotateLeft(t *testing.T) {
+	tests := []struct {
+		name string
+		in   []int
+		k    int
+		want []int
+	}{
+		{"nil", nil, 2, []int{}},
+		{"k zero", []int{1, 2, 3}, 0, []int{1, 2, 3}},
+		{"k one", []int{1, 2, 3}, 1, []int{2, 3, 1}},
+		{"k larger than len", []int{1, 2, 3}, 4, []int{2, 3, 1}},
+		{"k negative rotates right", []int{1, 2, 3}, -1, []int{3, 1, 2}},
+		{"k multiple of len", []int{1, 2, 3}, 6, []int{1, 2, 3}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := RotateLeft(tt.in, tt.k)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("RotateLeft(%v, %d) = %v, want %v", tt.in, tt.k, got, tt.want)
+			}
+		})
+	}
 }

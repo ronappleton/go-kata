@@ -1,4 +1,4 @@
-# Kata 046 — Run-Length Encoding
+# Kata 049 — Run-Length Encoding
 
 **Focus:** Strings.Builder, runes
 

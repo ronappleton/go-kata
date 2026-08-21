@@ -7,7 +7,22 @@
   "rules": [
     "supports (), {}, []",
     "ignores other chars",
-    "empty =\u003e true"
+    "empty => true"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "stacks",
+    "runes",
+    "bracket",
+    "matcher"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 30
 }

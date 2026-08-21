@@ -2,6 +2,23 @@ package kata
 
 import "testing"
 
-func Test_Kata014(t *testing.T) {
-	t.Skip("TODO: write tests for kata 014 based on README.md")
+func TestCountTrue(t *testing.T) {
+	tests := []struct {
+		name string
+		in   []bool
+		want int
+	}{
+		{"nil", nil, 0},
+		{"empty", []bool{}, 0},
+		{"all true", []bool{true, true, true}, 3},
+		{"all false", []bool{false, false}, 0},
+		{"mixed", []bool{true, false, true, false}, 2},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := CountTrue(tt.in); got != tt.want {
+				t.Errorf("CountTrue(%v) = %d, want %d", tt.in, got, tt.want)
+			}
+		})
+	}
 }

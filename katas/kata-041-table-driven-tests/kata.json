@@ -5,12 +5,27 @@
   "focus": "table-driven tests, subtests, testing.T, test patterns",
   "signature": "",
   "rules": [
-    "Abs of positive =\u003e same number",
-    "Abs of negative =\u003e positive",
-    "Abs of zero =\u003e zero",
-    "Max of a\u003eb =\u003e a",
-    "Max of b\u003ea =\u003e b",
-    "Max of a==b =\u003e a"
+    "Abs of positive => same number",
+    "Abs of negative => positive",
+    "Abs of zero => zero",
+    "Max of a>b => a",
+    "Max of b>a => b",
+    "Max of a==b => a"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "testing-fundamentals",
+  "level": "junior",
+  "tags": [
+    "testing",
+    "table-driven-tests",
+    "table",
+    "driven",
+    "tests",
+    "subtests",
+    "test",
+    "patterns"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 20
 }

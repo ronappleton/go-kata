@@ -1,7 +1,41 @@
 package kata
 
-import "testing"
+import (
+	"testing"
+)
 
-func Test_Kata72(t *testing.T) {
-    t.Skip("TODO: write tests for Kata72 based on README.md")
+func TestNewBloomFilter(t *testing.T) {
+	if _, err := NewBloomFilter(0, 3); err == nil {
+		t.Error("expected error for size 0")
+	}
+	if _, err := NewBloomFilter(100, 0); err == nil {
+		t.Error("expected error for hashCount 0")
+	}
+	if _, err := NewBloomFilter(100, 3); err != nil {
+		t.Errorf("unexpected error: %v", err)
+	}
+}
+
+func TestBloomFilterNoFalseNegatives(t *testing.T) {
+	b, _ := NewBloomFilter(4096, 3)
+	items := []string{"apple", "banana", "cherry", "date", "elderberry", "fig", "grape", "honeydew"}
+	for _, it := range items {
+		b.Add(it)
+	}
+	for _, it := range items {
+		if !b.Contains(it) {
+			t.Errorf("Contains(%q) = false after Add (false negative)", it)
+		}
+	}
+}
+
+func TestBloomFilterMissesUnseen(t *testing.T) {
+	b, _ := NewBloomFilter(65536, 3) // large enough to make false positives negligible
+	b.Add("alpha")
+	b.Add("beta")
+	for _, it := range []string{"gamma", "delta", "epsilon"} {
+		if b.Contains(it) {
+			t.Errorf("Contains(%q) = true for unseen item", it)
+		}
+	}
 }

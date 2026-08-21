@@ -1,10 +1,11 @@
 package kata
 
-// Kata75 — TODO: implement as specified in README.md
+// ShortestPath — TODO: implement as specified in README.md
 //
-// Signature:
-//   func Kata75() error
-func Kata75() error {
-    // TODO: your implementation here
-    return nil
+// edges maps node -> neighbor -> weight. Returns the minimum cost from
+// start to goal and a path of node names, or an error if goal is
+// unreachable from start.
+func ShortestPath(edges map[string]map[string]int, start, goal string) (int, []string, error) {
+	// TODO: your implementation here
+	return 0, nil, nil
 }

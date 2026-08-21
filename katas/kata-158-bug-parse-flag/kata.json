@@ -7,7 +7,29 @@
   "rules": [
     "accept true values: `true`, `1`, `yes` (case-insensitive, trim input)",
     "accept false values: `false`, `0`, `no` (case-insensitive, trim input)",
-    "all other values =\u003e non-nil error"
+    "all other values => non-nil error"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "lead",
+  "category": "bug-fix-lab",
+  "level": "lead",
+  "tags": [
+    "bug-fixing",
+    "debugging",
+    "strings",
+    "tolower",
+    "explicit",
+    "parsing",
+    "error",
+    "handling",
+    "bug",
+    "parse",
+    "flag"
+  ],
+  "prerequisites": [
+    "155",
+    "156",
+    "157"
+  ],
+  "estimated_minutes": 60
 }

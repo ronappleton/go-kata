@@ -5,9 +5,29 @@
   "focus": "interfaces, implicit satisfaction, accept interfaces return structs",
   "signature": "",
   "rules": [
-    "FormalGreeter =\u003e formal greeting",
-    "CasualGreeter =\u003e casual greeting",
+    "FormalGreeter => formal greeting",
+    "CasualGreeter => casual greeting",
     "Both implement Greeter"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "error-handling",
+  "level": "junior",
+  "tags": [
+    "errors",
+    "error-handling",
+    "interfaces",
+    "implicit",
+    "satisfaction",
+    "accept",
+    "return",
+    "structs",
+    "interface",
+    "basics"
+  ],
+  "prerequisites": [
+    "038",
+    "039"
+  ],
+  "estimated_minutes": 20
 }

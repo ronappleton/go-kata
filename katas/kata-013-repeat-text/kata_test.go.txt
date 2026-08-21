@@ -2,6 +2,25 @@ package kata
 
 import "testing"
 
-func Test_Kata008(t *testing.T) {
-	t.Skip("TODO: write tests for kata 008 based on README.md")
+func TestRepeatText(t *testing.T) {
+	tests := []struct {
+		name  string
+		text  string
+		times int
+		want  string
+	}{
+		{"zero times", "ab", 0, ""},
+		{"negative times", "ab", -2, ""},
+		{"once", "ab", 1, "ab"},
+		{"multiple", "ab", 3, "ababab"},
+		{"empty text", "", 5, ""},
+		{"single char", "x", 4, "xxxx"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := RepeatText(tt.text, tt.times); got != tt.want {
+				t.Errorf("RepeatText(%q, %d) = %q, want %q", tt.text, tt.times, got, tt.want)
+			}
+		})
+	}
 }

@@ -1,4 +1,4 @@
-# Kata 113 — JWT Sign/Verify
+# Kata 127 — JWT Sign/Verify
 
 **Focus:** crypto, encoding
 

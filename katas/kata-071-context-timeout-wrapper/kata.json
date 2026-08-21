@@ -9,5 +9,21 @@
     "returns ctx error on timeout",
     "propagates fn error"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "web-networking",
+  "level": "mid",
+  "tags": [
+    "http",
+    "networking",
+    "web",
+    "context",
+    "timeout",
+    "wrapper"
+  ],
+  "prerequisites": [
+    "069",
+    "070"
+  ],
+  "estimated_minutes": 30
 }

@@ -1,4 +1,4 @@
-# Kata 076 — Safe Counter
+# Kata 099 — Safe Counter
 
 **Focus:** sync/atomic or mutex
 

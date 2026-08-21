@@ -2,6 +2,53 @@ package kata
 
 import "testing"
 
-func Test_NewLRU(t *testing.T) {
-    t.Skip("TODO: write tests for NewLRU based on README.md")
+func TestLRU(t *testing.T) {
+	t.Run("invalid capacity errors", func(t *testing.T) {
+		for _, c := range []int{0, -1} {
+			if _, err := NewLRU(c); err == nil {
+				t.Errorf("NewLRU(%d) expected error", c)
+			}
+		}
+	})
+	t.Run("get miss returns ok false", func(t *testing.T) {
+		c, err := NewLRU(2)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if _, ok := c.Get("missing"); ok {
+			t.Error("Get on empty cache should be ok=false")
+		}
+	})
+	t.Run("put then get", func(t *testing.T) {
+		c, _ := NewLRU(2)
+		c.Put("a", "1")
+		v, ok := c.Get("a")
+		if !ok || v != "1" {
+			t.Errorf("Get(a) = (%q, %v), want 1, true", v, ok)
+		}
+	})
+	t.Run("evicts least recently used", func(t *testing.T) {
+		c, _ := NewLRU(2)
+		c.Put("a", "1")
+		c.Put("b", "2")
+		c.Get("a") // a is now most recent
+		c.Put("c", "3") // evicts b
+		if _, ok := c.Get("b"); ok {
+			t.Error("b should have been evicted")
+		}
+		if v, ok := c.Get("a"); !ok || v != "1" {
+			t.Error("a should still be present")
+		}
+		if v, ok := c.Get("c"); !ok || v != "3" {
+			t.Error("c should be present")
+		}
+	})
+	t.Run("put updates value", func(t *testing.T) {
+		c, _ := NewLRU(2)
+		c.Put("a", "1")
+		c.Put("a", "2")
+		if v, _ := c.Get("a"); v != "2" {
+			t.Errorf("Get(a) = %q, want 2", v)
+		}
+	})
 }

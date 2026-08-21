@@ -1,7 +1,38 @@
 package kata
 
-import "testing"
+import (
+	"context"
+	"testing"
+	"time"
+)
 
-func Test_Batch(t *testing.T) {
-    t.Skip("TODO: write tests for Batch based on README.md")
+func TestBatch(t *testing.T) {
+	t.Run("emits when max reached", func(t *testing.T) {
+		in := make(chan int)
+		out := Batch(context.Background(), in, 3, time.Hour)
+		go func() {
+			for i := 0; i < 3; i++ {
+				in <- i
+			}
+		}()
+		select {
+		case batch := <-out:
+			if len(batch) != 3 {
+				t.Errorf("batch len = %d, want 3", len(batch))
+			}
+		case <-time.After(time.Second):
+			t.Fatal("no batch emitted after max reached")
+		}
+		close(in)
+	})
+	t.Run("no empty batches", func(t *testing.T) {
+		in := make(chan int)
+		out := Batch(context.Background(), in, 10, 20*time.Millisecond)
+		close(in)
+		for batch := range out {
+			if len(batch) == 0 {
+				t.Error("empty batch emitted")
+			}
+		}
+	})
 }

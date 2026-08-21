@@ -1,7 +1,37 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_WordCount(t *testing.T) {
-    t.Skip("TODO: write tests for WordCount based on README.md")
+func TestWordCount(t *testing.T) {
+	t.Run("empty returns empty map", func(t *testing.T) {
+		got := WordCount("")
+		if got == nil {
+			t.Error("WordCount empty input returned nil map")
+		}
+		if len(got) != 0 {
+			t.Errorf("WordCount empty input = %v, want empty", got)
+		}
+	})
+	t.Run("counts lowercased words", func(t *testing.T) {
+		tests := []struct {
+			name string
+			in   string
+			want map[string]int
+		}{
+			{"simple", "a b a", map[string]int{"a": 2, "b": 1}},
+			{"case folded", "Go go GO", map[string]int{"go": 3}},
+			{"multi whitespace", "a   b\n\tc", map[string]int{"a": 1, "b": 1, "c": 1}},
+		}
+		for _, tt := range tests {
+			t.Run(tt.name, func(t *testing.T) {
+				got := WordCount(tt.in)
+				if !reflect.DeepEqual(got, tt.want) {
+					t.Errorf("WordCount(%q) = %v, want %v", tt.in, got, tt.want)
+				}
+			})
+		}
+	})
 }

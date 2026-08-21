@@ -1,7 +1,31 @@
 package kata
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
-func Test_Throttle(t *testing.T) {
-    t.Skip("TODO: write tests for Throttle based on README.md")
+func TestThrottle(t *testing.T) {
+	t.Run("max one per period", func(t *testing.T) {
+		in := make(chan struct{})
+		out := Throttle(30*time.Millisecond, in)
+		emitted := 0
+		done := make(chan struct{})
+		go func() {
+			for range out {
+				emitted++
+			}
+			close(done)
+		}()
+		for i := 0; i < 10; i++ {
+			in <- struct{}{}
+			time.Sleep(2 * time.Millisecond)
+		}
+		time.Sleep(150 * time.Millisecond)
+		close(in)
+		<-done
+		if emitted > 4 {
+			t.Errorf("emitted = %d, want <= 4 for 150ms at 30ms period", emitted)
+		}
+	})
 }

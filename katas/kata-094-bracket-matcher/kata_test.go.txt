@@ -2,6 +2,27 @@ package kata
 
 import "testing"
 
-func Test_IsBalanced(t *testing.T) {
-    t.Skip("TODO: write tests for IsBalanced based on README.md")
+func TestIsBalanced(t *testing.T) {
+	tests := []struct {
+		name string
+		in   string
+		want bool
+	}{
+		{"empty", "", true},
+		{"simple", "()", true},
+		{"nested", "([])", true},
+		{"mixed", "{[()]}", true},
+		{"unclosed", "(", false},
+		{"mismatched", "(]", false},
+		{"wrong order", ")( ", false},
+		{"ignores other chars", "a(b)c", true},
+		{"unclosed bracket", "[}", false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := IsBalanced(tt.in); got != tt.want {
+				t.Errorf("IsBalanced(%q) = %v, want %v", tt.in, got, tt.want)
+			}
+		})
+	}
 }

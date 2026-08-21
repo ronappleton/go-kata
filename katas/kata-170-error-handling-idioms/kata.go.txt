@@ -3,7 +3,6 @@ package kata
 import (
 	"errors"
 	"fmt"
-	"strings"
 )
 
 // ErrInvalidEmail is a sentinel error for invalid emails.

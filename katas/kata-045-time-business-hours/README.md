@@ -1,4 +1,4 @@
-# Kata 023 — Is Within Business Hours
+# Kata 045 — Is Within Business Hours
 
 **Focus:** time.Time, time.Location, weekday/hour checks
 

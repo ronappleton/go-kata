@@ -1,7 +1,84 @@
 package kata
 
-import "testing"
+import (
+	"testing"
+)
 
-func Test_Kata76(t *testing.T) {
-    t.Skip("TODO: write tests for Kata76 based on README.md")
+func TestFindPathStraight(t *testing.T) {
+	grid := [][]int{
+		{0, 0, 0},
+		{0, 0, 0},
+		{0, 0, 0},
+	}
+	path, err := FindPath([2]int{0, 0}, [2]int{2, 2}, grid)
+	if err != nil {
+		t.Fatal(err)
+	}
+	checkPath(t, path, [2]int{0, 0}, [2]int{2, 2}, grid)
+}
+
+func TestFindPathAroundWall(t *testing.T) {
+	grid := [][]int{
+		{0, 1, 0},
+		{0, 1, 0},
+		{0, 0, 0},
+	}
+	path, err := FindPath([2]int{0, 0}, [2]int{0, 2}, grid)
+	if err != nil {
+		t.Fatal(err)
+	}
+	checkPath(t, path, [2]int{0, 0}, [2]int{0, 2}, grid)
+}
+
+func TestFindPathStartEqualsGoal(t *testing.T) {
+	grid := [][]int{{0}}
+	path, err := FindPath([2]int{0, 0}, [2]int{0, 0}, grid)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(path) != 1 || path[0] != [2]int{0, 0} {
+		t.Errorf("path = %v, want [[0 0]]", path)
+	}
+}
+
+func TestFindPathUnreachable(t *testing.T) {
+	grid := [][]int{
+		{0, 1, 0},
+		{1, 1, 1},
+		{0, 0, 0},
+	}
+	if _, err := FindPath([2]int{0, 0}, [2]int{0, 2}, grid); err == nil {
+		t.Error("expected error when goal is walled off")
+	}
+}
+
+func checkPath(t *testing.T, path [][2]int, start, goal [2]int, grid [][]int) {
+	t.Helper()
+	if len(path) == 0 {
+		t.Fatal("path is empty")
+	}
+	if path[0] != start {
+		t.Errorf("path start = %v, want %v", path[0], start)
+	}
+	if path[len(path)-1] != goal {
+		t.Errorf("path end = %v, want %v", path[len(path)-1], goal)
+	}
+	for i, cell := range path {
+		if grid[cell[0]][cell[1]] != 0 {
+			t.Fatalf("path cell %v is a wall", cell)
+		}
+		if i > 0 {
+			dr := cell[0] - path[i-1][0]
+			dc := cell[1] - path[i-1][1]
+			if dr < 0 {
+				dr = -dr
+			}
+			if dc < 0 {
+				dc = -dc
+			}
+			if dr+dc != 1 {
+				t.Fatalf("path step %v -> %v is not adjacent", path[i-1], cell)
+			}
+		}
+	}
 }

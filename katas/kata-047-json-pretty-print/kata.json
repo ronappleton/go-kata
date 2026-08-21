@@ -5,10 +5,30 @@
   "focus": "encoding/json validation and formatting",
   "signature": "func PrettyJSON(input []byte) ([]byte, error)",
   "rules": [
-    "invalid JSON input =\u003e non-nil error",
-    "valid JSON =\u003e pretty-print with 2-space indentation",
+    "invalid JSON input => non-nil error",
+    "valid JSON => pretty-print with 2-space indentation",
     "output ends with a trailing newline",
     "semantic JSON content remains unchanged"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "encoding",
+    "json",
+    "validation",
+    "formatting",
+    "pretty",
+    "print"
+  ],
+  "prerequisites": [
+    "044",
+    "045",
+    "046"
+  ],
+  "estimated_minutes": 30
 }

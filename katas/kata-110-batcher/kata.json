@@ -3,11 +3,28 @@
   "slug": "batcher",
   "title": "Batcher",
   "focus": "Time, channels",
-  "signature": "func Batch[T any](ctx context.Context, in \u003c-chan T, max int, every time.Duration) \u003c-chan []T",
+  "signature": "func Batch[T any](ctx context.Context, in <-chan T, max int, every time.Duration) <-chan []T",
   "rules": [
     "emit when max reached or timer fires",
     "flush on close",
     "no empty batches"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "time",
+    "batcher"
+  ],
+  "prerequisites": [
+    "107",
+    "108",
+    "109"
+  ],
+  "estimated_minutes": 30
 }

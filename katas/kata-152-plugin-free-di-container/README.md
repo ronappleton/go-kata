@@ -1,4 +1,4 @@
-# Kata 130 — Plugin-free DI Container
+# Kata 152 — Plugin-free DI Container
 
 **Focus:** Design
 

@@ -1,7 +1,29 @@
 package kata
 
-import "testing"
+import (
+	"context"
+	"net/http"
+	"testing"
+	"time"
+)
 
-func Test_ServeGraceful(t *testing.T) {
-    t.Skip("TODO: write tests for ServeGraceful based on README.md")
+func TestServeGraceful(t *testing.T) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(50 * time.Millisecond)
+		w.WriteHeader(200)
+	})
+	stop, err := ServeGraceful("127.0.0.1:0", handler)
+	if err != nil {
+		t.Fatalf("ServeGraceful error: %v", err)
+	}
+	if stop == nil {
+		t.Fatal("stop function is nil")
+	}
+	// Find the listener addr via a probe: we can't easily know the port, so just
+	// exercise stop with a short timeout and expect no error.
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	if err := stop(ctx); err != nil {
+		t.Fatalf("stop error: %v", err)
+	}
 }

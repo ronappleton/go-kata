@@ -1,7 +1,36 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_TopNWords(t *testing.T) {
-    t.Skip("TODO: write tests for TopNWords based on README.md")
+func TestTopNWords(t *testing.T) {
+	t.Run("n<=0 empty", func(t *testing.T) {
+		for _, n := range []int{0, -1} {
+			if got := TopNWords("a b", n); len(got) != 0 {
+				t.Errorf("TopNWords(_, %d) = %v, want empty", n, got)
+			}
+		}
+	})
+	t.Run("top words", func(t *testing.T) {
+		got := TopNWords("go go go python python java", 2)
+		want := []string{"go", "python"}
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("TopNWords = %v, want %v", got, want)
+		}
+	})
+	t.Run("ties alphabetical", func(t *testing.T) {
+		got := TopNWords("b b a a", 2)
+		want := []string{"a", "b"}
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("TopNWords tie = %v, want %v", got, want)
+		}
+	})
+	t.Run("case folded", func(t *testing.T) {
+		got := TopNWords("Go go", 1)
+		if !reflect.DeepEqual(got, []string{"go"}) {
+			t.Errorf("TopNWords = %v, want [go]", got)
+		}
+	})
 }

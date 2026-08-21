@@ -1,6 +1,5 @@
 package kata
 
-import "strings"
 
 // SanitizeInput removes potentially dangerous characters from user input.
 // Your task: implement proper input sanitization.

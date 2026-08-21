@@ -1,7 +1,50 @@
 package kata
 
-import "testing"
+import (
+	"bytes"
+	"errors"
+	"testing"
+)
 
-func Test_Kata139(t *testing.T) {
-	t.Skip("TODO: write tests for kata 139 based on README.md")
+func TestReadExactlyN(t *testing.T) {
+	t.Run("negative n errors", func(t *testing.T) {
+		if _, err := ReadExactlyN(bytes.NewReader([]byte("abc")), -1); err == nil {
+			t.Error("expected error for negative n")
+		}
+	})
+	t.Run("zero n empty", func(t *testing.T) {
+		got, err := ReadExactlyN(bytes.NewReader([]byte("abc")), 0)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if len(got) != 0 {
+			t.Errorf("len = %d, want 0", len(got))
+		}
+	})
+	t.Run("exactly n bytes", func(t *testing.T) {
+		got, err := ReadExactlyN(bytes.NewReader([]byte("hello")), 3)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if string(got) != "hel" {
+			t.Errorf("got %q, want %q", got, "hel")
+		}
+	})
+	t.Run("short read errors", func(t *testing.T) {
+		if _, err := ReadExactlyN(bytes.NewReader([]byte("ab")), 5); err == nil {
+			t.Error("expected error for short read")
+		}
+	})
+	t.Run("reader error propagates", func(t *testing.T) {
+		r := &errorReader{err: errors.New("boom")}
+		if _, err := ReadExactlyN(r, 5); err == nil {
+			t.Error("expected reader error")
+		}
+	})
+}
+
+type errorReader struct{ err error }
+
+func (r *errorReader) Read(p []byte) (int, error) {
+	return 0, r.err
 }

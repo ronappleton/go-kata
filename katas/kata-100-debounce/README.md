@@ -1,4 +1,4 @@
-# Kata 077 — Debounce
+# Kata 100 — Debounce
 
 **Focus:** Time, channels
 

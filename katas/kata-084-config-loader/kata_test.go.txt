@@ -1,7 +1,28 @@
 package kata
 
-import "testing"
+import (
+	"os"
+	"path/filepath"
+	"testing"
+)
 
-func Test_LoadConfig(t *testing.T) {
-    t.Skip("TODO: write tests for LoadConfig based on README.md")
+func TestLoadConfig(t *testing.T) {
+	dir := t.TempDir()
+	p := filepath.Join(dir, "config.env")
+	os.WriteFile(p, []byte("HOST=localhost\nPORT=8080\n  SPACED = value  \n"), 0o644)
+	t.Setenv("GOKATAS_PORT", "9090")
+
+	got, err := LoadConfig(p, "GOKATAS_")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got["HOST"] != "localhost" {
+		t.Errorf("HOST = %q", got["HOST"])
+	}
+	if got["SPACED"] != "value" {
+		t.Errorf("SPACED = %q, want trimmed value", got["SPACED"])
+	}
+	if got["PORT"] != "9090" {
+		t.Errorf("PORT = %q, want env override 9090", got["PORT"])
+	}
 }

@@ -9,5 +9,19 @@
     "include exp",
     "also implement VerifyJWT(token, secret)"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "senior",
+  "category": "security",
+  "level": "senior",
+  "tags": [
+    "security",
+    "hardening",
+    "crypto",
+    "encoding",
+    "jwt",
+    "sign",
+    "verify"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 45
 }

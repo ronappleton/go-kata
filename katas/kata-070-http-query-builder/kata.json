@@ -9,5 +9,21 @@
     "values preserve given order",
     "proper escaping"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "web-networking",
+  "level": "mid",
+  "tags": [
+    "http",
+    "networking",
+    "web",
+    "net",
+    "url",
+    "query",
+    "builder"
+  ],
+  "prerequisites": [
+    "069"
+  ],
+  "estimated_minutes": 30
 }

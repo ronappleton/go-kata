@@ -1,7 +1,47 @@
 package kata
 
-import "testing"
+import (
+	"net/url"
+	"strings"
+	"testing"
+)
 
-func Test_Kata024(t *testing.T) {
-	t.Skip("TODO: write tests for kata 024 based on README.md")
+func TestBuildSearchURL(t *testing.T) {
+	t.Run("invalid base errors", func(t *testing.T) {
+		if _, err := BuildSearchURL("://bad", map[string]string{"q": "x"}); err == nil {
+			t.Error("expected error for invalid base URL")
+		}
+	})
+	t.Run("adds params and preserves existing", func(t *testing.T) {
+		got, err := BuildSearchURL("https://example.com/search?existing=1", map[string]string{"q": "go lang", "page": "2"})
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		u, err := url.Parse(got)
+		if err != nil {
+			t.Fatalf("result not a URL: %v", err)
+		}
+		q := u.Query()
+		if q.Get("existing") != "1" {
+			t.Errorf("existing param lost: %s", got)
+		}
+		if q.Get("q") != "go lang" {
+			t.Errorf("q param = %q, want encoded", q.Get("q"))
+		}
+		if q.Get("page") != "2" {
+			t.Errorf("page param missing")
+		}
+	})
+	t.Run("skips empty values", func(t *testing.T) {
+		got, err := BuildSearchURL("https://example.com", map[string]string{"q": "", "keep": "yes"})
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if strings.Contains(got, "q=") {
+			t.Errorf("empty param should be skipped: %s", got)
+		}
+		if !strings.Contains(got, "keep=yes") {
+			t.Errorf("non-empty param missing: %s", got)
+		}
+	})
 }

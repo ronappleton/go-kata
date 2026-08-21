@@ -6,8 +6,27 @@
   "signature": "func BinarySearch[T ~int | ~int64 | ~float64 | ~string](sorted []T, target T) int",
   "rules": [
     "return index or -1",
-    "empty =\u003e -1",
+    "empty => -1",
     "assumes sorted input"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "data-structures",
+  "level": "junior",
+  "tags": [
+    "data-structures",
+    "slices",
+    "maps",
+    "strings",
+    "algorithms",
+    "generics",
+    "binary",
+    "search"
+  ],
+  "prerequisites": [
+    "033",
+    "034",
+    "035"
+  ],
+  "estimated_minutes": 20
 }

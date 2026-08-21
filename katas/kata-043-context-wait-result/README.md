@@ -1,4 +1,4 @@
-# Kata 028 — Wait For Context Or Duration
+# Kata 043 — Wait For Context Or Duration
 
 **Focus:** context cancellation, time.Timer selection
 

@@ -1,4 +1,4 @@
-# Kata 017 — Budget Status
+# Kata 016 — Budget Status
 
 **Focus:** Arithmetic comparison, decision outcomes
 

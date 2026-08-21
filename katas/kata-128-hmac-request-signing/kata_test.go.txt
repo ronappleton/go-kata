@@ -1,7 +1,62 @@
 package kata
 
-import "testing"
+import (
+	"crypto/sha256"
+	"encoding/hex"
+	"testing"
+)
 
-func Test_SignRequest(t *testing.T) {
-    t.Skip("TODO: write tests for SignRequest based on README.md")
+func TestSignRequestDeterministic(t *testing.T) {
+	s1 := SignRequest("POST", "/api/users", []byte("body"), []byte("secret"))
+	s2 := SignRequest("POST", "/api/users", []byte("body"), []byte("secret"))
+	if s1 == "" {
+		t.Fatal("signature is empty")
+	}
+	if s1 != s2 {
+		t.Errorf("signature not deterministic: %q vs %q", s1, s2)
+	}
 }
+
+func TestSignRequestHex(t *testing.T) {
+	sig := SignRequest("GET", "/", nil, []byte("k"))
+	if _, err := hex.DecodeString(sig); err != nil {
+		t.Errorf("signature %q is not hex: %v", sig, err)
+	}
+	if len(sig) != 64 {
+		t.Errorf("signature length = %d, want 64 (SHA-256)", len(sig))
+	}
+}
+
+func TestVerifyRequest(t *testing.T) {
+	sig := SignRequest("GET", "/api/health", nil, []byte("secret"))
+	if !VerifyRequest(sig, "GET", "/api/health", nil, []byte("secret")) {
+		t.Error("VerifyRequest should accept a valid signature")
+	}
+}
+
+func TestVerifyRequestRejectsTampering(t *testing.T) {
+	sig := SignRequest("POST", "/api/users", []byte("original"), []byte("secret"))
+	if VerifyRequest(sig, "POST", "/api/users", []byte("tampered"), []byte("secret")) {
+		t.Error("VerifyRequest should reject tampered body")
+	}
+	if VerifyRequest(sig, "GET", "/api/users", []byte("original"), []byte("secret")) {
+		t.Error("VerifyRequest should reject different method")
+	}
+	if VerifyRequest(sig, "POST", "/api/other", []byte("original"), []byte("secret")) {
+		t.Error("VerifyRequest should reject different path")
+	}
+	if VerifyRequest(sig, "POST", "/api/users", []byte("original"), []byte("other")) {
+		t.Error("VerifyRequest should reject different secret")
+	}
+}
+
+func TestSignRequestCanonicalizes(t *testing.T) {
+	// A body's raw bytes matter; the signature must change with the body.
+	sig1 := SignRequest("PUT", "/x", []byte("a"), []byte("s"))
+	sig2 := SignRequest("PUT", "/x", []byte("b"), []byte("s"))
+	if sig1 == sig2 {
+		t.Error("signatures should differ when the body differs")
+	}
+}
+
+var _ = sha256.Sum256

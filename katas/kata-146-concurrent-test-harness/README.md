@@ -1,40 +1,38 @@
-# Kata 125 — Concurrent Test Harness
+# Kata 146 — Concurrent Test Harness
 
-**Focus:** Advanced practice
+**Focus:** concurrency, testing
 
 ## Your task
 Implement:
 
 ```go
-func Kata95() error
+type TestCase struct { Name string; Run func() error }; func RunTests(tests []TestCase, workers int) (passed int, failed int)
 ```
 
 ### Learning goal
-- What you are building: Build `func Kata95() error` as a reliable contract. Focus: real-world Go integration and testing.
-- Why this matters in real projects: Concurrency bugs are expensive. You are learning to prevent them by design.
-- How this grows your Go skills: You practice ownership, cancellation, synchronization, and leak-free shutdown.
-- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: match the full README contract; include tests for happy path and edge cases; and keep API and error style idiomatic Go.
+- What you are building: type TestCase struct { Name string; Run func() error }; func RunTests(tests []TestCase, workers int) (passed int, failed int) as a reliable contract. Focus: concurrency, testing.
+- Why this matters in real projects: real systems depend on exact, testable behavior here.
+- How this grows your Go skills: you practice invariants, edge cases, and test-first discipline.
+- Definition of done (plain English): runs every test, at most workers concurrently, and returns how many passed and failed; workers < 1 means unlimited (each test its own goroutine).
 
 ### Tips
-- Decide ownership first: who starts, stops, and closes.
-- Test cancellation and shutdown before throughput.
-- Run `go test -race ./...` regularly.
+- Write tests from the rules before implementation.
+- Name edge cases explicitly: nil, empty, min, max.
+- Keep logic linear; branch only when a rule requires it.
 
 ## Rules / Expectations
-- follow README spec
-- write tests
-- keep it idiomatic
+- concurrency limited by workers
+- passed/failed counts
+- nil error => passed
+- workers < 1 => unlimited
 
 ## Prior reading
-- [Go memory model](https://go.dev/ref/mem)
 - [Go sync package](https://pkg.go.dev/sync)
-- [Go: Effective Go](https://go.dev/doc/effective_go)
-- [Go package documentation index](https://pkg.go.dev/std)
-- [Go language specification](https://go.dev/ref/spec)
+- [Go testing package](https://pkg.go.dev/testing)
 
 ## What this kata is about (and why it matters)
-- Core lesson: own lifecycle and shutdown before chasing throughput.
-- After this kata, you should be able to explain who starts, who stops, and who closes every path.
+- Core lesson: a harness is a concurrency primitive: bound the workers, count outcomes, and never leak goroutines.
+- After this kata, you should be able to justify every rule with a test.
 
 ## What you must submit for marking
 - `kata.go`

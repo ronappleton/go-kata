@@ -1,4 +1,4 @@
-# Kata 114 — HMAC Request Signing
+# Kata 128 — HMAC Request Signing
 
 **Focus:** crypto/hmac
 

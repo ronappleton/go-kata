@@ -2,6 +2,27 @@ package kata
 
 import "testing"
 
-func Test_Caesar(t *testing.T) {
-    t.Skip("TODO: write tests for Caesar based on README.md")
+func TestCaesar(t *testing.T) {
+	tests := []struct {
+		name  string
+		in    string
+		shift int
+		want  string
+	}{
+		{"lowercase", "abc", 1, "bcd"},
+		{"wraps", "xyz", 3, "abc"},
+		{"uppercase", "XYZ", 3, "ABC"},
+		{"preserves case", "aBc", 1, "bCd"},
+		{"non-letters unchanged", "a b!", 1, "b c!"},
+		{"negative shift", "abc", -1, "zab"},
+		{"zero shift", "abc", 0, "abc"},
+		{"large shift wraps", "abc", 26, "abc"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := Caesar(tt.in, tt.shift); got != tt.want {
+				t.Errorf("Caesar(%q, %d) = %q, want %q", tt.in, tt.shift, got, tt.want)
+			}
+		})
+	}
 }

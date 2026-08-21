@@ -6,7 +6,25 @@
   "signature": "",
   "rules": [
     "Push, Pop, Peek, Len",
-    "Pop/Peek on empty =\u003e ok false"
+    "Pop/Peek on empty => ok false"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "data",
+    "structures",
+    "generics",
+    "stack"
+  ],
+  "prerequisites": [
+    "053",
+    "054",
+    "055"
+  ],
+  "estimated_minutes": 30
 }

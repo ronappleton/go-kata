@@ -5,9 +5,31 @@
   "focus": "Arithmetic comparison, decision outcomes",
   "signature": "func BudgetStatus(income, expenses int) string",
   "rules": [
-    "income-expenses \u003e 0 =\u003e \"surplus\"",
-    "income-expenses == 0 =\u003e \"balanced\"",
-    "income-expenses \u003c 0 =\u003e \"deficit\""
+    "income-expenses > 0 => \"surplus\"",
+    "income-expenses == 0 => \"balanced\"",
+    "income-expenses < 0 => \"deficit\""
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "language-basics",
+  "level": "junior",
+  "tags": [
+    "basics",
+    "types",
+    "functions",
+    "conditionals",
+    "loops",
+    "arithmetic",
+    "comparison",
+    "decision",
+    "outcomes",
+    "budget",
+    "status"
+  ],
+  "prerequisites": [
+    "013",
+    "014",
+    "015"
+  ],
+  "estimated_minutes": 20
 }

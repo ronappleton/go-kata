@@ -6,8 +6,30 @@
   "signature": "func FindIndex(values []string, target string) int",
   "rules": [
     "returns first matching index",
-    "no match =\u003e -1",
+    "no match => -1",
     "comparison is case-sensitive"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "data-structures",
+  "level": "junior",
+  "tags": [
+    "data-structures",
+    "slices",
+    "maps",
+    "strings",
+    "linear",
+    "search",
+    "return",
+    "conventions",
+    "find",
+    "first",
+    "index"
+  ],
+  "prerequisites": [
+    "022",
+    "023",
+    "024"
+  ],
+  "estimated_minutes": 20
 }

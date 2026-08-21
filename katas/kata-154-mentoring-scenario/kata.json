@@ -9,5 +9,25 @@
     "Includes positive, improvement, or question categories",
     "Has priority levels"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "lead",
+  "category": "leadership-communication",
+  "level": "lead",
+  "tags": [
+    "leadership",
+    "communication",
+    "mentoring",
+    "code",
+    "review",
+    "feedback",
+    "teaching",
+    "patterns",
+    "knowledge",
+    "transfer",
+    "scenario"
+  ],
+  "prerequisites": [
+    "153"
+  ],
+  "estimated_minutes": 60
 }

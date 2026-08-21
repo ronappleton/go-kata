@@ -1,10 +1,35 @@
 package kata
 
-// Kata70 — TODO: implement as specified in README.md
-//
-// Signature:
-//   func Kata70() error
-func Kata70() error {
-    // TODO: your implementation here
-    return nil
+import (
+	"sync"
+)
+
+// NewLRUCache — TODO: implement as specified in README.md
+func NewLRUCache(capacity int) (*LRUCache, error) {
+	// TODO: your implementation here
+	return nil, nil
+}
+
+// LRUCache — a thread-safe LRU cache. Implement as specified in README.md.
+type LRUCache struct {
+	mu       sync.Mutex
+	capacity int
+	// TODO: your implementation here
+}
+
+// Get — TODO: implement as specified in README.md
+func (c *LRUCache) Get(key string) (string, bool) {
+	// TODO: your implementation here
+	return "", false
+}
+
+// Put — TODO: implement as specified in README.md
+func (c *LRUCache) Put(key, value string) {
+	// TODO: your implementation here
+}
+
+// Len — TODO: implement as specified in README.md
+func (c *LRUCache) Len() int {
+	// TODO: your implementation here
+	return 0
 }

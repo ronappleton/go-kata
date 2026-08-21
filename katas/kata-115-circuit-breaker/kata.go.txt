@@ -4,7 +4,34 @@ package kata
 //
 // Signature:
 //   func NewBreaker(failureThreshold int, resetAfter time.Duration) (*Breaker, error)
+import (
+	"time"
+)
+
 func NewBreaker(failureThreshold int, resetAfter time.Duration) (*Breaker, error) {
     // TODO: your implementation here
     return nil, nil
+}
+
+// Breaker — TODO: implement as specified in README.md
+type Breaker struct {
+	// TODO: your implementation here
+}
+
+// Allow() bool — TODO: implement as specified in README.md
+func (t *Breaker) Allow() bool {
+	// TODO: your implementation here
+	return false
+}
+
+// Success() — TODO: implement as specified in README.md
+func (t *Breaker) Success() {
+	// TODO: your implementation here
+	return
+}
+
+// Failure() — TODO: implement as specified in README.md
+func (t *Breaker) Failure() {
+	// TODO: your implementation here
+	return
 }

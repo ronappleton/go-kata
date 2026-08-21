@@ -5,10 +5,30 @@
   "focus": "errors.Is, sentinel errors, strings.TrimSpace",
   "signature": "func FindUserName(users map[string]string, id string) (string, error)",
   "rules": [
-    "blank id after trim =\u003e return error wrapping `ErrInvalidUserID`",
-    "unknown id =\u003e return error wrapping `ErrUserNotFound`",
+    "blank id after trim => return error wrapping `ErrInvalidUserID`",
+    "unknown id => return error wrapping `ErrUserNotFound`",
     "found name should be returned trimmed",
-    "successful lookup =\u003e name and nil error"
+    "successful lookup => name and nil error"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "data-structures",
+  "level": "junior",
+  "tags": [
+    "data-structures",
+    "slices",
+    "maps",
+    "strings",
+    "errors",
+    "sentinel",
+    "trimspace",
+    "user",
+    "lookup"
+  ],
+  "prerequisites": [
+    "027",
+    "028",
+    "029"
+  ],
+  "estimated_minutes": 20
 }

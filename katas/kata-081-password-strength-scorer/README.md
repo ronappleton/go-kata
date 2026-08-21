@@ -1,4 +1,4 @@
-# Kata 070 — Password Strength Scorer
+# Kata 081 — Password Strength Scorer
 
 **Focus:** Rules
 

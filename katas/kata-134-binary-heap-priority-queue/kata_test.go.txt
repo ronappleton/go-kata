@@ -1,7 +1,87 @@
 package kata
 
-import "testing"
+import (
+	"testing"
+)
 
-func Test_Kata74(t *testing.T) {
-    t.Skip("TODO: write tests for Kata74 based on README.md")
+func TestMinHeapOrder(t *testing.T) {
+	q := NewPriorityQueue(true)
+	q.Push(30, "c")
+	q.Push(10, "a")
+	q.Push(20, "b")
+	if q.Len() != 3 {
+		t.Errorf("Len = %d, want 3", q.Len())
+	}
+	p, v, ok := q.Pop()
+	if !ok || p != 10 || v != "a" {
+		t.Errorf("first Pop = (%d,%q,%v), want (10,a,true)", p, v, ok)
+	}
+	p, v, _ = q.Pop()
+	if p != 20 || v != "b" {
+		t.Errorf("second Pop = (%d,%q), want (20,b)", p, v)
+	}
+	p, v, _ = q.Pop()
+	if p != 30 || v != "c" {
+		t.Errorf("third Pop = (%d,%q), want (30,c)", p, v)
+	}
+	if q.Len() != 0 {
+		t.Errorf("Len = %d after pops, want 0", q.Len())
+	}
+}
+
+func TestMaxHeapOrder(t *testing.T) {
+	q := NewPriorityQueue(false)
+	q.Push(5, "low")
+	q.Push(50, "high")
+	q.Push(25, "mid")
+	p, v, _ := q.Pop()
+	if p != 50 || v != "high" {
+		t.Errorf("first Pop = (%d,%q), want (50,high)", p, v)
+	}
+}
+
+func TestEmptyQueue(t *testing.T) {
+	q := NewPriorityQueue(true)
+	if _, _, ok := q.Pop(); ok {
+		t.Error("Pop on empty should return ok=false")
+	}
+	if _, _, ok := q.Peek(); ok {
+		t.Error("Peek on empty should return ok=false")
+	}
+	if q.Len() != 0 {
+		t.Errorf("Len = %d, want 0", q.Len())
+	}
+}
+
+func TestPeekDoesNotRemove(t *testing.T) {
+	q := NewPriorityQueue(true)
+	q.Push(7, "x")
+	p, v, ok := q.Peek()
+	if !ok || p != 7 || v != "x" {
+		t.Errorf("Peek = (%d,%q,%v), want (7,x,true)", p, v, ok)
+	}
+	if q.Len() != 1 {
+		t.Errorf("Len after Peek = %d, want 1", q.Len())
+	}
+}
+
+func TestDuplicatePriorities(t *testing.T) {
+	q := NewPriorityQueue(true)
+	q.Push(1, "a")
+	q.Push(1, "b")
+	q.Push(2, "c")
+	count := 0
+	for q.Len() > 0 {
+		p, _, ok := q.Pop()
+		if !ok {
+			t.Fatal("unexpected empty pop")
+		}
+		if p < 1 || p > 2 {
+			t.Errorf("priority = %d out of range", p)
+		}
+		count++
+	}
+	if count != 3 {
+		t.Errorf("popped %d items, want 3", count)
+	}
 }

@@ -1,10 +1,10 @@
 package kata
 
-// Kata79 — TODO: implement as specified in README.md
+// ValidateJSON — TODO: implement as specified in README.md
 //
-// Signature:
-//   func Kata79() error
-func Kata79() error {
-    // TODO: your implementation here
-    return nil
+// Supports the schema subset: {"type": "...", "properties": {...}, "required": [...]}.
+// Returns a descriptive error for the first violation, nil when the doc is valid.
+func ValidateJSON(doc, schema []byte) error {
+	// TODO: your implementation here
+	return nil
 }

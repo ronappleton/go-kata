@@ -1,10 +1,45 @@
 package kata
 
-// Kata77 — TODO: implement as specified in README.md
+// Event — a single immutable fact. Implement as specified in README.md.
+type Event struct {
+	Type string
+	Data map[string]any
+}
+
+// Store — an in-memory event log. Implement as specified in README.md.
+type Store struct {
+	// TODO: your implementation here
+}
+
+// NewStore — TODO: implement as specified in README.md
+func NewStore() *Store {
+	// TODO: your implementation here
+	return nil
+}
+
+// Append — TODO: implement as specified in README.md
+func (s *Store) Append(e Event) int {
+	// TODO: your implementation here
+	return 0
+}
+
+// Events — TODO: implement as specified in README.md
+func (s *Store) Events() []Event {
+	// TODO: your implementation here
+	return nil
+}
+
+// EventsSince — TODO: implement as specified in README.md
+func (s *Store) EventsSince(seq int) []Event {
+	// TODO: your implementation here
+	return nil
+}
+
+// ApplyAccount — TODO: implement as specified in README.md
 //
-// Signature:
-//   func Kata77() error
-func Kata77() error {
-    // TODO: your implementation here
-    return nil
+// Replays deposit/withdraw events (amount float64 in Data) into a
+// balance. Errors on unknown types or an overdraft.
+func ApplyAccount(events []Event) (int, error) {
+	// TODO: your implementation here
+	return 0, nil
 }

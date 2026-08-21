@@ -6,8 +6,31 @@
   "signature": "func SwapFirstLast(values []int) []int",
   "rules": [
     "result must be a new slice (input untouched)",
-    "length less than 2 =\u003e returned copy matches input order",
-    "length \u003e=2 =\u003e first and last elements swapped"
+    "length less than 2 => returned copy matches input order",
+    "length >=2 => first and last elements swapped"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "data-structures",
+  "level": "junior",
+  "tags": [
+    "data-structures",
+    "slices",
+    "maps",
+    "strings",
+    "slice",
+    "copying",
+    "mutation",
+    "safety",
+    "indexing",
+    "swap",
+    "first",
+    "last"
+  ],
+  "prerequisites": [
+    "020",
+    "021",
+    "022"
+  ],
+  "estimated_minutes": 20
 }

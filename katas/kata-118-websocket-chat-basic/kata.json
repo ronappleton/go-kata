@@ -9,5 +9,24 @@
     "write tests",
     "keep it idiomatic"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "senior",
+  "category": "architecture-design",
+  "level": "senior",
+  "tags": [
+    "architecture",
+    "design",
+    "patterns",
+    "advanced",
+    "practice",
+    "websocket",
+    "chat",
+    "basic"
+  ],
+  "prerequisites": [
+    "115",
+    "116",
+    "117"
+  ],
+  "estimated_minutes": 45
 }

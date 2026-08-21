@@ -1,7 +1,30 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_ParseLogLine(t *testing.T) {
-    t.Skip("TODO: write tests for ParseLogLine based on README.md")
+func TestParseLogLine(t *testing.T) {
+	tests := []struct {
+		name string
+		in   string
+		want map[string]string
+	}{
+		{"simple", "level=info msg=started", map[string]string{"level": "info", "msg": "started"}},
+		{"quoted values", "msg=\"hello world\"", map[string]string{"msg": "hello world"}},
+		{"duplicate keys last wins", "a=1 a=2", map[string]string{"a": "2"}},
+		{"empty line", "", map[string]string{}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := ParseLogLine(tt.in)
+			if err != nil {
+				t.Fatalf("ParseLogLine(%q) error: %v", tt.in, err)
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ParseLogLine(%q) = %v, want %v", tt.in, got, tt.want)
+			}
+		})
+	}
 }

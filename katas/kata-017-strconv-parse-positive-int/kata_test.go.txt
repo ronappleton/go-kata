@@ -2,6 +2,36 @@ package kata
 
 import "testing"
 
-func Test_Kata022(t *testing.T) {
-	t.Skip("TODO: write tests for kata 022 based on README.md")
+func TestParsePositiveInt(t *testing.T) {
+	t.Run("valid inputs", func(t *testing.T) {
+		tests := []struct {
+			name  string
+			input string
+			want  int
+		}{
+			{"plain", "42", 42},
+			{"leading spaces", "  42", 42},
+			{"trailing spaces", "42  ", 42},
+			{"both sides", "  42  ", 42},
+		}
+		for _, tt := range tests {
+			t.Run(tt.name, func(t *testing.T) {
+				got, err := ParsePositiveInt(tt.input)
+				if err != nil {
+					t.Fatalf("ParsePositiveInt(%q) unexpected error: %v", tt.input, err)
+				}
+				if got != tt.want {
+					t.Errorf("ParsePositiveInt(%q) = %d, want %d", tt.input, got, tt.want)
+				}
+			})
+		}
+	})
+	t.Run("invalid inputs error", func(t *testing.T) {
+		inputs := []string{"", "   ", "abc", "12abc", "3.14", "0", "-5", "- 5"}
+		for _, in := range inputs {
+			if _, err := ParsePositiveInt(in); err == nil {
+				t.Errorf("ParsePositiveInt(%q) expected error, got nil", in)
+			}
+		}
+	})
 }

@@ -4,6 +4,10 @@ package kata
 //
 // Signature:
 //   func Retry(attempts int, baseDelay time.Duration, fn func() error) error
+import (
+	"time"
+)
+
 func Retry(attempts int, baseDelay time.Duration, fn func() error) error {
     // TODO: your implementation here
     return nil

@@ -1,7 +1,100 @@
 package kata
 
-import "testing"
+import (
+	"bufio"
+	"fmt"
+	"net"
+	"testing"
+	"time"
+)
 
-func Test_StartEchoServer(t *testing.T) {
-    t.Skip("TODO: write tests for StartEchoServer based on README.md")
+func TestStartEchoServer(t *testing.T) {
+	// Grab a free port so the test can dial the server.
+	probe, err := net.Listen("tcp", "127.0.0.1:0")
+	if err != nil {
+		t.Fatal(err)
+	}
+	addr := probe.Addr().String()
+	probe.Close()
+
+	stop, err := StartEchoServer(addr)
+	if err != nil {
+		t.Fatalf("StartEchoServer error: %v", err)
+	}
+	if stop == nil {
+		t.Fatal("stop is nil")
+	}
+
+	// Multiple concurrent clients; each gets its own echo.
+	const clients = 3
+	errCh := make(chan error, clients)
+	for i := 0; i < clients; i++ {
+		go func(n int) {
+			conn, err := net.Dial("tcp", addr)
+			if err != nil {
+				errCh <- err
+				return
+			}
+			defer conn.Close()
+			msg := fmt.Sprintf("hello-%d\n", n)
+			if _, err := conn.Write([]byte(msg)); err != nil {
+				errCh <- err
+				return
+			}
+			line, err := bufio.NewReader(conn).ReadString('\n')
+			if err != nil {
+				errCh <- err
+				return
+			}
+			if line != msg {
+				errCh <- fmt.Errorf("echo = %q, want %q", line, msg)
+				return
+			}
+			errCh <- nil
+		}(i)
+	}
+	for i := 0; i < clients; i++ {
+		if err := <-errCh; err != nil {
+			t.Error(err)
+		}
+	}
+
+	// Graceful stop returns promptly.
+	done := make(chan error, 1)
+	go func() { done <- stop() }()
+	select {
+	case err := <-done:
+		if err != nil {
+			t.Errorf("stop error: %v", err)
+		}
+	case <-time.After(2 * time.Second):
+		t.Fatal("stop did not return in time")
+	}
+
+	// After stop, new connections are refused.
+	if c, err := net.DialTimeout("tcp", addr, 500*time.Millisecond); err == nil {
+		c.Close()
+		t.Error("expected connection refused after stop")
+	}
+}
+
+func TestStartEchoServerStopsOnSecondCall(t *testing.T) {
+	probe, err := net.Listen("tcp", "127.0.0.1:0")
+	if err != nil {
+		t.Fatal(err)
+	}
+	addr := probe.Addr().String()
+	probe.Close()
+
+	stop, err := StartEchoServer(addr)
+	if err != nil {
+		t.Fatalf("StartEchoServer error: %v", err)
+	}
+	if err := stop(); err != nil {
+		t.Errorf("first stop error: %v", err)
+	}
+	// Calling stop again must not panic or hang.
+	if err := stop(); err != nil {
+		t.Errorf("second stop error: %v", err)
+	}
 }

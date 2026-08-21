@@ -2,6 +2,26 @@ package kata
 
 import "testing"
 
-func Test_Kata029(t *testing.T) {
-	t.Skip("TODO: write tests for kata 029 based on README.md")
+func TestIncrementConcurrently(t *testing.T) {
+	tests := []struct {
+		name    string
+		total   int
+		workers int
+		want    int
+	}{
+		{"zero total", 0, 4, 0},
+		{"negative total", -5, 4, 0},
+		{"zero workers", 10, 0, 10},
+		{"negative workers", 10, -1, 10},
+		{"one worker", 10, 1, 10},
+		{"many workers", 1000, 8, 1000},
+		{"uneven split", 7, 3, 7},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := IncrementConcurrently(tt.total, tt.workers); got != tt.want {
+				t.Errorf("IncrementConcurrently(%d, %d) = %d, want %d", tt.total, tt.workers, got, tt.want)
+			}
+		})
+	}
 }

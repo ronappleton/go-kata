@@ -1,7 +1,70 @@
 package kata
 
-import "testing"
+import (
+	"bytes"
+	"strings"
+	"testing"
+)
 
-func Test_RunCut(t *testing.T) {
-    t.Skip("TODO: write tests for RunCut based on README.md")
+func runCut(t *testing.T, args []string, in string) (string, error) {
+	t.Helper()
+	var w bytes.Buffer
+	err := Run(args, strings.NewReader(in), &w)
+	return w.String(), err
+}
+
+func TestCutFields(t *testing.T) {
+	out, err := runCut(t, []string{"-d", ",", "-f", "1,3"}, "a,b,c\nd,e,f\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "a,c\nd,f\n" {
+		t.Errorf("out = %q, want a,c\\nd,f", out)
+	}
+}
+
+func TestCutDefaultDelimiter(t *testing.T) {
+	out, err := runCut(t, []string{"-f", "2"}, "x\ty\tz\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "y\n" {
+		t.Errorf("out = %q, want y", out)
+	}
+}
+
+func TestCutLineWithoutDelimiter(t *testing.T) {
+	out, err := runCut(t, []string{"-d", ",", "-f", "1"}, "nocomma\na,b\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "nocomma\na\n" {
+		t.Errorf("out = %q, want nocomma\\na", out)
+	}
+}
+
+func TestCutFieldBeyondLine(t *testing.T) {
+	out, err := runCut(t, []string{"-d", ",", "-f", "3"}, "a,b\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "\n" {
+		t.Errorf("out = %q, want empty line", out)
+	}
+}
+
+func TestCutMissingFieldsFlag(t *testing.T) {
+	if _, err := runCut(t, []string{"-d", ","}, "a,b\n"); err == nil {
+		t.Error("expected error when -f is missing")
+	}
+}
+
+func TestCutEmptyInput(t *testing.T) {
+	out, err := runCut(t, []string{"-d", ",", "-f", "1"}, "")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "" {
+		t.Errorf("out = %q, want empty", out)
+	}
 }

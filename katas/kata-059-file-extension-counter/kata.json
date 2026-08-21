@@ -9,5 +9,23 @@
     "count by extension (lowercased)",
     "skip directories"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "filepath",
+    "file",
+    "extension",
+    "counter"
+  ],
+  "prerequisites": [
+    "056",
+    "057",
+    "058"
+  ],
+  "estimated_minutes": 30
 }

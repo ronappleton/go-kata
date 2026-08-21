@@ -9,5 +9,21 @@
     "prompt includes constraints when provided",
     "prompt is clear and actionable"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "ai-literacy",
+  "level": "junior",
+  "tags": [
+    "ai",
+    "prompting",
+    "effective",
+    "context",
+    "setting",
+    "constraint",
+    "specification",
+    "prompt",
+    "engineering"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 20
 }

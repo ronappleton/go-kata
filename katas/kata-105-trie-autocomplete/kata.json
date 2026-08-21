@@ -9,5 +9,24 @@
     "Suggest(prefix, limit)",
     "lexicographic order"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "data",
+    "structures",
+    "trie",
+    "autocomplete"
+  ],
+  "prerequisites": [
+    "102",
+    "103",
+    "104"
+  ],
+  "estimated_minutes": 30
 }

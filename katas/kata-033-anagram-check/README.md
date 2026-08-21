@@ -1,4 +1,4 @@
-# Kata 041 — Anagram Check
+# Kata 033 — Anagram Check
 
 **Focus:** Rune counts, normalization
 

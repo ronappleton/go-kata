@@ -1,7 +1,28 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_Unique(t *testing.T) {
-    t.Skip("TODO: write tests for Unique based on README.md")
+func TestUnique(t *testing.T) {
+	tests := []struct {
+		name string
+		in   []string
+		want []string
+	}{
+		{"nil", nil, []string{}},
+		{"no dupes", []string{"a", "b"}, []string{"a", "b"}},
+		{"dupes", []string{"a", "b", "a", "c", "b"}, []string{"a", "b", "c"}},
+		{"case sensitive", []string{"Go", "go", "GO"}, []string{"Go", "go", "GO"}},
+		{"adjacent dupes", []string{"x", "x", "x"}, []string{"x"}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := Unique(tt.in)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Unique(%v) = %v, want %v", tt.in, got, tt.want)
+			}
+		})
+	}
 }

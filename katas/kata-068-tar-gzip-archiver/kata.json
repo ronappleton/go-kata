@@ -9,5 +9,24 @@
     "preserve relative paths",
     "skip symlinks"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "archive",
+    "tar",
+    "compress",
+    "gzip",
+    "archiver"
+  ],
+  "prerequisites": [
+    "065",
+    "066",
+    "067"
+  ],
+  "estimated_minutes": 30
 }

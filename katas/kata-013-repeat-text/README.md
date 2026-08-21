@@ -1,4 +1,4 @@
-# Kata 008 — Repeat Text
+# Kata 013 — Repeat Text
 
 **Focus:** String construction, loops, guard clauses
 

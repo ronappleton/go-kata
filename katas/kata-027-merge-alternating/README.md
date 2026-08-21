@@ -1,4 +1,4 @@
-# Kata 018 — Merge Alternating Slices
+# Kata 027 — Merge Alternating Slices
 
 **Focus:** Two-pointer merge, slice appends
 

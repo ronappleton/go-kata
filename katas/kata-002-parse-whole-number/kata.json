@@ -5,9 +5,34 @@
   "focus": "Input parsing, strconv.Atoi, boolean success flags",
   "signature": "func ParseWholeNumber(input string) (int, bool)",
   "rules": [
-    "valid base-10 integer input =\u003e parsed number and true",
-    "empty or whitespace-only input =\u003e 0 and false",
-    "invalid numeric input =\u003e 0 and false"
+    "valid base-10 integer input => parsed number and true",
+    "empty or whitespace-only input => 0 and false",
+    "invalid numeric input => 0 and false"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "setup-and-toolchain",
+  "level": "junior",
+  "tags": [
+    "setup",
+    "toolchain",
+    "go-mod",
+    "go-run",
+    "go-build",
+    "input",
+    "parsing",
+    "strconv",
+    "atoi",
+    "boolean",
+    "success",
+    "flags",
+    "parse",
+    "whole",
+    "number"
+  ],
+  "prerequisites": [
+    "000",
+    "001"
+  ],
+  "estimated_minutes": 20
 }

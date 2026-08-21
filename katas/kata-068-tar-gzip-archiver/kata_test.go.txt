@@ -1,7 +1,48 @@
 package kata
 
-import "testing"
+import (
+	"archive/tar"
+	"bytes"
+	"compress/gzip"
+	"io"
+	"os"
+	"path/filepath"
+	"testing"
+)
 
-func Test_ArchiveTGZ(t *testing.T) {
-    t.Skip("TODO: write tests for ArchiveTGZ based on README.md")
+func TestArchiveTGZ(t *testing.T) {
+	root := t.TempDir()
+	os.MkdirAll(filepath.Join(root, "sub"), 0o755)
+	os.WriteFile(filepath.Join(root, "a.txt"), []byte("hello"), 0o644)
+	os.WriteFile(filepath.Join(root, "sub", "b.txt"), []byte("world"), 0o644)
+
+	var buf bytes.Buffer
+	if err := ArchiveTGZ(root, &buf); err != nil {
+		t.Fatalf("ArchiveTGZ error: %v", err)
+	}
+
+	gz, err := gzip.NewReader(&buf)
+	if err != nil {
+		t.Fatalf("not a valid gzip: %v", err)
+	}
+	defer gz.Close()
+	tr := tar.NewReader(gz)
+	var names []string
+	for {
+		hdr, err := tr.Next()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			t.Fatalf("tar read error: %v", err)
+		}
+		names = append(names, hdr.Name)
+	}
+	found := map[string]bool{}
+	for _, n := range names {
+		found[n] = true
+	}
+	if !found["a.txt"] || !found["sub/b.txt"] {
+		t.Errorf("archive missing files: %v", names)
+	}
 }

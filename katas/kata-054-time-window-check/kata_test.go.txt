@@ -1,7 +1,36 @@
 package kata
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
-func Test_WithinWindow(t *testing.T) {
-    t.Skip("TODO: write tests for WithinWindow based on README.md")
+func TestWithinWindow(t *testing.T) {
+	loc := time.UTC
+	start := time.Date(2026, 8, 17, 9, 0, 0, 0, loc)
+	end := time.Date(2026, 8, 17, 17, 0, 0, 0, loc)
+	tests := []struct {
+		name string
+		t    time.Time
+		want bool
+	}{
+		{"at start inclusive", start, true},
+		{"inside", start.Add(time.Hour), true},
+		{"before end", end.Add(-time.Minute), true},
+		{"at end exclusive", end, false},
+		{"after end", end.Add(time.Minute), false},
+		{"before start", start.Add(-time.Minute), false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := WithinWindow(tt.t, start, end); got != tt.want {
+				t.Errorf("WithinWindow(%v) = %v, want %v", tt.t, got, tt.want)
+			}
+		})
+	}
+	t.Run("start after end always false", func(t *testing.T) {
+		if WithinWindow(start, end, start) {
+			t.Error("window with start after end should be false")
+		}
+	})
 }

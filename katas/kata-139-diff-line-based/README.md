@@ -1,4 +1,4 @@
-# Kata 118 — Diff (line-based)
+# Kata 139 — Diff (line-based)
 
 **Focus:** Algorithms
 
@@ -8,6 +8,8 @@ Implement:
 ```go
 func DiffLines(a, b []string) []DiffOp
 ```
+
+where each `DiffOp` has `Op` (one of `"add"`, `"del"`, `"keep"`) and `Text` (the line).
 
 ### Learning goal
 - What you are building: Build `func DiffLines(a, b []string) []DiffOp` as a reliable contract. Focus: Algorithms.

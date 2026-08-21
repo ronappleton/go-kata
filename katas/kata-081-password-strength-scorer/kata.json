@@ -9,5 +9,23 @@
     "length + variety",
     "simple penalties"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "data-serialization",
+  "level": "mid",
+  "tags": [
+    "serialization",
+    "json",
+    "yaml",
+    "csv",
+    "rules",
+    "password",
+    "strength",
+    "scorer"
+  ],
+  "prerequisites": [
+    "079",
+    "080"
+  ],
+  "estimated_minutes": 30
 }

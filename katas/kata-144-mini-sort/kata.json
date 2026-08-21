@@ -9,5 +9,22 @@
     "no os.Exit",
     "return errors"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "lead",
+  "category": "code-quality-review",
+  "level": "lead",
+  "tags": [
+    "code-review",
+    "quality",
+    "refactoring",
+    "cli",
+    "mini",
+    "sort"
+  ],
+  "prerequisites": [
+    "141",
+    "142",
+    "143"
+  ],
+  "estimated_minutes": 60
 }

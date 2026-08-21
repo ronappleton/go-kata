@@ -5,9 +5,27 @@
   "focus": "Basics: loops, function, edge cases",
   "signature": "func Sum(nums []int) int",
   "rules": [
-    "nil slice =\u003e 0",
-    "empty =\u003e 0",
+    "nil slice => 0",
+    "empty => 0",
     "works with negatives"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "data-structures",
+  "level": "junior",
+  "tags": [
+    "data-structures",
+    "slices",
+    "maps",
+    "strings",
+    "basics",
+    "loops",
+    "function",
+    "edge",
+    "cases",
+    "sum",
+    "integers"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 20
 }

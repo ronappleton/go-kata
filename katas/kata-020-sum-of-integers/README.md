@@ -1,4 +1,4 @@
-# Kata 032 — Sum of Integers
+# Kata 020 — Sum of Integers
 
 **Focus:** Basics: loops, function, edge cases
 

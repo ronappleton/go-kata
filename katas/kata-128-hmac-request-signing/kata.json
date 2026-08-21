@@ -9,5 +9,20 @@
     "hex signature",
     "write VerifyRequest helper"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "senior",
+  "category": "security",
+  "level": "senior",
+  "tags": [
+    "security",
+    "hardening",
+    "crypto",
+    "hmac",
+    "request",
+    "signing"
+  ],
+  "prerequisites": [
+    "127"
+  ],
+  "estimated_minutes": 45
 }

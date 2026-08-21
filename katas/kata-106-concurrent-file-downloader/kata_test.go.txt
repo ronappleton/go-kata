@@ -1,7 +1,46 @@
 package kata
 
-import "testing"
+import (
+	"context"
+	"net/http"
+	"net/http/httptest"
+	"reflect"
+	"sync"
+	"testing"
+)
 
-func Test_DownloadAll(t *testing.T) {
-    t.Skip("TODO: write tests for DownloadAll based on README.md")
+func TestDownloadAll(t *testing.T) {
+	var mu sync.Mutex
+	inFlight := 0
+	maxFlight := 0
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		mu.Lock()
+		inFlight++
+		if inFlight > maxFlight {
+			maxFlight = inFlight
+		}
+		mu.Unlock()
+		defer func() {
+			mu.Lock()
+			inFlight--
+			mu.Unlock()
+		}()
+		w.Write([]byte("data:" + r.URL.Path))
+	}))
+	defer srv.Close()
+
+	urls := []string{srv.URL + "/1", srv.URL + "/2", srv.URL + "/3"}
+	got, err := DownloadAll(context.Background(), urls, 2)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(got) != 3 {
+		t.Fatalf("results = %d, want 3", len(got))
+	}
+	if maxFlight > 2 {
+		t.Errorf("max in-flight = %d, want <= 2 (concurrency limit)", maxFlight)
+	}
+	if !reflect.DeepEqual(got[urls[0]], []byte("data:/1")) {
+		t.Errorf("data mismatch: %s", got[urls[0]])
+	}
 }

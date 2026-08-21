@@ -9,5 +9,23 @@
     "key=value",
     "comments start with ; or #"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "sections",
+    "maps",
+    "ini",
+    "parser"
+  ],
+  "prerequisites": [
+    "064",
+    "065",
+    "066"
+  ],
+  "estimated_minutes": 30
 }

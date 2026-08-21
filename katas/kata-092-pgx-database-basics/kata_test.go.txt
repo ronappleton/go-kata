@@ -1,6 +1,9 @@
 package kata
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 // Test with a mock store (no real database needed)
 type mockStore struct {

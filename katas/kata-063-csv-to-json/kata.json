@@ -9,5 +9,22 @@
     "JSON array of objects",
     "trim spaces"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "encoding",
+    "csv",
+    "json"
+  ],
+  "prerequisites": [
+    "060",
+    "061",
+    "062"
+  ],
+  "estimated_minutes": 30
 }

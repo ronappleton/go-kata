@@ -8,5 +8,24 @@
     "Inc/Add/Value",
     "race-free"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "atomic",
+    "mutex",
+    "safe",
+    "counter"
+  ],
+  "prerequisites": [
+    "096",
+    "097",
+    "098"
+  ],
+  "estimated_minutes": 30
 }

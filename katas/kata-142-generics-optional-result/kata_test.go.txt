@@ -1,7 +1,66 @@
 package kata
 
-import "testing"
+import (
+	"errors"
+	"testing"
+)
 
-func Test_Kata98(t *testing.T) {
-    t.Skip("TODO: write tests for Kata98 based on README.md")
+func TestOptionalSome(t *testing.T) {
+	o := Some("hello")
+	if !o.IsPresent() {
+		t.Error("Some should be present")
+	}
+	v, ok := o.Get()
+	if !ok || v != "hello" {
+		t.Errorf("Get = (%q,%v), want (hello,true)", v, ok)
+	}
+}
+
+func TestOptionalNone(t *testing.T) {
+	o := None[int]()
+	if o.IsPresent() {
+		t.Error("None should be absent")
+	}
+	if _, ok := o.Get(); ok {
+		t.Error("Get on None should return ok=false")
+	}
+	if v := o.OrElse(42); v != 42 {
+		t.Errorf("OrElse = %d, want 42", v)
+	}
+}
+
+func TestOptionalOrElsePresent(t *testing.T) {
+	o := Some(7)
+	if v := o.OrElse(99); v != 7 {
+		t.Errorf("OrElse on Some = %d, want 7", v)
+	}
+}
+
+func TestResultOk(t *testing.T) {
+	r := Ok(100)
+	if !r.IsOk() {
+		t.Error("Ok should IsOk=true")
+	}
+	v, err := r.Value()
+	if err != nil || v != 100 {
+		t.Errorf("Value = (%d,%v), want (100,nil)", v, err)
+	}
+}
+
+func TestResultErr(t *testing.T) {
+	boom := errors.New("boom")
+	r := Err[string](boom)
+	if r.IsOk() {
+		t.Error("Err should IsOk=false")
+	}
+	if _, err := r.Value(); !errors.Is(err, boom) {
+		t.Errorf("Value err = %v, want boom", err)
+	}
+}
+
+func TestOptionalGenericInts(t *testing.T) {
+	o := Some(3)
+	if v, ok := o.Get(); !ok || v != 3 {
+		t.Errorf("Get = (%d,%v)", v, ok)
+	}
 }

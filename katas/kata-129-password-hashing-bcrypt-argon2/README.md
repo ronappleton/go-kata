@@ -1,4 +1,4 @@
-# Kata 115 — Password Hashing (bcrypt/argon2)
+# Kata 129 — Password Hashing (bcrypt/argon2)
 
 **Focus:** crypto, security
 
@@ -21,9 +21,11 @@ func HashPassword(pw string) (string, error)
 - Add tamper and expiry negative tests.
 
 ## Rules / Expectations
-- use bcrypt or argon2
+- use PBKDF2-HMAC-SHA256 from the standard library (no external deps)
 - also implement VerifyPassword(pw, hash) bool
 - constant-time compare
+- format: pbkdf2$<iterations>$<salt-hex>$<key-hex>
+- each hash uses a fresh random salt
 
 ## Prior reading
 - [Go strings package](https://pkg.go.dev/strings)

@@ -1,10 +1,21 @@
 package kata
 
+import (
+	"time"
+)
+
 // SignJWT — TODO: implement as specified in README.md
 //
-// Signature:
-//   func SignJWT(claims map[string]any, secret []byte, ttl time.Duration) (string, error)
+// Signs claims with HS256 and includes an exp claim derived from ttl.
 func SignJWT(claims map[string]any, secret []byte, ttl time.Duration) (string, error) {
-    // TODO: your implementation here
-    return "", nil
+	// TODO: your implementation here
+	return "", nil
+}
+
+// VerifyJWT — TODO: implement as specified in README.md
+//
+// Verifies the HS256 signature and the exp claim, returning the claims.
+func VerifyJWT(token string, secret []byte) (map[string]any, error) {
+	// TODO: your implementation here
+	return nil, nil
 }

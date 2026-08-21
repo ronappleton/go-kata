@@ -9,5 +9,18 @@
     "write tests",
     "keep it idiomatic"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "lead",
+  "category": "advanced-patterns",
+  "level": "lead",
+  "tags": [
+    "patterns",
+    "advanced",
+    "practice",
+    "event",
+    "sourcing",
+    "mini"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 60
 }

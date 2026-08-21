@@ -1,4 +1,4 @@
-# Kata 131 — Normalize Username Bug
+# Kata 155 — Normalize Username Bug
 
 **Focus:** strings.TrimSpace, strings.ToLower, strings.ReplaceAll
 

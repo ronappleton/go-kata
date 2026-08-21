@@ -2,6 +2,23 @@ package kata
 
 import "testing"
 
-func Test_Kata006(t *testing.T) {
-	t.Skip("TODO: write tests for kata 006 based on README.md")
+func TestSumFirstN(t *testing.T) {
+	tests := []struct {
+		name string
+		in   int
+		want int
+	}{
+		{"zero", 0, 0},
+		{"negative", -5, 0},
+		{"one", 1, 1},
+		{"ten", 10, 55},
+		{"hundred", 100, 5050},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := SumFirstN(tt.in); got != tt.want {
+				t.Errorf("SumFirstN(%d) = %d, want %d", tt.in, got, tt.want)
+			}
+		})
+	}
 }

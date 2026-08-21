@@ -9,5 +9,24 @@
     "values may be quoted",
     "duplicate keys last wins"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "key",
+    "value",
+    "log",
+    "line",
+    "parser"
+  ],
+  "prerequisites": [
+    "058",
+    "059",
+    "060"
+  ],
+  "estimated_minutes": 30
 }

@@ -2,6 +2,25 @@ package kata
 
 import "testing"
 
-func Test_Reverse(t *testing.T) {
-    t.Skip("TODO: write tests for Reverse based on README.md")
+func TestReverse(t *testing.T) {
+	tests := []struct {
+		name string
+		in   string
+		want string
+	}{
+		{"empty", "", ""},
+		{"ascii", "hello", "olleh"},
+		{"single char", "a", "a"},
+		{"palindrome", "racecar", "racecar"},
+		{"unicode", "héllo", "olléh"},
+		{"emoji", "😀😃", "😃😀"},
+		{"spaces", "go lang", "gnal og"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := Reverse(tt.in); got != tt.want {
+				t.Errorf("Reverse(%q) = %q, want %q", tt.in, got, tt.want)
+			}
+		})
+	}
 }

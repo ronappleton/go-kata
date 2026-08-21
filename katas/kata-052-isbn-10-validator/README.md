@@ -1,4 +1,4 @@
-# Kata 049 — ISBN-10 Validator
+# Kata 052 — ISBN-10 Validator
 
 **Focus:** Checksums
 

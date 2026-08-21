@@ -9,5 +9,23 @@
     "Status defaults to \"proposed\"",
     "Document is well-structured"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "lead",
+  "category": "leadership-communication",
+  "level": "lead",
+  "tags": [
+    "leadership",
+    "communication",
+    "mentoring",
+    "adr",
+    "technical",
+    "decision",
+    "documentation",
+    "rfc",
+    "process",
+    "architecture",
+    "records"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 60
 }

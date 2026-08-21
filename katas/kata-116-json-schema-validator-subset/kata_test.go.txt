@@ -1,7 +1,58 @@
 package kata
 
-import "testing"
+import (
+	"testing"
+)
 
-func Test_Kata79(t *testing.T) {
-    t.Skip("TODO: write tests for Kata79 based on README.md")
+func TestValidateJSONValid(t *testing.T) {
+	schema := []byte(`{"type":"object","properties":{"name":{"type":"string"},"age":{"type":"integer"}},"required":["name"]}`)
+	doc := []byte(`{"name":"ada","age":36}`)
+	if err := ValidateJSON(doc, schema); err != nil {
+		t.Errorf("expected valid, got %v", err)
+	}
+}
+
+func TestValidateJSONMissingRequired(t *testing.T) {
+	schema := []byte(`{"type":"object","properties":{"name":{"type":"string"}},"required":["name"]}`)
+	doc := []byte(`{"age":36}`)
+	if err := ValidateJSON(doc, schema); err == nil {
+		t.Error("expected error for missing required property")
+	}
+}
+
+func TestValidateJSONWrongType(t *testing.T) {
+	schema := []byte(`{"type":"object","properties":{"name":{"type":"string"}}}`)
+	doc := []byte(`{"name":36}`)
+	if err := ValidateJSON(doc, schema); err == nil {
+		t.Error("expected error for wrong property type")
+	}
+}
+
+func TestValidateJSONNested(t *testing.T) {
+	schema := []byte(`{"type":"object","properties":{"address":{"type":"object","properties":{"city":{"type":"string"}},"required":["city"]}}}`)
+	if err := ValidateJSON([]byte(`{"address":{"city":"london"}}`), schema); err != nil {
+		t.Errorf("nested valid doc should pass, got %v", err)
+	}
+	if err := ValidateJSON([]byte(`{"address":{}}`), schema); err == nil {
+		t.Error("nested missing required should fail")
+	}
+}
+
+func TestValidateJSONRootType(t *testing.T) {
+	schema := []byte(`{"type":"string"}`)
+	if err := ValidateJSON([]byte(`"hello"`), schema); err != nil {
+		t.Errorf("string doc should pass, got %v", err)
+	}
+	if err := ValidateJSON([]byte(`42`), schema); err == nil {
+		t.Error("number doc should fail string schema")
+	}
+}
+
+func TestValidateJSONBadInput(t *testing.T) {
+	if err := ValidateJSON([]byte(`{not json`), []byte(`{}`)); err == nil {
+		t.Error("expected error for malformed doc")
+	}
+	if err := ValidateJSON([]byte(`{}`), []byte(`{not json`)); err == nil {
+		t.Error("expected error for malformed schema")
+	}
 }

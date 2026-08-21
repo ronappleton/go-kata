@@ -5,10 +5,27 @@
   "focus": "Iteration, slices",
   "signature": "func Fibonacci(n int) ([]int, error)",
   "rules": [
-    "n\u003c0 =\u003e error",
-    "n=0 =\u003e empty slice",
-    "n=1 =\u003e [0]",
+    "n<0 => error",
+    "n=0 => empty slice",
+    "n=1 => [0]",
     "sequence starts 0,1,..."
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "data-structures",
+  "level": "junior",
+  "tags": [
+    "data-structures",
+    "slices",
+    "maps",
+    "strings",
+    "iteration",
+    "fibonacci"
+  ],
+  "prerequisites": [
+    "025",
+    "026",
+    "027"
+  ],
+  "estimated_minutes": 20
 }

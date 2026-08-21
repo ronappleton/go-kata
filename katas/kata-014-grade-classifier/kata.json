@@ -5,12 +5,34 @@
   "focus": "Condition ranges, input validation",
   "signature": "func GradeLabel(score int) string",
   "rules": [
-    "score\u003c0 or score\u003e100 =\u003e \"invalid\"",
-    "90-100 =\u003e \"A\"",
-    "80-89 =\u003e \"B\"",
-    "70-79 =\u003e \"C\"",
-    "60-69 =\u003e \"D\"",
-    "0-59 =\u003e \"F\""
+    "score<0 or score>100 => \"invalid\"",
+    "90-100 => \"A\"",
+    "80-89 => \"B\"",
+    "70-79 => \"C\"",
+    "60-69 => \"D\"",
+    "0-59 => \"F\""
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "language-basics",
+  "level": "junior",
+  "tags": [
+    "basics",
+    "types",
+    "functions",
+    "conditionals",
+    "loops",
+    "condition",
+    "ranges",
+    "input",
+    "validation",
+    "grade",
+    "classifier"
+  ],
+  "prerequisites": [
+    "011",
+    "012",
+    "013"
+  ],
+  "estimated_minutes": 20
 }

@@ -1,4 +1,4 @@
-# Kata 025 — Pretty JSON
+# Kata 047 — Pretty JSON
 
 **Focus:** encoding/json validation and formatting
 

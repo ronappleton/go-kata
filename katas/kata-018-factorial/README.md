@@ -1,4 +1,4 @@
-# Kata 036 — Factorial
+# Kata 018 — Factorial
 
 **Focus:** Recursion vs loop, overflow checks
 

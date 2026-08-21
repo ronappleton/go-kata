@@ -1,7 +1,76 @@
 package kata
 
-import "testing"
+import (
+	"bytes"
+	"crypto/sha256"
+	"encoding/hex"
+	"testing"
+)
 
-func Test_Kata73(t *testing.T) {
-    t.Skip("TODO: write tests for Kata73 based on README.md")
+func shaHex(b []byte) string {
+	h := sha256.Sum256(b)
+	return hex.EncodeToString(h[:])
+}
+
+func TestMerkleSingleLeaf(t *testing.T) {
+	data := [][]byte{[]byte("a")}
+	root := BuildMerkleTree(data)
+	if root == nil {
+		t.Fatal("root is nil")
+	}
+	if root.Hash != shaHex([]byte("a")) {
+		t.Errorf("root hash = %q, want leaf hash", root.Hash)
+	}
+	if !VerifyMerkleTree(root, data) {
+		t.Error("Verify should pass for same data")
+	}
+}
+
+func TestMerkleMultiLeaf(t *testing.T) {
+	data := [][]byte{[]byte("a"), []byte("b"), []byte("c"), []byte("d")}
+	root := BuildMerkleTree(data)
+	if root == nil {
+		t.Fatal("root is nil")
+	}
+	hab := shaHex(append([]byte(shaHex([]byte("a"))), []byte(shaHex([]byte("b")))...))
+	hcd := shaHex(append([]byte(shaHex([]byte("c"))), []byte(shaHex([]byte("d")))...))
+	want := shaHex(append([]byte(hab), []byte(hcd)...))
+	if root.Hash != want {
+		t.Errorf("root = %q, want %q", root.Hash, want)
+	}
+	if !VerifyMerkleTree(root, data) {
+		t.Error("Verify should pass for same data")
+	}
+}
+
+func TestMerkleOddLeaves(t *testing.T) {
+	data := [][]byte{[]byte("a"), []byte("b"), []byte("c")}
+	root := BuildMerkleTree(data)
+	if root == nil {
+		t.Fatal("root is nil")
+	}
+	if !VerifyMerkleTree(root, data) {
+		t.Error("Verify should pass for odd leaf count")
+	}
+}
+
+func TestMerkleTamper(t *testing.T) {
+	data := [][]byte{[]byte("a"), []byte("b"), []byte("c"), []byte("d")}
+	root := BuildMerkleTree(data)
+	tampered := [][]byte{[]byte("a"), []byte("X"), []byte("c"), []byte("d")}
+	if VerifyMerkleTree(root, tampered) {
+		t.Error("Verify should fail for tampered data")
+	}
+	if bytes.Equal(data[1], tampered[1]) {
+		t.Error("test setup: tampered data should differ")
+	}
+}
+
+func TestMerkleDeterministic(t *testing.T) {
+	data := [][]byte{[]byte("x"), []byte("y")}
+	r1 := BuildMerkleTree(data)
+	r2 := BuildMerkleTree(data)
+	if r1.Hash != r2.Hash {
+		t.Error("same data should produce the same root")
+	}
 }

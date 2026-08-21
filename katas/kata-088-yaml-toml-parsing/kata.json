@@ -5,8 +5,31 @@
   "focus": "encoding/json patterns, struct tags, config file parsing",
   "signature": "func ParseConfig(data string) (Config, error)",
   "rules": [
-    "valid JSON =\u003e Config with correct fields",
-    "invalid JSON =\u003e error"
+    "valid JSON => Config with correct fields",
+    "invalid JSON => error"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "data-serialization",
+  "level": "mid",
+  "tags": [
+    "serialization",
+    "json",
+    "yaml",
+    "csv",
+    "encoding",
+    "patterns",
+    "struct",
+    "tags",
+    "config",
+    "file",
+    "parsing",
+    "toml"
+  ],
+  "prerequisites": [
+    "085",
+    "086",
+    "087"
+  ],
+  "estimated_minutes": 30
 }

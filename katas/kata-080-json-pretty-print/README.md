@@ -1,4 +1,4 @@
-# Kata 052 — JSON Pretty Print
+# Kata 080 — JSON Pretty Print
 
 **Focus:** encoding/json
 

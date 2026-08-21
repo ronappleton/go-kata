@@ -5,9 +5,27 @@
   "focus": "Strings",
   "signature": "func LongestCommonPrefix(items []string) string",
   "rules": [
-    "empty =\u003e empty",
-    "single =\u003e itself",
+    "empty => empty",
+    "single => itself",
     "case-sensitive"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "strings",
+    "longest",
+    "common",
+    "prefix"
+  ],
+  "prerequisites": [
+    "054",
+    "055",
+    "056"
+  ],
+  "estimated_minutes": 30
 }

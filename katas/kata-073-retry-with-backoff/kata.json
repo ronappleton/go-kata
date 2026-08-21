@@ -5,9 +5,26 @@
   "focus": "time",
   "signature": "func Retry(attempts int, baseDelay time.Duration, fn func() error) error",
   "rules": [
-    "attempts\u003e=1",
+    "attempts>=1",
     "exponential backoff",
     "stop on success"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "web-networking",
+  "level": "mid",
+  "tags": [
+    "http",
+    "networking",
+    "web",
+    "time",
+    "retry",
+    "backoff"
+  ],
+  "prerequisites": [
+    "070",
+    "071",
+    "072"
+  ],
+  "estimated_minutes": 30
 }

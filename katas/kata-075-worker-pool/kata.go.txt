@@ -1,5 +1,9 @@
 package kata
 
+import (
+	"context"
+)
+
 // RunPool — TODO: implement as specified in README.md
 //
 // Signature:
@@ -7,4 +11,14 @@ package kata
 func RunPool(ctx context.Context, workers int, jobs <-chan Job) <-chan Result {
     // TODO: your implementation here
     return nil
+}
+
+// Job — a unit of work handed to the pool. Implement as specified in README.md.
+type Job struct {
+	ID string
+}
+
+// Result — the outcome of processing a job. Implement as specified in README.md.
+type Result struct {
+	JobID string
 }

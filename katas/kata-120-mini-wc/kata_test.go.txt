@@ -1,7 +1,89 @@
 package kata
 
-import "testing"
+import (
+	"bytes"
+	"os"
+	"path/filepath"
+	"strings"
+	"testing"
+)
 
-func Test_RunWc(t *testing.T) {
-    t.Skip("TODO: write tests for RunWc based on README.md")
+func runWc(t *testing.T, args []string, in string) (string, error) {
+	t.Helper()
+	var w bytes.Buffer
+	err := Run(args, strings.NewReader(in), &w)
+	return w.String(), err
+}
+
+func TestWcLinesOnly(t *testing.T) {
+	out, err := runWc(t, []string{"-l"}, "a\nb\nc\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "3\n" {
+		t.Errorf("out = %q, want 3", out)
+	}
+}
+
+func TestWcWordsOnly(t *testing.T) {
+	out, err := runWc(t, []string{"-w"}, "one two   three\nfour\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "4\n" {
+		t.Errorf("out = %q, want 4", out)
+	}
+}
+
+func TestWcBytesOnly(t *testing.T) {
+	out, err := runWc(t, []string{"-c"}, "ab\ncd\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "6\n" {
+		t.Errorf("out = %q, want 6", out)
+	}
+}
+
+func TestWcDefaultAll(t *testing.T) {
+	out, err := runWc(t, nil, "a b\nc\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	// 2 lines, 3 words, 6 bytes
+	if out != "2\t3\t6\n" {
+		t.Errorf("out = %q, want 2\t3\t6", out)
+	}
+}
+
+func TestWcEmptyInput(t *testing.T) {
+	out, err := runWc(t, nil, "")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "0\t0\t0\n" {
+		t.Errorf("out = %q, want 0\t0\t0", out)
+	}
+}
+
+func TestWcFileArg(t *testing.T) {
+	dir := t.TempDir()
+	f := filepath.Join(dir, "f.txt")
+	if err := os.WriteFile(f, []byte("hello world\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	var w bytes.Buffer
+	if err := Run([]string{"-w", f}, strings.NewReader("ignored"), &w); err != nil {
+		t.Fatal(err)
+	}
+	if w.String() != "2 "+f+"\n" {
+		t.Errorf("out = %q, want 2 %s", w.String(), f)
+	}
+}
+
+func TestWcMissingFile(t *testing.T) {
+	var w bytes.Buffer
+	if err := Run([]string{"-l", "/no/such/file.txt"}, strings.NewReader(""), &w); err == nil {
+		t.Error("expected error for missing file")
+	}
 }

@@ -9,5 +9,22 @@
     "also implement VerifyPassword(pw, hash) bool",
     "constant-time compare"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "senior",
+  "category": "security",
+  "level": "senior",
+  "tags": [
+    "security",
+    "hardening",
+    "crypto",
+    "password",
+    "hashing",
+    "bcrypt",
+    "argon2"
+  ],
+  "prerequisites": [
+    "127",
+    "128"
+  ],
+  "estimated_minutes": 45
 }

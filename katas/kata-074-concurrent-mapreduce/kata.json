@@ -5,9 +5,27 @@
   "focus": "Goroutines, channels",
   "signature": "func MapReduce[T any, R any](items []T, workers int, mapFn func(T) R, reduceFn func([]R) R) (R, error)",
   "rules": [
-    "workers\u003e=1",
+    "workers>=1",
     "order not required",
     "handle empty items"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "web-networking",
+  "level": "mid",
+  "tags": [
+    "http",
+    "networking",
+    "web",
+    "goroutines",
+    "channels",
+    "concurrent",
+    "mapreduce"
+  ],
+  "prerequisites": [
+    "071",
+    "072",
+    "073"
+  ],
+  "estimated_minutes": 30
 }

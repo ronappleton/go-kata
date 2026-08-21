@@ -1,4 +1,4 @@
-# Kata 048 — Caesar Cipher
+# Kata 051 — Caesar Cipher
 
 **Focus:** ASCII letters shifting
 

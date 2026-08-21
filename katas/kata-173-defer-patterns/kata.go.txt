@@ -1,9 +1,5 @@
 package kata
 
-import (
-	"fmt"
-	"strings"
-)
 
 // CaptureOutput simulates defer-based resource cleanup.
 // Rules:

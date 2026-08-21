@@ -2,6 +2,24 @@ package kata
 
 import "testing"
 
-func Test_Kata015(t *testing.T) {
-	t.Skip("TODO: write tests for kata 015 based on README.md")
+func TestFindIndex(t *testing.T) {
+	tests := []struct {
+		name   string
+		values []string
+		target string
+		want   int
+	}{
+		{"first match", []string{"a", "b", "a"}, "a", 0},
+		{"later match", []string{"x", "y", "z"}, "z", 2},
+		{"no match", []string{"a", "b"}, "c", -1},
+		{"nil", nil, "a", -1},
+		{"case sensitive", []string{"Go", "go"}, "go", 1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := FindIndex(tt.values, tt.target); got != tt.want {
+				t.Errorf("FindIndex(%v, %q) = %d, want %d", tt.values, tt.target, got, tt.want)
+			}
+		})
+	}
 }

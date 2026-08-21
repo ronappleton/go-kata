@@ -2,6 +2,38 @@ package kata
 
 import "testing"
 
-func Test_ToRoman(t *testing.T) {
-    t.Skip("TODO: write tests for ToRoman based on README.md")
+func TestToRoman(t *testing.T) {
+	t.Run("invalid errors", func(t *testing.T) {
+		for _, n := range []int{0, -1, 4000, 5000} {
+			if _, err := ToRoman(n); err == nil {
+				t.Errorf("ToRoman(%d) expected error", n)
+			}
+		}
+	})
+	tests := []struct {
+		name string
+		in   int
+		want string
+	}{
+		{"one", 1, "I"},
+		{"four", 4, "IV"},
+		{"nine", 9, "IX"},
+		{"forty", 40, "XL"},
+		{"ninety", 90, "XC"},
+		{"four hundred", 400, "CD"},
+		{"nine hundred", 900, "CM"},
+		{"nineteen eighty four", 1984, "MCMLXXXIV"},
+		{"three thousand nine ninety nine", 3999, "MMMCMXCIX"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := ToRoman(tt.in)
+			if err != nil {
+				t.Fatalf("ToRoman(%d) error: %v", tt.in, err)
+			}
+			if got != tt.want {
+				t.Errorf("ToRoman(%d) = %q, want %q", tt.in, got, tt.want)
+			}
+		})
+	}
 }

@@ -3,11 +3,30 @@
   "slug": "fan-in-fan-out-pipeline",
   "title": "Fan-in/Fan-out Pipeline",
   "focus": "Channels, composition",
-  "signature": "func Pipeline[T any](ctx context.Context, in \u003c-chan T, stages ...func(context.Context, \u003c-chan T) \u003c-chan T) \u003c-chan T",
+  "signature": "func Pipeline[T any](ctx context.Context, in <-chan T, stages ...func(context.Context, <-chan T) <-chan T) <-chan T",
   "rules": [
     "compose stages in order",
     "cancel cleanly",
     "close outputs"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "composition",
+    "fan",
+    "out",
+    "pipeline"
+  ],
+  "prerequisites": [
+    "106",
+    "107",
+    "108"
+  ],
+  "estimated_minutes": 30
 }

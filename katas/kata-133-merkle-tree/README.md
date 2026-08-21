@@ -1,39 +1,38 @@
-# Kata 103 — Merkle Tree
+# Kata 133 — Merkle Tree
 
-**Focus:** Advanced practice
+**Focus:** data structures, crypto
 
 ## Your task
 Implement:
 
 ```go
-func Kata73() error
+type MerkleNode struct { Hash string; Left, Right *MerkleNode }; func BuildMerkleTree(data [][]byte) *MerkleNode; func VerifyMerkleTree(root *MerkleNode, data [][]byte) bool
 ```
 
 ### Learning goal
-- What you are building: Build `func Kata73() error` as a reliable contract. Focus: real-world Go integration and testing.
-- Why this matters in real projects: Security paths have no soft failures. Exact behavior is non-negotiable.
-- How this grows your Go skills: You practice fail-closed validation and byte-accurate handling.
-- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: match the full README contract; include tests for happy path and edge cases; and keep API and error style idiomatic Go.
+- What you are building: type MerkleNode struct { Hash string; Left, Right *MerkleNode }; func BuildMerkleTree(data [][]byte) *MerkleNode; func VerifyMerkleTree(root *MerkleNode, data [][]byte) bool as a reliable contract. Focus: data structures, crypto.
+- Why this matters in real projects: real systems depend on exact, testable behavior here.
+- How this grows your Go skills: you practice invariants, edge cases, and test-first discipline.
+- Definition of done (plain English): BuildMerkleTree hashes leaves with sha256 and combines parents as sha256(left+right); VerifyMerkleTree rebuilds from data and compares roots.
 
 ### Tips
-- Fail closed on malformed data.
-- Never ignore crypto or encoding errors.
-- Add tamper and expiry negative tests.
+- Write tests from the rules before implementation.
+- Name edge cases explicitly: nil, empty, min, max.
+- Keep logic linear; branch only when a rule requires it.
 
 ## Rules / Expectations
-- follow README spec
-- write tests
-- keep it idiomatic
+- sha256 hashing
+- deterministic root for same data
+- tampered data => verify false
+- single-item tree has one leaf root
 
 ## Prior reading
+- [Merkle tree (Wikipedia)](https://en.wikipedia.org/wiki/Merkle_tree)
 - [Go crypto/sha256 package](https://pkg.go.dev/crypto/sha256)
-- [Go: Effective Go](https://go.dev/doc/effective_go)
-- [Go package documentation index](https://pkg.go.dev/std)
-- [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- Core lesson: validate early, fail closed, and be exact.
-- After this kata, you should be able to justify validation rules and add negative tests for tampering.
+- Core lesson: hash trees give tamper evidence: any change to input changes the root.
+- After this kata, you should be able to justify every rule with a test.
 
 ## What you must submit for marking
 - `kata.go`

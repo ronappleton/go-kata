@@ -2,6 +2,26 @@ package kata
 
 import "testing"
 
-func Test_IsValidISBN10(t *testing.T) {
-    t.Skip("TODO: write tests for IsValidISBN10 based on README.md")
+func TestIsValidISBN10(t *testing.T) {
+	tests := []struct {
+		name string
+		in   string
+		want bool
+	}{
+		{"valid with hyphens", "0-306-40615-2", true},
+		{"valid with spaces", "0 306 40615 2", true},
+		{"valid plain", "0306406152", true},
+		{"valid X ending", "0-8044-2957-X", true},
+		{"too short", "12345", false},
+		{"too long", "12345678901", false},
+		{"invalid checksum", "0306406153", false},
+		{"empty", "", false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := IsValidISBN10(tt.in); got != tt.want {
+				t.Errorf("IsValidISBN10(%q) = %v, want %v", tt.in, got, tt.want)
+			}
+		})
+	}
 }

@@ -1,40 +1,38 @@
-# Kata 110 — Rate-limited HTTP Scraper
+# Kata 117 — Rate-limited HTTP Scraper
 
-**Focus:** Advanced practice
+**Focus:** net/http, concurrency, time
 
 ## Your task
 Implement:
 
 ```go
-func Kata80() error
+func Scrape(ctx context.Context, urls []string, ratePerSec int, client *http.Client) (map[string]string, error)
 ```
 
 ### Learning goal
-- What you are building: Build `func Kata80() error` as a reliable contract. Focus: real-world Go integration and testing.
-- Why this matters in real projects: HTTP boundaries are product behavior. Callers depend on exact semantics.
-- How this grows your Go skills: You practice context-aware request handling and stable status/error contracts.
-- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: match the full README contract; include tests for happy path and edge cases; and keep API and error style idiomatic Go.
+- What you are building: func Scrape(ctx context.Context, urls []string, ratePerSec int, client *http.Client) (map[string]string, error) as a reliable contract. Focus: net/http, concurrency, time.
+- Why this matters in real projects: real systems depend on exact, testable behavior here.
+- How this grows your Go skills: you practice invariants, edge cases, and test-first discipline.
+- Definition of done (plain English): fetches every URL at most ratePerSec requests/sec; returns url->body for 2xx responses; first non-2xx or network error is returned with the partial map.
 
 ### Tips
-- Pin boundary behavior with `httptest`.
-- Cover both success and failure responses.
-- Test retries/timeouts with targeted cases.
+- Write tests from the rules before implementation.
+- Name edge cases explicitly: nil, empty, min, max.
+- Keep logic linear; branch only when a rule requires it.
 
 ## Rules / Expectations
-- follow README spec
-- write tests
-- keep it idiomatic
+- rate limit across all requests
+- ctx cancellation stops the loop
+- 2xx => body in map
+- first error returned with partial map
 
 ## Prior reading
 - [Go net/http package](https://pkg.go.dev/net/http)
-- [RFC 9110 (HTTP semantics)](https://www.rfc-editor.org/rfc/rfc9110)
-- [Go: Effective Go](https://go.dev/doc/effective_go)
-- [Go package documentation index](https://pkg.go.dev/std)
-- [Go language specification](https://go.dev/ref/spec)
+- [Go context package](https://pkg.go.dev/context)
 
 ## What this kata is about (and why it matters)
-- Core lesson: treat request/response behavior as a hard contract.
-- After this kata, you should be able to justify status/error choices at the service boundary.
+- Core lesson: throttling is a global property: the whole scrape shares one budget, not per-URL.
+- After this kata, you should be able to justify every rule with a test.
 
 ## What you must submit for marking
 - `kata.go`

@@ -1,7 +1,65 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_DiffLines(t *testing.T) {
-    t.Skip("TODO: write tests for DiffLines based on README.md")
+func opsText(ops []DiffOp) []string {
+	out := make([]string, len(ops))
+	for i, o := range ops {
+		out[i] = o.Op + ":" + o.Text
+	}
+	return out
+}
+
+func TestDiffIdentical(t *testing.T) {
+	got := DiffLines([]string{"a", "b"}, []string{"a", "b"})
+	want := []string{"keep:a", "keep:b"}
+	if !reflect.DeepEqual(opsText(got), want) {
+		t.Errorf("got %v, want %v", opsText(got), want)
+	}
+}
+
+func TestDiffEmptySource(t *testing.T) {
+	got := DiffLines(nil, []string{"a", "b"})
+	want := []string{"add:a", "add:b"}
+	if !reflect.DeepEqual(opsText(got), want) {
+		t.Errorf("got %v, want %v", opsText(got), want)
+	}
+}
+
+func TestDiffEmptyTarget(t *testing.T) {
+	got := DiffLines([]string{"a", "b"}, nil)
+	want := []string{"del:a", "del:b"}
+	if !reflect.DeepEqual(opsText(got), want) {
+		t.Errorf("got %v, want %v", opsText(got), want)
+	}
+}
+
+func TestDiffEdit(t *testing.T) {
+	got := DiffLines([]string{"a", "b", "c"}, []string{"a", "X", "c"})
+	// LCS is a,c so b is deleted and X is added around the keeps
+	want := []string{"keep:a", "del:b", "add:X", "keep:c"}
+	if !reflect.DeepEqual(opsText(got), want) {
+		t.Errorf("got %v, want %v", opsText(got), want)
+	}
+}
+
+func TestDiffInsert(t *testing.T) {
+	got := DiffLines([]string{"a"}, []string{"a", "b", "c"})
+	want := []string{"keep:a", "add:b", "add:c"}
+	if !reflect.DeepEqual(opsText(got), want) {
+		t.Errorf("got %v, want %v", opsText(got), want)
+	}
+}
+
+func TestDiffDeterministic(t *testing.T) {
+	a := []string{"x", "y", "z"}
+	b := []string{"x", "z", "w"}
+	g1 := opsText(DiffLines(a, b))
+	g2 := opsText(DiffLines(a, b))
+	if !reflect.DeepEqual(g1, g2) {
+		t.Errorf("diff not deterministic: %v vs %v", g1, g2)
+	}
 }

@@ -1,4 +1,4 @@
-# Kata 047 — Run-Length Decoding
+# Kata 050 — Run-Length Decoding
 
 **Focus:** Parsing, errors
 

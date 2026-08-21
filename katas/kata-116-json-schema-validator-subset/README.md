@@ -1,39 +1,38 @@
-# Kata 109 — JSON Schema Validator (subset)
+# Kata 116 — JSON Schema Validator (subset)
 
-**Focus:** Advanced practice
+**Focus:** encoding/json, validation
 
 ## Your task
 Implement:
 
 ```go
-func Kata79() error
+func ValidateJSON(doc, schema []byte) error
 ```
 
 ### Learning goal
-- What you are building: Build `func Kata79() error` as a reliable contract. Focus: real-world Go integration and testing.
-- Why this matters in real projects: Parsers are trust boundaries. Loose parsing creates downstream bugs.
-- How this grows your Go skills: You practice strict input contracts and explicit error paths.
-- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: match the full README contract; include tests for happy path and edge cases; and keep API and error style idiomatic Go.
+- What you are building: func ValidateJSON(doc, schema []byte) error as a reliable contract. Focus: encoding/json, validation.
+- Why this matters in real projects: real systems depend on exact, testable behavior here.
+- How this grows your Go skills: you practice invariants, edge cases, and test-first discipline.
+- Definition of done (plain English): validates type, required properties, and property types; returns a descriptive error for the first violation; nil when valid.
 
 ### Tips
-- Reject ambiguous input early.
-- Make malformed-input tests first-class.
-- Do not silently coerce data.
+- Write tests from the rules before implementation.
+- Name edge cases explicitly: nil, empty, min, max.
+- Keep logic linear; branch only when a rule requires it.
 
 ## Rules / Expectations
-- follow README spec
-- write tests
-- keep it idiomatic
+- support type/properties/required keywords
+- validate nested objects
+- error on first violation
+- invalid JSON input => non-nil error
 
 ## Prior reading
+- [JSON Schema core spec](https://json-schema.org/draft/2020-12/json-schema-core.html)
 - [Go encoding/json package](https://pkg.go.dev/encoding/json)
-- [Go: Effective Go](https://go.dev/doc/effective_go)
-- [Go package documentation index](https://pkg.go.dev/std)
-- [Go language specification](https://go.dev/ref/spec)
 
 ## What this kata is about (and why it matters)
-- Core lesson: parse strictly and fail loudly on bad input.
-- After this kata, you should be able to state input contracts and return precise parse errors.
+- Core lesson: validation is fail-closed: unknown types and malformed input must error, never pass silently.
+- After this kata, you should be able to justify every rule with a test.
 
 ## What you must submit for marking
 - `kata.go`

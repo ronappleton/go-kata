@@ -2,6 +2,24 @@ package kata
 
 import "testing"
 
-func Test_Sum(t *testing.T) {
-    t.Skip("TODO: write tests for Sum based on README.md")
+func TestSum(t *testing.T) {
+	tests := []struct {
+		name string
+		in   []int
+		want int
+	}{
+		{"nil", nil, 0},
+		{"empty", []int{}, 0},
+		{"single", []int{7}, 7},
+		{"multiple", []int{1, 2, 3, 4}, 10},
+		{"with negatives", []int{-1, 2, -3, 4}, 2},
+		{"all negative", []int{-5, -5}, -10},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := Sum(tt.in); got != tt.want {
+				t.Errorf("Sum(%v) = %d, want %d", tt.in, got, tt.want)
+			}
+		})
+	}
 }

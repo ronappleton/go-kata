@@ -4,7 +4,11 @@ package kata
 //
 // Signature:
 //   func CSVToJSON(r io.Reader) ([]byte, error)
+import (
+	"io"
+)
+
 func CSVToJSON(r io.Reader) ([]byte, error) {
     // TODO: your implementation here
-    return nil
+    return nil, nil
 }

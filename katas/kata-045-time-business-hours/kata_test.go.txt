@@ -1,7 +1,36 @@
 package kata
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
-func Test_Kata023(t *testing.T) {
-	t.Skip("TODO: write tests for kata 023 based on README.md")
+func TestIsWithinBusinessHours(t *testing.T) {
+	loc := time.FixedZone("test", 0)
+	tests := []struct {
+		name string
+		ts   time.Time
+		want bool
+	}{
+		{"monday 9am", time.Date(2026, 8, 17, 9, 0, 0, 0, loc), true},
+		{"wednesday noon", time.Date(2026, 8, 19, 12, 0, 0, 0, loc), true},
+		{"friday 4:59pm", time.Date(2026, 8, 21, 16, 59, 0, 0, loc), true},
+		{"monday 8:59am", time.Date(2026, 8, 17, 8, 59, 0, 0, loc), false},
+		{"monday 5pm exclusive", time.Date(2026, 8, 17, 17, 0, 0, 0, loc), false},
+		{"saturday noon", time.Date(2026, 8, 22, 12, 0, 0, 0, loc), false},
+		{"sunday 10am", time.Date(2026, 8, 23, 10, 0, 0, 0, loc), false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := IsWithinBusinessHours(tt.ts, loc); got != tt.want {
+				t.Errorf("IsWithinBusinessHours(%v) = %v, want %v", tt.ts, got, tt.want)
+			}
+		})
+	}
+	t.Run("nil location uses ts location", func(t *testing.T) {
+		ts := time.Date(2026, 8, 19, 12, 0, 0, 0, loc)
+		if !IsWithinBusinessHours(ts, nil) {
+			t.Error("nil loc should use ts location and be within hours")
+		}
+	})
 }

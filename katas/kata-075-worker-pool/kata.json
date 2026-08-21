@@ -3,11 +3,29 @@
   "slug": "worker-pool",
   "title": "Worker Pool",
   "focus": "Concurrency patterns",
-  "signature": "func RunPool(ctx context.Context, workers int, jobs \u003c-chan Job) \u003c-chan Result",
+  "signature": "func RunPool(ctx context.Context, workers int, jobs <-chan Job) <-chan Result",
   "rules": [
     "cancels on ctx",
     "close output when done",
     "no leaks"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "web-networking",
+  "level": "mid",
+  "tags": [
+    "http",
+    "networking",
+    "web",
+    "concurrency",
+    "patterns",
+    "worker",
+    "pool"
+  ],
+  "prerequisites": [
+    "072",
+    "073",
+    "074"
+  ],
+  "estimated_minutes": 30
 }

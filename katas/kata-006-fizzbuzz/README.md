@@ -1,4 +1,4 @@
-# Kata 031 — FizzBuzz
+# Kata 006 — FizzBuzz
 
 **Focus:** Basics: loops, conditionals, slices, strconv
 

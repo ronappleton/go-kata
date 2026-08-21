@@ -1,4 +1,4 @@
-# Kata 058 — Markdown Heading Extractor
+# Kata 095 — Markdown Heading Extractor
 
 **Focus:** Line scanning
 

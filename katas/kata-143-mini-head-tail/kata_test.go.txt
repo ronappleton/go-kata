@@ -1,7 +1,70 @@
 package kata
 
-import "testing"
+import (
+	"bytes"
+	"strings"
+	"testing"
+)
 
-func Test_RunHeadTail(t *testing.T) {
-    t.Skip("TODO: write tests for RunHeadTail based on README.md")
+func runHeadTail(t *testing.T, args []string, in string) (string, error) {
+	t.Helper()
+	var w bytes.Buffer
+	err := Run(args, strings.NewReader(in), &w)
+	return w.String(), err
+}
+
+func TestHead(t *testing.T) {
+	out, err := runHeadTail(t, []string{"head", "-n", "2"}, "1\n2\n3\n4\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "1\n2\n" {
+		t.Errorf("out = %q, want 1\\n2", out)
+	}
+}
+
+func TestHeadDefault(t *testing.T) {
+	out, err := runHeadTail(t, []string{"head"}, "a\nb\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "a\nb\n" {
+		t.Errorf("out = %q", out)
+	}
+}
+
+func TestHeadZero(t *testing.T) {
+	out, err := runHeadTail(t, []string{"head", "-n", "0"}, "1\n2\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "" {
+		t.Errorf("out = %q, want empty", out)
+	}
+}
+
+func TestTail(t *testing.T) {
+	out, err := runHeadTail(t, []string{"tail", "-n", "2"}, "1\n2\n3\n4\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "3\n4\n" {
+		t.Errorf("out = %q, want 3\\n4", out)
+	}
+}
+
+func TestTailMoreThanLines(t *testing.T) {
+	out, err := runHeadTail(t, []string{"tail", "-n", "10"}, "x\ny\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "x\ny\n" {
+		t.Errorf("out = %q, want all lines", out)
+	}
+}
+
+func TestHeadTailUnknownMode(t *testing.T) {
+	if _, err := runHeadTail(t, []string{"middle", "-n", "1"}, "a\n"); err == nil {
+		t.Error("expected error for unknown mode")
+	}
 }

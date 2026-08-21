@@ -1,39 +1,38 @@
-# Kata 102 — Bloom Filter
+# Kata 132 — Bloom Filter
 
-**Focus:** Advanced practice
+**Focus:** data structures, hashing
 
 ## Your task
 Implement:
 
 ```go
-func Kata72() error
+func NewBloomFilter(size int, hashCount int) (*BloomFilter, error); func (b *BloomFilter) Add(item string); func (b *BloomFilter) Contains(item string) bool
 ```
 
 ### Learning goal
-- What you are building: Build `func Kata72() error` as a reliable contract. Focus: real-world Go integration and testing.
-- Why this matters in real projects: This is how you keep features fast when input size grows.
-- How this grows your Go skills: You practice invariants and complexity reasoning, then prove both with tests.
-- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: match the full README contract; include tests for happy path and edge cases; and keep API and error style idiomatic Go.
+- What you are building: func NewBloomFilter(size int, hashCount int) (*BloomFilter, error); func (b *BloomFilter) Add(item string); func (b *BloomFilter) Contains(item string) bool as a reliable contract. Focus: data structures, hashing.
+- Why this matters in real projects: real systems depend on exact, testable behavior here.
+- How this grows your Go skills: you practice invariants, edge cases, and test-first discipline.
+- Definition of done (plain English): Add never causes Contains to go false (no false negatives); Contains may rarely return true for unseen items (false positive) but only within the bloom-filter tradeoff.
 
 ### Tips
-- State the invariant first, then code.
-- Test shape edges early: empty, one item, duplicates.
-- Check complexity after correctness.
+- Write tests from the rules before implementation.
+- Name edge cases explicitly: nil, empty, min, max.
+- Keep logic linear; branch only when a rule requires it.
 
 ## Rules / Expectations
-- follow README spec
-- write tests
-- keep it idiomatic
+- no false negatives
+- deterministic hash family
+- error on invalid size/hashCount
+- Contains true for all added
 
 ## Prior reading
-- [Bloom filter overview](https://en.wikipedia.org/wiki/Bloom_filter)
-- [Go: Effective Go](https://go.dev/doc/effective_go)
-- [Go package documentation index](https://pkg.go.dev/std)
-- [Go language specification](https://go.dev/ref/spec)
+- [Bloom filter (Wikipedia)](https://en.wikipedia.org/wiki/Bloom_filter)
+- [Go hash/fnv package](https://pkg.go.dev/hash/fnv)
 
 ## What this kata is about (and why it matters)
-- Core lesson: hold invariants first, then optimize safely.
-- After this kata, you should be able to defend algorithm choice, complexity, and corner-case behavior.
+- Core lesson: probabilistic structures trade exactness for space; the invariant that must never break is the false-negative rate.
+- After this kata, you should be able to justify every rule with a test.
 
 ## What you must submit for marking
 - `kata.go`

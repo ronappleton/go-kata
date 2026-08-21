@@ -9,5 +9,24 @@
     "ignore non-letters/digits",
     "Unicode letters treated as letters (use unicode package)"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "data-structures",
+  "level": "junior",
+  "tags": [
+    "data-structures",
+    "slices",
+    "maps",
+    "strings",
+    "normalization",
+    "basics",
+    "palindrome",
+    "check"
+  ],
+  "prerequisites": [
+    "031",
+    "032",
+    "033"
+  ],
+  "estimated_minutes": 20
 }

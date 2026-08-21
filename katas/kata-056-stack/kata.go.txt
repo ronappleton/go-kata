@@ -6,5 +6,4 @@ package kata
 //   type Stack[T any] struct
 type Stack[T any] struct {
     // TODO: your implementation here
-    return nil
-}
+    }

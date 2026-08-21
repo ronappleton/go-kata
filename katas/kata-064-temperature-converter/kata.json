@@ -7,7 +7,24 @@
   "rules": [
     "supports C/F/K suffix",
     "output all 3 units with 2 decimals",
-    "invalid =\u003e error"
+    "invalid => error"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "floats",
+    "temperature",
+    "converter"
+  ],
+  "prerequisites": [
+    "061",
+    "062",
+    "063"
+  ],
+  "estimated_minutes": 30
 }

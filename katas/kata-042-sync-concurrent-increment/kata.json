@@ -5,10 +5,28 @@
   "focus": "sync.WaitGroup, sync.Mutex, goroutine coordination",
   "signature": "func IncrementConcurrently(total, workers int) int",
   "rules": [
-    "total \u003c= 0 =\u003e return 0",
-    "workers \u003c= 0 =\u003e treat as 1 worker",
+    "total <= 0 => return 0",
+    "workers <= 0 => treat as 1 worker",
     "increment shared counter exactly total times across workers",
     "return exact final counter value"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "testing-fundamentals",
+  "level": "junior",
+  "tags": [
+    "testing",
+    "table-driven-tests",
+    "sync",
+    "waitgroup",
+    "mutex",
+    "goroutine",
+    "coordination",
+    "concurrent",
+    "increment"
+  ],
+  "prerequisites": [
+    "041"
+  ],
+  "estimated_minutes": 20
 }

@@ -1,29 +1,30 @@
-# Kata 100 — LRU Cache (thread-safe)
+# Kata 111 — LRU Cache (thread-safe)
 
-**Focus:** Advanced practice
+**Focus:** Concurrency, structs
 
 ## Your task
 Implement:
 
 ```go
-func Kata70() error
+func NewLRUCache(capacity int) (*LRUCache, error)
 ```
 
 ### Learning goal
-- What you are building: Build `func Kata70() error` as a reliable contract. Focus: real-world Go integration and testing.
-- Why this matters in real projects: Concurrency bugs are expensive. You are learning to prevent them by design.
-- How this grows your Go skills: You practice ownership, cancellation, synchronization, and leak-free shutdown.
-- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: match the full README contract; include tests for happy path and edge cases; and keep API and error style idiomatic Go.
+- What you are building: func NewLRUCache(capacity int) (*LRUCache, error) as a reliable contract. Focus: Concurrency, structs.
+- Why this matters in real projects: real systems depend on exact, testable behavior here.
+- How this grows your Go skills: you practice invariants, edge cases, and test-first discipline.
+- Definition of done (plain English): capacity>0; thread-safe Get/Put; evict least recently used; Len() reflects size.
 
 ### Tips
-- Decide ownership first: who starts, stops, and closes.
-- Test cancellation and shutdown before throughput.
-- Run `go test -race ./...` regularly.
+- Write tests from the rules before implementation.
+- Name edge cases explicitly: nil, empty, min, max.
+- Keep logic linear; branch only when a rule requires it.
 
 ## Rules / Expectations
-- follow README spec
-- write tests
-- keep it idiomatic
+- thread-safe under concurrent access
+- evict LRU on overflow
+- Get returns ok=false on miss
+- error when capacity < 1
 
 ## Prior reading
 - [Go map types in language spec](https://go.dev/ref/spec#Map_types)
@@ -31,8 +32,8 @@ func Kata70() error
 - [Go sync package](https://pkg.go.dev/sync)
 
 ## What this kata is about (and why it matters)
-- Core lesson: own lifecycle and shutdown before chasing throughput.
-- After this kata, you should be able to explain who starts, who stops, and who closes every path.
+- Core lesson: own the lock discipline: every public method takes the mutex and releases it exactly once.
+- After this kata, you should be able to justify every rule with a test.
 
 ## What you must submit for marking
 - `kata.go`

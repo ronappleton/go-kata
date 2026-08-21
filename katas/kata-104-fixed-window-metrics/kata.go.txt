@@ -1,10 +1,32 @@
 package kata
 
+import (
+	"sync"
+	"time"
+)
+
 // CounterWindow — TODO: implement as specified in README.md
-//
 // Signature:
-//   type CounterWindow struct
+//   Add(value int)
+//   Sum(last time.Duration) int
 type CounterWindow struct {
-    // TODO: your implementation here
-    return nil
+	mu    sync.Mutex
+	start time.Time
+	vals  []windowEntry
+}
+
+type windowEntry struct {
+	t int64
+	v int
+}
+
+// Add records a value with the current time.
+func (c *CounterWindow) Add(value int) {
+	// TODO: your implementation here
+}
+
+// Sum returns the sum of values recorded within the last duration.
+func (c *CounterWindow) Sum(last time.Duration) int {
+	// TODO: your implementation here
+	return 0
 }

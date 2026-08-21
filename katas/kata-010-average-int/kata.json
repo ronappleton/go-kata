@@ -5,9 +5,31 @@
   "focus": "Slices, integer arithmetic, validation",
   "signature": "func Average(values []int) (int, bool)",
   "rules": [
-    "nil or empty slice =\u003e 0 and false",
-    "non-empty slice =\u003e integer average using floor division and true",
+    "nil or empty slice => 0 and false",
+    "non-empty slice => integer average using floor division and true",
     "all values contribute once to total"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "language-basics",
+  "level": "junior",
+  "tags": [
+    "basics",
+    "types",
+    "functions",
+    "conditionals",
+    "loops",
+    "slices",
+    "integer",
+    "arithmetic",
+    "validation",
+    "average",
+    "int"
+  ],
+  "prerequisites": [
+    "007",
+    "008",
+    "009"
+  ],
+  "estimated_minutes": 20
 }

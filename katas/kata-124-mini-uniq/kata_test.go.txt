@@ -1,7 +1,65 @@
 package kata
 
-import "testing"
+import (
+	"bytes"
+	"strings"
+	"testing"
+)
 
-func Test_RunUniq(t *testing.T) {
-    t.Skip("TODO: write tests for RunUniq based on README.md")
+func runUniq(t *testing.T, args []string, in string) (string, error) {
+	t.Helper()
+	var w bytes.Buffer
+	err := Run(args, strings.NewReader(in), &w)
+	return w.String(), err
+}
+
+func TestUniqCollapseAdjacent(t *testing.T) {
+	out, err := runUniq(t, nil, "a\na\nb\na\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	// only ADJACENT duplicates collapse
+	if out != "a\nb\na\n" {
+		t.Errorf("out = %q, want a\\nb\\na", out)
+	}
+}
+
+func TestUniqCount(t *testing.T) {
+	out, err := runUniq(t, []string{"-c"}, "x\nx\nx\ny\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "3 x\n1 y\n" {
+		t.Errorf("out = %q, want 3 x\\n1 y", out)
+	}
+}
+
+func TestUniqOnlyDuplicates(t *testing.T) {
+	out, err := runUniq(t, []string{"-d"}, "a\na\nb\nc\nc\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "a\nc\n" {
+		t.Errorf("out = %q, want a\\nc", out)
+	}
+}
+
+func TestUniqEmpty(t *testing.T) {
+	out, err := runUniq(t, nil, "")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "" {
+		t.Errorf("out = %q, want empty", out)
+	}
+}
+
+func TestUniqSingleLine(t *testing.T) {
+	out, err := runUniq(t, nil, "only\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "only\n" {
+		t.Errorf("out = %q, want only", out)
+	}
 }

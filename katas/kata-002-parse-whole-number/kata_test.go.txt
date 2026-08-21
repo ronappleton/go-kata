@@ -2,6 +2,32 @@ package kata
 
 import "testing"
 
-func Test_Kata002(t *testing.T) {
-	t.Skip("TODO: write tests for kata 002 based on README.md")
+func TestParseWholeNumber(t *testing.T) {
+	tests := []struct {
+		name  string
+		input string
+		want  int
+		ok    bool
+	}{
+		{"zero", "0", 0, true},
+		{"positive", "42", 42, true},
+		{"negative", "-7", -7, true},
+		{"with spaces around", "  123  ", 123, true},
+		{"empty", "", 0, false},
+		{"whitespace only", "   ", 0, false},
+		{"not a number", "abc", 0, false},
+		{"partial number", "12abc", 0, false},
+		{"decimal", "3.14", 0, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, ok := ParseWholeNumber(tt.input)
+			if ok != tt.ok {
+				t.Errorf("ParseWholeNumber(%q) ok = %v, want %v", tt.input, ok, tt.ok)
+			}
+			if got != tt.want {
+				t.Errorf("ParseWholeNumber(%q) = %d, want %d", tt.input, got, tt.want)
+			}
+		})
+	}
 }

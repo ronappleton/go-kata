@@ -1,7 +1,28 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_Kata012(t *testing.T) {
-	t.Skip("TODO: write tests for kata 012 based on README.md")
+func TestRemoveEmptyStrings(t *testing.T) {
+	tests := []struct {
+		name string
+		in   []string
+		want []string
+	}{
+		{"nil", nil, []string{}},
+		{"no empties", []string{"a", "b"}, []string{"a", "b"}},
+		{"with empties", []string{"a", "", "b", ""}, []string{"a", "b"}},
+		{"only empties", []string{"", ""}, []string{}},
+		{"whitespace preserved", []string{" ", "a"}, []string{" ", "a"}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := RemoveEmptyStrings(tt.in)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("RemoveEmptyStrings(%v) = %v, want %v", tt.in, got, tt.want)
+			}
+		})
+	}
 }

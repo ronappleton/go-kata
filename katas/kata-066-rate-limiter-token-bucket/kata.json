@@ -7,7 +7,27 @@
   "rules": [
     "Allow() bool",
     "single-thread only here",
-    "ratePerSec\u003e=1, burst\u003e=1"
+    "ratePerSec>=1, burst>=1"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "time",
+    "structs",
+    "rate",
+    "limiter",
+    "token",
+    "bucket"
+  ],
+  "prerequisites": [
+    "063",
+    "064",
+    "065"
+  ],
+  "estimated_minutes": 30
 }

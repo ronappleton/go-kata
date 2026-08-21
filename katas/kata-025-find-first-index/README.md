@@ -1,4 +1,4 @@
-# Kata 015 — Find First Index
+# Kata 025 — Find First Index
 
 **Focus:** Linear search, return conventions
 

@@ -2,6 +2,35 @@ package kata
 
 import "testing"
 
-func Test_Kata010(t *testing.T) {
-	t.Skip("TODO: write tests for kata 010 based on README.md")
+func TestAverage(t *testing.T) {
+	t.Run("nil errors", func(t *testing.T) {
+		if got, ok := Average(nil); ok || got != 0 {
+			t.Errorf("Average(nil) = (%d, %v), want (0, false)", got, ok)
+		}
+		if got, ok := Average([]int{}); ok || got != 0 {
+			t.Errorf("Average([]) = (%d, %v), want (0, false)", got, ok)
+		}
+	})
+	tests := []struct {
+		name string
+		in   []int
+		want int
+	}{
+		{"single", []int{7}, 7},
+		{"exact average", []int{1, 2, 3}, 2},
+		{"floor division", []int{1, 2}, 1},
+		{"negatives", []int{-4, -2}, -3},
+		{"all zeros", []int{0, 0, 0}, 0},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, ok := Average(tt.in)
+			if !ok {
+				t.Fatalf("Average(%v) ok = false, want true", tt.in)
+			}
+			if got != tt.want {
+				t.Errorf("Average(%v) = %d, want %d", tt.in, got, tt.want)
+			}
+		})
+	}
 }

@@ -1,4 +1,4 @@
-# Kata 006 — Sum First N
+# Kata 012 — Sum First N
 
 **Focus:** For-loops, accumulation patterns
 

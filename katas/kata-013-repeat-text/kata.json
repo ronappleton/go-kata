@@ -5,9 +5,31 @@
   "focus": "String construction, loops, guard clauses",
   "signature": "func RepeatText(text string, times int) string",
   "rules": [
-    "times\u003c=0 =\u003e empty string",
-    "times\u003e0 =\u003e text repeated exactly times times",
+    "times<=0 => empty string",
+    "times>0 => text repeated exactly times times",
     "no delimiters are inserted"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "language-basics",
+  "level": "junior",
+  "tags": [
+    "basics",
+    "types",
+    "functions",
+    "conditionals",
+    "loops",
+    "string",
+    "construction",
+    "guard",
+    "clauses",
+    "repeat",
+    "text"
+  ],
+  "prerequisites": [
+    "010",
+    "011",
+    "012"
+  ],
+  "estimated_minutes": 20
 }

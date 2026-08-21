@@ -1,7 +1,55 @@
 package kata
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
-func Test_Debounce(t *testing.T) {
-    t.Skip("TODO: write tests for Debounce based on README.md")
+func TestDebounce(t *testing.T) {
+	t.Run("emits after quiet period", func(t *testing.T) {
+		in := make(chan struct{})
+		out := Debounce(20*time.Millisecond, in)
+		in <- struct{}{}
+		select {
+		case <-out:
+		case <-time.After(200 * time.Millisecond):
+			t.Fatal("no output after quiet period")
+		}
+		close(in)
+	})
+	t.Run("closes output when input closes", func(t *testing.T) {
+		in := make(chan struct{})
+		out := Debounce(time.Hour, in)
+		close(in)
+		select {
+		case _, ok := <-out:
+			if ok {
+				t.Error("output should be closed")
+			}
+		case <-time.After(200 * time.Millisecond):
+			t.Fatal("output not closed after input closed")
+		}
+	})
+	t.Run("rapid events coalesce", func(t *testing.T) {
+		in := make(chan struct{})
+		out := Debounce(30*time.Millisecond, in)
+		for i := 0; i < 5; i++ {
+			in <- struct{}{}
+			time.Sleep(5 * time.Millisecond)
+		}
+		count := 0
+		done := make(chan struct{})
+		go func() {
+			for range out {
+				count++
+			}
+			close(done)
+		}()
+		time.Sleep(100 * time.Millisecond)
+		close(in)
+		<-done
+		if count > 3 {
+			t.Errorf("count = %d, want coalesced (<= 3)", count)
+		}
+	})
 }

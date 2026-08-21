@@ -1,7 +1,69 @@
 package kata
 
-import "testing"
+import (
+	"bytes"
+	"os"
+	"path/filepath"
+	"strings"
+	"testing"
+)
 
-func Test_RunGrep(t *testing.T) {
-    t.Skip("TODO: write tests for RunGrep based on README.md")
+func runGrep(t *testing.T, args []string, in string) (string, error) {
+	t.Helper()
+	var w bytes.Buffer
+	err := Run(args, strings.NewReader(in), &w)
+	return w.String(), err
+}
+
+func TestGrepStdin(t *testing.T) {
+	out, err := runGrep(t, []string{"ell"}, "hello\nworld\ncell\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "hello\ncell\n" {
+		t.Errorf("out = %q, want hello\\ncell", out)
+	}
+}
+
+func TestGrepNoMatch(t *testing.T) {
+	out, err := runGrep(t, []string{"zzz"}, "hello\nworld\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "" {
+		t.Errorf("out = %q, want empty", out)
+	}
+}
+
+func TestGrepFileArg(t *testing.T) {
+	dir := t.TempDir()
+	f := filepath.Join(dir, "log.txt")
+	if err := os.WriteFile(f, []byte("info: boot\nwarn: disk\ninfo: ready\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	var w bytes.Buffer
+	if err := Run([]string{"info", f}, strings.NewReader("ignored"), &w); err != nil {
+		t.Fatal(err)
+	}
+	// files get a filename: prefix
+	if w.String() != f+":info: boot\n"+f+":info: ready\n" {
+		t.Errorf("out = %q", w.String())
+	}
+}
+
+func TestGrepMissingFile(t *testing.T) {
+	var w bytes.Buffer
+	if err := Run([]string{"x", "/no/such.txt"}, strings.NewReader(""), &w); err == nil {
+		t.Error("expected error for missing file")
+	}
+}
+
+func TestGrepEmptyPattern(t *testing.T) {
+	out, err := runGrep(t, []string{""}, "abc\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "abc\n" {
+		t.Errorf("out = %q, want abc (empty pattern matches everything)", out)
+	}
 }

@@ -8,3 +8,13 @@ func NewBarrier(parties int) (*Barrier, error) {
     // TODO: your implementation here
     return nil, nil
 }
+
+// Barrier — TODO: implement as specified in README.md
+type Barrier struct {
+	// TODO: your implementation here
+}
+
+// Wait() — TODO: implement as specified in README.md
+func (t *Barrier) Wait() {
+	// TODO: your implementation here
+}

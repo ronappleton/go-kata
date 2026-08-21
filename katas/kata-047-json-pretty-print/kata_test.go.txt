@@ -1,7 +1,41 @@
 package kata
 
-import "testing"
+import (
+	"encoding/json"
+	"strings"
+	"testing"
+)
 
-func Test_Kata025(t *testing.T) {
-	t.Skip("TODO: write tests for kata 025 based on README.md")
+func TestPrettyJSON(t *testing.T) {
+	t.Run("invalid json errors", func(t *testing.T) {
+		if _, err := PrettyJSON([]byte("{not json")); err == nil {
+			t.Error("expected error for invalid JSON")
+		}
+	})
+	t.Run("pretty prints with 2-space indent", func(t *testing.T) {
+		got, err := PrettyJSON([]byte("{\"b\":2,\"a\":[1,2]}"))
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if !json.Valid(got) {
+			t.Fatalf("output not valid JSON: %s", got)
+		}
+		s := string(got)
+		if !strings.HasSuffix(s, "\n") {
+			t.Errorf("output should end with newline: %q", s)
+		}
+		if !strings.Contains(s, "  ") {
+			t.Errorf("output should be indented: %q", s)
+		}
+	})
+	t.Run("semantic content preserved", func(t *testing.T) {
+		got, err := PrettyJSON([]byte("{\"x\":1}"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		var m map[string]int
+		if err := json.Unmarshal(got, &m); err != nil || m["x"] != 1 {
+			t.Errorf("content changed: %s", got)
+		}
+	})
 }

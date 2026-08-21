@@ -2,6 +2,24 @@ package kata
 
 import "testing"
 
-func Test_RLEncode(t *testing.T) {
-    t.Skip("TODO: write tests for RLEncode based on README.md")
+func TestRLEncode(t *testing.T) {
+	tests := []struct {
+		name string
+		in   string
+		want string
+	}{
+		{"empty", "", ""},
+		{"no runs", "abc", "abc"},
+		{"single run", "aaab", "a3b"},
+		{"multiple runs", "aabbbcc", "a2b3c2"},
+		{"unicode", "ééé", "é3"},
+		{"count greater than 9", "aaaaaaaaaa", "a10"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := RLEncode(tt.in); got != tt.want {
+				t.Errorf("RLEncode(%q) = %q, want %q", tt.in, got, tt.want)
+			}
+		})
+	}
 }

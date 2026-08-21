@@ -6,8 +6,30 @@
   "signature": "func CountTrue(values []bool) int",
   "rules": [
     "returns number of true entries",
-    "nil or empty slice =\u003e 0",
+    "nil or empty slice => 0",
     "false values do not affect count"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "language-basics",
+  "level": "junior",
+  "tags": [
+    "basics",
+    "types",
+    "functions",
+    "conditionals",
+    "loops",
+    "boolean",
+    "logic",
+    "loop",
+    "counting",
+    "count",
+    "true"
+  ],
+  "prerequisites": [
+    "012",
+    "013",
+    "014"
+  ],
+  "estimated_minutes": 20
 }

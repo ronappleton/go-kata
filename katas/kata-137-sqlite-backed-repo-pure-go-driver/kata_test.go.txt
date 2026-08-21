@@ -1,7 +1,80 @@
 package kata
 
-import "testing"
+import (
+	"context"
+	"errors"
+	"testing"
+)
 
-func Test_Kata78(t *testing.T) {
-    t.Skip("TODO: write tests for Kata78 based on README.md")
+func TestRepoCreateGet(t *testing.T) {
+	repo := NewInMemoryRepo()
+	u, err := repo.Create(context.Background(), User{Name: "Ada", Email: "ada@x.io"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if u.ID == "" {
+		t.Error("Create should assign an id when empty")
+	}
+	got, err := repo.Get(context.Background(), u.ID)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got.Name != "Ada" || got.Email != "ada@x.io" {
+		t.Errorf("got = %+v", got)
+	}
+}
+
+func TestRepoGetMissing(t *testing.T) {
+	repo := NewInMemoryRepo()
+	if _, err := repo.Get(context.Background(), "nope"); !errors.Is(err, ErrNotFound) {
+		t.Errorf("expected ErrNotFound, got %v", err)
+	}
+}
+
+func TestRepoUpdate(t *testing.T) {
+	repo := NewInMemoryRepo()
+	u, _ := repo.Create(context.Background(), User{Name: "A", Email: "a@x.io"})
+	u.Name = "B"
+	upd, err := repo.Update(context.Background(), u)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if upd.Name != "B" {
+		t.Errorf("updated name = %q, want B", upd.Name)
+	}
+	if _, err := repo.Update(context.Background(), User{ID: "missing", Name: "X"}); !errors.Is(err, ErrNotFound) {
+		t.Errorf("update of missing id should be ErrNotFound, got %v", err)
+	}
+}
+
+func TestRepoDelete(t *testing.T) {
+	repo := NewInMemoryRepo()
+	u, _ := repo.Create(context.Background(), User{Name: "A"})
+	if err := repo.Delete(context.Background(), u.ID); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := repo.Get(context.Background(), u.ID); !errors.Is(err, ErrNotFound) {
+		t.Errorf("expected ErrNotFound after delete, got %v", err)
+	}
+	// deleting again is idempotent
+	if err := repo.Delete(context.Background(), u.ID); err != nil {
+		t.Errorf("delete of missing id should not error, got %v", err)
+	}
+}
+
+func TestRepoListOrder(t *testing.T) {
+	repo := NewInMemoryRepo()
+	repo.Create(context.Background(), User{Name: "first"})
+	repo.Create(context.Background(), User{Name: "second"})
+	repo.Create(context.Background(), User{Name: "third"})
+	users, err := repo.List(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(users) != 3 {
+		t.Fatalf("len = %d, want 3", len(users))
+	}
+	if users[0].Name != "first" || users[1].Name != "second" || users[2].Name != "third" {
+		t.Errorf("order = %v", users)
+	}
 }

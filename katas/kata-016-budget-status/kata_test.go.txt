@@ -2,6 +2,22 @@ package kata
 
 import "testing"
 
-func Test_Kata017(t *testing.T) {
-	t.Skip("TODO: write tests for kata 017 based on README.md")
+func TestBudgetStatus(t *testing.T) {
+	tests := []struct {
+		name          string
+		income, exp   int
+		want          string
+	}{
+		{"surplus", 100, 80, "surplus"},
+		{"balanced", 100, 100, "balanced"},
+		{"deficit", 80, 100, "deficit"},
+		{"zero both", 0, 0, "balanced"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := BudgetStatus(tt.income, tt.exp); got != tt.want {
+				t.Errorf("BudgetStatus(%d, %d) = %q, want %q", tt.income, tt.exp, got, tt.want)
+			}
+		})
+	}
 }

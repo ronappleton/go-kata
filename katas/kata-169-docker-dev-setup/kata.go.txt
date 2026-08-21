@@ -2,7 +2,6 @@ package kata
 
 import (
 	"fmt"
-	"strings"
 )
 
 // GenerateDockerfile creates a multi-stage Dockerfile for a Go project.

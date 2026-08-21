@@ -1,7 +1,86 @@
 package kata
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
-func Test_NewBreaker(t *testing.T) {
-    t.Skip("TODO: write tests for NewBreaker based on README.md")
+func TestBreakerClosed(t *testing.T) {
+	b, err := NewBreaker(3, time.Minute)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !b.Allow() {
+		t.Error("Allow should be true when closed")
+	}
+	b.Success()
+	if !b.Allow() {
+		t.Error("Allow should stay true after success")
+	}
+}
+
+func TestBreakerTripsAfterThreshold(t *testing.T) {
+	b, _ := NewBreaker(2, time.Minute)
+	b.Failure()
+	b.Failure()
+	if b.Allow() {
+		t.Error("Allow should be false after threshold failures (open)")
+	}
+}
+
+func TestBreakerBelowThreshold(t *testing.T) {
+	b, _ := NewBreaker(3, time.Minute)
+	b.Failure()
+	b.Failure()
+	if !b.Allow() {
+		t.Error("Allow should still be true below the threshold")
+	}
+}
+
+func TestBreakerResetsAfterDuration(t *testing.T) {
+	b, _ := NewBreaker(1, 50*time.Millisecond)
+	b.Failure()
+	if b.Allow() {
+		t.Fatal("Allow should be false right after trip")
+	}
+	time.Sleep(80 * time.Millisecond)
+	if !b.Allow() {
+		t.Error("Allow should be true again after resetAfter (half-open)")
+	}
+}
+
+func TestBreakerHalfOpenSuccessCloses(t *testing.T) {
+	b, _ := NewBreaker(2, 30*time.Millisecond)
+	b.Failure()
+	b.Failure() // trip (threshold 2)
+	time.Sleep(50 * time.Millisecond)
+	if !b.Allow() {
+		t.Fatal("expected half-open Allow")
+	}
+	b.Success()
+	// closed again: failures count from zero
+	b.Failure() // one failure, still below threshold 2
+	if !b.Allow() {
+		t.Error("Allow should be true while below threshold after half-open success")
+	}
+}
+
+func TestBreakerHalfOpenFailureReopens(t *testing.T) {
+	b, _ := NewBreaker(1, 30*time.Millisecond)
+	b.Failure()
+	time.Sleep(50 * time.Millisecond)
+	b.Allow() // half-open trial
+	b.Failure()
+	if b.Allow() {
+		t.Error("Allow should be false after half-open failure (open again)")
+	}
+}
+
+func TestBreakerInvalidArgs(t *testing.T) {
+	if _, err := NewBreaker(0, time.Minute); err == nil {
+		t.Error("expected error for threshold 0")
+	}
+	if _, err := NewBreaker(2, 0); err == nil {
+		t.Error("expected error for zero reset duration")
+	}
 }

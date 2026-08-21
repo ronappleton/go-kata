@@ -1,7 +1,41 @@
 package kata
 
-import "testing"
+import (
+	"context"
+	"errors"
+	"testing"
+	"time"
+)
 
-func Test_WithTimeoutDo(t *testing.T) {
-    t.Skip("TODO: write tests for WithTimeoutDo based on README.md")
+func TestWithTimeoutDo(t *testing.T) {
+	t.Run("fn receives derived ctx and succeeds", func(t *testing.T) {
+		err := WithTimeoutDo(context.Background(), time.Second, func(ctx context.Context) error {
+			return nil
+		})
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+	})
+	t.Run("timeout returns ctx error", func(t *testing.T) {
+		start := time.Now()
+		err := WithTimeoutDo(context.Background(), 20*time.Millisecond, func(ctx context.Context) error {
+			<-ctx.Done()
+			return ctx.Err()
+		})
+		if err == nil {
+			t.Fatal("expected timeout error")
+		}
+		if time.Since(start) > time.Second {
+			t.Errorf("took too long: %v", time.Since(start))
+		}
+	})
+	t.Run("propagates fn error", func(t *testing.T) {
+		sentinel := errors.New("boom")
+		err := WithTimeoutDo(context.Background(), time.Second, func(ctx context.Context) error {
+			return sentinel
+		})
+		if !errors.Is(err, sentinel) {
+			t.Errorf("err = %v, want sentinel", err)
+		}
+	})
 }

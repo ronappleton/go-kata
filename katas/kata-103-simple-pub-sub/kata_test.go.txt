@@ -1,7 +1,45 @@
 package kata
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
-func Test_PubSub(t *testing.T) {
-    t.Skip("TODO: write tests for PubSub based on README.md")
+func TestPubSub(t *testing.T) {
+	t.Run("publish receive", func(t *testing.T) {
+		ps := &PubSub{}
+		ch := ps.Subscribe("news")
+		ps.Publish("news", "hello")
+		select {
+		case msg := <-ch:
+			if msg != "hello" {
+				t.Errorf("msg = %q, want hello", msg)
+			}
+		case <-time.After(time.Second):
+			t.Fatal("no message received")
+		}
+	})
+	t.Run("unsubscribe closes channel", func(t *testing.T) {
+		ps := &PubSub{}
+		ch := ps.Subscribe("news")
+		ps.Unsubscribe("news", ch)
+		select {
+		case _, ok := <-ch:
+			if ok {
+				t.Error("channel should be closed")
+			}
+		case <-time.After(time.Second):
+			t.Fatal("channel not closed after unsubscribe")
+		}
+	})
+	t.Run("topic isolation", func(t *testing.T) {
+		ps := &PubSub{}
+		ch := ps.Subscribe("a")
+		ps.Publish("b", "x")
+		select {
+		case msg := <-ch:
+			t.Errorf("got %q from wrong topic", msg)
+		case <-time.After(50 * time.Millisecond):
+		}
+	})
 }

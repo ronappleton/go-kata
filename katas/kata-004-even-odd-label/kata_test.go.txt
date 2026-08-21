@@ -2,6 +2,24 @@ package kata
 
 import "testing"
 
-func Test_Kata004(t *testing.T) {
-	t.Skip("TODO: write tests for kata 004 based on README.md")
+func TestEvenOddLabel(t *testing.T) {
+	tests := []struct {
+		name string
+		in   int
+		want string
+	}{
+		{"zero is even", 0, "even"},
+		{"positive even", 4, "even"},
+		{"large even", 1000, "even"},
+		{"positive odd", 3, "odd"},
+		{"negative even", -6, "even"},
+		{"negative odd", -9, "odd"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := EvenOddLabel(tt.in); got != tt.want {
+				t.Errorf("EvenOddLabel(%d) = %q, want %q", tt.in, got, tt.want)
+			}
+		})
+	}
 }

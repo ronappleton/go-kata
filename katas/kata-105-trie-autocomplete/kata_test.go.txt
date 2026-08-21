@@ -1,7 +1,43 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_NewTrie(t *testing.T) {
-    t.Skip("TODO: write tests for NewTrie based on README.md")
+func TestTrie(t *testing.T) {
+	t.Run("suggest lexicographic", func(t *testing.T) {
+		tr := NewTrie()
+		tr.Insert("apple")
+		tr.Insert("app")
+		tr.Insert("apricot")
+		got := tr.Suggest("ap", 10)
+		want := []string{"app", "apple", "apricot"}
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("Suggest(ap) = %v, want %v", got, want)
+		}
+	})
+	t.Run("limit respected", func(t *testing.T) {
+		tr := NewTrie()
+		tr.Insert("cat")
+		tr.Insert("car")
+		tr.Insert("cow")
+		got := tr.Suggest("c", 2)
+		if len(got) != 2 {
+			t.Errorf("Suggest(c, 2) = %v, want 2 results", got)
+		}
+	})
+	t.Run("no matches", func(t *testing.T) {
+		tr := NewTrie()
+		tr.Insert("dog")
+		if got := tr.Suggest("x", 5); len(got) != 0 {
+			t.Errorf("Suggest(x) = %v, want empty", got)
+		}
+	})
+	t.Run("empty trie", func(t *testing.T) {
+		tr := NewTrie()
+		if got := tr.Suggest("a", 5); len(got) != 0 {
+			t.Errorf("Suggest on empty = %v, want empty", got)
+		}
+	})
 }

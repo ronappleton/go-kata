@@ -1,4 +1,4 @@
-# Kata 039 — Unique Strings
+# Kata 031 — Unique Strings
 
 **Focus:** Maps as sets, order preservation
 

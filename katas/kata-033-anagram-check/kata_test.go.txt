@@ -2,6 +2,26 @@ package kata
 
 import "testing"
 
-func Test_IsAnagram(t *testing.T) {
-    t.Skip("TODO: write tests for IsAnagram based on README.md")
+func TestIsAnagram(t *testing.T) {
+	tests := []struct {
+		name     string
+		a, b     string
+		want     bool
+	}{
+		{"simple", "listen", "silent", true},
+		{"case insensitive", "Listen", "SILENT", true},
+		{"not anagram", "hello", "world", false},
+		{"different lengths", "abc", "ab", false},
+		{"ignores spaces", "a b c", "cba", true},
+		{"ignores punctuation", "a!b", "ba", true},
+		{"empty strings", "", "", true},
+		{"unicode", "café", "éfac", true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := IsAnagram(tt.a, tt.b); got != tt.want {
+				t.Errorf("IsAnagram(%q, %q) = %v, want %v", tt.a, tt.b, got, tt.want)
+			}
+		})
+	}
 }

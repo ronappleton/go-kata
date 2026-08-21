@@ -1,4 +1,4 @@
-# Kata 035 — Count Vowels
+# Kata 022 — Count Vowels
 
 **Focus:** Loops, unicode, maps
 

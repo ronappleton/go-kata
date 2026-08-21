@@ -1,39 +1,38 @@
-# Kata 128 — Generics: Optional/Result
+# Kata 142 — Generics: Optional/Result
 
-**Focus:** Advanced practice
+**Focus:** generics
 
 ## Your task
 Implement:
 
 ```go
-func Kata98() error
+type Optional[T any] struct{}; func Some[T any](v T) Optional[T]; func None[T any]() Optional[T]; func (o Optional[T]) IsPresent() bool; func (o Optional[T]) Get() (T, bool); func (o Optional[T]) OrElse(def T) T; type Result[T any] struct{}; func Ok[T any](v T) Result[T]; func Err[T any](err error) Result[T]; func (r Result[T]) IsOk() bool; func (r Result[T]) Value() (T, error)
 ```
 
 ### Learning goal
-- What you are building: Build `func Kata98() error` as a reliable contract. Focus: real-world Go integration and testing.
-- Why this matters in real projects: Good structure compounds. Clear contracts reduce future rework.
-- How this grows your Go skills: You practice interface-first design and explicit dependencies.
-- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: match the full README contract; include tests for happy path and edge cases; and keep API and error style idiomatic Go.
+- What you are building: type Optional[T any] struct{}; func Some[T any](v T) Optional[T]; func None[T any]() Optional[T]; func (o Optional[T]) IsPresent() bool; func (o Optional[T]) Get() (T, bool); func (o Optional[T]) OrElse(def T) T; type Result[T any] struct{}; func Ok[T any](v T) Result[T]; func Err[T any](err error) Result[T]; func (r Result[T]) IsOk() bool; func (r Result[T]) Value() (T, error) as a reliable contract. Focus: generics.
+- Why this matters in real projects: real systems depend on exact, testable behavior here.
+- How this grows your Go skills: you practice invariants, edge cases, and test-first discipline.
+- Definition of done (plain English): Optional models a present-or-absent value; Result models success-or-error without panics; both are generic over T.
 
 ### Tips
-- Write contract tests before implementation details.
-- Keep dependencies explicit, not implicit.
-- Prefer small interfaces with one reason to change.
+- Write tests from the rules before implementation.
+- Name edge cases explicitly: nil, empty, min, max.
+- Keep logic linear; branch only when a rule requires it.
 
 ## Rules / Expectations
-- follow README spec
-- write tests
-- keep it idiomatic
+- Some/None semantics
+- OrElse default
+- Ok/Err semantics
+- generic over int and string
 
 ## Prior reading
 - [Go generics tutorial](https://go.dev/doc/tutorial/generics)
-- [Go: Effective Go](https://go.dev/doc/effective_go)
-- [Go package documentation index](https://pkg.go.dev/std)
-- [Go language specification](https://go.dev/ref/spec)
+- [Option pattern (Wikipedia)](https://en.wikipedia.org/wiki/Option_type)
 
 ## What this kata is about (and why it matters)
-- Core lesson: design seams for testability and change.
-- After this kata, you should be able to describe component contracts and test at those seams.
+- Core lesson: Optional/Result make absence and failure explicit in the type system instead of nil/panic conventions.
+- After this kata, you should be able to justify every rule with a test.
 
 ## What you must submit for marking
 - `kata.go`

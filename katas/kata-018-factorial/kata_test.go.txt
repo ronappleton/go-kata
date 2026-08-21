@@ -2,6 +2,37 @@ package kata
 
 import "testing"
 
-func Test_Factorial(t *testing.T) {
-    t.Skip("TODO: write tests for Factorial based on README.md")
+func TestFactorial(t *testing.T) {
+	t.Run("negative errors", func(t *testing.T) {
+		if _, err := Factorial(-1); err == nil {
+			t.Error("Factorial(-1) expected error")
+		}
+	})
+	tests := []struct {
+		name string
+		in   int
+		want int
+	}{
+		{"zero", 0, 1},
+		{"one", 1, 1},
+		{"two", 2, 2},
+		{"five", 5, 120},
+		{"ten", 10, 3628800},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := Factorial(tt.in)
+			if err != nil {
+				t.Fatalf("Factorial(%d) unexpected error: %v", tt.in, err)
+			}
+			if got != tt.want {
+				t.Errorf("Factorial(%d) = %d, want %d", tt.in, got, tt.want)
+			}
+		})
+	}
+	t.Run("overflow errors", func(t *testing.T) {
+		if _, err := Factorial(100); err == nil {
+			t.Error("Factorial(100) expected overflow error")
+		}
+	})
 }

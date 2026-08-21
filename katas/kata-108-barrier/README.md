@@ -1,4 +1,4 @@
-# Kata 097 — Barrier
+# Kata 108 — Barrier
 
 **Focus:** Concurrency coordination
 

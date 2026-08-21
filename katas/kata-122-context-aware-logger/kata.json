@@ -9,5 +9,20 @@
     "write tests",
     "keep it idiomatic"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "senior",
+  "category": "observability",
+  "level": "senior",
+  "tags": [
+    "observability",
+    "logging",
+    "metrics",
+    "advanced",
+    "practice",
+    "context",
+    "aware",
+    "logger"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 45
 }

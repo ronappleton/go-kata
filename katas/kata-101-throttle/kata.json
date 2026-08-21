@@ -3,10 +3,27 @@
   "slug": "throttle",
   "title": "Throttle",
   "focus": "Time, channels",
-  "signature": "func Throttle(d time.Duration, in \u003c-chan struct{}) \u003c-chan struct{}",
+  "signature": "func Throttle(d time.Duration, in <-chan struct{}) <-chan struct{}",
   "rules": [
     "max 1 event per period",
     "drop extras"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "time",
+    "throttle"
+  ],
+  "prerequisites": [
+    "098",
+    "099",
+    "100"
+  ],
+  "estimated_minutes": 30
 }

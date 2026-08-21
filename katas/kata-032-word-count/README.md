@@ -1,4 +1,4 @@
-# Kata 040 — Word Count
+# Kata 032 — Word Count
 
 **Focus:** Strings, fields, maps
 

@@ -5,9 +5,30 @@
   "focus": "github.com/stretchr/testify, assert/require, test helpers",
   "signature": "",
   "rules": [
-    "Multiply(2,3) =\u003e 6",
-    "Multiply(0,5) =\u003e 0",
+    "Multiply(2,3) => 6",
+    "Multiply(0,5) => 0",
     "Tests use assertion patterns"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "real-world-packages",
+  "level": "mid",
+  "tags": [
+    "packages",
+    "libraries",
+    "github",
+    "com",
+    "stretchr",
+    "testify",
+    "assert",
+    "require",
+    "test",
+    "helpers",
+    "assertions"
+  ],
+  "prerequisites": [
+    "089",
+    "090"
+  ],
+  "estimated_minutes": 30
 }

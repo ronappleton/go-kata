@@ -1,4 +1,4 @@
-# Kata 099 — Batcher
+# Kata 110 — Batcher
 
 **Focus:** Time, channels
 

@@ -1,4 +1,4 @@
-# Kata 123 — Mini sort
+# Kata 144 — Mini sort
 
 **Focus:** CLI, IO
 

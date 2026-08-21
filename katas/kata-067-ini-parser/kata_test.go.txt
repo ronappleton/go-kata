@@ -1,7 +1,31 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_ParseINI(t *testing.T) {
-    t.Skip("TODO: write tests for ParseINI based on README.md")
+func TestParseINI(t *testing.T) {
+	t.Run("sections and keys", func(t *testing.T) {
+		got, err := ParseINI("[db]\nhost=localhost\nport=5432\n[app]\nname=test\n")
+		if err != nil {
+			t.Fatal(err)
+		}
+		want := map[string]map[string]string{
+			"db":  {"host": "localhost", "port": "5432"},
+			"app": {"name": "test"},
+		}
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("ParseINI = %v, want %v", got, want)
+		}
+	})
+	t.Run("comments ignored", func(t *testing.T) {
+		got, err := ParseINI("; comment\n# another\n[key]\nval=1\n")
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(got, map[string]map[string]string{"key": {"val": "1"}}) {
+			t.Errorf("ParseINI = %v", got)
+		}
+	})
 }

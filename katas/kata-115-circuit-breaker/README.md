@@ -1,4 +1,4 @@
-# Kata 094 — Circuit Breaker
+# Kata 115 — Circuit Breaker
 
 **Focus:** State machines, time
 

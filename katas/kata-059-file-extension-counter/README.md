@@ -1,4 +1,4 @@
-# Kata 061 — File Extension Counter
+# Kata 059 — File Extension Counter
 
 **Focus:** os, filepath
 

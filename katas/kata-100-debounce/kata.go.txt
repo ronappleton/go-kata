@@ -4,6 +4,10 @@ package kata
 //
 // Signature:
 //   func Debounce(d time.Duration, in <-chan struct{}) <-chan struct{}
+import (
+	"time"
+)
+
 func Debounce(d time.Duration, in <-chan struct{}) <-chan struct{} {
     // TODO: your implementation here
     return nil

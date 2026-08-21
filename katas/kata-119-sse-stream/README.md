@@ -1,39 +1,38 @@
-# Kata 112 — SSE Stream
+# Kata 119 — SSE Stream
 
-**Focus:** Advanced practice
+**Focus:** net/http, streaming
 
 ## Your task
 Implement:
 
 ```go
-func Kata82() error
+func SSEHandler(events <-chan string) http.Handler
 ```
 
 ### Learning goal
-- What you are building: Build `func Kata82() error` as a reliable contract. Focus: real-world Go integration and testing.
-- Why this matters in real projects: HTTP boundaries are product behavior. Callers depend on exact semantics.
-- How this grows your Go skills: You practice context-aware request handling and stable status/error contracts.
-- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: match the full README contract; include tests for happy path and edge cases; and keep API and error style idiomatic Go.
+- What you are building: func SSEHandler(events <-chan string) http.Handler as a reliable contract. Focus: net/http, streaming.
+- Why this matters in real projects: real systems depend on exact, testable behavior here.
+- How this grows your Go skills: you practice invariants, edge cases, and test-first discipline.
+- Definition of done (plain English): writes each event as a "data: <event>\n\n" block with Content-Type text/event-stream, flushes per event, and ends the stream when the channel closes.
 
 ### Tips
-- Pin boundary behavior with `httptest`.
-- Cover both success and failure responses.
-- Test retries/timeouts with targeted cases.
+- Write tests from the rules before implementation.
+- Name edge cases explicitly: nil, empty, min, max.
+- Keep logic linear; branch only when a rule requires it.
 
 ## Rules / Expectations
-- follow README spec
-- write tests
-- keep it idiomatic
+- text/event-stream content type
+- data: prefix per event
+- flush per event
+- ends on channel close
 
 ## Prior reading
+- [SSE spec (WHATWG)](https://html.spec.whatwg.org/multipage/server-sent-events.html)
 - [Go net/http package](https://pkg.go.dev/net/http)
-- [RFC 9110 (HTTP semantics)](https://www.rfc-editor.org/rfc/rfc9110)
-- [Go io package](https://pkg.go.dev/io)
-- [Go bufio package](https://pkg.go.dev/bufio)
 
 ## What this kata is about (and why it matters)
-- Core lesson: treat request/response behavior as a hard contract.
-- After this kata, you should be able to justify status/error choices at the service boundary.
+- Core lesson: streaming contracts: set headers before writing, flush after each payload, and terminate cleanly.
+- After this kata, you should be able to justify every rule with a test.
 
 ## What you must submit for marking
 - `kata.go`

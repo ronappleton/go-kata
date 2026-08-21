@@ -1,4 +1,4 @@
-# Kata 057 — Bracket Matcher
+# Kata 094 — Bracket Matcher
 
 **Focus:** Stacks, runes
 

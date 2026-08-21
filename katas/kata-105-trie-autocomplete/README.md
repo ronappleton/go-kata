@@ -1,4 +1,4 @@
-# Kata 090 — Trie Autocomplete
+# Kata 105 — Trie Autocomplete
 
 **Focus:** Data structures
 

@@ -1,7 +1,75 @@
 package kata
 
-import "testing"
+import (
+	"bytes"
+	"strings"
+	"testing"
+)
 
-func Test_RunSort(t *testing.T) {
-    t.Skip("TODO: write tests for RunSort based on README.md")
+func runSort(t *testing.T, args []string, in string) (string, error) {
+	t.Helper()
+	var w bytes.Buffer
+	err := Run(args, strings.NewReader(in), &w)
+	return w.String(), err
+}
+
+func TestSortDefault(t *testing.T) {
+	out, err := runSort(t, nil, "pear\napple\nfig\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "apple\nfig\npear\n" {
+		t.Errorf("out = %q", out)
+	}
+}
+
+func TestSortReverse(t *testing.T) {
+	out, err := runSort(t, []string{"-r"}, "a\nc\nb\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "c\nb\na\n" {
+		t.Errorf("out = %q", out)
+	}
+}
+
+func TestSortNumeric(t *testing.T) {
+	out, err := runSort(t, []string{"-n"}, "10\n2\n1\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "1\n2\n10\n" {
+		t.Errorf("out = %q, want numeric order", out)
+	}
+}
+
+func TestSortNumericReverse(t *testing.T) {
+	out, err := runSort(t, []string{"-n", "-r"}, "3\n100\n20\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "100\n20\n3\n" {
+		t.Errorf("out = %q", out)
+	}
+}
+
+func TestSortEmpty(t *testing.T) {
+	out, err := runSort(t, nil, "")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "" {
+		t.Errorf("out = %q, want empty", out)
+	}
+}
+
+func TestSortLexicalDefault(t *testing.T) {
+	// without -n, "10" sorts before "2" lexically
+	out, err := runSort(t, nil, "2\n10\n")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out != "10\n2\n" {
+		t.Errorf("out = %q, want lexical order", out)
+	}
 }

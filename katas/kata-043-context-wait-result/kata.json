@@ -5,10 +5,29 @@
   "focus": "context cancellation, time.Timer selection",
   "signature": "func WaitForContextOrDuration(ctx context.Context, d time.Duration) string",
   "rules": [
-    "d \u003c= 0 =\u003e return `completed` immediately",
-    "if context is done before duration =\u003e return `cancelled`",
-    "if duration elapses first =\u003e return `completed`",
+    "d <= 0 => return `completed` immediately",
+    "if context is done before duration => return `cancelled`",
+    "if duration elapses first => return `completed`",
     "avoid leaking timer resources"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "testing-fundamentals",
+  "level": "junior",
+  "tags": [
+    "testing",
+    "table-driven-tests",
+    "context",
+    "cancellation",
+    "time",
+    "timer",
+    "selection",
+    "wait",
+    "result"
+  ],
+  "prerequisites": [
+    "041",
+    "042"
+  ],
+  "estimated_minutes": 20
 }

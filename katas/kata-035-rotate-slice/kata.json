@@ -5,9 +5,28 @@
   "focus": "Generics, indexing",
   "signature": "func RotateLeft[T any](items []T, k int) []T",
   "rules": [
-    "k can be \u003e len",
+    "k can be > len",
     "k can be negative (rotate right)",
-    "nil =\u003e empty slice"
+    "nil => empty slice"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "data-structures",
+  "level": "junior",
+  "tags": [
+    "data-structures",
+    "slices",
+    "maps",
+    "strings",
+    "generics",
+    "indexing",
+    "rotate",
+    "slice"
+  ],
+  "prerequisites": [
+    "032",
+    "033",
+    "034"
+  ],
+  "estimated_minutes": 20
 }

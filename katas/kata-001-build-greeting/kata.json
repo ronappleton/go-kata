@@ -5,9 +5,30 @@
   "focus": "Functions, variables, conditionals, strings.TrimSpace",
   "signature": "func BuildGreeting(name string) string",
   "rules": [
-    "empty name after trim =\u003e \"Hello, stranger!\"",
-    "non-empty name =\u003e \"Hello, \u003cName\u003e!\"",
+    "empty name after trim => \"Hello, stranger!\"",
+    "non-empty name => \"Hello, <Name>!\"",
     "result always begins with \"Hello,\""
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "setup-and-toolchain",
+  "level": "junior",
+  "tags": [
+    "setup",
+    "toolchain",
+    "go-mod",
+    "go-run",
+    "go-build",
+    "functions",
+    "variables",
+    "conditionals",
+    "strings",
+    "trimspace",
+    "build",
+    "greeting"
+  ],
+  "prerequisites": [
+    "000"
+  ],
+  "estimated_minutes": 20
 }

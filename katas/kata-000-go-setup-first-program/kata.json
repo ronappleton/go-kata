@@ -1,12 +1,32 @@
 {
   "id": "000",
   "slug": "go-setup-first-program",
-  "title": "Go Setup \u0026 First Program",
+  "title": "Go Setup & First Program",
   "focus": "go mod init, main package, go run, go build",
   "signature": "func InitModule(name string) string",
   "rules": [
-    "simple module =\u003e \"example.com/myapp\"",
-    "with path =\u003e \"github.com/user/repo\""
+    "simple module => \"example.com/myapp\"",
+    "with path => \"github.com/user/repo\""
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "setup-and-toolchain",
+  "level": "junior",
+  "tags": [
+    "setup",
+    "toolchain",
+    "go-mod",
+    "go-run",
+    "go-build",
+    "mod",
+    "init",
+    "main",
+    "package",
+    "run",
+    "build",
+    "first",
+    "program"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 20
 }

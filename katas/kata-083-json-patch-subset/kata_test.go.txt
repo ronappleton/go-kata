@@ -1,7 +1,50 @@
 package kata
 
-import "testing"
+import (
+	"encoding/json"
+	"testing"
+)
 
-func Test_ApplyPatch(t *testing.T) {
-    t.Skip("TODO: write tests for ApplyPatch based on README.md")
+func TestApplyPatch(t *testing.T) {
+	t.Run("add top-level key", func(t *testing.T) {
+		got, err := ApplyPatch([]byte("{\"a\":1}"), []byte("[{\"op\":\"add\",\"path\":\"/b\",\"value\":2}]"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		var m map[string]int
+		json.Unmarshal(got, &m)
+		if m["a"] != 1 || m["b"] != 2 {
+			t.Errorf("result = %v", m)
+		}
+	})
+	t.Run("replace existing key", func(t *testing.T) {
+		got, err := ApplyPatch([]byte("{\"a\":1}"), []byte("[{\"op\":\"replace\",\"path\":\"/a\",\"value\":9}]"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		var m map[string]int
+		json.Unmarshal(got, &m)
+		if m["a"] != 9 {
+			t.Errorf("result = %v", m)
+		}
+	})
+	t.Run("remove key", func(t *testing.T) {
+		got, err := ApplyPatch([]byte("{\"a\":1,\"b\":2}"), []byte("[{\"op\":\"remove\",\"path\":\"/a\"}]"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		var m map[string]int
+		json.Unmarshal(got, &m)
+		if _, ok := m["a"]; ok {
+			t.Errorf("a should be removed: %v", m)
+		}
+		if m["b"] != 2 {
+			t.Errorf("b lost: %v", m)
+		}
+	})
+	t.Run("invalid patch errors", func(t *testing.T) {
+		if _, err := ApplyPatch([]byte("{}"), []byte("not json")); err == nil {
+			t.Error("expected error for invalid patch")
+		}
+	})
 }

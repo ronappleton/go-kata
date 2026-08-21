@@ -5,9 +5,31 @@
   "focus": "Conditionals, modulo arithmetic",
   "signature": "func EvenOddLabel(n int) string",
   "rules": [
-    "n%2==0 =\u003e \"even\"",
-    "n%2!=0 =\u003e \"odd\"",
+    "n%2==0 => \"even\"",
+    "n%2!=0 => \"odd\"",
     "0 is treated as even"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "setup-and-toolchain",
+  "level": "junior",
+  "tags": [
+    "setup",
+    "toolchain",
+    "go-mod",
+    "go-run",
+    "go-build",
+    "conditionals",
+    "modulo",
+    "arithmetic",
+    "even",
+    "odd",
+    "label"
+  ],
+  "prerequisites": [
+    "001",
+    "002",
+    "003"
+  ],
+  "estimated_minutes": 20
 }

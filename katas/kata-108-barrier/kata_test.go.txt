@@ -1,7 +1,41 @@
 package kata
 
-import "testing"
+import (
+	"context"
+	"sync"
+	"testing"
+	"time"
+)
 
-func Test_NewBarrier(t *testing.T) {
-    t.Skip("TODO: write tests for NewBarrier based on README.md")
+func TestBarrier(t *testing.T) {
+	t.Run("releases all at parties", func(t *testing.T) {
+		b, err := NewBarrier(3)
+		if err != nil {
+			t.Fatal(err)
+		}
+		var wg sync.WaitGroup
+		released := make(chan struct{}, 3)
+		for i := 0; i < 3; i++ {
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				if err := b.Wait(context.Background()); err != nil {
+					t.Errorf("Wait error: %v", err)
+				}
+				released <- struct{}{}
+			}()
+		}
+		done := make(chan struct{})
+		go func() { wg.Wait(); close(done) }()
+		select {
+		case <-done:
+		case <-time.After(2 * time.Second):
+			t.Fatal("barrier did not release all waiters")
+		}
+	})
+	t.Run("invalid parties errors", func(t *testing.T) {
+		if _, err := NewBarrier(0); err == nil {
+			t.Error("expected error for parties < 1")
+		}
+	})
 }

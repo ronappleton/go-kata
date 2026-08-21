@@ -1,5 +1,9 @@
 package kata
 
+import (
+	"context"
+)
+
 // NewSemaphore — TODO: implement as specified in README.md
 //
 // Signature:
@@ -7,4 +11,21 @@ package kata
 func NewSemaphore(n int) (*Semaphore, error) {
     // TODO: your implementation here
     return nil, nil
+}
+
+// Semaphore — TODO: implement as specified in README.md
+type Semaphore struct {
+	// TODO: your implementation here
+}
+
+// Acquire(ctx context.Context) error — TODO: implement as specified in README.md
+func (t *Semaphore) Acquire(ctx context.Context) error {
+	// TODO: your implementation here
+	return nil
+}
+
+// Release() — TODO: implement as specified in README.md
+func (t *Semaphore) Release() {
+	// TODO: your implementation here
+	return
 }

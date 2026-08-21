@@ -2,7 +2,6 @@ package kata
 
 import (
 	"fmt"
-	"strings"
 )
 
 // --- Small Interfaces (Go style) ---

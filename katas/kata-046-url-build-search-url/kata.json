@@ -5,11 +5,30 @@
   "focus": "net/url parsing, query encoding",
   "signature": "func BuildSearchURL(base string, params map[string]string) (string, error)",
   "rules": [
-    "invalid base URL =\u003e non-nil error",
+    "invalid base URL => non-nil error",
     "preserve existing query parameters from base URL",
     "add only params with non-empty values",
     "return encoded URL string",
     "deterministic query encoding order by key"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "net",
+    "url",
+    "query",
+    "encoding",
+    "build",
+    "search"
+  ],
+  "prerequisites": [
+    "044",
+    "045"
+  ],
+  "estimated_minutes": 30
 }

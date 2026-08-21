@@ -1,4 +1,4 @@
-# Kata 005 — Clamp Value
+# Kata 011 — Clamp Value
 
 **Focus:** Comparisons, boundary logic, defensive argument handling
 

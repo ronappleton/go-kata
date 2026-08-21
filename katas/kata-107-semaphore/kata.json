@@ -9,5 +9,22 @@
     "Release()",
     "no deadlocks"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "primitives",
+    "semaphore"
+  ],
+  "prerequisites": [
+    "104",
+    "105",
+    "106"
+  ],
+  "estimated_minutes": 30
 }

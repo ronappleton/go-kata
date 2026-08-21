@@ -1,4 +1,4 @@
-# Kata 117 — Tar/Gzip Archiver
+# Kata 068 — Tar/Gzip Archiver
 
 **Focus:** archive/tar, compress/gzip
 

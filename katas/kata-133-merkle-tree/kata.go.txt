@@ -1,10 +1,20 @@
 package kata
 
-// Kata73 — TODO: implement as specified in README.md
-//
-// Signature:
-//   func Kata73() error
-func Kata73() error {
-    // TODO: your implementation here
-    return nil
+// MerkleNode — a node in a Merkle tree. Implement as specified in README.md.
+type MerkleNode struct {
+	Hash  string
+	Left  *MerkleNode
+	Right *MerkleNode
+}
+
+// BuildMerkleTree — TODO: implement as specified in README.md
+func BuildMerkleTree(data [][]byte) *MerkleNode {
+	// TODO: your implementation here
+	return nil
+}
+
+// VerifyMerkleTree — TODO: implement as specified in README.md
+func VerifyMerkleTree(root *MerkleNode, data [][]byte) bool {
+	// TODO: your implementation here
+	return false
 }

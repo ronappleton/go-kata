@@ -6,8 +6,27 @@
   "signature": "func Unique(items []string) []string",
   "rules": [
     "preserve first occurrence order",
-    "nil =\u003e empty slice",
+    "nil => empty slice",
     "case-sensitive"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "data-structures",
+  "level": "junior",
+  "tags": [
+    "data-structures",
+    "slices",
+    "maps",
+    "strings",
+    "sets",
+    "order",
+    "preservation",
+    "unique"
+  ],
+  "prerequisites": [
+    "028",
+    "029",
+    "030"
+  ],
+  "estimated_minutes": 20
 }

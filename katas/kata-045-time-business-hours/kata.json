@@ -5,11 +5,30 @@
   "focus": "time.Time, time.Location, weekday/hour checks",
   "signature": "func IsWithinBusinessHours(ts time.Time, loc *time.Location) bool",
   "rules": [
-    "if loc is nil =\u003e use ts location",
+    "if loc is nil => use ts location",
     "convert ts into chosen location before checks",
     "true only on Monday-Friday",
-    "true only when hour is \u003e= 9 and \u003c 17",
+    "true only when hour is >= 9 and < 17",
     "false for all other times"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "time",
+    "location",
+    "weekday",
+    "hour",
+    "checks",
+    "business",
+    "hours"
+  ],
+  "prerequisites": [
+    "044"
+  ],
+  "estimated_minutes": 30
 }

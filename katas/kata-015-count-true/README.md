@@ -1,4 +1,4 @@
-# Kata 014 — Count True Values
+# Kata 015 — Count True Values
 
 **Focus:** Boolean logic, loop counting
 

@@ -4,6 +4,10 @@ package kata
 //
 // Signature:
 //   func Chain(h http.Handler, m ...func(http.Handler) http.Handler) http.Handler
+import (
+	"net/http"
+)
+
 func Chain(h http.Handler, m ...func(http.Handler) http.Handler) http.Handler {
     // TODO: your implementation here
     return nil

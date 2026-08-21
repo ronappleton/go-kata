@@ -2,6 +2,24 @@ package kata
 
 import "testing"
 
-func Test_Kata027(t *testing.T) {
-	t.Skip("TODO: write tests for kata 027 based on README.md")
+func TestSafeJoin(t *testing.T) {
+	t.Run("empty base errors", func(t *testing.T) {
+		if _, err := SafeJoin("", "a"); err == nil {
+			t.Error("expected error for empty base")
+		}
+	})
+	t.Run("joins inside base", func(t *testing.T) {
+		got, err := SafeJoin("/data", "a", "b")
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if got != "/data/a/b" {
+			t.Errorf("SafeJoin = %q, want %q", got, "/data/a/b")
+		}
+	})
+	t.Run("escaping base errors", func(t *testing.T) {
+		if _, err := SafeJoin("/data", "..", "secret"); err == nil {
+			t.Error("expected error for path escaping base")
+		}
+	})
 }

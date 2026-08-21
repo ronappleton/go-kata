@@ -5,9 +5,25 @@
   "focus": "encoding/json",
   "signature": "func PrettyJSON(input []byte) ([]byte, error)",
   "rules": [
-    "invalid json =\u003e error",
+    "invalid json => error",
     "indent 2 spaces",
     "stable formatting"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "data-serialization",
+  "level": "mid",
+  "tags": [
+    "serialization",
+    "json",
+    "yaml",
+    "csv",
+    "encoding",
+    "pretty",
+    "print"
+  ],
+  "prerequisites": [
+    "079"
+  ],
+  "estimated_minutes": 30
 }

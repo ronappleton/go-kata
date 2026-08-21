@@ -1,38 +1,38 @@
-# Kata 104 — Binary Heap Priority Queue
+# Kata 134 — Binary Heap Priority Queue
 
-**Focus:** Advanced practice
+**Focus:** data structures
 
 ## Your task
 Implement:
 
 ```go
-func Kata74() error
+func NewPriorityQueue(minHeap bool) *PriorityQueue; func (q *PriorityQueue) Push(priority int, value string); func (q *PriorityQueue) Pop() (priority int, value string, ok bool); func (q *PriorityQueue) Len() int; func (q *PriorityQueue) Peek() (priority int, value string, ok bool)
 ```
 
 ### Learning goal
-- What you are building: Build `func Kata74() error` as a reliable contract. Focus: real-world Go integration and testing.
-- Why this matters in real projects: This is how you keep features fast when input size grows.
-- How this grows your Go skills: You practice invariants and complexity reasoning, then prove both with tests.
-- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: match the full README contract; include tests for happy path and edge cases; and keep API and error style idiomatic Go.
+- What you are building: func NewPriorityQueue(minHeap bool) *PriorityQueue; func (q *PriorityQueue) Push(priority int, value string); func (q *PriorityQueue) Pop() (priority int, value string, ok bool); func (q *PriorityQueue) Len() int; func (q *PriorityQueue) Peek() (priority int, value string, ok bool) as a reliable contract. Focus: data structures.
+- Why this matters in real projects: real systems depend on exact, testable behavior here.
+- How this grows your Go skills: you practice invariants, edge cases, and test-first discipline.
+- Definition of done (plain English): min-heap pops lowest priority first, max-heap pops highest; Pop/Peek return ok=false when empty; Len reflects size.
 
 ### Tips
-- State the invariant first, then code.
-- Test shape edges early: empty, one item, duplicates.
-- Check complexity after correctness.
+- Write tests from the rules before implementation.
+- Name edge cases explicitly: nil, empty, min, max.
+- Keep logic linear; branch only when a rule requires it.
 
 ## Rules / Expectations
-- follow README spec
-- write tests
-- keep it idiomatic
+- min and max ordering
+- ok=false on empty Pop/Peek
+- Len tracks size
+- stable for duplicate priorities (any order)
 
 ## Prior reading
-- [Go map types in language spec](https://go.dev/ref/spec#Map_types)
+- [Binary heap (Wikipedia)](https://en.wikipedia.org/wiki/Binary_heap)
 - [Go container/heap package](https://pkg.go.dev/container/heap)
-- [Go sort package](https://pkg.go.dev/sort)
 
 ## What this kata is about (and why it matters)
-- Core lesson: hold invariants first, then optimize safely.
-- After this kata, you should be able to defend algorithm choice, complexity, and corner-case behavior.
+- Core lesson: heaps guarantee the extreme element in O(log n); the invariant to test is pop order, not internal layout.
+- After this kata, you should be able to justify every rule with a test.
 
 ## What you must submit for marking
 - `kata.go`

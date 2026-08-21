@@ -7,7 +7,25 @@
   "rules": [
     "lowercase, split whitespace",
     "ties sorted alphabetically",
-    "n\u003c=0 =\u003e empty slice"
+    "n<=0 => empty slice"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "sorting",
+    "ties",
+    "top",
+    "words"
+  ],
+  "prerequisites": [
+    "059",
+    "060",
+    "061"
+  ],
+  "estimated_minutes": 30
 }

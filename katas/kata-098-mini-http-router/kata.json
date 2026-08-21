@@ -9,5 +9,24 @@
     "path params /users/{id}",
     "404 not found"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "net",
+    "http",
+    "mini",
+    "router"
+  ],
+  "prerequisites": [
+    "095",
+    "096",
+    "097"
+  ],
+  "estimated_minutes": 30
 }

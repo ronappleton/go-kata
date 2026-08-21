@@ -1,7 +1,25 @@
 package kata
 
-import "testing"
+import (
+	"os"
+	"path/filepath"
+	"reflect"
+	"testing"
+)
 
-func Test_CountExt(t *testing.T) {
-    t.Skip("TODO: write tests for CountExt based on README.md")
+func TestCountExt(t *testing.T) {
+	root := t.TempDir()
+	os.MkdirAll(filepath.Join(root, "sub"), 0o755)
+	os.WriteFile(filepath.Join(root, "a.go"), []byte("x"), 0o644)
+	os.WriteFile(filepath.Join(root, "b.go"), []byte("y"), 0o644)
+	os.WriteFile(filepath.Join(root, "c.txt"), []byte("z"), 0o644)
+	os.WriteFile(filepath.Join(root, "sub", "d.GO"), []byte("w"), 0o644)
+	got, err := CountExt(root)
+	if err != nil {
+		t.Fatalf("CountExt error: %v", err)
+	}
+	want := map[string]int{"go": 3, "txt": 1}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("CountExt = %v, want %v", got, want)
+	}
 }

@@ -1,4 +1,4 @@
-# Kata 043 — Rotate Slice
+# Kata 035 — Rotate Slice
 
 **Focus:** Generics, indexing
 

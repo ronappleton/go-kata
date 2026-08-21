@@ -1,7 +1,54 @@
 package kata
 
-import "testing"
+import (
+	"context"
+	"testing"
+	"time"
+)
 
-func Test_NewSemaphore(t *testing.T) {
-    t.Skip("TODO: write tests for NewSemaphore based on README.md")
+func TestSemaphore(t *testing.T) {
+	t.Run("acquire release", func(t *testing.T) {
+		s, err := NewSemaphore(2)
+		if err != nil {
+			t.Fatal(err)
+		}
+		ctx := context.Background()
+		if err := s.Acquire(ctx); err != nil {
+			t.Fatal(err)
+		}
+		if err := s.Acquire(ctx); err != nil {
+			t.Fatal(err)
+		}
+		s.Release()
+		s.Release()
+	})
+	t.Run("blocks when exhausted", func(t *testing.T) {
+		s, _ := NewSemaphore(1)
+		ctx := context.Background()
+		s.Acquire(ctx)
+		acquired := make(chan bool, 1)
+		go func() {
+			err := s.Acquire(ctx)
+			acquired <- err == nil
+		}()
+		select {
+		case ok := <-acquired:
+			t.Fatalf("acquired = %v, should block", ok)
+		case <-time.After(50 * time.Millisecond):
+		}
+		s.Release()
+		select {
+		case ok := <-acquired:
+			if !ok {
+				t.Error("acquire failed after release")
+			}
+		case <-time.After(time.Second):
+			t.Fatal("acquire did not unblock")
+		}
+	})
+	t.Run("invalid n errors", func(t *testing.T) {
+		if _, err := NewSemaphore(0); err == nil {
+			t.Error("expected error for n <= 0")
+		}
+	})
 }

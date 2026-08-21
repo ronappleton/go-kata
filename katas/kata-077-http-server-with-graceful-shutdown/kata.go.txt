@@ -4,7 +4,12 @@ package kata
 //
 // Signature:
 //   func ServeGraceful(addr string, h http.Handler) (stop func(context.Context) error, err error)
+import (
+	"context"
+	"net/http"
+)
+
 func ServeGraceful(addr string, h http.Handler) (stop func(context.Context) error, err error) {
     // TODO: your implementation here
-    return nil
+    return nil, nil
 }

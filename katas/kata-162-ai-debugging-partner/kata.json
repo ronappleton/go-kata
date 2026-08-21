@@ -9,5 +9,26 @@
     "Includes test suggestions",
     "Conclusion is empty until analysis is complete"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "ai-literacy-mid",
+  "level": "mid",
+  "tags": [
+    "ai",
+    "prompting",
+    "using",
+    "understand",
+    "errors",
+    "not",
+    "just",
+    "fix",
+    "them",
+    "root",
+    "cause",
+    "analysis",
+    "debugging",
+    "partner"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 30
 }

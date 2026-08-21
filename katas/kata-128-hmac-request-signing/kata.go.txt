@@ -2,9 +2,15 @@ package kata
 
 // SignRequest — TODO: implement as specified in README.md
 //
-// Signature:
-//   func SignRequest(method, path string, body []byte, secret []byte) string
+// Canonicalizes method, path, and body (sha256) into one string, HMAC-SHA256
+// signs it with secret, and returns the hex signature.
 func SignRequest(method, path string, body []byte, secret []byte) string {
-    // TODO: your implementation here
-    return ""
+	// TODO: your implementation here
+	return ""
+}
+
+// VerifyRequest — TODO: implement as specified in README.md
+func VerifyRequest(sig string, method, path string, body []byte, secret []byte) bool {
+	// TODO: your implementation here
+	return false
 }

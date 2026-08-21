@@ -1,10 +1,31 @@
 package kata
 
 // NewContainer — TODO: implement as specified in README.md
-//
-// Signature:
-//   func NewContainer() *Container
 func NewContainer() *Container {
-    // TODO: your implementation here
-    return nil
+	// TODO: your implementation here
+	return nil
+}
+
+// Container — a singleton-scoped dependency container. Implement as
+// specified in README.md.
+type Container struct {
+	// TODO: your implementation here
+}
+
+// Register — TODO: implement as specified in README.md
+//
+// Registers a constructor under name. Registering the same name twice
+// returns an error.
+func (c *Container) Register(name string, ctor func() any) error {
+	// TODO: your implementation here
+	return nil
+}
+
+// Resolve — TODO: implement as specified in README.md
+//
+// Returns the singleton instance built by the registered constructor.
+// Resolving an unregistered name returns an error.
+func (c *Container) Resolve(name string) (any, error) {
+	// TODO: your implementation here
+	return nil, nil
 }

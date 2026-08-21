@@ -4,7 +4,11 @@ package kata
 //
 // Signature:
 //   func FilterJSONL(r io.Reader, w io.Writer, predicate func(map[string]any) bool) error
+import (
+	"io"
+)
+
 func FilterJSONL(r io.Reader, w io.Writer, predicate func(map[string]any) bool) error {
     // TODO: your implementation here
-    return false
+    return nil
 }

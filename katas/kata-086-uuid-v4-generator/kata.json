@@ -8,5 +8,24 @@
     "RFC4122 version/variant bits",
     "format 8-4-4-4-12 lowercase"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "data-serialization",
+  "level": "mid",
+  "tags": [
+    "serialization",
+    "json",
+    "yaml",
+    "csv",
+    "crypto",
+    "rand",
+    "uuid",
+    "generator"
+  ],
+  "prerequisites": [
+    "083",
+    "084",
+    "085"
+  ],
+  "estimated_minutes": 30
 }

@@ -1,7 +1,44 @@
 package kata
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
-func Test_ConvertTemp(t *testing.T) {
-    t.Skip("TODO: write tests for ConvertTemp based on README.md")
+func TestConvertTemp(t *testing.T) {
+	t.Run("celsius input", func(t *testing.T) {
+		got, err := ConvertTemp("0C")
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !strings.Contains(got, "32.00") || !strings.Contains(got, "273.15") {
+			t.Errorf("ConvertTemp(0C) = %q, want F and K values", got)
+		}
+	})
+	t.Run("fahrenheit input", func(t *testing.T) {
+		got, err := ConvertTemp("32F")
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !strings.Contains(got, "0.00") {
+			t.Errorf("ConvertTemp(32F) = %q, want 0.00 C", got)
+		}
+	})
+	t.Run("kelvin input", func(t *testing.T) {
+		got, err := ConvertTemp("273.15K")
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !strings.Contains(got, "0.00") {
+			t.Errorf("ConvertTemp(273.15K) = %q, want 0.00 C", got)
+		}
+	})
+	t.Run("invalid errors", func(t *testing.T) {
+		if _, err := ConvertTemp("abc"); err == nil {
+			t.Error("expected error for invalid input")
+		}
+		if _, err := ConvertTemp("10X"); err == nil {
+			t.Error("expected error for unknown unit")
+		}
+	})
 }

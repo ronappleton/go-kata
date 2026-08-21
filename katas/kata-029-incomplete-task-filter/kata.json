@@ -8,7 +8,31 @@
     "include tasks where Done is false",
     "preserve original order",
     "return new slice (input unchanged)",
-    "if none match =\u003e empty slice (not nil)"
+    "if none match => empty slice (not nil)"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "data-structures",
+  "level": "junior",
+  "tags": [
+    "data-structures",
+    "slices",
+    "maps",
+    "strings",
+    "structs",
+    "slice",
+    "filtering",
+    "business",
+    "rule",
+    "selection",
+    "incomplete",
+    "task",
+    "filter"
+  ],
+  "prerequisites": [
+    "026",
+    "027",
+    "028"
+  ],
+  "estimated_minutes": 20
 }

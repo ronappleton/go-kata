@@ -6,8 +6,22 @@
   "signature": "func FilterEven(nums []int) []int",
   "rules": [
     "preserve order",
-    "nil =\u003e empty slice",
+    "nil => empty slice",
     "do not mutate input"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "error-handling",
+  "level": "junior",
+  "tags": [
+    "errors",
+    "error-handling",
+    "slices",
+    "order",
+    "immutability",
+    "filter",
+    "even"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 20
 }

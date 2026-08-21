@@ -1,7 +1,36 @@
 package kata
 
-import "testing"
+import (
+	"bytes"
+	"encoding/json"
+	"strings"
+	"testing"
+)
 
-func Test_CSVToJSON(t *testing.T) {
-    t.Skip("TODO: write tests for CSVToJSON based on README.md")
+func TestCSVToJSON(t *testing.T) {
+	t.Run("converts csv", func(t *testing.T) {
+		got, err := CSVToJSON(strings.NewReader("name,age\nAda,36\nGrace,45\n"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		var rows []map[string]string
+		if err := json.Unmarshal(got, &rows); err != nil {
+			t.Fatalf("output not valid JSON: %v", err)
+		}
+		if len(rows) != 2 {
+			t.Fatalf("rows = %d, want 2", len(rows))
+		}
+		if rows[0]["name"] != "Ada" || rows[0]["age"] != "36" {
+			t.Errorf("row0 = %v", rows[0])
+		}
+	})
+	t.Run("trims spaces", func(t *testing.T) {
+		got, err := CSVToJSON(strings.NewReader(" a , b \n x , y \n"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if !bytes.Contains(got, []byte(`"a"`)) {
+			t.Errorf("expected trimmed header: %s", got)
+		}
+	})
 }

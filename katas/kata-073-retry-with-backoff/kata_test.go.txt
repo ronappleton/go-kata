@@ -1,7 +1,58 @@
 package kata
 
-import "testing"
+import (
+	"errors"
+	"testing"
+	"time"
+)
 
-func Test_Retry(t *testing.T) {
-    t.Skip("TODO: write tests for Retry based on README.md")
+func TestRetry(t *testing.T) {
+	t.Run("succeeds on first try", func(t *testing.T) {
+		calls := 0
+		err := Retry(3, time.Millisecond, func() error {
+			calls++
+			return nil
+		})
+		if err != nil {
+			t.Fatal(err)
+		}
+		if calls != 1 {
+			t.Errorf("calls = %d, want 1", calls)
+		}
+	})
+	t.Run("succeeds after failures", func(t *testing.T) {
+		calls := 0
+		err := Retry(4, time.Millisecond, func() error {
+			calls++
+			if calls < 3 {
+				return errors.New("fail")
+			}
+			return nil
+		})
+		if err != nil {
+			t.Fatal(err)
+		}
+		if calls != 3 {
+			t.Errorf("calls = %d, want 3", calls)
+		}
+	})
+	t.Run("exhausts attempts", func(t *testing.T) {
+		calls := 0
+		err := Retry(2, time.Millisecond, func() error {
+			calls++
+			return errors.New("always fail")
+		})
+		if err == nil {
+			t.Error("expected error")
+		}
+		if calls != 2 {
+			t.Errorf("calls = %d, want 2", calls)
+		}
+	})
+	t.Run("attempts below 1 returns error", func(t *testing.T) {
+		err := Retry(0, time.Millisecond, func() error { return errors.New("x") })
+		if err == nil {
+			t.Error("expected error for attempts < 1")
+		}
+	})
 }

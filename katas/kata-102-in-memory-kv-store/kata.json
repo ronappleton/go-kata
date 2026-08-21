@@ -8,5 +8,24 @@
     "Set/Get/Delete/Keys",
     "thread-safe"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "maps",
+    "rwmutex",
+    "memory",
+    "store"
+  ],
+  "prerequisites": [
+    "099",
+    "100",
+    "101"
+  ],
+  "estimated_minutes": 30
 }

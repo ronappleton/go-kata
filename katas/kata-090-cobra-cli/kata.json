@@ -9,5 +9,25 @@
     "Parse --name= value",
     "Parse --verbose boolean flag"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "real-world-packages",
+  "level": "mid",
+  "tags": [
+    "packages",
+    "libraries",
+    "github",
+    "com",
+    "spf13",
+    "cobra",
+    "cli",
+    "commands",
+    "flags",
+    "help",
+    "text"
+  ],
+  "prerequisites": [
+    "089"
+  ],
+  "estimated_minutes": 30
 }

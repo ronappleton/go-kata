@@ -1,7 +1,43 @@
 package kata
 
-import "testing"
+import (
+	"bytes"
+	"testing"
+)
 
-func Test_Kata137(t *testing.T) {
-	t.Skip("TODO: write tests for kata 137 based on README.md")
+func TestCopyWithLimit(t *testing.T) {
+	t.Run("limit <= 0 returns 0", func(t *testing.T) {
+		n, err := CopyWithLimit(&bytes.Buffer{}, bytes.NewReader([]byte("abc")), 0)
+		if err != nil || n != 0 {
+			t.Errorf("CopyWithLimit(_, _, 0) = (%d, %v), want (0, nil)", n, err)
+		}
+	})
+	t.Run("nil src errors", func(t *testing.T) {
+		if _, err := CopyWithLimit(&bytes.Buffer{}, nil, 5); err == nil {
+			t.Error("expected error for nil src")
+		}
+	})
+	t.Run("copies at most limit", func(t *testing.T) {
+		var buf bytes.Buffer
+		n, err := CopyWithLimit(&buf, bytes.NewReader([]byte("hello world")), 5)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if n != 5 {
+			t.Errorf("n = %d, want 5", n)
+		}
+		if buf.String() != "hello" {
+			t.Errorf("buf = %q, want %q", buf.String(), "hello")
+		}
+	})
+	t.Run("copies all when limit exceeds", func(t *testing.T) {
+		var buf bytes.Buffer
+		n, err := CopyWithLimit(&buf, bytes.NewReader([]byte("abc")), 10)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if n != 3 || buf.String() != "abc" {
+			t.Errorf("n=%d buf=%q", n, buf.String())
+		}
+	})
 }

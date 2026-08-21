@@ -9,5 +9,24 @@
     "Publish(topic,msg)",
     "Unsubscribe closes chan"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "fanout",
+    "simple",
+    "pub",
+    "sub"
+  ],
+  "prerequisites": [
+    "100",
+    "101",
+    "102"
+  ],
+  "estimated_minutes": 30
 }

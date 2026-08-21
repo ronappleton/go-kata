@@ -6,5 +6,5 @@ package kata
 //   func ParseTags(v any, tagKey string) (map[string]string, error)
 func ParseTags(v any, tagKey string) (map[string]string, error) {
     // TODO: your implementation here
-    return nil
+    return nil, nil
 }

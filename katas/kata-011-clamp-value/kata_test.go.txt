@@ -2,6 +2,26 @@ package kata
 
 import "testing"
 
-func Test_Kata005(t *testing.T) {
-	t.Skip("TODO: write tests for kata 005 based on README.md")
+func TestClamp(t *testing.T) {
+	tests := []struct {
+		name         string
+		value, mn, mx int
+		want         int
+	}{
+		{"inside", 5, 0, 10, 5},
+		{"below", -3, 0, 10, 0},
+		{"above", 15, 0, 10, 10},
+		{"at lower bound", 0, 0, 10, 0},
+		{"at upper bound", 10, 0, 10, 10},
+		{"swapped bounds below", -5, 10, 0, 0},
+		{"swapped bounds above", 15, 10, 0, 10},
+		{"swapped bounds inside", 5, 10, 0, 5},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := Clamp(tt.value, tt.mn, tt.mx); got != tt.want {
+				t.Errorf("Clamp(%d, %d, %d) = %d, want %d", tt.value, tt.mn, tt.mx, got, tt.want)
+			}
+		})
+	}
 }

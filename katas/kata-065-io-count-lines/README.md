@@ -1,4 +1,4 @@
-# Kata 136 — Count Lines
+# Kata 065 — Count Lines
 
 **Focus:** bufio.Scanner, io.Reader
 

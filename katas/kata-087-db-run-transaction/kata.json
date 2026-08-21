@@ -5,10 +5,29 @@
   "focus": "transaction control flow",
   "signature": "func RunInTransaction(begin func() error, commit func() error, rollback func() error, run func() error) error",
   "rules": [
-    "begin error =\u003e return immediately",
-    "run error =\u003e rollback then return run error",
-    "commit error =\u003e return commit error",
-    "successful path =\u003e nil"
+    "begin error => return immediately",
+    "run error => rollback then return run error",
+    "commit error => return commit error",
+    "successful path => nil"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "data-serialization",
+  "level": "mid",
+  "tags": [
+    "serialization",
+    "json",
+    "yaml",
+    "csv",
+    "transaction",
+    "control",
+    "flow",
+    "run"
+  ],
+  "prerequisites": [
+    "084",
+    "085",
+    "086"
+  ],
+  "estimated_minutes": 30
 }

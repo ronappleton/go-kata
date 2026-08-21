@@ -1,4 +1,4 @@
-# Kata 098 — Fan-in/Fan-out Pipeline
+# Kata 109 — Fan-in/Fan-out Pipeline
 
 **Focus:** Channels, composition
 

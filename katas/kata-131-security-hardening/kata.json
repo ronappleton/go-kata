@@ -5,10 +5,30 @@
   "focus": "input validation, SQL injection, XSS, secrets management",
   "signature": "",
   "rules": [
-    "Script tags =\u003e removed",
-    "SQL injection patterns =\u003e removed",
-    "Valid email =\u003e true",
-    "Invalid email =\u003e false"
+    "Script tags => removed",
+    "SQL injection patterns => removed",
+    "Valid email => true",
+    "Invalid email => false"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "senior",
+  "category": "security",
+  "level": "senior",
+  "tags": [
+    "security",
+    "hardening",
+    "input",
+    "validation",
+    "sql",
+    "injection",
+    "xss",
+    "secrets",
+    "management"
+  ],
+  "prerequisites": [
+    "128",
+    "129",
+    "130"
+  ],
+  "estimated_minutes": 45
 }

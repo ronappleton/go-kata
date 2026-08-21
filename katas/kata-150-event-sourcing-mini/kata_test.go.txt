@@ -1,7 +1,64 @@
 package kata
 
-import "testing"
+import (
+	"testing"
+)
 
-func Test_Kata77(t *testing.T) {
-    t.Skip("TODO: write tests for Kata77 based on README.md")
+func TestStoreAppendOrder(t *testing.T) {
+	s := NewStore()
+	seq1 := s.Append(Event{Type: "deposit", Data: map[string]any{"amount": 10.0}})
+	seq2 := s.Append(Event{Type: "deposit", Data: map[string]any{"amount": 5.0}})
+	if seq1 != 1 || seq2 != 2 {
+		t.Errorf("seq1=%d seq2=%d, want 1,2", seq1, seq2)
+	}
+	events := s.Events()
+	if len(events) != 2 || events[0].Type != "deposit" || events[1].Type != "deposit" {
+		t.Errorf("events = %+v", events)
+	}
+}
+
+func TestStoreEventsSince(t *testing.T) {
+	s := NewStore()
+	s.Append(Event{Type: "a"})
+	s.Append(Event{Type: "b"})
+	s.Append(Event{Type: "c"})
+	after := s.EventsSince(1)
+	if len(after) != 2 || after[0].Type != "b" || after[1].Type != "c" {
+		t.Errorf("EventsSince(1) = %+v", after)
+	}
+	if all := s.EventsSince(0); len(all) != 3 {
+		t.Errorf("EventsSince(0) len = %d, want 3", len(all))
+	}
+}
+
+func TestApplyAccount(t *testing.T) {
+	events := []Event{
+		{Type: "deposit", Data: map[string]any{"amount": 100.0}},
+		{Type: "withdraw", Data: map[string]any{"amount": 30.0}},
+		{Type: "deposit", Data: map[string]any{"amount": 5.0}},
+	}
+	balance, err := ApplyAccount(events)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if balance != 75 {
+		t.Errorf("balance = %d, want 75", balance)
+	}
+}
+
+func TestApplyAccountUnknownType(t *testing.T) {
+	events := []Event{{Type: "transfer", Data: map[string]any{"amount": 10.0}}}
+	if _, err := ApplyAccount(events); err == nil {
+		t.Error("expected error for unknown event type")
+	}
+}
+
+func TestApplyAccountOverdraft(t *testing.T) {
+	events := []Event{
+		{Type: "deposit", Data: map[string]any{"amount": 10.0}},
+		{Type: "withdraw", Data: map[string]any{"amount": 20.0}},
+	}
+	if _, err := ApplyAccount(events); err == nil {
+		t.Error("expected error for overdraft")
+	}
 }

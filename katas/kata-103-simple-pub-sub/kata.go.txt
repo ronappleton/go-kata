@@ -1,10 +1,31 @@
 package kata
 
+import (
+	"sync"
+)
+
 // PubSub — TODO: implement as specified in README.md
-//
 // Signature:
-//   type PubSub struct
+//   Subscribe(topic string) <-chan string
+//   Publish(topic, msg string)
+//   Unsubscribe(topic string, ch <-chan string)
 type PubSub struct {
-    // TODO: your implementation here
-    return nil
+	mu   sync.Mutex
+	subs map[string]map[chan string]struct{}
+}
+
+// Subscribe returns a channel for the given topic.
+func (p *PubSub) Subscribe(topic string) <-chan string {
+	// TODO: your implementation here
+	return nil
+}
+
+// Publish sends msg to all subscribers of topic.
+func (p *PubSub) Publish(topic, msg string) {
+	// TODO: your implementation here
+}
+
+// Unsubscribe closes and removes the channel for a topic.
+func (p *PubSub) Unsubscribe(topic string, ch <-chan string) {
+	// TODO: your implementation here
 }

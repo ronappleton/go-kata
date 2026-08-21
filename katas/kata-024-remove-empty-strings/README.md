@@ -1,4 +1,4 @@
-# Kata 012 — Remove Empty Strings
+# Kata 024 — Remove Empty Strings
 
 **Focus:** Filtering, loops, preserving order
 

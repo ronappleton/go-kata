@@ -6,8 +6,28 @@
   "signature": "func FirstNonEmpty(values []string, fallback string) string",
   "rules": [
     "return first value that is non-empty after trim",
-    "if none found =\u003e fallback",
+    "if none found => fallback",
     "preserve selected non-empty value"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "lead",
+  "category": "bug-fix-lab",
+  "level": "lead",
+  "tags": [
+    "bug-fixing",
+    "debugging",
+    "strings",
+    "trimspace",
+    "loop",
+    "selection",
+    "bug",
+    "first",
+    "non",
+    "empty"
+  ],
+  "prerequisites": [
+    "155",
+    "156"
+  ],
+  "estimated_minutes": 60
 }

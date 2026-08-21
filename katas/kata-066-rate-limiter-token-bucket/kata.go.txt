@@ -8,3 +8,14 @@ func NewTokenBucket(ratePerSec int, burst int) (*TokenBucket, error) {
     // TODO: your implementation here
     return nil, nil
 }
+
+// TokenBucket — TODO: implement as specified in README.md
+type TokenBucket struct {
+	// TODO: your implementation here
+}
+
+// Allow() bool — TODO: implement as specified in README.md
+func (t *TokenBucket) Allow() bool {
+	// TODO: your implementation here
+	return false
+}

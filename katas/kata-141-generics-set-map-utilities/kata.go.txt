@@ -1,10 +1,46 @@
 package kata
 
-// Kata97 — TODO: implement as specified in README.md
-//
-// Signature:
-//   func Kata97() error
-func Kata97() error {
-    // TODO: your implementation here
-    return nil
+// Set — a generic set. Implement as specified in README.md.
+type Set[T comparable] struct {
+	// TODO: your implementation here
+}
+
+// NewSet — TODO: implement as specified in README.md
+func NewSet[T comparable]() *Set[T] {
+	// TODO: your implementation here
+	return nil
+}
+
+// Add — TODO: implement as specified in README.md
+func (s *Set[T]) Add(v T) {
+	// TODO: your implementation here
+}
+
+// Remove — TODO: implement as specified in README.md
+func (s *Set[T]) Remove(v T) {
+	// TODO: your implementation here
+}
+
+// Contains — TODO: implement as specified in README.md
+func (s *Set[T]) Contains(v T) bool {
+	// TODO: your implementation here
+	return false
+}
+
+// Len — TODO: implement as specified in README.md
+func (s *Set[T]) Len() int {
+	// TODO: your implementation here
+	return 0
+}
+
+// Union — TODO: implement as specified in README.md
+func Union[T comparable](a, b *Set[T]) *Set[T] {
+	// TODO: your implementation here
+	return nil
+}
+
+// Intersection — TODO: implement as specified in README.md
+func Intersection[T comparable](a, b *Set[T]) *Set[T] {
+	// TODO: your implementation here
+	return nil
 }

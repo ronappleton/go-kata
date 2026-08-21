@@ -9,5 +9,24 @@
     "Pipeline has at least one step",
     "Steps include test and build"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "lead",
+  "category": "build-deploy",
+  "level": "lead",
+  "tags": [
+    "build",
+    "deploy",
+    "ci-cd",
+    "github",
+    "actions",
+    "automated",
+    "testing",
+    "deployment",
+    "cicd",
+    "pipeline"
+  ],
+  "prerequisites": [
+    "148"
+  ],
+  "estimated_minutes": 60
 }

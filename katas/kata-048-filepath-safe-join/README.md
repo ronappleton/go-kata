@@ -1,4 +1,4 @@
-# Kata 027 — Safe Join
+# Kata 048 — Safe Join
 
 **Focus:** filepath.Join, filepath.Clean, traversal guard checks
 

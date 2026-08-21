@@ -1,4 +1,4 @@
-# Kata 059 — Longest Common Prefix
+# Kata 057 — Longest Common Prefix
 
 **Focus:** Strings
 

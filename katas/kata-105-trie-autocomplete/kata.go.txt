@@ -8,3 +8,20 @@ func NewTrie() *Trie {
     // TODO: your implementation here
     return nil
 }
+
+// Trie — TODO: implement as specified in README.md
+type Trie struct {
+	// TODO: your implementation here
+}
+
+// Insert(word string) — TODO: implement as specified in README.md
+func (t *Trie) Insert(word string) {
+	// TODO: your implementation here
+	return
+}
+
+// Suggest(prefix string, limit int) []string — TODO: implement as specified in README.md
+func (t *Trie) Suggest(prefix string, limit int) []string {
+	// TODO: your implementation here
+	return nil
+}

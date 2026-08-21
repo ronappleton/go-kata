@@ -1,10 +1,19 @@
 package kata
 
-// Kata80 — TODO: implement as specified in README.md
+import (
+	"context"
+	"net/http"
+	"time"
+)
+
+// Scrape — TODO: implement as specified in README.md
 //
-// Signature:
-//   func Kata80() error
-func Kata80() error {
-    // TODO: your implementation here
-    return nil
+// Fetches each URL at most ratePerSec requests per second overall.
+// Returns url->body for 2xx responses; on the first error returns the
+// partial map alongside it.
+func Scrape(ctx context.Context, urls []string, ratePerSec int, client *http.Client) (map[string]string, error) {
+	// TODO: your implementation here
+	return nil, nil
 }
+
+var _ = time.Second // keep time import while you work

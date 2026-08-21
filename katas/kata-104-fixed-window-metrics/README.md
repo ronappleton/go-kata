@@ -1,4 +1,4 @@
-# Kata 089 — Fixed-Window Metrics
+# Kata 104 — Fixed-Window Metrics
 
 **Focus:** Time buckets
 

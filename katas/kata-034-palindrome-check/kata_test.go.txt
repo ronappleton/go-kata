@@ -2,6 +2,27 @@ package kata
 
 import "testing"
 
-func Test_IsPalindrome(t *testing.T) {
-    t.Skip("TODO: write tests for IsPalindrome based on README.md")
+func TestIsPalindrome(t *testing.T) {
+	tests := []struct {
+		name string
+		in   string
+		want bool
+	}{
+		{"simple", "racecar", true},
+		{"empty", "", true},
+		{"single char", "a", true},
+		{"not palindrome", "hello", false},
+		{"case insensitive", "Racecar", true},
+		{"ignores punctuation", "A man, a plan, a canal: Panama", true},
+		{"ignores spaces", "never odd or even", true},
+		{"unicode letter", "à b à", true},
+		{"digits count", "12321", true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := IsPalindrome(tt.in); got != tt.want {
+				t.Errorf("IsPalindrome(%q) = %v, want %v", tt.in, got, tt.want)
+			}
+		})
+	}
 }

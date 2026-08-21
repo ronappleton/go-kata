@@ -1,4 +1,4 @@
-# Kata 071 — HTTP Query Builder
+# Kata 070 — HTTP Query Builder
 
 **Focus:** net/url
 

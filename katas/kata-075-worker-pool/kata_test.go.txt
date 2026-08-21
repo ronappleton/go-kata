@@ -1,7 +1,54 @@
 package kata
 
-import "testing"
+import (
+	"context"
+	"strconv"
+	"testing"
+)
 
-func Test_RunPool(t *testing.T) {
-    t.Skip("TODO: write tests for RunPool based on README.md")
+func TestRunPool(t *testing.T) {
+	t.Run("processes all jobs", func(t *testing.T) {
+		jobs := make(chan Job, 5)
+		for i := 0; i < 5; i++ {
+			jobs <- Job{ID: strconv.Itoa(i)}
+		}
+		close(jobs)
+		ctx := context.Background()
+		results := RunPool(ctx, 3, jobs)
+		count := 0
+		for range results {
+			count++
+		}
+		if count != 5 {
+			t.Errorf("results = %d, want 5", count)
+		}
+	})
+	t.Run("empty jobs closes output", func(t *testing.T) {
+		jobs := make(chan Job)
+		close(jobs)
+		results := RunPool(context.Background(), 2, jobs)
+		if _, ok := <-results; ok {
+			t.Error("output channel should be closed for empty jobs")
+		}
+	})
+	t.Run("cancels on ctx", func(t *testing.T) {
+		ctx, cancel := context.WithCancel(context.Background())
+		jobs := make(chan Job, 10)
+		for i := 0; i < 10; i++ {
+			jobs <- Job{ID: strconv.Itoa(i)}
+		}
+		close(jobs)
+		cancel()
+		results := RunPool(ctx, 3, jobs)
+		// should terminate without blocking forever
+		done := make(chan struct{})
+		go func() {
+			for range results {
+			}
+			close(done)
+		}()
+		select {
+		case <-done:
+		}
+	})
 }

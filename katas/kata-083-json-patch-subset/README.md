@@ -1,4 +1,4 @@
-# Kata 079 — JSON Patch (subset)
+# Kata 083 — JSON Patch (subset)
 
 **Focus:** encoding/json
 

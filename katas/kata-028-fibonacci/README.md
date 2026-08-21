@@ -1,4 +1,4 @@
-# Kata 037 — Fibonacci
+# Kata 028 — Fibonacci
 
 **Focus:** Iteration, slices
 

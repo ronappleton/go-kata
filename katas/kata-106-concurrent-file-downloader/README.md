@@ -1,4 +1,4 @@
-# Kata 095 — Concurrent File Downloader
+# Kata 106 — Concurrent File Downloader
 
 **Focus:** Concurrency, net/http
 

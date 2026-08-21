@@ -1,7 +1,28 @@
 package kata
 
-import "testing"
+import (
+	"bytes"
+	"strings"
+	"testing"
+)
 
-func Test_FilterJSONL(t *testing.T) {
-    t.Skip("TODO: write tests for FilterJSONL based on README.md")
+func TestFilterJSONL(t *testing.T) {
+	t.Run("filters matching lines", func(t *testing.T) {
+		var buf bytes.Buffer
+		input := "{\"ok\":true}\n{\"ok\":false}\n\n{\"ok\":true}\n"
+		err := FilterJSONL(strings.NewReader(input), &buf, func(m map[string]any) bool {
+			ok, _ := m["ok"].(bool)
+			return ok
+		})
+		if err != nil {
+			t.Fatal(err)
+		}
+		got := buf.String()
+		if strings.Count(got, "true") != 2 {
+			t.Errorf("output = %q, want 2 matching lines", got)
+		}
+		if strings.Contains(got, "false") {
+			t.Errorf("non-matching line written: %q", got)
+		}
+	})
 }

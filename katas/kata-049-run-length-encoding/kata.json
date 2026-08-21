@@ -5,9 +5,29 @@
   "focus": "Strings.Builder, runes",
   "signature": "func RLEncode(s string) string",
   "rules": [
-    "encode runs as \u003cchar\u003e\u003ccount\u003e where count\u003e1",
+    "encode runs as <char><count> where count>1",
     "single chars stay as char only",
     "Unicode-safe"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "strings",
+    "builder",
+    "runes",
+    "run",
+    "length",
+    "encoding"
+  ],
+  "prerequisites": [
+    "046",
+    "047",
+    "048"
+  ],
+  "estimated_minutes": 30
 }

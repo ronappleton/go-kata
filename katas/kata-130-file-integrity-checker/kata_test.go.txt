@@ -1,7 +1,50 @@
 package kata
 
-import "testing"
+import (
+	"crypto/sha256"
+	"encoding/hex"
+	"os"
+	"path/filepath"
+	"testing"
+)
 
-func Test_SHA256File(t *testing.T) {
-    t.Skip("TODO: write tests for SHA256File based on README.md")
+func TestSHA256File(t *testing.T) {
+	content := []byte("hello world\n")
+	f := filepath.Join(t.TempDir(), "data.bin")
+	if err := os.WriteFile(f, content, 0o644); err != nil {
+		t.Fatal(err)
+	}
+	sum := sha256.Sum256(content)
+	want := hex.EncodeToString(sum[:])
+	got, err := SHA256File(f)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != want {
+		t.Errorf("digest = %q, want %q", got, want)
+	}
+	if len(got) != 64 {
+		t.Errorf("digest length = %d, want 64 (hex SHA-256)", len(got))
+	}
+}
+
+func TestSHA256FileMissing(t *testing.T) {
+	if _, err := SHA256File("/no/such/file.bin"); err == nil {
+		t.Error("expected error for missing file")
+	}
+}
+
+func TestSHA256FileEmpty(t *testing.T) {
+	f := filepath.Join(t.TempDir(), "empty.bin")
+	if err := os.WriteFile(f, nil, 0o644); err != nil {
+		t.Fatal(err)
+	}
+	want := "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+	got, err := SHA256File(f)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != want {
+		t.Errorf("digest = %q, want %q", got, want)
+	}
 }

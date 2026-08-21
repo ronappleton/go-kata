@@ -3,10 +3,27 @@
   "slug": "debounce",
   "title": "Debounce",
   "focus": "Time, channels",
-  "signature": "func Debounce(d time.Duration, in \u003c-chan struct{}) \u003c-chan struct{}",
+  "signature": "func Debounce(d time.Duration, in <-chan struct{}) <-chan struct{}",
   "rules": [
     "emit after quiet period",
     "close output when input closes"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "time",
+    "debounce"
+  ],
+  "prerequisites": [
+    "097",
+    "098",
+    "099"
+  ],
+  "estimated_minutes": 30
 }

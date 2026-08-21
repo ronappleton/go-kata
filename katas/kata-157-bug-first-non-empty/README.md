@@ -1,4 +1,4 @@
-# Kata 133 — First Non-Empty Bug
+# Kata 157 — First Non-Empty Bug
 
 **Focus:** strings.TrimSpace, loop selection
 

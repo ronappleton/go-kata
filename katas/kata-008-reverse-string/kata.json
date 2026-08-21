@@ -6,8 +6,28 @@
   "signature": "func Reverse(s string) string",
   "rules": [
     "must handle Unicode correctly (runes)",
-    "empty =\u003e empty",
+    "empty => empty",
     "palindrome unchanged"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "language-basics",
+  "level": "junior",
+  "tags": [
+    "basics",
+    "types",
+    "functions",
+    "conditionals",
+    "loops",
+    "strings",
+    "runes",
+    "bytes",
+    "reverse",
+    "string"
+  ],
+  "prerequisites": [
+    "006",
+    "007"
+  ],
+  "estimated_minutes": 20
 }

@@ -5,8 +5,28 @@
   "focus": "For-loops, accumulation patterns",
   "signature": "func SumFirstN(n int) int",
   "rules": [
-    "n\u003c=0 =\u003e 0",
-    "n\u003e0 =\u003e sum of integers from 1 through n"
+    "n<=0 => 0",
+    "n>0 => sum of integers from 1 through n"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "language-basics",
+  "level": "junior",
+  "tags": [
+    "basics",
+    "types",
+    "functions",
+    "conditionals",
+    "loops",
+    "accumulation",
+    "patterns",
+    "sum",
+    "first"
+  ],
+  "prerequisites": [
+    "009",
+    "010",
+    "011"
+  ],
+  "estimated_minutes": 20
 }

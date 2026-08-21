@@ -5,11 +5,35 @@
   "focus": "Branching, arithmetic operators, error signaling with bool",
   "signature": "func Calculate(a, b int, op string) (int, bool)",
   "rules": [
-    "op \"+\" =\u003e a + b and true",
-    "op \"-\" =\u003e a - b and true",
-    "op \"*\" =\u003e a * b and true",
-    "op \"/\" with b != 0 =\u003e a / b and true",
-    "unknown operator or divide by zero =\u003e 0 and false"
+    "op \"+\" => a + b and true",
+    "op \"-\" => a - b and true",
+    "op \"*\" => a * b and true",
+    "op \"/\" with b != 0 => a / b and true",
+    "unknown operator or divide by zero => 0 and false"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "setup-and-toolchain",
+  "level": "junior",
+  "tags": [
+    "setup",
+    "toolchain",
+    "go-mod",
+    "go-run",
+    "go-build",
+    "branching",
+    "arithmetic",
+    "operators",
+    "error",
+    "signaling",
+    "bool",
+    "basic",
+    "calculator"
+  ],
+  "prerequisites": [
+    "000",
+    "001",
+    "002"
+  ],
+  "estimated_minutes": 20
 }

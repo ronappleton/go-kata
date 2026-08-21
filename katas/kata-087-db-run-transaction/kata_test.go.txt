@@ -1,7 +1,71 @@
 package kata
 
-import "testing"
+import (
+	"errors"
+	"testing"
+)
 
-func Test_Kata140(t *testing.T) {
-	t.Skip("TODO: write tests for kata 140 based on README.md")
+func TestRunInTransaction(t *testing.T) {
+	t.Run("success path returns nil", func(t *testing.T) {
+		var calls []string
+		err := RunInTransaction(
+			func() error { calls = append(calls, "begin"); return nil },
+			func() error { calls = append(calls, "commit"); return nil },
+			func() error { calls = append(calls, "rollback"); return nil },
+			func() error { calls = append(calls, "run"); return nil },
+		)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		want := []string{"begin", "run", "commit"}
+		if len(calls) != len(want) {
+			t.Fatalf("calls = %v, want %v", calls, want)
+		}
+		for i := range want {
+			if calls[i] != want[i] {
+				t.Fatalf("calls = %v, want %v", calls, want)
+			}
+		}
+	})
+	t.Run("begin error returns immediately", func(t *testing.T) {
+		begun := false
+		err := RunInTransaction(
+			func() error { return errors.New("begin failed") },
+			func() error { begun = true; return nil },
+			func() error { begun = true; return nil },
+			func() error { begun = true; return nil },
+		)
+		if err == nil {
+			t.Fatal("expected begin error")
+		}
+		if begun {
+			t.Error("run/commit/rollback should not run after begin failure")
+		}
+	})
+	t.Run("run error rolls back", func(t *testing.T) {
+		rollbackCalled := false
+		err := RunInTransaction(
+			func() error { return nil },
+			func() error { return nil },
+			func() error { rollbackCalled = true; return nil },
+			func() error { return errors.New("run failed") },
+		)
+		if err == nil || err.Error() != "run failed" {
+			t.Fatalf("want run error, got %v", err)
+		}
+		if !rollbackCalled {
+			t.Error("rollback should be called on run error")
+		}
+	})
+	t.Run("commit error returned", func(t *testing.T) {
+		err := RunInTransaction(
+			func() error { return nil },
+			func() error { return errors.New("commit failed") },
+			func() error { return nil },
+			func() error { return nil },
+		)
+		if err == nil || err.Error() != "commit failed" {
+			t.Fatalf("want commit error, got %v", err)
+		}
+	})
 }

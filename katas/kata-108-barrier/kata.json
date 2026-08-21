@@ -9,5 +9,22 @@
     "reusable",
     "no leaks"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "coordination",
+    "barrier"
+  ],
+  "prerequisites": [
+    "105",
+    "106",
+    "107"
+  ],
+  "estimated_minutes": 30
 }

@@ -8,7 +8,23 @@
     "trim leading/trailing spaces",
     "lowercase all letters",
     "replace internal spaces with underscore (`_`)",
-    "empty/space-only input =\u003e empty string"
+    "empty/space-only input => empty string"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "lead",
+  "category": "bug-fix-lab",
+  "level": "lead",
+  "tags": [
+    "bug-fixing",
+    "debugging",
+    "strings",
+    "trimspace",
+    "tolower",
+    "replaceall",
+    "bug",
+    "username",
+    "normalization"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 60
 }

@@ -1,4 +1,4 @@
-# Kata 122 — Mini head/tail
+# Kata 143 — Mini head/tail
 
 **Focus:** CLI, IO
 
@@ -21,7 +21,10 @@ func Run(args []string, r io.Reader, w io.Writer) error
 - Cover bad args and bad input paths.
 
 ## Rules / Expectations
-- implement subset of unix head/tail
+- args[0] selects the tool: "head" or "tail"
+- optional -n N flag (default 10); N may be 0
+- head writes the first N lines of r to w; tail writes the last N
+- N >= the number of lines writes all lines
 - no os.Exit
 - return errors
 

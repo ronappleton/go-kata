@@ -6,8 +6,30 @@
   "signature": "",
   "rules": [
     "Counter is safe for concurrent use",
-    "1000 goroutines each increment once =\u003e value is 1000",
+    "1000 goroutines each increment once => value is 1000",
     "Passes with -race flag"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "test",
+    "race",
+    "data",
+    "races",
+    "mutex",
+    "detector",
+    "detection"
+  ],
+  "prerequisites": [
+    "110",
+    "111",
+    "112"
+  ],
+  "estimated_minutes": 30
 }

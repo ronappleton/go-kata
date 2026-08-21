@@ -1,10 +1,23 @@
 package kata
 
-// Kata72 — TODO: implement as specified in README.md
-//
-// Signature:
-//   func Kata72() error
-func Kata72() error {
-    // TODO: your implementation here
-    return nil
+// NewBloomFilter — TODO: implement as specified in README.md
+func NewBloomFilter(size int, hashCount int) (*BloomFilter, error) {
+	// TODO: your implementation here
+	return nil, nil
+}
+
+// BloomFilter — a space-efficient probabilistic set. Implement as specified in README.md.
+type BloomFilter struct {
+	// TODO: your implementation here
+}
+
+// Add — TODO: implement as specified in README.md
+func (b *BloomFilter) Add(item string) {
+	// TODO: your implementation here
+}
+
+// Contains — TODO: implement as specified in README.md
+func (b *BloomFilter) Contains(item string) bool {
+	// TODO: your implementation here
+	return false
 }

@@ -5,10 +5,29 @@
   "focus": "bufio.Scanner, io.Reader",
   "signature": "func CountLines(r io.Reader) (int, error)",
   "rules": [
-    "nil reader =\u003e non-nil error",
+    "nil reader => non-nil error",
     "count logical lines from reader",
-    "empty input =\u003e 0 and nil error",
-    "scanner error =\u003e propagate error"
+    "empty input => 0 and nil error",
+    "scanner error => propagate error"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "bufio",
+    "scanner",
+    "reader",
+    "count",
+    "lines"
+  ],
+  "prerequisites": [
+    "062",
+    "063",
+    "064"
+  ],
+  "estimated_minutes": 30
 }

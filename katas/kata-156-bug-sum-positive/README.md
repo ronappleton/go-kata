@@ -1,4 +1,4 @@
-# Kata 132 — Sum Positive Bug
+# Kata 156 — Sum Positive Bug
 
 **Focus:** loops, integer filtering
 

@@ -1,10 +1,38 @@
 package kata
 
+import (
+	"sync"
+)
+
 // KV — TODO: implement as specified in README.md
-//
 // Signature:
-//   type KV struct
+//   Set(key, value string)
+//   Get(key string) (string, bool)
+//   Delete(key string)
+//   Keys() []string
 type KV struct {
-    // TODO: your implementation here
-    return nil
+	mu   sync.Mutex
+	data map[string]string
+}
+
+// Set stores a key/value pair.
+func (k *KV) Set(key, value string) {
+	// TODO: your implementation here
+}
+
+// Get returns the value for key and whether it exists.
+func (k *KV) Get(key string) (string, bool) {
+	// TODO: your implementation here
+	return "", false
+}
+
+// Delete removes a key.
+func (k *KV) Delete(key string) {
+	// TODO: your implementation here
+}
+
+// Keys returns all keys (order not guaranteed).
+func (k *KV) Keys() []string {
+	// TODO: your implementation here
+	return nil
 }

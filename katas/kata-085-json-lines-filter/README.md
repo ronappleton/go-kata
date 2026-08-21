@@ -1,4 +1,4 @@
-# Kata 084 — JSON Lines Filter
+# Kata 085 — JSON Lines Filter
 
 **Focus:** Stream processing
 

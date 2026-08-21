@@ -1,38 +1,38 @@
-# Kata 108 — SQLite-backed Repo (pure Go driver)
+# Kata 137 — Repository Pattern (in-memory store)
 
-**Focus:** Advanced practice
+**Focus:** design patterns, interfaces
 
 ## Your task
 Implement:
 
 ```go
-func Kata78() error
+type User struct {...}; type UserRepo interface {...}; type InMemoryRepo struct{}; func NewInMemoryRepo() *InMemoryRepo
 ```
 
 ### Learning goal
-- What you are building: Build `func Kata78() error` as a reliable contract. Focus: real-world Go integration and testing.
-- Why this matters in real projects: Data bugs persist. Transaction-safe behavior protects your system.
-- How this grows your Go skills: You practice repository boundaries and transaction-aware failure handling.
-- Definition of done (plain English): A reviewer should be able to confirm this behavior in tests: match the full README contract; include tests for happy path and edge cases; and keep API and error style idiomatic Go.
+- What you are building: type User struct {...}; type UserRepo interface {...}; type InMemoryRepo struct{}; func NewInMemoryRepo() *InMemoryRepo as a reliable contract. Focus: design patterns, interfaces.
+- Why this matters in real projects: real systems depend on exact, testable behavior here.
+- How this grows your Go skills: you practice invariants, edge cases, and test-first discipline.
+- Definition of done (plain English): UserRepo offers Create/Get/Update/Delete/List over User; InMemoryRepo implements it; Get on a missing id returns ErrNotFound; Create assigns an id when empty; Update on missing id errors; Delete is idempotent.
 
 ### Tips
-- Test success and rollback paths equally.
-- Keep persistence details out of business logic.
-- Assert transaction outcomes, not just returned rows.
+- Write tests from the rules before implementation.
+- Name edge cases explicitly: nil, empty, min, max.
+- Keep logic linear; branch only when a rule requires it.
 
 ## Rules / Expectations
-- follow README spec
-- write tests
-- keep it idiomatic
+- UserRepo interface with Create/Get/Update/Delete/List
+- ErrNotFound sentinel
+- InMemoryRepo satisfies the interface
+- insertion-order List
 
 ## Prior reading
-- [Go database/sql package](https://pkg.go.dev/database/sql)
-- [modernc.org/sqlite driver docs](https://pkg.go.dev/modernc.org/sqlite)
-- [SQLite transaction docs](https://www.sqlite.org/lang_transaction.html)
+- [Repository pattern (Martin Fowler)](https://martinfowler.com/eaaCatalog/repository.html)
+- [Go: Effective Go](https://go.dev/doc/effective_go)
 
 ## What this kata is about (and why it matters)
-- Core lesson: protect data with clear transaction boundaries.
-- After this kata, you should be able to explain transaction outcomes for success and failure paths.
+- Core lesson: the repository pattern hides the store behind an interface so behavior can be tested without a database.
+- After this kata, you should be able to justify every rule with a test.
 
 ## What you must submit for marking
 - `kata.go`

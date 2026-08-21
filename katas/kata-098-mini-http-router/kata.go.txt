@@ -1,5 +1,9 @@
 package kata
 
+import (
+	"net/http"
+)
+
 // NewRouter — TODO: implement as specified in README.md
 //
 // Signature:
@@ -7,4 +11,19 @@ package kata
 func NewRouter() *Router {
     // TODO: your implementation here
     return nil
+}
+
+// Router — TODO: implement as specified in README.md
+type Router struct {
+	// TODO: your implementation here
+}
+
+// Handle(method, path string, h http.HandlerFunc) — TODO: implement as specified in README.md
+func (t *Router) Handle(method, path string, h http.HandlerFunc) {
+	// TODO: your implementation here
+}
+
+// ServeHTTP(w http.ResponseWriter, r *http.Request) — TODO: implement as specified in README.md
+func (t *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	// TODO: your implementation here
 }

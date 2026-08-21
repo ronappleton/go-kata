@@ -1,7 +1,60 @@
 package kata
 
-import "testing"
+import (
+	"bytes"
+	"context"
+	"strings"
+	"testing"
+)
 
-func Test_Kata62(t *testing.T) {
-    t.Skip("TODO: write tests for Kata62 based on README.md")
+func TestLogWithoutRequestID(t *testing.T) {
+	var buf bytes.Buffer
+	l := NewLogger(&buf)
+	l.Log(context.Background(), LevelInfo, "hello")
+	line := buf.String()
+	if !strings.Contains(line, "INFO") {
+		t.Errorf("line %q missing INFO", line)
+	}
+	if !strings.Contains(line, "hello") {
+		t.Errorf("line %q missing message", line)
+	}
+	if strings.Contains(line, "[") {
+		t.Errorf("line %q should not contain request id brackets", line)
+	}
+}
+
+func TestLogWithRequestID(t *testing.T) {
+	var buf bytes.Buffer
+	l := NewLogger(&buf)
+	ctx := WithRequestID(context.Background(), "req-123")
+	l.Log(ctx, LevelError, "boom")
+	line := buf.String()
+	if !strings.Contains(line, "ERROR") {
+		t.Errorf("line %q missing ERROR", line)
+	}
+	if !strings.Contains(line, "[req-123]") {
+		t.Errorf("line %q missing request id", line)
+	}
+	if !strings.Contains(line, "boom") {
+		t.Errorf("line %q missing message", line)
+	}
+}
+
+func TestLogLevels(t *testing.T) {
+	var buf bytes.Buffer
+	l := NewLogger(&buf)
+	l.Log(context.Background(), LevelWarn, "careful")
+	if !strings.Contains(buf.String(), "WARN") {
+		t.Errorf("line %q missing WARN", buf.String())
+	}
+}
+
+func TestLogAppendsLines(t *testing.T) {
+	var buf bytes.Buffer
+	l := NewLogger(&buf)
+	l.Log(context.Background(), LevelInfo, "a")
+	l.Log(context.Background(), LevelInfo, "b")
+	if got := strings.Count(buf.String(), "\n"); got < 2 {
+		t.Errorf("expected 2+ newlines, got %d in %q", got, buf.String())
+	}
 }

@@ -1,10 +1,40 @@
 package kata
 
-// Kata81 — TODO: implement as specified in README.md
+import (
+	"net"
+)
+
+// HandleUpgrade — TODO: implement as specified in README.md
 //
-// Signature:
-//   func Kata81() error
-func Kata81() error {
-    // TODO: your implementation here
-    return nil
+// Reads the HTTP upgrade request from conn, validates it, and writes the
+// 101 response with the correct Sec-WebSocket-Accept value.
+func HandleUpgrade(conn net.Conn) error {
+	// TODO: your implementation here
+	return nil
+}
+
+// ReadTextFrame — TODO: implement as specified in README.md
+//
+// Reads one client-to-server text frame (opcode 0x1, masked) and returns
+// its payload.
+func ReadTextFrame(conn net.Conn) (string, error) {
+	// TODO: your implementation here
+	return "", nil
+}
+
+// WriteTextFrame — TODO: implement as specified in README.md
+//
+// Writes a server-to-client text frame (opcode 0x1, unmasked).
+func WriteTextFrame(conn net.Conn, text string) error {
+	// TODO: your implementation here
+	return nil
+}
+
+// HandleEcho — TODO: implement as specified in README.md
+//
+// Upgrades the connection, then echoes each text frame until a close
+// frame (opcode 0x8) arrives, then closes the connection cleanly.
+func HandleEcho(conn net.Conn) error {
+	// TODO: your implementation here
+	return nil
 }

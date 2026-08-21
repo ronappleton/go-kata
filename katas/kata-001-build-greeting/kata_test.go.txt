@@ -1,7 +1,32 @@
 package kata
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
-func Test_Kata001(t *testing.T) {
-	t.Skip("TODO: write tests for kata 001 based on README.md")
+func TestBuildGreeting(t *testing.T) {
+	tests := []struct {
+		name string
+		in   string
+		want string
+	}{
+		{"empty name", "", "Hello, stranger!"},
+		{"whitespace-only name", "   ", "Hello, stranger!"},
+		{"tabs trimmed", "\t\n", "Hello, stranger!"},
+		{"normal name", "Ada", "Hello, Ada!"},
+		{"name with surrounding spaces", "  Grace  ", "Hello, Grace!"},
+		{"lowercase name", "linus", "Hello, linus!"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := BuildGreeting(tt.in)
+			if got != tt.want {
+				t.Errorf("BuildGreeting(%q) = %q, want %q", tt.in, got, tt.want)
+			}
+			if !strings.HasPrefix(got, "Hello,") {
+				t.Errorf("BuildGreeting(%q) = %q, must start with \"Hello,\"", tt.in, got)
+			}
+		})
+	}
 }

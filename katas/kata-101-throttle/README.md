@@ -1,4 +1,4 @@
-# Kata 078 — Throttle
+# Kata 101 — Throttle
 
 **Focus:** Time, channels
 

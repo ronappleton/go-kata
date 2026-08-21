@@ -262,7 +262,11 @@ func main() {
 	readme.WriteString(fmt.Sprintf("\nLast updated: %s\n", manifest.UpdatedAt.Format(time.RFC3339)))
 	os.WriteFile(filepath.Join(outputDir, "README.md"), []byte(readme.String()), 0o644)
 
-	fmt.Printf("\nWrote %d tracks, %d total katas to %s\n", len(manifestTracks), len(manifestTracks), outputDir)
+	total := 0
+	for _, t := range manifestTracks {
+		total += t.KataCount
+	}
+	fmt.Printf("\nWrote %d tracks, %d total katas to %s\n", len(manifestTracks), total, outputDir)
 }
 
 func findKataDir(repoRoot, kataID string) string {

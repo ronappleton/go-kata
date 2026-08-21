@@ -9,5 +9,24 @@
     "graceful stop",
     "per-connection goroutine"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "net",
+    "tcp",
+    "echo",
+    "server"
+  ],
+  "prerequisites": [
+    "094",
+    "095",
+    "096"
+  ],
+  "estimated_minutes": 30
 }

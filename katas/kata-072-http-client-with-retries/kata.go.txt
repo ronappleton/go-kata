@@ -4,6 +4,10 @@ package kata
 //
 // Signature:
 //   func DoWithRetries(client *http.Client, req *http.Request, attempts int) (*http.Response, error)
+import (
+	"net/http"
+)
+
 func DoWithRetries(client *http.Client, req *http.Request, attempts int) (*http.Response, error) {
     // TODO: your implementation here
     return nil, nil

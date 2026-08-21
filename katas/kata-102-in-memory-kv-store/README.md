@@ -1,4 +1,4 @@
-# Kata 087 — In-Memory KV Store
+# Kata 102 — In-Memory KV Store
 
 **Focus:** Maps, RWMutex
 

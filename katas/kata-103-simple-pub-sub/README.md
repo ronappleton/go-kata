@@ -1,4 +1,4 @@
-# Kata 088 — Simple Pub/Sub
+# Kata 103 — Simple Pub/Sub
 
 **Focus:** Fanout
 

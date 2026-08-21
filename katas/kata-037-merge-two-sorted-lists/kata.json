@@ -9,5 +9,25 @@
     "handles duplicates",
     "nil treated as empty"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "data-structures",
+  "level": "junior",
+  "tags": [
+    "data-structures",
+    "slices",
+    "maps",
+    "strings",
+    "two",
+    "pointers",
+    "merge",
+    "sorted",
+    "lists"
+  ],
+  "prerequisites": [
+    "034",
+    "035",
+    "036"
+  ],
+  "estimated_minutes": 20
 }

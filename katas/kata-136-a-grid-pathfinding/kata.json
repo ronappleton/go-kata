@@ -9,5 +9,22 @@
     "write tests",
     "keep it idiomatic"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "senior",
+  "category": "advanced-data",
+  "level": "senior",
+  "tags": [
+    "advanced-data",
+    "algorithms",
+    "advanced",
+    "practice",
+    "grid",
+    "pathfinding"
+  ],
+  "prerequisites": [
+    "133",
+    "134",
+    "135"
+  ],
+  "estimated_minutes": 45
 }

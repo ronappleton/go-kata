@@ -2,6 +2,25 @@ package kata
 
 import "testing"
 
-func Test_RLDecode(t *testing.T) {
-    t.Skip("TODO: write tests for RLDecode based on README.md")
+func TestRLDecode(t *testing.T) {
+	t.Run("roundtrip", func(t *testing.T) {
+		inputs := []string{"", "abc", "aaabbb", "ééé", "aaaaaaaaaa"}
+		for _, in := range inputs {
+			enc := RLEncode(in)
+			got, err := RLDecode(enc)
+			if err != nil {
+				t.Fatalf("RLDecode(%q) error: %v", enc, err)
+			}
+			if got != in {
+				t.Errorf("roundtrip %q -> %q -> %q", in, enc, got)
+			}
+		}
+	})
+	t.Run("invalid format errors", func(t *testing.T) {
+		for _, in := range []string{"a1b", "12a", "a1", "a0"} {
+			if _, err := RLDecode(in); err == nil {
+				t.Errorf("RLDecode(%q) expected error", in)
+			}
+		}
+	})
 }

@@ -1,7 +1,31 @@
 package kata
 
-import "testing"
+import (
+	"errors"
+	"testing"
+)
 
-func Test_Kata030(t *testing.T) {
-	t.Skip("TODO: write tests for kata 030 based on README.md")
+func TestFindUserName(t *testing.T) {
+	users := map[string]string{"u1": "  Ada  ", "u2": "Grace"}
+	t.Run("blank id errors", func(t *testing.T) {
+		for _, id := range []string{"", "   ", "\t"} {
+			if _, err := FindUserName(users, id); !errors.Is(err, ErrInvalidUserID) {
+				t.Errorf("FindUserName(users, %q) error = %v, want ErrInvalidUserID", id, err)
+			}
+		}
+	})
+	t.Run("unknown id errors", func(t *testing.T) {
+		if _, err := FindUserName(users, "nope"); !errors.Is(err, ErrUserNotFound) {
+			t.Errorf("FindUserName(users, \"nope\") error = %v, want ErrUserNotFound", err)
+		}
+	})
+	t.Run("found name is trimmed", func(t *testing.T) {
+		got, err := FindUserName(users, "u1")
+		if err != nil {
+			t.Fatalf("FindUserName(users, \"u1\") unexpected error: %v", err)
+		}
+		if got != "Ada" {
+			t.Errorf("FindUserName(users, \"u1\") = %q, want %q", got, "Ada")
+		}
+	})
 }

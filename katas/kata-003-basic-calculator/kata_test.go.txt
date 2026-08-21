@@ -2,6 +2,33 @@ package kata
 
 import "testing"
 
-func Test_Kata003(t *testing.T) {
-	t.Skip("TODO: write tests for kata 003 based on README.md")
+func TestCalculate(t *testing.T) {
+	tests := []struct {
+		name string
+		a, b int
+		op   string
+		want int
+		ok   bool
+	}{
+		{"add", 2, 3, "+", 5, true},
+		{"subtract", 10, 4, "-", 6, true},
+		{"multiply", 6, 7, "*", 42, true},
+		{"divide", 20, 5, "/", 4, true},
+		{"divide with remainder truncates", 7, 2, "/", 3, true},
+		{"divide by zero", 5, 0, "/", 0, false},
+		{"unknown operator", 1, 1, "%", 0, false},
+		{"empty operator", 1, 1, "", 0, false},
+		{"negative operands", -4, -2, "*", 8, true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, ok := Calculate(tt.a, tt.b, tt.op)
+			if ok != tt.ok {
+				t.Errorf("Calculate(%d, %d, %q) ok = %v, want %v", tt.a, tt.b, tt.op, ok, tt.ok)
+			}
+			if got != tt.want {
+				t.Errorf("Calculate(%d, %d, %q) = %d, want %d", tt.a, tt.b, tt.op, got, tt.want)
+			}
+		})
+	}
 }

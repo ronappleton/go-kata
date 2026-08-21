@@ -9,5 +9,18 @@
     "no os.Exit",
     "return errors"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "senior",
+  "category": "performance",
+  "level": "senior",
+  "tags": [
+    "performance",
+    "benchmarking",
+    "optimization",
+    "cli",
+    "mini",
+    "uniq"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 45
 }

@@ -7,7 +7,25 @@
   "rules": [
     "split on whitespace",
     "lowercase words",
-    "empty =\u003e empty map (not nil)"
+    "empty => empty map (not nil)"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "data-structures",
+  "level": "junior",
+  "tags": [
+    "data-structures",
+    "slices",
+    "maps",
+    "strings",
+    "fields",
+    "word",
+    "count"
+  ],
+  "prerequisites": [
+    "029",
+    "030",
+    "031"
+  ],
+  "estimated_minutes": 20
 }

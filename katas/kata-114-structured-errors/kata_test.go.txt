@@ -1,7 +1,63 @@
 package kata
 
-import "testing"
+import (
+	"errors"
+	"fmt"
+	"testing"
+)
 
-func Test_Kata63(t *testing.T) {
-    t.Skip("TODO: write tests for Kata63 based on README.md")
+func TestAppErrorMessage(t *testing.T) {
+	e := NewAppError(404, "user missing", nil)
+	if e.Error() == "" {
+		t.Error("Error() should not be empty")
+	}
+}
+
+func TestAppErrorUnwrap(t *testing.T) {
+	cause := errors.New("db down")
+	e := NewAppError(500, "load failed", cause)
+	if !errors.Is(e, cause) {
+		t.Error("errors.Is should reach the wrapped cause")
+	}
+	var ae *AppError
+	if !errors.As(e, &ae) {
+		t.Error("errors.As should extract *AppError")
+	}
+	if ae.Code != 500 || ae.Message != "load failed" {
+		t.Errorf("got Code=%d Message=%q", ae.Code, ae.Message)
+	}
+}
+
+func TestIsNotFound(t *testing.T) {
+	if !IsNotFound(ErrNotFound) {
+		t.Error("IsNotFound(ErrNotFound) should be true")
+	}
+	if IsNotFound(ErrUnauthorized) {
+		t.Error("IsNotFound(ErrUnauthorized) should be false")
+	}
+	// wrapped: sentinel wrapped in an AppError with a message
+	wrapped := fmt.Errorf("fetch: %w", ErrNotFound)
+	if !IsNotFound(wrapped) {
+		t.Error("IsNotFound should unwrap fmt.Errorf chains")
+	}
+	deep := NewAppError(404, "user lookup failed", ErrNotFound)
+	if !IsNotFound(deep) {
+		t.Error("IsNotFound should unwrap AppError chains")
+	}
+	if IsNotFound(errors.New("nothing here")) {
+		t.Error("IsNotFound should be false for unrelated errors")
+	}
+}
+
+func TestIsUnauthorized(t *testing.T) {
+	if !IsUnauthorized(ErrUnauthorized) {
+		t.Error("IsUnauthorized(ErrUnauthorized) should be true")
+	}
+	if IsUnauthorized(ErrNotFound) {
+		t.Error("IsUnauthorized(ErrNotFound) should be false")
+	}
+	wrapped := NewAppError(401, "token expired", ErrUnauthorized)
+	if !IsUnauthorized(wrapped) {
+		t.Error("IsUnauthorized should unwrap AppError chains")
+	}
 }

@@ -9,5 +9,26 @@
     "write tests",
     "keep it idiomatic"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "advanced",
+    "practice",
+    "token",
+    "bucket",
+    "thread",
+    "safe"
+  ],
+  "prerequisites": [
+    "109",
+    "110",
+    "111"
+  ],
+  "estimated_minutes": 30
 }

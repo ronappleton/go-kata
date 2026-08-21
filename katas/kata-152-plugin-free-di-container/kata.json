@@ -9,5 +9,21 @@
     "Resolve(name)",
     "singleton scope"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "lead",
+  "category": "advanced-patterns",
+  "level": "lead",
+  "tags": [
+    "patterns",
+    "advanced",
+    "design",
+    "plugin",
+    "free",
+    "container"
+  ],
+  "prerequisites": [
+    "150",
+    "151"
+  ],
+  "estimated_minutes": 60
 }

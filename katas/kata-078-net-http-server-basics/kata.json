@@ -5,8 +5,29 @@
   "focus": "net/http, http.HandleFunc, http.ListenAndServe, request/response",
   "signature": "func CreateMux() *http.ServeMux",
   "rules": [
-    "/health =\u003e 200 OK",
-    "/hello?name=X =\u003e \"Hello, X!\""
+    "/health => 200 OK",
+    "/hello?name=X => \"Hello, X!\""
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "web-networking",
+  "level": "mid",
+  "tags": [
+    "http",
+    "networking",
+    "web",
+    "net",
+    "handlefunc",
+    "listenandserve",
+    "request",
+    "response",
+    "server",
+    "basics"
+  ],
+  "prerequisites": [
+    "075",
+    "076",
+    "077"
+  ],
+  "estimated_minutes": 30
 }

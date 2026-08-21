@@ -9,5 +9,24 @@
     "write only matches",
     "skip blank lines"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "data-serialization",
+  "level": "mid",
+  "tags": [
+    "serialization",
+    "json",
+    "yaml",
+    "csv",
+    "stream",
+    "processing",
+    "lines",
+    "filter"
+  ],
+  "prerequisites": [
+    "082",
+    "083",
+    "084"
+  ],
+  "estimated_minutes": 30
 }

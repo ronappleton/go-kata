@@ -4,6 +4,10 @@ package kata
 //
 // Signature:
 //   func WithinWindow(t, start, end time.Time) bool
+import (
+	"time"
+)
+
 func WithinWindow(t, start, end time.Time) bool {
     // TODO: your implementation here
     return false

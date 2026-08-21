@@ -1,7 +1,30 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_Kata021(t *testing.T) {
-	t.Skip("TODO: write tests for kata 021 based on README.md")
+func TestNormalizeTags(t *testing.T) {
+	tests := []struct {
+		name string
+		in   string
+		want []string
+	}{
+		{"simple", "go, testing", []string{"go", "testing"}},
+		{"trims spaces", "  go  ,  testing ", []string{"go", "testing"}},
+		{"lowercases", "Go, TESTING", []string{"go", "testing"}},
+		{"drops empties", "go,,testing,,", []string{"go", "testing"}},
+		{"empty input", "", []string{}},
+		{"only commas", ",,,", []string{}},
+		{"preserves order", "b, a, c", []string{"b", "a", "c"}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := NormalizeTags(tt.in)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("NormalizeTags(%q) = %v, want %v", tt.in, got, tt.want)
+			}
+		})
+	}
 }

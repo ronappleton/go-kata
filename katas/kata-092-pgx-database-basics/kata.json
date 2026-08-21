@@ -9,5 +9,25 @@
     "GetByID returns the user or error",
     "Tests use mock store (no real DB)"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "real-world-packages",
+  "level": "mid",
+  "tags": [
+    "packages",
+    "libraries",
+    "database",
+    "sql",
+    "pgx",
+    "connection",
+    "query",
+    "scan",
+    "basics"
+  ],
+  "prerequisites": [
+    "089",
+    "090",
+    "091"
+  ],
+  "estimated_minutes": 30
 }

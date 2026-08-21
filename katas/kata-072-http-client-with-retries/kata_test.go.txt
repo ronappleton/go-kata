@@ -1,7 +1,76 @@
 package kata
 
-import "testing"
+import (
+	"net/http"
+	"net/http/httptest"
+	"testing"
+)
 
-func Test_DoWithRetries(t *testing.T) {
-    t.Skip("TODO: write tests for DoWithRetries based on README.md")
+func TestDoWithRetries(t *testing.T) {
+	t.Run("retries on 5xx then succeeds", func(t *testing.T) {
+		attempts := 0
+		srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			attempts++
+			if attempts < 3 {
+				w.WriteHeader(500)
+				return
+			}
+			w.WriteHeader(200)
+			w.Write([]byte("ok"))
+		}))
+		defer srv.Close()
+		req, _ := http.NewRequest("GET", srv.URL, nil)
+		resp, err := DoWithRetries(srv.Client(), req, 5)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		defer resp.Body.Close()
+		if resp.StatusCode != 200 {
+			t.Errorf("status = %d, want 200", resp.StatusCode)
+		}
+		if attempts < 3 {
+			t.Errorf("attempts = %d, want >= 3 retries", attempts)
+		}
+	})
+	t.Run("no retry on 4xx", func(t *testing.T) {
+		attempts := 0
+		srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			attempts++
+			w.WriteHeader(404)
+		}))
+		defer srv.Close()
+		req, _ := http.NewRequest("GET", srv.URL, nil)
+		resp, err := DoWithRetries(srv.Client(), req, 5)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		defer resp.Body.Close()
+		if attempts != 1 {
+			t.Errorf("attempts = %d, want 1 (no retry on 4xx)", attempts)
+		}
+	})
+	t.Run("retries on network error", func(t *testing.T) {
+		attempts := 0
+		srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			attempts++
+			w.WriteHeader(200)
+		}))
+		url := srv.URL
+		srv.Close() // server down -> network errors
+		req, _ := http.NewRequest("GET", url, nil)
+		_, err := DoWithRetries(&http.Client{}, req, 3)
+		if err == nil {
+			t.Error("expected network error")
+		}
+	})
+	t.Run("exhausts attempts returns error", func(t *testing.T) {
+		srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.WriteHeader(500)
+		}))
+		defer srv.Close()
+		req, _ := http.NewRequest("GET", srv.URL, nil)
+		if _, err := DoWithRetries(srv.Client(), req, 2); err == nil {
+			t.Error("expected error after exhausting retries")
+		}
+	})
 }

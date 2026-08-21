@@ -6,8 +6,26 @@
   "signature": "func ToRoman(n int) (string, error)",
   "rules": [
     "1..3999 only",
-    "invalid =\u003e error",
+    "invalid => error",
     "use standard subtractive notation"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "greedy",
+    "mapping",
+    "roman",
+    "numerals"
+  ],
+  "prerequisites": [
+    "050",
+    "051",
+    "052"
+  ],
+  "estimated_minutes": 30
 }

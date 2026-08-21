@@ -2,6 +2,30 @@ package kata
 
 import "testing"
 
-func Test_Kata013(t *testing.T) {
-	t.Skip("TODO: write tests for kata 013 based on README.md")
+func TestGradeLabel(t *testing.T) {
+	tests := []struct {
+		name  string
+		score int
+		want  string
+	}{
+		{"invalid negative", -1, "invalid"},
+		{"invalid over 100", 101, "invalid"},
+		{"A upper", 100, "A"},
+		{"A lower", 90, "A"},
+		{"B upper", 89, "B"},
+		{"B lower", 80, "B"},
+		{"C upper", 79, "C"},
+		{"C lower", 70, "C"},
+		{"D upper", 69, "D"},
+		{"D lower", 60, "D"},
+		{"F upper", 59, "F"},
+		{"F zero", 0, "F"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := GradeLabel(tt.score); got != tt.want {
+				t.Errorf("GradeLabel(%d) = %q, want %q", tt.score, got, tt.want)
+			}
+		})
+	}
 }

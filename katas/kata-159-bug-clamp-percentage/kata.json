@@ -5,9 +5,27 @@
   "focus": "boundary logic",
   "signature": "func ClampPercentage(v int) int",
   "rules": [
-    "v \u003c 0 =\u003e 0",
-    "v \u003e 100 =\u003e 100",
-    "otherwise =\u003e v"
+    "v < 0 => 0",
+    "v > 100 => 100",
+    "otherwise => v"
   ],
-  "evaluator_status": "ready"
+  "evaluator_status": "ready",
+  "stage": "lead",
+  "category": "bug-fix-lab",
+  "level": "lead",
+  "tags": [
+    "bug-fixing",
+    "debugging",
+    "boundary",
+    "logic",
+    "bug",
+    "clamp",
+    "percentage"
+  ],
+  "prerequisites": [
+    "156",
+    "157",
+    "158"
+  ],
+  "estimated_minutes": 60
 }

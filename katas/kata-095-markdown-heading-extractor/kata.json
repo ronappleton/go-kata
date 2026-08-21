@@ -9,5 +9,23 @@
     "return heading text",
     "preserve order"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "concurrency",
+  "level": "mid",
+  "tags": [
+    "concurrency",
+    "goroutines",
+    "channels",
+    "sync",
+    "line",
+    "scanning",
+    "markdown",
+    "heading",
+    "extractor"
+  ],
+  "prerequisites": [
+    "094"
+  ],
+  "estimated_minutes": 30
 }

@@ -4,6 +4,10 @@ package kata
 //
 // Signature:
 //   func ArchiveTGZ(srcDir string, w io.Writer) error
+import (
+	"io"
+)
+
 func ArchiveTGZ(srcDir string, w io.Writer) error {
     // TODO: your implementation here
     return nil

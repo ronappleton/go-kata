@@ -6,8 +6,24 @@
   "signature": "func ParseTags(v any, tagKey string) (map[string]string, error)",
   "rules": [
     "struct only",
-    "map fieldName-\u003etagValue",
+    "map fieldName->tagValue",
     "skip empty tags"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "lead",
+  "category": "advanced-patterns",
+  "level": "lead",
+  "tags": [
+    "patterns",
+    "advanced",
+    "reflect",
+    "reflection",
+    "struct",
+    "tag",
+    "parser"
+  ],
+  "prerequisites": [
+    "150"
+  ],
+  "estimated_minutes": 60
 }

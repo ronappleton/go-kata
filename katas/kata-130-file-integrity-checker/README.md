@@ -1,4 +1,4 @@
-# Kata 116 — File Integrity Checker
+# Kata 130 — File Integrity Checker
 
 **Focus:** io, crypto/sha256
 

@@ -1,4 +1,4 @@
-# Kata 137 — Copy With Limit
+# Kata 096 — Copy With Limit
 
 **Focus:** io.CopyN, boundary validation
 

@@ -9,5 +9,22 @@
     "trip after threshold",
     "reset after duration"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "senior",
+  "category": "architecture-design",
+  "level": "senior",
+  "tags": [
+    "architecture",
+    "design",
+    "patterns",
+    "state",
+    "machines",
+    "time",
+    "circuit",
+    "breaker"
+  ],
+  "prerequisites": [
+    "114"
+  ],
+  "estimated_minutes": 45
 }

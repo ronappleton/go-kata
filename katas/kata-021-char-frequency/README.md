@@ -1,4 +1,4 @@
-# Kata 009 — Character Frequency
+# Kata 021 — Character Frequency
 
 **Focus:** Maps, rune iteration, Unicode-safe counting
 

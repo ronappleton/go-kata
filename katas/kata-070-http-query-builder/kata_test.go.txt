@@ -2,6 +2,23 @@ package kata
 
 import "testing"
 
-func Test_BuildQuery(t *testing.T) {
-    t.Skip("TODO: write tests for BuildQuery based on README.md")
+func TestBuildQuery(t *testing.T) {
+	t.Run("sorts keys", func(t *testing.T) {
+		got := BuildQuery(map[string][]string{"b": {"2"}, "a": {"1"}})
+		if got != "a=1&b=2" {
+			t.Errorf("BuildQuery = %q, want %q", got, "a=1&b=2")
+		}
+	})
+	t.Run("preserves value order", func(t *testing.T) {
+		got := BuildQuery(map[string][]string{"k": {"x", "y"}})
+		if got != "k=x&k=y" {
+			t.Errorf("BuildQuery = %q, want %q", got, "k=x&k=y")
+		}
+	})
+	t.Run("escapes special chars", func(t *testing.T) {
+		got := BuildQuery(map[string][]string{"q": {"a b&c"}})
+		if got != "q=a+b%26c" {
+			t.Errorf("BuildQuery = %q, want %q", got, "q=a+b%26c")
+		}
+	})
 }

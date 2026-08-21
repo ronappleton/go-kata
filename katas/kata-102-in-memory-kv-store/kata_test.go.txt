@@ -1,7 +1,47 @@
 package kata
 
-import "testing"
+import (
+	"sort"
+	"sync"
+	"testing"
+)
 
-func Test_KV(t *testing.T) {
-    t.Skip("TODO: write tests for KV based on README.md")
+func TestKV(t *testing.T) {
+	t.Run("set get delete", func(t *testing.T) {
+		var kv KV
+		kv.Set("a", "1")
+		v, ok := kv.Get("a")
+		if !ok || v != "1" {
+			t.Errorf("Get(a) = (%q, %v)", v, ok)
+		}
+		kv.Delete("a")
+		if _, ok := kv.Get("a"); ok {
+			t.Error("a should be deleted")
+		}
+	})
+	t.Run("keys", func(t *testing.T) {
+		var kv KV
+		kv.Set("b", "2")
+		kv.Set("a", "1")
+		keys := kv.Keys()
+		sort.Strings(keys)
+		if len(keys) != 2 || keys[0] != "a" || keys[1] != "b" {
+			t.Errorf("Keys = %v", keys)
+		}
+	})
+	t.Run("thread safe", func(t *testing.T) {
+		var kv KV
+		var wg sync.WaitGroup
+		for i := 0; i < 10; i++ {
+			wg.Add(1)
+			go func(i int) {
+				defer wg.Done()
+				for j := 0; j < 100; j++ {
+					kv.Set("k", "v")
+					kv.Get("k")
+				}
+			}(i)
+		}
+		wg.Wait()
+	})
 }

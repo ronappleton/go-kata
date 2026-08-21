@@ -1,10 +1,31 @@
 package kata
 
+import (
+	"sync"
+)
+
 // Counter — TODO: implement as specified in README.md
-//
 // Signature:
-//   type Counter struct
+//   Inc()
+//   Add(n int)
+//   Value() int
 type Counter struct {
-    // TODO: your implementation here
-    return nil
+	mu    sync.Mutex
+	value int
+}
+
+// Inc increments the counter by 1.
+func (c *Counter) Inc() {
+	// TODO: your implementation here
+}
+
+// Add increments the counter by n.
+func (c *Counter) Add(n int) {
+	// TODO: your implementation here
+}
+
+// Value returns the current counter value.
+func (c *Counter) Value() int {
+	// TODO: your implementation here
+	return 0
 }

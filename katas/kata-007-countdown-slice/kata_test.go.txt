@@ -1,7 +1,27 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_Kata007(t *testing.T) {
-	t.Skip("TODO: write tests for kata 007 based on README.md")
+func TestCountdown(t *testing.T) {
+	tests := []struct {
+		name  string
+		start int
+		want  []int
+	}{
+		{"negative", -1, []int{}},
+		{"zero", 0, []int{0}},
+		{"one", 1, []int{1, 0}},
+		{"five", 5, []int{5, 4, 3, 2, 1, 0}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := Countdown(tt.start)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Countdown(%d) = %v, want %v", tt.start, got, tt.want)
+			}
+		})
+	}
 }

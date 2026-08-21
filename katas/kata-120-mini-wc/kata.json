@@ -9,5 +9,21 @@
     "no os.Exit",
     "return errors"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "senior",
+  "category": "architecture-design",
+  "level": "senior",
+  "tags": [
+    "architecture",
+    "design",
+    "patterns",
+    "cli",
+    "mini"
+  ],
+  "prerequisites": [
+    "117",
+    "118",
+    "119"
+  ],
+  "estimated_minutes": 45
 }

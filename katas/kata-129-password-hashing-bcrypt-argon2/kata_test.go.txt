@@ -1,7 +1,44 @@
 package kata
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
-func Test_HashPassword(t *testing.T) {
-    t.Skip("TODO: write tests for HashPassword based on README.md")
+func TestHashPasswordFormat(t *testing.T) {
+	h, err := HashPassword("hunter2")
+	if err != nil {
+		t.Fatal(err)
+	}
+	parts := strings.Split(h, "$")
+	if len(parts) != 4 || parts[0] != "pbkdf2" {
+		t.Fatalf("hash = %q, want pbkdf2$iter$salt$key", h)
+	}
+}
+
+func TestVerifyPassword(t *testing.T) {
+	h, _ := HashPassword("correct horse")
+	if !VerifyPassword("correct horse", h) {
+		t.Error("VerifyPassword should accept the right password")
+	}
+	if VerifyPassword("wrong password", h) {
+		t.Error("VerifyPassword should reject the wrong password")
+	}
+}
+
+func TestHashPasswordUniqueSalt(t *testing.T) {
+	h1, _ := HashPassword("same")
+	h2, _ := HashPassword("same")
+	if h1 == h2 {
+		t.Error("two hashes of the same password should differ (random salt)")
+	}
+}
+
+func TestVerifyPasswordMalformed(t *testing.T) {
+	if VerifyPassword("x", "not-a-valid-hash") {
+		t.Error("VerifyPassword should reject malformed hashes")
+	}
+	if VerifyPassword("x", "") {
+		t.Error("VerifyPassword should reject empty hashes")
+	}
 }

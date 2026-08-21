@@ -1,7 +1,29 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_ExtractHeadings(t *testing.T) {
-    t.Skip("TODO: write tests for ExtractHeadings based on README.md")
+func TestExtractHeadings(t *testing.T) {
+	tests := []struct {
+		name string
+		in   string
+		want []string
+	}{
+		{"simple", "# Title", []string{"Title"}},
+		{"multiple", "# A\n## B\n### C", []string{"A", "B", "C"}},
+		{"preserves order", "## Two\n# One", []string{"Two", "One"}},
+		{"no headings", "plain text", []string{}},
+		{"no space after hash", "#NoSpace", []string{}},
+		{"empty", "", []string{}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := ExtractHeadings(tt.in)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ExtractHeadings(%q) = %v, want %v", tt.in, got, tt.want)
+			}
+		})
+	}
 }

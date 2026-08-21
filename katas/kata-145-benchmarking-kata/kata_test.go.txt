@@ -1,7 +1,56 @@
 package kata
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
-func Test_Concat(t *testing.T) {
-    t.Skip("TODO: write tests for Concat based on README.md")
+func TestConcatEmpty(t *testing.T) {
+	if got := Concat(nil); got != "" {
+		t.Errorf("Concat(nil) = %q, want empty", got)
+	}
+	if got := Concat([]string{}); got != "" {
+		t.Errorf("Concat([]) = %q, want empty", got)
+	}
+}
+
+func TestConcatSingle(t *testing.T) {
+	if got := Concat([]string{"hello"}); got != "hello" {
+		t.Errorf("Concat = %q, want hello", got)
+	}
+}
+
+func TestConcatMultiple(t *testing.T) {
+	if got := Concat([]string{"a", "b", "c"}); got != "abc" {
+		t.Errorf("Concat = %q, want abc", got)
+	}
+}
+
+func TestConcatIncludesEmptyParts(t *testing.T) {
+	if got := Concat([]string{"x", "", "y"}); got != "xy" {
+		t.Errorf("Concat = %q, want xy", got)
+	}
+}
+
+// The kata requires two benchmarks: naive concatenation vs strings.Builder.
+func BenchmarkConcatNaive(b *testing.B) {
+	parts := []string{"alpha", "beta", "gamma", "delta", "epsilon"}
+	for i := 0; i < b.N; i++ {
+		var s string
+		for _, p := range parts {
+			s += p
+		}
+		_ = s
+	}
+}
+
+func BenchmarkConcatBuilder(b *testing.B) {
+	parts := []string{"alpha", "beta", "gamma", "delta", "epsilon"}
+	for i := 0; i < b.N; i++ {
+		var sb strings.Builder
+		for _, p := range parts {
+			sb.WriteString(p)
+		}
+		_ = sb.String()
+	}
 }

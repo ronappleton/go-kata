@@ -1,10 +1,10 @@
 package kata
 
-// Kata76 — TODO: implement as specified in README.md
+// FindPath — TODO: implement as specified in README.md
 //
-// Signature:
-//   func Kata76() error
-func Kata76() error {
-    // TODO: your implementation here
-    return nil
+// grid[row][col]; 0 = passable, non-zero = wall. Returns a path of
+// [row, col] cells from start to goal, or an error if no path exists.
+func FindPath(start, goal [2]int, grid [][]int) ([][2]int, error) {
+	// TODO: your implementation here
+	return nil, nil
 }

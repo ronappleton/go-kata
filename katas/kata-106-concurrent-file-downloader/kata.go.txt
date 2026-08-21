@@ -4,7 +4,11 @@ package kata
 //
 // Signature:
 //   func DownloadAll(ctx context.Context, urls []string, workers int) (map[string][]byte, error)
+import (
+	"context"
+)
+
 func DownloadAll(ctx context.Context, urls []string, workers int) (map[string][]byte, error) {
     // TODO: your implementation here
-    return nil
+    return nil, nil
 }

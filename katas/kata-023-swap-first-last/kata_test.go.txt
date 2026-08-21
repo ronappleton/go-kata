@@ -1,7 +1,36 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_Kata011(t *testing.T) {
-	t.Skip("TODO: write tests for kata 011 based on README.md")
+func TestSwapFirstLast(t *testing.T) {
+	t.Run("input not mutated", func(t *testing.T) {
+		in := []int{1, 2, 3}
+		_ = SwapFirstLast(in)
+		if !reflect.DeepEqual(in, []int{1, 2, 3}) {
+			t.Errorf("SwapFirstLast mutated input: %v", in)
+		}
+	})
+	tests := []struct {
+		name string
+		in   []int
+		want []int
+	}{
+		{"nil", nil, []int{}},
+		{"empty", []int{}, []int{}},
+		{"single", []int{5}, []int{5}},
+		{"two", []int{1, 2}, []int{2, 1}},
+		{"three", []int{1, 2, 3}, []int{3, 2, 1}},
+		{"four", []int{1, 2, 3, 4}, []int{4, 2, 3, 1}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := SwapFirstLast(tt.in)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("SwapFirstLast(%v) = %v, want %v", tt.in, got, tt.want)
+			}
+		})
+	}
 }

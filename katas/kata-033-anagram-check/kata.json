@@ -9,5 +9,25 @@
     "ignore spaces/punctuation",
     "Unicode-safe via rune counts"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "data-structures",
+  "level": "junior",
+  "tags": [
+    "data-structures",
+    "slices",
+    "maps",
+    "strings",
+    "rune",
+    "counts",
+    "normalization",
+    "anagram",
+    "check"
+  ],
+  "prerequisites": [
+    "030",
+    "031",
+    "032"
+  ],
+  "estimated_minutes": 20
 }

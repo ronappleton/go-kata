@@ -1,10 +1,37 @@
 package kata
 
-// Kata78 — TODO: implement as specified in README.md
-//
-// Signature:
-//   func Kata78() error
-func Kata78() error {
-    // TODO: your implementation here
-    return nil
+import (
+	"context"
+	"errors"
+)
+
+// ErrNotFound — returned by Get/Update for unknown ids.
+var ErrNotFound = errors.New("not found")
+
+// User — a persisted entity. Implement as specified in README.md.
+type User struct {
+	ID    string
+	Name  string
+	Email string
 }
+
+// UserRepo — TODO: implement as specified in README.md
+type UserRepo interface {
+	Create(ctx context.Context, u User) (User, error)
+	Get(ctx context.Context, id string) (User, error)
+	Update(ctx context.Context, u User) (User, error)
+	Delete(ctx context.Context, id string) error
+	List(ctx context.Context) ([]User, error)
+}
+
+// InMemoryRepo — TODO: implement as specified in README.md
+type InMemoryRepo struct {
+	// TODO: your implementation here
+}
+
+// NewInMemoryRepo — TODO: implement as specified in README.md
+func NewInMemoryRepo() *InMemoryRepo {
+	// TODO: your implementation here
+	return nil
+}
+

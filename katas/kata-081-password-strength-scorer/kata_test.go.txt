@@ -2,6 +2,35 @@ package kata
 
 import "testing"
 
-func Test_PasswordScore(t *testing.T) {
-    t.Skip("TODO: write tests for PasswordScore based on README.md")
+func TestPasswordScore(t *testing.T) {
+	tests := []struct {
+		name string
+		in   string
+		want int
+	}{
+		{"empty", "", 0},
+		{"short", "abc", 0},
+		{"long plain", "abcdefgh", 40},
+		{"with digits", "abcdefg1", 60},
+		{"with upper", "Abcdefgh", 60},
+		{"variety", "Abcdefg1!x", 100},
+		{"all categories", "aB3!eF9#kL", 100},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := PasswordScore(tt.in)
+			if got < 0 || got > 100 {
+				t.Errorf("PasswordScore(%q) = %d, out of range 0-100", tt.in, got)
+			}
+			if tt.want == 100 && got != 100 {
+				t.Errorf("PasswordScore(%q) = %d, want 100", tt.in, got)
+			}
+			if tt.want == 0 && got != 0 {
+				t.Errorf("PasswordScore(%q) = %d, want 0", tt.in, got)
+			}
+			if tt.want == 60 && got < 60 {
+				t.Errorf("PasswordScore(%q) = %d, want at least 60", tt.in, got)
+			}
+		})
+	}
 }

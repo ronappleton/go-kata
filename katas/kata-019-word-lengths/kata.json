@@ -8,7 +8,30 @@
     "split words using strings.Fields",
     "map keys are lowercased words",
     "value is rune length of each word",
-    "empty input =\u003e empty map (not nil)"
+    "empty input => empty map (not nil)"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "foundation",
+  "category": "language-basics",
+  "level": "junior",
+  "tags": [
+    "basics",
+    "types",
+    "functions",
+    "conditionals",
+    "loops",
+    "strings",
+    "fields",
+    "maps",
+    "normalization",
+    "decisions",
+    "word",
+    "lengths"
+  ],
+  "prerequisites": [
+    "016",
+    "017",
+    "018"
+  ],
+  "estimated_minutes": 20
 }

@@ -1,7 +1,36 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_Fibonacci(t *testing.T) {
-    t.Skip("TODO: write tests for Fibonacci based on README.md")
+func TestFibonacci(t *testing.T) {
+	t.Run("negative errors", func(t *testing.T) {
+		if _, err := Fibonacci(-1); err == nil {
+			t.Error("Fibonacci(-1) expected error")
+		}
+	})
+	tests := []struct {
+		name string
+		in   int
+		want []int
+	}{
+		{"zero", 0, []int{}},
+		{"one", 1, []int{0}},
+		{"two", 2, []int{0, 1}},
+		{"five", 5, []int{0, 1, 1, 2, 3}},
+		{"seven", 7, []int{0, 1, 1, 2, 3, 5, 8}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := Fibonacci(tt.in)
+			if err != nil {
+				t.Fatalf("Fibonacci(%d) unexpected error: %v", tt.in, err)
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Fibonacci(%d) = %v, want %v", tt.in, got, tt.want)
+			}
+		})
+	}
 }

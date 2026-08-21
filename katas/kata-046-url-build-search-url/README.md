@@ -1,4 +1,4 @@
-# Kata 024 — Build Search URL
+# Kata 046 — Build Search URL
 
 **Focus:** net/url parsing, query encoding
 

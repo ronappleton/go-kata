@@ -2,6 +2,32 @@ package kata
 
 import "testing"
 
-func Test_Kata009(t *testing.T) {
-	t.Skip("TODO: write tests for kata 009 based on README.md")
+func TestCharFrequency(t *testing.T) {
+	t.Run("empty returns empty map", func(t *testing.T) {
+		got := CharFrequency("")
+		if got == nil {
+			t.Error("CharFrequency empty input returned nil map")
+		}
+		if len(got) != 0 {
+			t.Errorf("CharFrequency empty input = %v, want empty", got)
+		}
+	})
+	t.Run("counts runes", func(t *testing.T) {
+		got := CharFrequency("hello")
+		want := map[rune]int{'h': 1, 'e': 1, 'l': 2, 'o': 1}
+		if len(got) != len(want) {
+			t.Fatalf("CharFrequency(hello) = %v, want %v", got, want)
+		}
+		for r, c := range want {
+			if got[r] != c {
+				t.Errorf("CharFrequency(hello)[%q] = %d, want %d", r, got[r], c)
+			}
+		}
+	})
+	t.Run("unicode rune based", func(t *testing.T) {
+		got := CharFrequency("éé")
+		if got['é'] != 2 {
+			t.Errorf("CharFrequency(éé)[é] = %d, want 2 (rune-based, not byte-based)", got['é'])
+		}
+	})
 }

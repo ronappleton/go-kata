@@ -8,3 +8,9 @@ func DiffLines(a, b []string) []DiffOp {
     // TODO: your implementation here
     return nil
 }
+
+// DiffOp — one line of the diff. Op is one of "add", "del", "keep".
+type DiffOp struct {
+	Op   string
+	Text string
+}

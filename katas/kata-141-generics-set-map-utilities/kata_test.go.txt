@@ -1,7 +1,87 @@
 package kata
 
-import "testing"
+import (
+	"testing"
+)
 
-func Test_Kata97(t *testing.T) {
-    t.Skip("TODO: write tests for Kata97 based on README.md")
+func TestSetAddContains(t *testing.T) {
+	s := NewSet[string]()
+	s.Add("a")
+	s.Add("b")
+	s.Add("a") // duplicate
+	if !s.Contains("a") || !s.Contains("b") {
+		t.Error("added values should be contained")
+	}
+	if s.Contains("c") {
+		t.Error("unadded value should not be contained")
+	}
+	if s.Len() != 2 {
+		t.Errorf("Len = %d, want 2", s.Len())
+	}
+}
+
+func TestSetRemove(t *testing.T) {
+	s := NewSet[int]()
+	s.Add(1)
+	s.Add(2)
+	s.Remove(1)
+	if s.Contains(1) {
+		t.Error("1 should be removed")
+	}
+	if !s.Contains(2) {
+		t.Error("2 should remain")
+	}
+	s.Remove(99) // no-op
+	if s.Len() != 1 {
+		t.Errorf("Len = %d, want 1", s.Len())
+	}
+}
+
+func TestSetUnion(t *testing.T) {
+	a := NewSet[string]()
+	a.Add("x")
+	a.Add("y")
+	b := NewSet[string]()
+	b.Add("y")
+	b.Add("z")
+	u := Union(a, b)
+	for _, v := range []string{"x", "y", "z"} {
+		if !u.Contains(v) {
+			t.Errorf("Union missing %q", v)
+		}
+	}
+	if u.Len() != 3 {
+		t.Errorf("Union Len = %d, want 3", u.Len())
+	}
+}
+
+func TestSetIntersection(t *testing.T) {
+	a := NewSet[int]()
+	a.Add(1)
+	a.Add(2)
+	a.Add(3)
+	b := NewSet[int]()
+	b.Add(2)
+	b.Add(3)
+	b.Add(4)
+	i := Intersection(a, b)
+	if !i.Contains(2) || !i.Contains(3) {
+		t.Error("Intersection missing shared values")
+	}
+	if i.Contains(1) || i.Contains(4) {
+		t.Error("Intersection contains non-shared value")
+	}
+	if i.Len() != 2 {
+		t.Errorf("Intersection Len = %d, want 2", i.Len())
+	}
+}
+
+func TestSetEmptyIntersection(t *testing.T) {
+	a := NewSet[string]()
+	a.Add("only")
+	b := NewSet[string]()
+	b.Add("other")
+	if i := Intersection(a, b); i.Len() != 0 {
+		t.Errorf("expected empty intersection, got Len=%d", i.Len())
+	}
 }

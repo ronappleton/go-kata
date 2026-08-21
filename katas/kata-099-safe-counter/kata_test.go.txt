@@ -1,7 +1,43 @@
 package kata
 
-import "testing"
+import (
+	"sync"
+	"testing"
+)
 
-func Test_Counter(t *testing.T) {
-    t.Skip("TODO: write tests for Counter based on README.md")
+func TestCounter(t *testing.T) {
+	t.Run("inc and value", func(t *testing.T) {
+		var c Counter
+		c.Inc()
+		c.Inc()
+		c.Inc()
+		if v := c.Value(); v != 3 {
+			t.Errorf("Value = %d, want 3", v)
+		}
+	})
+	t.Run("add", func(t *testing.T) {
+		var c Counter
+		c.Add(5)
+		c.Add(2)
+		if v := c.Value(); v != 7 {
+			t.Errorf("Value = %d, want 7", v)
+		}
+	})
+	t.Run("race free", func(t *testing.T) {
+		var c Counter
+		var wg sync.WaitGroup
+		for i := 0; i < 20; i++ {
+			wg.Add(1)
+			go func() {
+				defer wg.Done()
+				for j := 0; j < 100; j++ {
+					c.Inc()
+				}
+			}()
+		}
+		wg.Wait()
+		if v := c.Value(); v != 2000 {
+			t.Errorf("Value = %d, want 2000 (race-free)", v)
+		}
+	})
 }

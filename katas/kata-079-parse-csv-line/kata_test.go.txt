@@ -1,7 +1,31 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_ParseCSVLine(t *testing.T) {
-    t.Skip("TODO: write tests for ParseCSVLine based on README.md")
+func TestParseCSVLine(t *testing.T) {
+	tests := []struct {
+		name string
+		in   string
+		want []string
+	}{
+		{"simple", "a,b,c", []string{"a", "b", "c"}},
+		{"empty fields", "a,,c", []string{"a", "", "c"}},
+		{"quoted comma", "a,\"b,c\",d", []string{"a", "b,c", "d"}},
+		{"escaped quote", "a,\"b\"\"c\"", []string{"a", "b\"c"}},
+		{"single field", "hello", []string{"hello"}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := ParseCSVLine(tt.in)
+			if err != nil {
+				t.Fatalf("ParseCSVLine(%q) error: %v", tt.in, err)
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ParseCSVLine(%q) = %v, want %v", tt.in, got, tt.want)
+			}
+		})
+	}
 }

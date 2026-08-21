@@ -1,4 +1,4 @@
-# Kata 045 — Merge Two Sorted Lists
+# Kata 037 — Merge Two Sorted Lists
 
 **Focus:** Two pointers
 

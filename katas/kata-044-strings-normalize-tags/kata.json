@@ -11,5 +11,21 @@
     "convert each kept tag to lowercase",
     "preserve original left-to-right order"
   ],
-  "evaluator_status": "incomplete"
+  "evaluator_status": "ready",
+  "stage": "practitioner",
+  "category": "standard-library",
+  "level": "mid",
+  "tags": [
+    "stdlib",
+    "io",
+    "parsing",
+    "strings",
+    "split",
+    "trimspace",
+    "tolower",
+    "normalize",
+    "tags"
+  ],
+  "prerequisites": [],
+  "estimated_minutes": 30
 }

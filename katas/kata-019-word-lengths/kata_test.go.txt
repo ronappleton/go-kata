@@ -1,7 +1,39 @@
 package kata
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
-func Test_Kata019(t *testing.T) {
-	t.Skip("TODO: write tests for kata 019 based on README.md")
+func TestWordLengths(t *testing.T) {
+	t.Run("empty input returns empty map", func(t *testing.T) {
+		got := WordLengths("")
+		if got == nil {
+			t.Error("WordLengths empty input returned nil map")
+		}
+		if len(got) != 0 {
+			t.Errorf("WordLengths empty input = %v, want empty map", got)
+		}
+	})
+	t.Run("counts rune lengths of lowercased words", func(t *testing.T) {
+		tests := []struct {
+			name string
+			in   string
+			want map[string]int
+		}{
+			{"simple", "hello world", map[string]int{"hello": 5, "world": 5}},
+			{"case folded", "Hello WORLD", map[string]int{"hello": 5, "world": 5}},
+			{"duplicates", "go go go", map[string]int{"go": 2}},
+			{"unicode rune length", "héllo wörld", map[string]int{"héllo": 5, "wörld": 5}},
+			{"punctuation sticks to word", "hi, there", map[string]int{"hi,": 3, "there": 5}},
+		}
+		for _, tt := range tests {
+			t.Run(tt.name, func(t *testing.T) {
+				got := WordLengths(tt.in)
+				if !reflect.DeepEqual(got, tt.want) {
+					t.Errorf("WordLengths(%q) = %v, want %v", tt.in, got, tt.want)
+				}
+			})
+		}
+	})
 }

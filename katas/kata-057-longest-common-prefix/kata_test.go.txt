@@ -2,6 +2,25 @@ package kata
 
 import "testing"
 
-func Test_LongestCommonPrefix(t *testing.T) {
-    t.Skip("TODO: write tests for LongestCommonPrefix based on README.md")
+func TestLongestCommonPrefix(t *testing.T) {
+	tests := []struct {
+		name string
+		in   []string
+		want string
+	}{
+		{"empty", []string{}, ""},
+		{"nil", nil, ""},
+		{"single", []string{"hello"}, "hello"},
+		{"common", []string{"flower", "flow", "flight"}, "fl"},
+		{"no common", []string{"dog", "racecar", "car"}, ""},
+		{"case sensitive", []string{"Go", "go"}, ""},
+		{"one empty string", []string{"", "a"}, ""},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := LongestCommonPrefix(tt.in); got != tt.want {
+				t.Errorf("LongestCommonPrefix(%v) = %q, want %q", tt.in, got, tt.want)
+			}
+		})
+	}
 }
