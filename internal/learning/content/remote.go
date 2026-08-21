@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -15,6 +16,9 @@ import (
 type remoteStore struct {
 	baseURL    string
 	httpClient *http.Client
+
+	mu               sync.RWMutex
+	downloadProgress func(bytesRead, totalBytes int64)
 }
 
 // NewRemoteStore creates a content store backed by a remote HTTP server.
@@ -58,6 +62,72 @@ func (r *remoteStore) fetchAttempt(ctx context.Context, url string) ([]byte, boo
 		return nil, false, fmt.Errorf("read %s: %w", url, err)
 	}
 	return data, false, nil
+}
+
+// SetDownloadProgress installs a callback that reports bytes read during
+// large downloads (e.g. the archive zipball). It is safe to call from any
+// goroutine.
+func (r *remoteStore) SetDownloadProgress(fn func(bytesRead, totalBytes int64)) {
+	r.mu.Lock()
+	r.downloadProgress = fn
+	r.mu.Unlock()
+}
+
+func (r *remoteStore) reportDownloadProgress(bytesRead, totalBytes int64) {
+	r.mu.RLock()
+	fn := r.downloadProgress
+	r.mu.RUnlock()
+	if fn != nil {
+		fn(bytesRead, totalBytes)
+	}
+}
+
+// fetchAttemptWithProgress is like fetchAttempt but reports bytes read when
+// progress is non-nil.
+func (r *remoteStore) fetchAttemptWithProgress(ctx context.Context, url string, progress func(bytesRead, totalBytes int64)) ([]byte, bool, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	if err != nil {
+		return nil, true, fmt.Errorf("create request: %w", err)
+	}
+	resp, err := r.httpClient.Do(req)
+	if err != nil {
+		return nil, false, fmt.Errorf("fetch %s: %w", url, err)
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		permanent := resp.StatusCode >= 400 && resp.StatusCode < 500 && resp.StatusCode != http.StatusTooManyRequests
+		return nil, permanent, fmt.Errorf("fetch %s: status %d", url, resp.StatusCode)
+	}
+	total := resp.ContentLength // -1 when unknown
+	if progress != nil && total > 0 {
+		progress(0, total)
+	}
+	var reader io.Reader = resp.Body
+	if progress != nil {
+		reader = &progressReader{r: resp.Body, total: total, fn: progress}
+	}
+	data, err := io.ReadAll(reader)
+	if err != nil {
+		return nil, false, fmt.Errorf("read %s: %w", url, err)
+	}
+	return data, false, nil
+}
+
+// progressReader wraps an io.Reader and reports bytes read via a callback.
+type progressReader struct {
+	r    io.Reader
+	total int64
+	n    int64
+	fn   func(bytesRead, totalBytes int64)
+}
+
+func (pr *progressReader) Read(p []byte) (int, error) {
+	n, err := pr.r.Read(p)
+	if n > 0 {
+		pr.n += int64(n)
+		pr.fn(pr.n, pr.total)
+	}
+	return n, err
 }
 
 // GetManifest fetches the manifest from the remote source.

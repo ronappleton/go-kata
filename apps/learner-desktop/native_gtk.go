@@ -58,6 +58,7 @@ type nativeApp struct {
 	title          *gtk.Label
 	subtitle       *gtk.Label
 	status         *gtk.Label
+	downloadBar    *gtk.ProgressBar
 	docs           *gtk.TextBuffer
 	code           *gtk.TextBuffer
 	learnerTests   *gtk.TextBuffer
@@ -200,8 +201,17 @@ func (n *nativeApp) build(app *gtk.Application) {
 		if p, ok := n.contentProvider.(interface{ SetProgress(func(int, int)) }); ok {
 			p.SetProgress(func(completed, total int) {
 				n.postToMain(func() {
-					if n.status != nil {
-						n.setStatus(fmt.Sprintf("Downloading curriculum… %d/%d", completed, total))
+					n.updateDownloadBar(fmt.Sprintf("Extracting… %d/%d", completed, total), float64(completed)/float64(total))
+				})
+			})
+		}
+		// Report byte-level progress during the archive download.
+		if p, ok := n.contentProvider.(interface{ SetDownloadProgress(func(int64, int64)) }); ok {
+			p.SetDownloadProgress(func(bytesRead, totalBytes int64) {
+				n.postToMain(func() {
+					if totalBytes > 0 {
+						pct := float64(bytesRead) / float64(totalBytes)
+						n.updateDownloadBar(fmt.Sprintf("Downloading… %s / %s", humanBytes(bytesRead), humanBytes(totalBytes)), pct)
 					}
 				})
 			})
@@ -294,6 +304,14 @@ func (n *nativeApp) buildHeader() *gtk.Box {
 	n.status.AddCSSClass("status-pill")
 	n.status.SetHAlign(gtk.AlignStart)
 	header.Append(n.status)
+
+	n.downloadBar = gtk.NewProgressBar()
+	n.downloadBar.SetShowText(true)
+	n.downloadBar.SetText("")
+	n.downloadBar.AddCSSClass("download-progress")
+	n.downloadBar.SetSizeRequest(160, 0)
+	n.downloadBar.SetVisible(false)
+	header.Append(n.downloadBar)
 
 	n.saveButton = gtk.NewButtonWithLabel("Save")
 	n.saveButton.SetSensitive(false)
@@ -626,8 +644,11 @@ func contentCacheDir() (string, error) {
 
 // bootstrapRemoteContent drives the remote-first curriculum load:
 //
-//  1. Show any cached curriculum immediately (offline-safe fast start).
-//  2. Sync with the remote (concurrent downloads, retries, progress reporting).
+//  1. Show any fully cached curriculum immediately (offline-safe fast start).
+//     Gated on HasCachedContent so a cold cache never crawls hundreds of
+//     katas one request at a time before the zipball sync has run.
+//  2. Sync with the remote (zipball by default, per-kata fallback, progress
+//     reporting).
 //  3. Reload the freshest track and reflect partial failures in the status.
 //
 // All GTK mutations are marshalled to the main thread; network work happens on
@@ -637,16 +658,21 @@ func (n *nativeApp) bootstrapRemoteContent(window *gtk.ApplicationWindow) {
 
 	n.postToMain(func() { n.setStatus("Checking curriculum…") })
 
-	// 1. Cached curriculum first — usable immediately, even offline.
-	if manifest, err := n.contentProvider.GetManifest(ctx); err == nil && len(manifest.Tracks) > 0 {
-		if cached, err := catalog.LoadTrackFromContent(ctx, n.contentProvider, manifest.Tracks[0].ID); err == nil {
-			n.postToMain(func() {
-				n.applyTrack(cached, "Using cached curriculum · updating…")
-			})
+	// 1. Cached curriculum first — usable immediately, even offline. Only
+	//    when a previous sync actually populated the cache; a cold cache must
+	//    go straight to the zipball sync instead.
+	if n.contentProvider.HasCachedContent() {
+		if manifest, err := n.contentProvider.GetManifest(ctx); err == nil && len(manifest.Tracks) > 0 {
+			if cached, err := catalog.LoadTrackFromContent(ctx, n.contentProvider, manifest.Tracks[0].ID); err == nil {
+				n.postToMain(func() {
+					n.applyTrack(cached, "Using cached curriculum · updating…")
+				})
+			}
 		}
 	}
 
 	// 2. Sync with the remote.
+	n.postToMain(func() { n.setStatus("Downloading curriculum…") })
 	syncResult, err := n.contentProvider.Sync(ctx)
 	if err != nil {
 		// A cached curriculum is still usable when an update check fails.
@@ -706,6 +732,7 @@ func (n *nativeApp) applyTrack(track catalog.Track, status string) {
 	if len(all) > 0 && n.selected.ID == "" {
 		n.selectKata(all[0])
 	}
+	n.updateDownloadBar("", -1) // hide the progress bar
 	n.setStatus(status)
 }
 
@@ -1433,4 +1460,34 @@ func formatResult(result evaluator.Result) string {
 		lines = append(lines, "", result.Output)
 	}
 	return strings.Join(lines, "\n")
+}
+
+// updateDownloadBar shows the download progress bar with the given text and
+// fraction, or hides it when fraction < 0. It must be called on the GTK main
+// thread.
+func (n *nativeApp) updateDownloadBar(text string, fraction float64) {
+	if n.downloadBar == nil {
+		return
+	}
+	if fraction < 0 {
+		n.downloadBar.SetVisible(false)
+		return
+	}
+	n.downloadBar.SetVisible(true)
+	n.downloadBar.SetText(text)
+	n.downloadBar.SetFraction(fraction)
+}
+
+// humanBytes formats a byte count as a human-readable string.
+func humanBytes(b int64) string {
+	const unit = 1024
+	if b < unit {
+		return fmt.Sprintf("%d B", b)
+	}
+	div, exp := int64(unit), 0
+	for n := b / unit; n >= unit; n /= unit {
+		div *= unit
+		exp++
+	}
+	return fmt.Sprintf("%.1f %ciB", float64(b)/float64(div), "KMGTPE"[exp])
 }

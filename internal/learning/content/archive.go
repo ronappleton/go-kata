@@ -30,20 +30,28 @@ func archiveURLFromRaw(baseURL string) string {
 }
 
 // DownloadArchive fetches the full content tree as a single zipball.
+// Bytes-read progress is forwarded through the store's download callback.
 func (r *remoteStore) DownloadArchive(ctx context.Context) ([]byte, error) {
 	url := archiveURLFromRaw(r.baseURL)
 	if url == "" {
 		return nil, fmt.Errorf("cannot derive archive URL from %s", r.baseURL)
 	}
-	return r.fetchURL(ctx, url)
+	data, err := r.fetchURLWithProgress(ctx, url, r.downloadProgress)
+	return data, err
 }
 
 // fetchURL fetches an absolute URL with the same retry behaviour as fetch.
 func (r *remoteStore) fetchURL(ctx context.Context, url string) ([]byte, error) {
+	return r.fetchURLWithProgress(ctx, url, nil)
+}
+
+// fetchURLWithProgress is like fetchURL but optionally reports bytes read
+// during the HTTP body download via the progress callback.
+func (r *remoteStore) fetchURLWithProgress(ctx context.Context, url string, progress func(bytesRead, totalBytes int64)) ([]byte, error) {
 	delay := 400 * time.Millisecond
 	var lastErr error
 	for attempt := 0; attempt < maxFetchAttempts; attempt++ {
-		data, permanent, err := r.fetchAttempt(ctx, url)
+		data, permanent, err := r.fetchAttemptWithProgress(ctx, url, progress)
 		if err == nil {
 			return data, nil
 		}

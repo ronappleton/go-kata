@@ -192,6 +192,24 @@ button.suggested-action:disabled {
   background-color: @border;
 }
 
+/* Download progress bar (header) */
+.download-progress {
+  min-height: 8px;
+  min-width: 120px;
+  margin-left: 8px;
+}
+.download-progress progress,
+.download-progress trough {
+  min-height: 8px;
+  border-radius: 4px;
+}
+.download-progress progress {
+  background-color: @accent;
+}
+.download-progress trough {
+  background-color: @border;
+}
+
 /* Kata rows */
 .kata-row {
   background-color: transparent;

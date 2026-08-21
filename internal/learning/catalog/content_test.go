@@ -27,6 +27,7 @@ func (f fakeContentProvider) GetKata(_ context.Context, _ string, kataID string)
 	return &content.KataContent{ID: kataID, Slug: "build-greeting", KataGo: "package kata", Readme: "# Build Greeting", JSON: `{"id":"001","title":"Build Greeting","focus":"functions","signature":"func BuildGreeting(name string) string","evaluator_status":"ready"}`}, nil
 }
 func (fakeContentProvider) Sync(context.Context) (*content.SyncResult, error) { return nil, nil }
+func (fakeContentProvider) HasCachedContent() bool                            { return true }
 func (fakeContentProvider) IsRemote() bool                                    { return true }
 func (fakeContentProvider) LastSync() (result time.Time)                      { return result }
 func (fakeContentProvider) ContentDir() string                                { return "" }

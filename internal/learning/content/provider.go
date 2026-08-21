@@ -29,7 +29,30 @@ type provider struct {
 // SetProgress installs a callback invoked during Sync as katas are downloaded.
 // The callback may be called from multiple goroutines concurrently.
 func (p *provider) SetProgress(fn func(completed, total int)) {
+	p.mu.Lock()
 	p.progress = fn
+	p.mu.Unlock()
+}
+
+// reportProgress invokes the installed progress callback, if any, from any
+// goroutine. The callback is read under the mutex to avoid a data race with
+// SetProgress.
+func (p *provider) reportProgress(done, total int) {
+	p.mu.RLock()
+	fn := p.progress
+	p.mu.RUnlock()
+	if fn != nil {
+		fn(done, total)
+	}
+}
+
+// SetDownloadProgress installs a callback that reports bytes-read progress
+// during large HTTP downloads (e.g. the archive zipball). It is forwarded to
+// the underlying remote store. The callback may be called from any goroutine.
+func (p *provider) SetDownloadProgress(fn func(bytesRead, totalBytes int64)) {
+	if p.remote != nil {
+		p.remote.SetDownloadProgress(fn)
+	}
 }
 
 // ProviderConfig configures the content provider.
@@ -172,9 +195,7 @@ func (p *provider) Sync(ctx context.Context) (*SyncResult, error) {
 	// Preferred path: one zipball instead of hundreds of kata requests.
 	if data, aerr := p.remote.DownloadArchive(ctx); aerr == nil {
 		added, xerr := extractArchive(data, p.local.Dir(), func(done, total int) {
-			if p.progress != nil {
-				p.progress(done, total)
-			}
+			p.reportProgress(done, total)
 		})
 		if xerr != nil {
 			result.Failed = append(result.Failed, fmt.Sprintf("extract archive: %v", xerr))
@@ -260,9 +281,7 @@ func (p *provider) syncPerKata(ctx context.Context, remoteManifest *Manifest) (a
 	var mu sync.Mutex
 	var completed int
 	report := func() {
-		if p.progress != nil {
-			p.progress(completed, len(jobs))
-		}
+		p.reportProgress(completed, len(jobs))
 	}
 
 	for i := 0; i < workers; i++ {
@@ -314,6 +333,28 @@ func (p *provider) trackFullyCached(trackID string, track *TrackMeta) bool {
 					return false
 				}
 			}
+		}
+	}
+	return true
+}
+
+// HasCachedContent reports whether a fully synced curriculum already exists in
+// the local cache (manifest plus every kata referenced by every track). It
+// never touches the network, so callers can show cached content immediately
+// without triggering a slow per-kata remote crawl. A cold or partial cache
+// returns false.
+func (p *provider) HasCachedContent() bool {
+	if !p.local.HasManifest() {
+		return false
+	}
+	manifest, err := p.local.GetManifest()
+	if err != nil {
+		return false
+	}
+	for _, t := range manifest.Tracks {
+		track, err := p.local.GetTrack(t.ID)
+		if err != nil || !p.trackFullyCached(t.ID, track) {
+			return false
 		}
 	}
 	return true

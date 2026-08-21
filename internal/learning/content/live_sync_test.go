@@ -24,6 +24,12 @@ func TestLiveRemoteSync(t *testing.T) {
 	var lastDone, lastTotal int
 	p.SetProgress(func(done, total int) { lastDone, lastTotal = done, total })
 
+	// A cold cache must report no cached content: callers should sync first
+	// rather than crawl kata-by-kata.
+	if p.HasCachedContent() {
+		t.Fatal("cold cache should not report cached content")
+	}
+
 	start := time.Now()
 	res, err := p.Sync(context.Background())
 	if err != nil {
@@ -44,6 +50,12 @@ func TestLiveRemoteSync(t *testing.T) {
 		t.Fatalf("manifest: %v tracks=%d", err, len(m.Tracks))
 	}
 	fmt.Printf("tracks: %d\n", len(m.Tracks))
+
+	// After a successful sync the curriculum is fully cached and must be
+	// reported as such without touching the network.
+	if !p.HasCachedContent() {
+		t.Fatal("fully synced cache should report cached content")
+	}
 
 	start = time.Now()
 	res2, err := p.Sync(context.Background())

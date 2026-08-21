@@ -18,6 +18,11 @@ type ContentManager interface {
 	// GetKata returns the content for a specific kata.
 	GetKata(ctx context.Context, trackID, kataID string) (*KataContent, error)
 
+	// HasCachedContent reports whether a fully synced curriculum already exists
+	// locally, without touching the network. Callers use it to decide whether
+	// cached content can be shown immediately (vs. syncing first).
+	HasCachedContent() bool
+
 	// Sync downloads any updated content from the remote source.
 	Sync(ctx context.Context) (*SyncResult, error)
 
