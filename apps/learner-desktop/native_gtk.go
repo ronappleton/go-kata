@@ -5,6 +5,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -656,25 +657,47 @@ func contentCacheDir() (string, error) {
 func (n *nativeApp) bootstrapRemoteContent(window *gtk.ApplicationWindow) {
 	ctx := context.Background()
 
+	// Recover from any panic in this goroutine so the app doesn't
+	// silently die and leave the sidebar stuck on "Downloading…".
+	defer func() {
+		if r := recover(); r != nil {
+			log.Printf("[bootstrap] PANIC: %v", r)
+			n.postToMain(func() {
+				n.updateDownloadBar("", -1)
+				n.setStatus(fmt.Sprintf("Curriculum load failed: %v", r))
+			})
+		}
+	}()
+
+	log.Println("[bootstrap] starting")
 	n.postToMain(func() { n.setStatus("Checking curriculum…") })
 
 	// 1. Cached curriculum first — usable immediately, even offline. Only
 	//    when a previous sync actually populated the cache; a cold cache must
 	//    go straight to the zipball sync instead.
+	log.Printf("[bootstrap] HasCachedContent=%v", n.contentProvider.HasCachedContent())
 	if n.contentProvider.HasCachedContent() {
 		if manifest, err := n.contentProvider.GetManifest(ctx); err == nil && len(manifest.Tracks) > 0 {
+			log.Printf("[bootstrap] cached manifest has %d tracks", len(manifest.Tracks))
 			if cached, err := catalog.LoadTrackFromContent(ctx, n.contentProvider, manifest.Tracks[0].ID); err == nil {
+				log.Printf("[bootstrap] cached track loaded: %d stages, %d katas", len(cached.Stages), len(cached.AllKatas()))
 				n.postToMain(func() {
 					n.applyTrack(cached, "Using cached curriculum · updating…")
 				})
+			} else {
+				log.Printf("[bootstrap] cached track load failed: %v", err)
 			}
+		} else {
+			log.Printf("[bootstrap] cached manifest empty or error: %v", err)
 		}
 	}
 
 	// 2. Sync with the remote.
+	log.Println("[bootstrap] starting sync")
 	n.postToMain(func() { n.setStatus("Downloading curriculum…") })
 	syncResult, err := n.contentProvider.Sync(ctx)
 	if err != nil {
+		log.Printf("[bootstrap] sync failed: %v", err)
 		// A cached curriculum is still usable when an update check fails.
 		if n.hasCurriculum() {
 			n.postToMain(func() { n.setStatus("Using cached curriculum · update unavailable") })
@@ -683,10 +706,13 @@ func (n *nativeApp) bootstrapRemoteContent(window *gtk.ApplicationWindow) {
 		n.postToMain(func() { n.showContentUnavailable(window, err) })
 		return
 	}
+	log.Printf("[bootstrap] sync complete: added=%d failed=%d", syncResult.Added, len(syncResult.Failed))
 
 	// 3. Reload the freshest track.
+	log.Println("[bootstrap] loading manifest")
 	manifest, err := n.contentProvider.GetManifest(ctx)
 	if err != nil || len(manifest.Tracks) == 0 {
+		log.Printf("[bootstrap] manifest load failed: err=%v tracks=%d", err, len(manifest.Tracks))
 		if err == nil {
 			err = fmt.Errorf("content manifest contains no tracks")
 		}
@@ -695,7 +721,11 @@ func (n *nativeApp) bootstrapRemoteContent(window *gtk.ApplicationWindow) {
 		}
 		return
 	}
+	log.Printf("[bootstrap] manifest tracks: %d", len(manifest.Tracks))
+
+	log.Printf("[bootstrap] loading track %q", manifest.Tracks[0].ID)
 	track, loadErr := catalog.LoadTrackFromContent(ctx, n.contentProvider, manifest.Tracks[0].ID)
+	log.Printf("[bootstrap] track loaded: %d stages, %d katas, err=%v", len(track.Stages), len(track.AllKatas()), loadErr)
 	if loadErr != nil && len(track.Stages) == 0 {
 		if !n.hasCurriculum() {
 			n.postToMain(func() { n.showContentUnavailable(window, loadErr) })
@@ -709,8 +739,11 @@ func (n *nativeApp) bootstrapRemoteContent(window *gtk.ApplicationWindow) {
 	} else if len(syncResult.Failed) > 0 {
 		status += fmt.Sprintf(" · %d sync warnings", len(syncResult.Failed))
 	}
+	log.Printf("[bootstrap] posting applyTrack: %s", status)
 	n.postToMain(func() {
+		log.Println("[bootstrap] applyTrack executing on main thread")
 		n.applyTrack(track, status)
+		log.Println("[bootstrap] applyTrack done")
 	})
 }
 
