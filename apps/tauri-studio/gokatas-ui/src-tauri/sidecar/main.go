@@ -124,6 +124,26 @@ func main() {
 	mux.HandleFunc("POST /api/sync", s.handleSync)
 	mux.HandleFunc("GET /api/sync/stream", s.handleSyncStream)
 
+	// Serve static frontend from ../dist relative to sidecar binary
+	frontendDir := resolveFrontendDir()
+	if frontendDir != "" {
+		log.Printf("serving frontend from %s", frontendDir)
+		fs := http.FileServer(http.Dir(frontendDir))
+		mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
+			// Skip API routes
+			if strings.HasPrefix(r.URL.Path, "/api/") {
+				http.NotFound(w, r)
+				return
+			}
+			// SPA fallback: serve index.html for non-file paths
+			path := filepath.Join(frontendDir, r.URL.Path)
+			if _, err := os.Stat(path); os.IsNotExist(err) && !strings.Contains(r.URL.Path, ".") {
+				r.URL.Path = "/"
+			}
+			fs.ServeHTTP(w, r)
+		})
+	}
+
 	handler := corsMiddleware(mux)
 
 	srv := &http.Server{Handler: handler, ReadTimeout: 30 * time.Second, WriteTimeout: 5 * time.Minute}
@@ -419,6 +439,34 @@ func defaultRunnerImage() string {
 		if err == nil {
 			if s := strings.TrimSpace(string(data)); s != "" {
 				return s
+			}
+		}
+	}
+	return ""
+}
+
+// resolveFrontendDir finds the built React frontend for static serving.
+// It looks for ../dist relative to the sidecar binary, then CWD, then
+// the env var GOKATAS_FRONTEND_DIR.
+func resolveFrontendDir() string {
+	if d := os.Getenv("GOKATAS_FRONTEND_DIR"); d != "" {
+		if _, err := os.Stat(d); err == nil {
+			return d
+		}
+	}
+	// Try relative to executable
+	if exe, err := os.Executable(); err == nil {
+		candidate := filepath.Join(filepath.Dir(exe), "..", "dist")
+		if _, err := os.Stat(candidate); err == nil {
+			return candidate
+		}
+	}
+	// Try relative to CWD
+	if d, err := os.Getwd(); err == nil {
+		for _, rel := range []string{"../dist", "dist"} {
+			candidate := filepath.Join(d, rel)
+			if _, err := os.Stat(candidate); err == nil {
+				return candidate
 			}
 		}
 	}

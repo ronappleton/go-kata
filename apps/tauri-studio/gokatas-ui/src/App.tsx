@@ -6,6 +6,41 @@ import { catalog, kata, progress, syncApi } from "./api";
 import type { Track, KataDetail, KataSummary, ProgressState, StageSummary } from "./types";
 import "./index.css";
 
+// ── Language mapping ──
+
+const LANGUAGE_MAP: Record<string, string> = {
+  go: "go",
+  php: "php",
+  java: "java",
+  csharp: "csharp",
+  "c#": "csharp",
+  cpp: "cpp",
+  "c++": "cpp",
+  rust: "rust",
+  python: "python",
+  javascript: "javascript",
+  typescript: "typescript",
+  typescriptreact: "typescript",
+  jsx: "javascript",
+  tsx: "typescript",
+  swift: "swift",
+  kotlin: "kotlin",
+  ruby: "ruby",
+  scala: "scala",
+  zig: "zig",
+  lua: "lua",
+  shell: "shell",
+  bash: "shell",
+  yaml: "yaml",
+  json: "json",
+  markdown: "markdown",
+  sql: "sql",
+};
+
+function langToMonaco(lang: string): string {
+  return LANGUAGE_MAP[lang.toLowerCase()] || "plaintext";
+}
+
 // ── Main App ──
 
 export default function App() {
@@ -15,10 +50,12 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<"docs" | "workbench" | "output">("docs");
   const [code, setCode] = useState("");
   const [tests, setTests] = useState("");
+  const [language, setLanguage] = useState("go");
   const [output, setOutput] = useState("");
   const [running, setRunning] = useState(false);
   const [syncing, setSyncing] = useState(false);
   const [statusMsg, setStatusMsg] = useState("Starting…");
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Load catalog on mount
   useEffect(() => {
@@ -57,6 +94,7 @@ export default function App() {
       setSelectedKata(detail);
       setCode(detail.content.kataGo || "");
       setTests(detail.content.kataTest || "");
+      setLanguage(langToMonaco(detail.kata.language || "go"));
       setOutput("");
       setActiveTab("docs");
       setStatusMsg(`${k.id} — ${k.title}`);
@@ -152,6 +190,24 @@ export default function App() {
           </button>
         </div>
 
+        {/* Search */}
+        {track && (
+          <div className="px-3 pb-2">
+            <input
+              type="text"
+              placeholder="Search katas…"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full text-xs px-3 py-2 rounded-lg outline-none"
+              style={{
+                background: "var(--color-surface-hi)",
+                color: "var(--color-text)",
+                border: "1px solid var(--color-border)",
+              }}
+            />
+          </div>
+        )}
+
         {/* Stage list */}
         <div className="flex-1 overflow-y-auto px-3 pb-4">
           {!track ? (
@@ -165,6 +221,7 @@ export default function App() {
                 stage={stage}
                 selectedId={selectedKata?.kata.id}
                 progress={progressState}
+                searchQuery={searchQuery}
                 onSelect={selectKata}
               />
             ))
@@ -206,7 +263,10 @@ export default function App() {
             </button>
           ))}
           {activeTab === "workbench" && (
-            <div className="flex-1 flex justify-end gap-2">
+            <div className="flex-1 flex items-center justify-end gap-2">
+              <span className="text-[10px] px-2 py-0.5 rounded font-mono" style={{ background: "var(--color-surface-hi)", color: "var(--color-accent)", border: "1px solid var(--color-border)" }}>
+                {language.toUpperCase()}
+              </span>
               <button
                 onClick={save}
                 className="text-xs px-4 py-1.5 rounded-lg font-semibold"
@@ -230,7 +290,7 @@ export default function App() {
         <div className="flex-1 overflow-hidden">
           {activeTab === "docs" && <DocsTab kata={selectedKata} />}
           {activeTab === "workbench" && (
-            <WorkbenchTab code={code} tests={tests} onCodeChange={setCode} onTestsChange={setTests} />
+            <WorkbenchTab code={code} tests={tests} language={language} onCodeChange={setCode} onTestsChange={setTests} />
           )}
           {activeTab === "output" && <OutputTab output={output} running={running} />}
         </div>
@@ -245,20 +305,36 @@ function StageBlock({
   stage,
   selectedId,
   progress,
+  searchQuery,
   onSelect,
 }: {
   stage: StageSummary;
   selectedId?: string;
   progress: ProgressState;
+  searchQuery: string;
   onSelect: (k: KataSummary) => void;
 }) {
   const [collapsed, setCollapsed] = useState(false);
+  const q = searchQuery.toLowerCase();
   const totalKatas = stage.categories.reduce((sum, c) => sum + c.katas.length, 0);
   const completedKatas = stage.categories.reduce(
     (sum, c) => sum + c.katas.filter((k) => (progress.attempts[k.id]?.passes ?? 0) > 0).length,
     0
   );
   const pct = totalKatas > 0 ? completedKatas / totalKatas : 0;
+
+  // Filter katas by search query
+  const filteredStage = q ? {
+    ...stage,
+    categories: stage.categories.map((cat) => ({
+      ...cat,
+      katas: cat.katas.filter(
+        (k) => k.id.toLowerCase().includes(q) || k.title.toLowerCase().includes(q) || k.focus.toLowerCase().includes(q)
+      ),
+    })).filter((cat) => cat.katas.length > 0),
+  } : stage;
+  const hasKatas = filteredStage.categories.some((c) => c.katas.length > 0);
+  if (q && !hasKatas) return null;
 
   return (
     <div className="mb-2">
@@ -290,7 +366,7 @@ function StageBlock({
 
       {/* Categories + katas */}
       {!collapsed &&
-        stage.categories.map((cat) => (
+        filteredStage.categories.map((cat) => (
           <div key={cat.id} className="ml-2">
             <div className="text-[10px] font-bold uppercase px-3 py-1" style={{ color: "var(--color-text-faint)" }}>
               {cat.title}
@@ -367,15 +443,21 @@ function DocsTab({ kata: detail }: { kata: KataDetail | null }) {
 function WorkbenchTab({
   code,
   tests,
+  language,
   onCodeChange,
   onTestsChange,
 }: {
   code: string;
   tests: string;
+  language: string;
   onCodeChange: (v: string) => void;
   onTestsChange: (v: string) => void;
 }) {
   const [editorTab, setEditorTab] = useState<"solution" | "tests">("solution");
+  const editorRef = useRef<any>(null);
+
+  // File extension for tab labels
+  const ext = language === "go" ? ".go" : language === "python" ? ".py" : language === "rust" ? ".rs" : language === "java" ? ".java" : language === "php" ? ".php" : language === "csharp" ? ".cs" : language === "cpp" ? ".cpp" : language === "javascript" ? ".js" : language === "typescript" ? ".ts" : ".go";
 
   return (
     <div className="h-full flex flex-col">
@@ -385,13 +467,13 @@ function WorkbenchTab({
           className={`tab-btn ${editorTab === "solution" ? "active" : ""}`}
           onClick={() => setEditorTab("solution")}
         >
-          Solution (kata.go)
+          Solution (kata{ext})
         </button>
         <button
           className={`tab-btn ${editorTab === "tests" ? "active" : ""}`}
           onClick={() => setEditorTab("tests")}
         >
-          Learner Tests (kata_test.go)
+          Learner Tests (kata_test{ext})
         </button>
       </div>
 
@@ -399,9 +481,10 @@ function WorkbenchTab({
       <div className="flex-1">
         <Editor
           height="100%"
-          language="go"
+          language={language}
           theme="vs-dark"
           value={editorTab === "solution" ? code : tests}
+          onMount={(editor) => { editorRef.current = editor; }}
           onChange={(v) => (editorTab === "solution" ? onCodeChange(v || "") : onTestsChange(v || ""))}
           options={{
             fontSize: 14,
@@ -412,6 +495,23 @@ function WorkbenchTab({
             lineNumbers: "on",
             tabSize: 4,
             automaticLayout: true,
+            // Auto-bracket pairing
+            autoClosingBrackets: "always",
+            autoClosingQuotes: "always",
+            autoIndent: "full",
+            formatOnPaste: true,
+            formatOnType: true,
+            suggest: {
+              showKeywords: true,
+              showSnippets: true,
+            },
+            // Match brackets for visual feedback
+            renderLineHighlight: "all",
+            occurrencesHighlight: "singleFile",
+            // Smooth scrolling
+            smoothScrolling: true,
+            cursorBlinking: "smooth",
+            cursorSmoothCaretAnimation: "on",
           }}
         />
       </div>
