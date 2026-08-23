@@ -66,6 +66,12 @@ export default function App() {
     async function load() {
       try {
         const t = await catalog.get();
+        // Reject empty tracks — sidecar returned before sync completed
+        if (!t || !Array.isArray(t.stages) || t.stages.length === 0) {
+          retryCount++;
+          if (!cancelled) setStatusMsg("Waiting for curriculum sync…");
+          return false;
+        }
         if (!cancelled) {
           setTrack(t);
           setStatusMsg(`Ready · ${t.kataCount} katas`);

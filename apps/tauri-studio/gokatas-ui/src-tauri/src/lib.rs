@@ -19,16 +19,25 @@ fn get_port(state: tauri::State<AppState>) -> u16 {
 #[tauri::command]
 async fn get_catalog(state: tauri::State<'_, AppState>) -> Result<Value, String> {
     let port = *state.port.lock().unwrap();
+    if port == 0 {
+        return Err("sidecar not ready".into());
+    }
     let url = format!("http://127.0.0.1:{}/api/catalog", port);
-    state.client.get(&url).send().await
+    let val: Value = state.client.get(&url).send().await
         .map_err(|e| e.to_string())?
         .json::<Value>().await
-        .map_err(|e| e.to_string())
+        .map_err(|e| e.to_string())?;
+    // Reject empty tracks — sidecar returned before sync completed
+    if val.get("stages").and_then(|s| s.as_array()).map_or(true, |a| a.is_empty()) {
+        return Err("curriculum not loaded yet".into());
+    }
+    Ok(val)
 }
 
 #[tauri::command]
 async fn get_kata(id: String, state: tauri::State<'_, AppState>) -> Result<Value, String> {
     let port = *state.port.lock().unwrap();
+    if port == 0 { return Err("sidecar not ready".into()); }
     let url = format!("http://127.0.0.1:{}/api/kata/{}", port, id);
     state.client.get(&url).send().await
         .map_err(|e| e.to_string())?
@@ -39,6 +48,7 @@ async fn get_kata(id: String, state: tauri::State<'_, AppState>) -> Result<Value
 #[tauri::command]
 async fn save_kata(id: String, code: String, tests: String, state: tauri::State<'_, AppState>) -> Result<Value, String> {
     let port = *state.port.lock().unwrap();
+    if port == 0 { return Err("sidecar not ready".into()); }
     let url = format!("http://127.0.0.1:{}/api/kata/{}/save", port, id);
     let body = serde_json::json!({ "code": code, "tests": tests });
     state.client.post(&url).json(&body).send().await
@@ -50,6 +60,7 @@ async fn save_kata(id: String, code: String, tests: String, state: tauri::State<
 #[tauri::command]
 async fn run_kata(id: String, code: String, tests: String, state: tauri::State<'_, AppState>) -> Result<Value, String> {
     let port = *state.port.lock().unwrap();
+    if port == 0 { return Err("sidecar not ready".into()); }
     let url = format!("http://127.0.0.1:{}/api/kata/{}/run", port, id);
     let body = serde_json::json!({ "code": code, "tests": tests });
     state.client.post(&url).json(&body).send().await
@@ -61,6 +72,7 @@ async fn run_kata(id: String, code: String, tests: String, state: tauri::State<'
 #[tauri::command]
 async fn get_progress(state: tauri::State<'_, AppState>) -> Result<Value, String> {
     let port = *state.port.lock().unwrap();
+    if port == 0 { return Err("sidecar not ready".into()); }
     let url = format!("http://127.0.0.1:{}/api/progress", port);
     state.client.get(&url).send().await
         .map_err(|e| e.to_string())?
@@ -71,6 +83,7 @@ async fn get_progress(state: tauri::State<'_, AppState>) -> Result<Value, String
 #[tauri::command]
 async fn get_status(state: tauri::State<'_, AppState>) -> Result<Value, String> {
     let port = *state.port.lock().unwrap();
+    if port == 0 { return Err("sidecar not ready".into()); }
     let url = format!("http://127.0.0.1:{}/api/status", port);
     state.client.get(&url).send().await
         .map_err(|e| e.to_string())?
@@ -81,6 +94,7 @@ async fn get_status(state: tauri::State<'_, AppState>) -> Result<Value, String> 
 #[tauri::command]
 async fn sync_content(state: tauri::State<'_, AppState>) -> Result<Value, String> {
     let port = *state.port.lock().unwrap();
+    if port == 0 { return Err("sidecar not ready".into()); }
     let url = format!("http://127.0.0.1:{}/api/sync", port);
     state.client.post(&url).send().await
         .map_err(|e| e.to_string())?
@@ -91,6 +105,7 @@ async fn sync_content(state: tauri::State<'_, AppState>) -> Result<Value, String
 #[tauri::command]
 async fn lint_code(code: String, language: String, state: tauri::State<'_, AppState>) -> Result<Value, String> {
     let port = *state.port.lock().unwrap();
+    if port == 0 { return Err("sidecar not ready".into()); }
     let url = format!("http://127.0.0.1:{}/api/lint", port);
     let body = serde_json::json!({ "code": code, "language": language });
     state.client.post(&url).json(&body).send().await
@@ -186,17 +201,19 @@ pub fn run() {
             // Wait up to 20 seconds for the sidecar to report its port
             {
                 let state = app.state::<AppState>();
-                let port = *state.port.lock().unwrap();
-                if port == 0 {
-                    log::info!("Waiting for sidecar to start...");
-                    let port_lock = state.port.lock().unwrap();
-                    let (port_guard, _timeout) = state.ready.wait_timeout(port_lock, Duration::from_secs(20)).unwrap();
-                    if *port_guard == 0 {
-                        log::warn!("Sidecar did not report port after 20s — falling back to 9100");
-                        // Write via a fresh lock
-                        drop(port_guard);
-                        *state.port.lock().unwrap() = 9100;
+                for _ in 0..40 {
+                    let port = *state.port.lock().unwrap();
+                    if port != 0 {
+                        break;
                     }
+                    // Wait 500ms, then re-check
+                    let port_lock = state.port.lock().unwrap();
+                    let _ = state.ready.wait_timeout(port_lock, Duration::from_millis(500)).unwrap();
+                }
+                let final_port = *state.port.lock().unwrap();
+                if final_port == 0 {
+                    log::warn!("Sidecar did not report port after 20s — falling back to 9100");
+                    *state.port.lock().unwrap() = 9100;
                 }
             }
 
