@@ -270,9 +270,49 @@ func (s *server) handleGetKata(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	type contentResponse struct {
+		ID        string `json:"id"`
+		Slug      string `json:"slug"`
+		KataGo    string `json:"kataGo"`
+		KataTest  string `json:"kataTest"`
+		BuggyKata string `json:"buggyKata"`
+		Readme    string `json:"readme"`
+		JSON      string `json:"json"`
+	}
+	type kataResponse struct {
+		ID              string   `json:"id"`
+		Slug            string   `json:"slug"`
+		Title           string   `json:"title"`
+		Language        string   `json:"language"`
+		Focus           string   `json:"focus"`
+		Signature       string   `json:"signature"`
+		Rules           []string `json:"rules"`
+		EvaluatorStatus string   `json:"evaluatorStatus"`
+		Level           string   `json:"level"`
+		Tags            []string `json:"tags"`
+	}
 	writeJSON(w, map[string]interface{}{
-		"kata":    kata,
-		"content": kata.Content,
+		"kata": kataResponse{
+			ID:              kata.ID,
+			Slug:            kata.Slug,
+			Title:           kata.Title,
+			Language:        kata.Language,
+			Focus:           kata.Focus,
+			Signature:       kata.Signature,
+			Rules:           kata.Rules,
+			EvaluatorStatus: kata.EvaluatorStatus,
+			Level:           kata.Level,
+			Tags:            kata.Tags,
+		},
+		"content": contentResponse{
+			ID:        kata.Content.ID,
+			Slug:      kata.Content.Slug,
+			KataGo:    kata.Content.KataGo,
+			KataTest:  kata.Content.KataTest,
+			BuggyKata: kata.Content.BuggyKata,
+			Readme:    kata.Content.Readme,
+			JSON:      kata.Content.JSON,
+		},
 	})
 }
 
