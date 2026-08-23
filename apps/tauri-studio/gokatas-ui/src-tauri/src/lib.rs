@@ -66,7 +66,7 @@ pub fn run() {
                 }
             });
 
-            thread::sleep(Duration::from_millis(800));
+            thread::sleep(Duration::from_secs(3));
             {
                 let state = app.state::<SidecarState>();
                 let port = *state.port.lock().unwrap();

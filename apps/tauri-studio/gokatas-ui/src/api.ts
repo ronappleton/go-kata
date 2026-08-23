@@ -11,19 +11,23 @@ let API_BASE = "";
 
 async function getBaseUrl(): Promise<string> {
   if (API_BASE) return API_BASE;
-  // Probe common ports
-  for (let port = 9100; port <= 9200; port++) {
-    try {
-      const resp = await fetch(`http://127.0.0.1:${port}/api/status`, {
-        signal: AbortSignal.timeout(200),
-      });
-      if (resp.ok) {
-        API_BASE = `http://127.0.0.1:${port}`;
-        return API_BASE;
+  // Retry up to 15 times with 1s delay — sidecar may take time to start
+  for (let attempt = 0; attempt < 15; attempt++) {
+    for (let port = 9100; port <= 9200; port++) {
+      try {
+        const resp = await fetch(`http://127.0.0.1:${port}/api/status`, {
+          signal: AbortSignal.timeout(1000),
+        });
+        if (resp.ok) {
+          API_BASE = `http://127.0.0.1:${port}`;
+          return API_BASE;
+        }
+      } catch {
+        // continue
       }
-    } catch {
-      // continue
     }
+    // Wait before retrying
+    await new Promise((r) => setTimeout(r, 1000));
   }
   throw new Error("Go sidecar not found on any port");
 }

@@ -166,6 +166,37 @@ export default function App() {
     }
   }, []);
 
+  // Splash screen while sidecar starts up
+  if (!track) {
+    return (
+      <div className="flex h-screen items-center justify-center" style={{ background: "var(--color-bg)" }}>
+        <div className="flex flex-col items-center gap-6">
+          {/* Logo */}
+          <div className="flex items-baseline gap-1">
+            <span className="text-4xl font-extrabold" style={{ color: "var(--color-accent)" }}>Go</span>
+            <span className="text-4xl font-extrabold" style={{ color: "var(--color-text)" }}>Katas</span>
+          </div>
+          {/* Spinner */}
+          <div className="relative w-12 h-12">
+            <div className="absolute inset-0 rounded-full" style={{ border: "3px solid var(--color-border)" }} />
+            <div
+              className="absolute inset-0 rounded-full"
+              style={{
+                border: "3px solid transparent",
+                borderTopColor: "var(--color-accent)",
+                animation: "spin 1s linear infinite",
+              }}
+            />
+          </div>
+          {/* Status message */}
+          <div className="text-sm" style={{ color: "var(--color-text-dim)" }}>
+            {statusMsg}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: "var(--color-bg)" }}>
       {/* ── Sidebar ── */}
