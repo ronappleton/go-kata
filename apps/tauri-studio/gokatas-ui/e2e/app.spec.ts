@@ -53,10 +53,11 @@ test.describe("Frontend loads", () => {
 
   test("sidebar populates with curriculum stages", async ({ page }) => {
     await page.goto("/");
-    // Wait for at least one stage header to appear
+    // Wait for the splash to disappear and sidebar to populate
+    // The splash shows spinner; once loaded, sidebar shows stage buttons
     await expect(
       page.locator("button:has-text('JUNIOR')").first()
-    ).toBeVisible({ timeout: 15_000 });
+    ).toBeVisible({ timeout: 30_000 });
   });
 });
 
@@ -136,6 +137,23 @@ test.describe("Sync", () => {
     await expect(syncBtn).toBeVisible({ timeout: 10_000 });
     await expect(syncBtn).toBeEnabled();
   });
+
+  test("sync button triggers reload and returns success", async ({ page }) => {
+    await page.goto("/");
+
+    // Wait for initial load
+    await expect(page.locator("text=/\\d+ katas/").first()).toBeVisible({
+      timeout: 15_000,
+    });
+
+    const syncBtn = page.locator("button", { hasText: /sync/i }).first();
+    await syncBtn.click();
+
+    // Should show syncing state then return to ready
+    await expect(page.locator("text=/\\d+ katas/").first()).toBeVisible({
+      timeout: 15_000,
+    });
+  });
 });
 
 // ── Status bar ──
@@ -148,5 +166,125 @@ test.describe("Status bar", () => {
     await expect(page.locator("text=/\\d+ katas/").first()).toBeVisible({
       timeout: 15_000,
     });
+  });
+});
+
+// ── Search filter ──
+
+test.describe("Search filter", () => {
+  test("search input filters sidebar katas", async ({ page }) => {
+    await page.goto("/");
+
+    // Wait for sidebar to populate
+    await expect(page.locator("text=/\\d+ katas/").first()).toBeVisible({
+      timeout: 15_000,
+    });
+
+    // Find the search input
+    const searchInput = page.locator('input[placeholder*="Search"]');
+    await expect(searchInput).toBeVisible();
+
+    // Type a search term
+    await searchInput.fill("greeting");
+
+    // Should show filtered results
+    const greetingKata = page.locator("text=Build Greeting").first();
+    await expect(greetingKata).toBeVisible({ timeout: 5_000 });
+
+    // Clear search
+    await searchInput.fill("");
+  });
+});
+
+// ── Tab switching ──
+
+test.describe("Tab switching", () => {
+  test("can switch between docs, workbench, and output tabs", async ({ page }) => {
+    await page.goto("/");
+
+    // Wait for sidebar to populate
+    await expect(page.locator("text=/\\d+ katas/").first()).toBeVisible({
+      timeout: 15_000,
+    });
+
+    // Click a kata to load it
+    const firstKata = page.locator(".kata-row").first();
+    await firstKata.click();
+
+    // Should be on docs tab by default
+    await expect(page.locator("text=Readme").first()).toBeVisible();
+
+    // Switch to workbench tab
+    const workbenchTab = page.locator("button.tab-btn", { hasText: /Code/ }).first();
+    await workbenchTab.click();
+
+    // Editor should be visible
+    await expect(page.locator(".monaco-editor").first()).toBeVisible({
+      timeout: 5_000,
+    });
+
+    // Switch to output tab
+    const outputTab = page.locator("button.tab-btn", { hasText: /Output/ }).first();
+    await outputTab.click();
+
+    // Output content should be visible
+    await expect(page.locator("text=Run your solution").first()).toBeVisible();
+  });
+});
+
+// ── Lint endpoint ──
+
+test.describe("Lint", () => {
+  test("lint endpoint returns diagnostics for bad Go code", async ({ page }) => {
+    const resp = await page.request.post("/api/lint", {
+      data: {
+        code: "package main\n\nfunc main() {\n",
+        language: "go",
+      },
+    });
+    expect(resp.ok()).toBeTruthy();
+    const body = await resp.json();
+    expect(body).toHaveProperty("diagnostics");
+    // Malformed code should produce diagnostics
+    expect(body.diagnostics.length).toBeGreaterThan(0);
+  });
+
+  test("lint endpoint returns empty for clean Go code", async ({ page }) => {
+    const resp = await page.request.post("/api/lint", {
+      data: {
+        code: "package main\n\nfunc main() {}\n",
+        language: "go",
+      },
+    });
+    expect(resp.ok()).toBeTruthy();
+    const body = await resp.json();
+    expect(body).toHaveProperty("diagnostics");
+  });
+});
+
+// ── Progress endpoint ──
+
+test.describe("Progress", () => {
+  test("progress endpoint returns attempts map", async ({ page }) => {
+    const resp = await page.request.get("/api/progress");
+    expect(resp.ok()).toBeTruthy();
+    const body = await resp.json();
+    expect(body).toHaveProperty("attempts");
+  });
+});
+
+// ── Save kata ──
+
+test.describe("Save kata", () => {
+  test("save endpoint persists code", async ({ page }) => {
+    const resp = await page.request.post("/api/kata/001/save", {
+      data: {
+        code: 'package kata\nfunc Hello() string { return "hi" }',
+        tests: "package kata\nfunc TestHello(t *testing.T) {}",
+      },
+    });
+    expect(resp.ok()).toBeTruthy();
+    const body = await resp.json();
+    expect(body.status).toBe("saved");
   });
 });

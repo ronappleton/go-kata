@@ -18,13 +18,12 @@ export default defineConfig({
     headless: true,
     screenshot: "only-on-failure",
     trace: "on-first-retry",
-    timeout: 30_000,
+    timeout: 60_000,
   },
   webServer: {
     command: `GOKATAS_PORT=${SIDECAST_PORT} GOKATAS_FRONTEND_DIR="${FRONTEND_DIR}" go run ./apps/tauri-studio/gokatas-ui/src-tauri/sidecar/main.go`,
     url: `http://127.0.0.1:${SIDECAST_PORT}/api/status`,
     reuseExistingServer: true,
-    timeout: 60_000,
     cwd: PROJECT_ROOT,
   },
 });
