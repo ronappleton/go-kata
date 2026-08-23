@@ -22,23 +22,14 @@ pub fn run() {
         .setup(|app| {
             let app_handle = app.handle().clone();
 
-            // Find the sidecar binary
-            let sidecar_path = app
-                .path()
-                .resource_dir()
-                .unwrap()
-                .join("sidecar")
-                .join("gokatas-sidecar");
-
-            let sidecar_path = if sidecar_path.exists() {
-                sidecar_path
-            } else {
-                std::env::current_dir()
-                    .unwrap()
-                    .join("src-tauri")
-                    .join("sidecar")
-                    .join("gokatas-sidecar")
-            };
+            // Find the sidecar binary — check multiple locations
+            let candidates = vec![
+                app.path().resource_dir().unwrap().join("sidecar").join("gokatas-sidecar"),
+                std::path::PathBuf::from("/usr/bin/gokatas-sidecar"),
+                std::env::current_dir().unwrap().join("src-tauri").join("sidecar").join("gokatas-sidecar"),
+            ];
+            let sidecar_path = candidates.into_iter().find(|p| p.exists())
+                .expect("gokatas-sidecar binary not found — install the sidecar or run from the project directory");
 
             log::info!("Launching Go sidecar from: {:?}", sidecar_path);
 
