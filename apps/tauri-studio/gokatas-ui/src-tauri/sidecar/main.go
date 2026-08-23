@@ -29,6 +29,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/ronappleton/golang-katas-1-100/internal/languages"
 	"github.com/ronappleton/golang-katas-1-100/internal/learning/catalog"
 	"github.com/ronappleton/golang-katas-1-100/internal/learning/content"
 	"github.com/ronappleton/golang-katas-1-100/internal/learning/evaluator"
@@ -123,6 +124,7 @@ func main() {
 	mux.HandleFunc("GET /api/status", s.handleStatus)
 	mux.HandleFunc("POST /api/sync", s.handleSync)
 	mux.HandleFunc("GET /api/sync/stream", s.handleSyncStream)
+	mux.HandleFunc("POST /api/lint", s.handleLint)
 
 	// Serve static frontend from ../dist relative to sidecar binary
 	frontendDir := resolveFrontendDir()
@@ -399,6 +401,41 @@ func (s *server) handleSyncStream(w http.ResponseWriter, r *http.Request) {
 	data, _ := json.Marshal(syncResult)
 	fmt.Fprintf(w, "data: %s\n\n", data)
 	flusher.Flush()
+}
+
+func (s *server) handleLint(w http.ResponseWriter, r *http.Request) {
+	var body struct {
+		Code     string `json:"code"`
+		Language string `json:"language"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		writeError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	lang := strings.ToLower(body.Language)
+	var checker languages.Checker
+	switch lang {
+	case "go":
+		checker = languages.GoFmtChecker{}
+	default:
+		checker = languages.NoopChecker{}
+	}
+
+	diags := checker.Check(body.Code)
+	type lintDiag struct {
+		Line    int    `json:"line"`
+		Col     int    `json:"col"`
+		EndLine int    `json:"endLine"`
+		EndCol  int    `json:"endCol"`
+		Message string `json:"message"`
+		IsError bool   `json:"isError"`
+	}
+	result := make([]lintDiag, len(diags))
+	for i, d := range diags {
+		result[i] = lintDiag{Line: d.Line, Col: d.Col, EndLine: d.EndLine, EndCol: d.EndCol, Message: d.Message, IsError: d.IsError}
+	}
+	writeJSON(w, map[string]interface{}{"diagnostics": result})
 }
 
 // ── Helpers ──

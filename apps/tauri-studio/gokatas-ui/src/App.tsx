@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import Editor from "@monaco-editor/react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { catalog, kata, progress, syncApi } from "./api";
+import { catalog, kata, progress, syncApi, lint } from "./api";
 import type { Track, KataDetail, KataSummary, ProgressState, StageSummary } from "./types";
 import "./index.css";
 
@@ -455,6 +455,44 @@ function WorkbenchTab({
 }) {
   const [editorTab, setEditorTab] = useState<"solution" | "tests">("solution");
   const editorRef = useRef<any>(null);
+  const monacoRef = useRef<any>(null);
+  const lintTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Lint code and apply diagnostics to Monaco
+  const lintCode = useCallback((codeToLint: string, lang: string) => {
+    if (lintTimerRef.current) clearTimeout(lintTimerRef.current);
+    lintTimerRef.current = setTimeout(async () => {
+      if (!monacoRef.current || !editorRef.current) return;
+      const monaco = monacoRef.current;
+      try {
+        const result = await lint.check(codeToLint, lang);
+        const model = editorRef.current.getModel();
+        if (!model) return;
+        const markers = (result.diagnostics || []).map((d: any) => ({
+          severity: d.isError ? monaco.MarkerSeverity.Error : monaco.MarkerSeverity.Warning,
+          message: d.message,
+          startLineNumber: d.line + 1,
+          startColumn: d.col + 1,
+          endLineNumber: d.endLine + 1,
+          endColumn: d.endCol + 1,
+        }));
+        monaco.editor.setModelMarkers(model, "gokatas-lint", markers);
+      } catch {
+        // lint endpoint unavailable — clear markers silently
+        if (monacoRef.current && editorRef.current) {
+          const model = editorRef.current.getModel();
+          if (model) monacoRef.current.editor.setModelMarkers(model, "gokatas-lint", []);
+        }
+      }
+    }, 600);
+  }, []);
+
+  // Lint on mount and when language changes
+  useEffect(() => {
+    if (editorRef.current && monacoRef.current) {
+      lintCode(editorTab === "solution" ? code : tests, language);
+    }
+  }, [language]);
 
   // File extension for tab labels
   const ext = language === "go" ? ".go" : language === "python" ? ".py" : language === "rust" ? ".rs" : language === "java" ? ".java" : language === "php" ? ".php" : language === "csharp" ? ".cs" : language === "cpp" ? ".cpp" : language === "javascript" ? ".js" : language === "typescript" ? ".ts" : ".go";
@@ -484,8 +522,13 @@ function WorkbenchTab({
           language={language}
           theme="vs-dark"
           value={editorTab === "solution" ? code : tests}
-          onMount={(editor) => { editorRef.current = editor; }}
-          onChange={(v) => (editorTab === "solution" ? onCodeChange(v || "") : onTestsChange(v || ""))}
+          onMount={(editor, monaco) => { editorRef.current = editor; monacoRef.current = monaco; lintCode(code, language); }}
+          onChange={(v) => {
+            const val = v || "";
+            if (editorTab === "solution") onCodeChange(val);
+            else onTestsChange(val);
+            lintCode(val, language);
+          }}
           options={{
             fontSize: 14,
             fontFamily: "'JetBrains Mono', 'Fira Code', monospace",

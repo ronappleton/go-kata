@@ -87,6 +87,14 @@ export const syncApi = {
   },
 };
 
+export const lint = {
+  check: (code: string, language: string) =>
+    api<{ diagnostics: Array<{ line: number; col: number; endLine: number; endCol: number; message: string; isError: boolean }> }>("/api/lint", {
+      method: "POST",
+      body: JSON.stringify({ code, language }),
+    }),
+};
+
 export const status = {
   get: () => api<AppStatus>("/api/status"),
 };

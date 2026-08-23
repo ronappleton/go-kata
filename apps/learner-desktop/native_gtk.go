@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -229,9 +230,144 @@ func (n *nativeApp) startDiagnostics() {
 		report := diagnostics.Check(context.Background(), "podman", image)
 		glib.MainContextDefault().InvokeFull(0, func() bool {
 			n.setStatus(report.Message)
+			// If podman is not installed, offer to install it
+			if !report.PodmanAvailable {
+				n.showInstallDialog()
+			}
 			return false
 		})
 	}()
+}
+
+// showInstallDialog presents a dialog offering to install podman.
+func (n *nativeApp) showInstallDialog() {
+	plan := diagnostics.DetectInstallPlan()
+	if !plan.CanAutoInstall() {
+		// Can't auto-install — just show the manual instructions
+		dialog := gtk.NewMessageDialog(
+			&n.window.Window,
+			gtk.DialogModal,
+			gtk.MessageInfo,
+			gtk.ButtonsClose,
+		)
+		dialog.SetTitle("Podman Required")
+		dialog.SetMarkup("<b>Podman is required</b>\n\n" +
+			"Podman is needed to run kata tests in a sandbox.\n\n" +
+			"<i>" + strings.ReplaceAll(plan.Notes, "\n", "\n") + "</i>")
+				dialog.ConnectResponse(func(response int) {
+			dialog.Destroy()
+		})
+		dialog.Show()
+		return
+	}
+
+	// Can auto-install — show Install / Cancel dialog
+	dialog := gtk.NewMessageDialog(
+		&n.window.Window,
+		gtk.DialogModal,
+		gtk.MessageQuestion,
+		gtk.ButtonsNone,
+	)
+	dialog.SetTitle("Install Podman?")
+	dialog.SetMarkup("<b>Podman is required</b>\n\n" +
+		"GoKatas needs Podman to run kata tests in a sandbox.\n\n" +
+		"The following commands will be run:\n" + formatCommands(plan))
+	dialog.AddButton("Install", int(gtk.ResponseAccept))
+	dialog.AddButton("Cancel", int(gtk.ResponseCancel))
+	dialog.ConnectResponse(func(response int) {
+		dialog.Destroy()
+		if gtk.ResponseType(response) == gtk.ResponseAccept {
+			n.runInstallPlan(plan)
+		}
+	})
+	dialog.Show()
+}
+
+// runInstallPlan executes the install commands and shows progress.
+func (n *nativeApp) runInstallPlan(plan diagnostics.InstallPlan) {
+	n.setStatus("Installing Podman…")
+	go func() {
+		var allErr []string
+		for _, cmd := range plan.Commands {
+			n.glibInvoke(func() { n.setStatus("Running: " + cmd) })
+			nested := plan.NeedsSudo
+			var args []string
+			if nested {
+				args = []string{"-y", "--"}
+			}
+			args = append(args, "sh", "-c", cmd)
+			var execCmd *exec.Cmd
+			if nested {
+				execCmd = exec.Command("sudo", args...)
+			} else {
+				execCmd = exec.Command("sh", "-c", cmd)
+			}
+			if out, err := execCmd.CombinedOutput(); err != nil {
+				allErr = append(allErr, fmt.Sprintf("%s: %v\n%s", cmd, err, string(out)))
+			}
+		}
+		if len(allErr) > 0 {
+			errMsg := strings.Join(allErr, "\n")
+			n.glibInvoke(func() {
+				dialog := gtk.NewMessageDialog(
+					&n.window.Window,
+					gtk.DialogModal,
+					gtk.MessageError,
+					gtk.ButtonsClose,
+				)
+					dialog.SetTitle("Installation Failed")
+				dialog.SetMarkup("<b>Podman installation failed</b>\n\n" +
+					"Please install Podman manually:\n\n<i>" +
+					strings.ReplaceAll(plan.Notes, "\n", "\n") + "</i>\n\n<b>Error:</b>\n" +
+					errMsg)
+					dialog.ConnectResponse(func(response int) {
+						dialog.Destroy()
+				})
+					dialog.Show()
+				n.setStatus("Podman installation failed")
+			})
+		} else {
+			n.glibInvoke(func() {
+				dialog := gtk.NewMessageDialog(
+					&n.window.Window,
+					gtk.DialogModal,
+					gtk.MessageInfo,
+					gtk.ButtonsClose,
+				)
+					dialog.SetTitle("Podman Installed")
+				dialog.SetMarkup("<b>Podman installed successfully</b>\n\n" +
+					"You may need to restart GoKatas for the runner to detect Podman.")
+					dialog.ConnectResponse(func(response int) {
+						dialog.Destroy()
+					// Re-run diagnostics to confirm
+						n.startDiagnostics()
+					})
+					dialog.Show()
+				n.setStatus("Podman installed — restarting diagnostics…")
+			})
+		}
+	}()
+}
+
+// glibInvoke is a helper to run a function on the main GTK thread.
+func (n *nativeApp) glibInvoke(fn func()) {
+	glib.MainContextDefault().InvokeFull(0, func() bool {
+		fn()
+		return false
+	})
+}
+
+// formatCommands formats the install commands for display in the dialog.
+func formatCommands(plan diagnostics.InstallPlan) string {
+	var sb strings.Builder
+	for _, cmd := range plan.Commands {
+		if plan.NeedsSudo {
+			sb.WriteString(fmt.Sprintf("  sudo <b>%s</b>\n", cmd))
+		} else {
+			sb.WriteString(fmt.Sprintf("  <b>%s</b>\n", cmd))
+		}
+	}
+	return sb.String()
 }
 
 func (n *nativeApp) buildHeader() *gtk.Box {
