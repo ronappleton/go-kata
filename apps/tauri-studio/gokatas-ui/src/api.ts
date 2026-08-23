@@ -1,17 +1,30 @@
 /**
- * API client for the GoKatas Go sidecar HTTP server.
+ * API client for GoKatas.
  *
- * The sidecar listens on a random localhost port. We discover it via
- * Tauri's get_port command, or fall back to probing ports 9100-9200.
+ * Uses Tauri IPC (invoke) for all backend calls — no HTTP sidecar probing.
+ * Falls back to HTTP fetch if running outside Tauri (e.g. Playwright tests).
  */
 
 import type { Track, KataDetail, RunResult, ProgressState, AppStatus } from "./types";
+
+// Check if we're running inside Tauri
+const isTauri = typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
+
+async function invoke<T>(cmd: string, args?: Record<string, unknown>): Promise<T> {
+  if (isTauri) {
+    const { invoke: tauriInvoke } = await import("@tauri-apps/api/core");
+    return tauriInvoke<T>(cmd, args);
+  }
+  // Fallback: HTTP to sidecar (for Playwright / dev mode)
+  return httpFallback<T>(cmd, args);
+}
+
+// ── HTTP fallback for tests/dev ──
 
 let API_BASE = "";
 
 async function getBaseUrl(): Promise<string> {
   if (API_BASE) return API_BASE;
-  // Retry up to 15 times with 1s delay — sidecar may take time to start
   for (let attempt = 0; attempt < 15; attempt++) {
     for (let port = 9100; port <= 9200; port++) {
       try {
@@ -26,17 +39,34 @@ async function getBaseUrl(): Promise<string> {
         // continue
       }
     }
-    // Wait before retrying
     await new Promise((r) => setTimeout(r, 1000));
   }
   throw new Error("Go sidecar not found on any port");
 }
 
-async function api<T>(path: string, init?: RequestInit): Promise<T> {
+async function httpFallback<T>(cmd: string, args?: Record<string, unknown>): Promise<T> {
   const base = await getBaseUrl();
+  // Map Tauri command names back to HTTP endpoints
+  const routeMap: Record<string, { method: string; path: string }> = {
+    get_catalog: { method: "GET", path: "/api/catalog" },
+    get_kata: { method: "GET", path: "" },
+    save_kata: { method: "POST", path: "" },
+    run_kata: { method: "POST", path: "" },
+    get_progress: { method: "GET", path: "/api/progress" },
+    get_status: { method: "GET", path: "/api/status" },
+    sync_content: { method: "POST", path: "/api/sync" },
+    lint_code: { method: "POST", path: "/api/lint" },
+  };
+  const route = routeMap[cmd] || { method: "GET", path: "/api/status" };
+  let path = route.path;
+  if (args?.id) path = `/api/kata/${args.id}`;
+  if (cmd === "save_kata") path = `/api/kata/${args?.id}/save`;
+  if (cmd === "run_kata") path = `/api/kata/${args?.id}/run`;
+
   const resp = await fetch(`${base}${path}`, {
+    method: route.method,
     headers: { "Content-Type": "application/json" },
-    ...init,
+    body: route.method === "POST" ? JSON.stringify(args) : undefined,
   });
   if (!resp.ok) {
     const body = await resp.json().catch(() => ({ error: resp.statusText }));
@@ -45,60 +75,36 @@ async function api<T>(path: string, init?: RequestInit): Promise<T> {
   return resp.json();
 }
 
+// ── Public API ──
+
 export const catalog = {
-  get: () => api<Track>("/api/catalog"),
+  get: () => invoke<Track>("get_catalog"),
 };
 
 export const kata = {
-  get: (id: string) => api<KataDetail>(`/api/kata/${id}`),
+  get: (id: string) => invoke<KataDetail>("get_kata", { id }),
   save: (id: string, data: { code: string; tests: string; sourceFilename?: string; testFilename?: string }) =>
-    api<{ status: string }>(`/api/kata/${id}/save`, {
-      method: "POST",
-      body: JSON.stringify(data),
-    }),
+    invoke<{ status: string }>("save_kata", { id, ...data }),
   run: (id: string, data: { code: string; tests: string }) =>
-    api<RunResult>(`/api/kata/${id}/run`, {
-      method: "POST",
-      body: JSON.stringify(data),
-    }),
+    invoke<RunResult>("run_kata", { id, ...data }),
 };
 
 export const progress = {
-  get: () => api<ProgressState>("/api/progress"),
+  get: () => invoke<ProgressState>("get_progress"),
 };
 
 export const syncApi = {
-  trigger: () => api<{ status: string }>("/api/sync", { method: "POST" }),
-  stream: async function* () {
-    const base = await getBaseUrl();
-    const resp = await fetch(`${base}/api/sync/stream`);
-    const reader = resp.body?.getReader();
-    if (!reader) return;
-    const decoder = new TextDecoder();
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      const text = decoder.decode(value);
-      const lines = text.split("\n").filter((l) => l.startsWith("data: "));
-      for (const line of lines) {
-        try {
-          yield JSON.parse(line.slice(6));
-        } catch {
-          // skip
-        }
-      }
-    }
-  },
+  trigger: () => invoke<{ status: string }>("sync_content"),
 };
 
 export const lint = {
   check: (code: string, language: string) =>
-    api<{ diagnostics: Array<{ line: number; col: number; endLine: number; endCol: number; message: string; isError: boolean }> }>("/api/lint", {
-      method: "POST",
-      body: JSON.stringify({ code, language }),
-    }),
+    invoke<{ diagnostics: Array<{ line: number; col: number; endLine: number; endCol: number; message: string; isError: boolean }> }>(
+      "lint_code",
+      { code, language }
+    ),
 };
 
 export const status = {
-  get: () => api<AppStatus>("/api/status"),
+  get: () => invoke<AppStatus>("get_status"),
 };

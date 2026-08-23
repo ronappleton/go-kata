@@ -57,9 +57,12 @@ export default function App() {
   const [statusMsg, setStatusMsg] = useState("Starting…");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Load catalog on mount
+  // Load catalog on mount — listen for sidecar-ready event, then poll until catalog loads
   useEffect(() => {
     let cancelled = false;
+    let retryCount = 0;
+    const MAX_RETRIES = 30;
+
     async function load() {
       try {
         const t = await catalog.get();
@@ -67,23 +70,35 @@ export default function App() {
           setTrack(t);
           setStatusMsg(`Ready · ${t.kataCount} katas`);
         }
+        return true;
       } catch (e) {
-        if (!cancelled) setStatusMsg("Waiting for curriculum…");
+        retryCount++;
+        if (!cancelled) {
+          setStatusMsg(retryCount > 5 ? `Connecting to backend… (attempt ${retryCount})` : "Waiting for curriculum…");
+        }
+        return false;
       }
-      // Load progress
+    }
+
+    async function loadProgress() {
       try {
         const p = await progress.get();
         if (!cancelled) setProgressState(p);
       } catch {}
     }
-    // Retry until sidecar is ready
-    const interval = setInterval(() => {
-      load().then(() => {
-        if (track === null) return; // keep retrying
-      });
-    }, 1000);
-    load();
-    return () => { cancelled = true; clearInterval(interval); };
+
+    // Try immediately, then retry every 2s until loaded or max retries
+    async function poll() {
+      while (!cancelled && retryCount < MAX_RETRIES) {
+        const ok = await load();
+        if (ok) { loadProgress(); return; }
+        await new Promise((r) => setTimeout(r, 2000));
+      }
+      if (!cancelled) setStatusMsg("Could not connect to backend");
+    }
+
+    poll();
+    return () => { cancelled = true; };
   }, []);
 
   // Select a kata
