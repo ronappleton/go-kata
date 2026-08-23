@@ -17,4 +17,12 @@ export default defineConfig(async () => ({
     hmr: host ? { protocol: "ws", host, port: 1421 } : undefined,
     watch: { ignored: ["**/src-tauri/**"] },
   },
+
+  // Monaco editor: bundle workers locally
+  optimizeDeps: {
+    include: ["monaco-editor"],
+  },
+  worker: {
+    format: "es",
+  },
 }));

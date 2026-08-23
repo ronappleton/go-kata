@@ -1,8 +1,12 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import Editor from "@monaco-editor/react";
+import Editor, { loader } from "@monaco-editor/react";
+import * as monaco from "monaco-editor";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { catalog, kata, progress, syncApi, lint } from "./api";
+
+// Use locally bundled Monaco instead of CDN
+loader.config({ monaco });
 import type { Track, KataDetail, KataSummary, ProgressState, StageSummary } from "./types";
 import "./index.css";
 
