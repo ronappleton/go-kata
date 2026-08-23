@@ -290,7 +290,7 @@ export default function App() {
         <div className="flex-1 overflow-hidden">
           {activeTab === "docs" && <DocsTab kata={selectedKata} />}
           {activeTab === "workbench" && (
-            <WorkbenchTab code={code} tests={tests} language={language} onCodeChange={setCode} onTestsChange={setTests} />
+            <WorkbenchTab code={code} tests={tests} language={language} kata={selectedKata} onCodeChange={setCode} onTestsChange={setTests} />
           )}
           {activeTab === "output" && <OutputTab output={output} running={running} />}
         </div>
@@ -444,12 +444,14 @@ function WorkbenchTab({
   code,
   tests,
   language,
+  kata,
   onCodeChange,
   onTestsChange,
 }: {
   code: string;
   tests: string;
   language: string;
+  kata: KataDetail | null;
   onCodeChange: (v: string) => void;
   onTestsChange: (v: string) => void;
 }) {
@@ -499,6 +501,21 @@ function WorkbenchTab({
 
   return (
     <div className="h-full flex flex-col">
+      {/* Kata description reminder */}
+      {kata && (
+        <div
+          className="px-4 py-2 flex-shrink-0"
+          style={{ borderBottom: "1px solid var(--color-border)", background: "var(--color-surface)" }}
+        >
+          <div className="text-xs font-mono" style={{ color: "var(--color-accent)" }}>
+            {kata.kata.id} — {kata.kata.title}
+          </div>
+          <div className="text-xs mt-1" style={{ color: "var(--color-text-dim)" }}>
+            {kata.kata.focus}
+          </div>
+        </div>
+      )}
+
       {/* Editor tabs */}
       <div className="flex gap-2 px-4 py-2" style={{ borderBottom: "1px solid var(--color-border)" }}>
         <button

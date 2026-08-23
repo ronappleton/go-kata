@@ -78,7 +78,9 @@ type nativeApp struct {
 	bugText        *gtk.Label
 	outputSpinner  *gtk.Button
 	startCodingBtn *gtk.Button
-	selected       catalog.Kata
+	backToReadmeBtn *gtk.Button
+	workbenchDesc   *gtk.TextBuffer
+	selected        catalog.Kata
 	running        bool
 	kataButtons    map[string]*gtk.Button
 	// Learning mode
@@ -992,7 +994,36 @@ func (n *nativeApp) buildDocs() *gtk.Widget {
 }
 
 func (n *nativeApp) buildWorkbench() *gtk.Widget {
-	outer := gtk.NewBox(gtk.OrientationVertical, 12)
+	outer := gtk.NewBox(gtk.OrientationVertical, 8)
+
+	// Top bar: Back button + kata description reminder
+	headerBox := gtk.NewBox(gtk.OrientationHorizontal, 8)
+	n.backToReadmeBtn = gtk.NewButtonWithLabel("\u2190 Back to Readme")
+	n.backToReadmeBtn.AddCSSClass("flat")
+	n.backToReadmeBtn.SetTooltipText("Return to the kata description")
+	n.backToReadmeBtn.ConnectClicked(func() {
+		n.stack.SetVisibleChildName("docs")
+	})
+	headerBox.Append(n.backToReadmeBtn)
+
+	// Compact description view
+	descScroll := gtk.NewScrolledWindow()
+	descScroll.SetPolicy(gtk.PolicyAutomatic, gtk.PolicyNever)
+	descScroll.SetSizeRequest(-1, 64)
+	descView := gtk.NewTextView()
+	descView.SetEditable(false)
+	descView.SetWrapMode(gtk.WrapWordChar)
+	descView.SetLeftMargin(8)
+	descView.SetRightMargin(8)
+	descView.SetTopMargin(4)
+	descView.SetBottomMargin(4)
+	descView.AddCSSClass("workbench-desc")
+	n.workbenchDesc = descView.Buffer()
+	descScroll.SetChild(descView)
+	headerBox.Append(descScroll)
+	outer.Append(headerBox)
+
+	// Editors
 	paned := gtk.NewPaned(gtk.OrientationHorizontal)
 	paned.SetPosition(560)
 	paned.SetStartChild(n.editorPane("Solution", n.code, true))
@@ -1462,6 +1493,11 @@ func (n *nativeApp) selectKata(kata catalog.Kata) {
 	n.code.SetText(solution)
 	n.learnerTests.SetText(learnerTests)
 	n.output.SetText("")
+	// Populate workbench description reminder
+	if n.workbenchDesc != nil {
+		desc := fmt.Sprintf("%s — %s\n%s", kata.ID, kata.Title, kata.Focus)
+		n.workbenchDesc.SetText(desc)
+	}
 	n.flashIndex = 0
 	n.quizIndex = 0
 	n.quizAnswered = false

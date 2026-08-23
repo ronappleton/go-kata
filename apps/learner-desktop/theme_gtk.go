@@ -462,4 +462,28 @@ scrolledwindow undershoot.right {
 .start-coding-btn:hover {
   background-color: #2dd4bf;
 }
+
+/* ==== Workbench back button ==== */
+button.flat {
+  background: transparent;
+  color: @accent;
+  border: 1px solid @border;
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+button.flat:hover {
+  background-color: @accent_bg;
+  border-color: @accent;
+}
+
+/* ==== Workbench description reminder ==== */
+.workbench-desc {
+  background-color: @surface;
+  color: @text_dim;
+  font-size: 12px;
+  border: 1px solid @border;
+  border-radius: 6px;
+}
 `
