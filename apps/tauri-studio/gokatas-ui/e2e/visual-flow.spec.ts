@@ -87,8 +87,8 @@ test.describe("Visual flow: open → kata → editor → run", () => {
       fullPage: false,
     });
 
-    // ── Step 6: Click Run in sandbox ──
-    const runBtn = page.locator("button:has-text('Run')").first();
+    // ── Step 6: Click Submit (full evaluation) ──
+    const runBtn = page.locator("button:has-text('Submit')").first();
     await expect(runBtn).toBeVisible();
 
     // Check if Run is enabled (depends on evaluator status)

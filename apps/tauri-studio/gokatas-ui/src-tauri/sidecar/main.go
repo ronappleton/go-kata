@@ -362,6 +362,7 @@ func (s *server) handleRunKata(w http.ResponseWriter, r *http.Request) {
 	var body struct {
 		Code   string `json:"code"`
 		Tests  string `json:"tests"`
+		Mode   string `json:"mode"` // "test" runs learner tests only; anything else is full evaluation
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		writeError(w, http.StatusBadRequest, err.Error())
@@ -378,12 +379,14 @@ func (s *server) handleRunKata(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	learnerTestsOnly := body.Mode == "test"
 	result := s.runner.Run(context.Background(), evaluator.Request{
-		KataID:       id,
-		Module:       "kata" + id,
-		Code:         body.Code,
-		LearnerTests: body.Tests,
-		TrustedTests: kata.Content.KataTest,
+		KataID:           id,
+		Module:           "kata" + id,
+		Code:             body.Code,
+		LearnerTests:     body.Tests,
+		TrustedTests:     kata.Content.KataTest,
+		LearnerTestsOnly: learnerTestsOnly,
 	})
 
 	summary, hint := summarizeRunResult(result)

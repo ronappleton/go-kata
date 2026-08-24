@@ -57,6 +57,10 @@ type Request struct {
 	Code         string
 	LearnerTests string
 	TrustedTests string
+	// LearnerTestsOnly runs just the learner's own tests (learner_test.go)
+	// without mounting the hidden evaluator (kata_test.go). This lets the
+	// learner iterate on their own tests without the evaluator's assertions.
+	LearnerTestsOnly bool
 }
 
 type Status string
@@ -139,10 +143,13 @@ func (r *Runner) Run(ctx context.Context, req Request) (result Result) {
 		return result
 	}
 
-	trustedPath := filepath.Join(workspace, ".trusted-kata_test.go")
-	if err := os.WriteFile(trustedPath, []byte(req.TrustedTests), 0o444); err != nil {
-		result.EvaluatorError = fmt.Sprintf("write trusted evaluator: %v", err)
-		return result
+	trustedPath := ""
+	if !req.LearnerTestsOnly {
+		trustedPath = filepath.Join(workspace, ".trusted-kata_test.go")
+		if err := os.WriteFile(trustedPath, []byte(req.TrustedTests), 0o444); err != nil {
+			result.EvaluatorError = fmt.Sprintf("write trusted evaluator: %v", err)
+			return result
+		}
 	}
 	// These files are bind-mounted read-only into the container and live in a
 	// disposable 0o700 workspace. Use world-readable modes because the container
@@ -232,7 +239,9 @@ func (r *Runner) podmanArgs(runID, workspace, trustedPath, learnerTestsPath stri
 		"--tmpfs", "/workspace:rw,nosuid,nodev,size=" + strconv.FormatInt(r.Limits.WorkspaceBytes, 10),
 		"--mount", "type=bind,src=" + filepath.Join(workspace, "kata.go") + ",dst=/workspace/kata.go,ro",
 		"--mount", "type=bind,src=" + filepath.Join(workspace, "go.mod") + ",dst=/workspace/go.mod,ro",
-		"--mount", "type=bind,src=" + trustedPath + ",dst=/workspace/kata_test.go,ro",
+	}
+	if trustedPath != "" {
+		args = append(args, "--mount", "type=bind,src="+trustedPath+",dst=/workspace/kata_test.go,ro")
 	}
 	if learnerTestsPath != "" {
 		args = append(args, "--mount", "type=bind,src="+learnerTestsPath+",dst=/workspace/learner_test.go,ro")
@@ -275,7 +284,7 @@ func validateRequest(req Request, limits Limits) error {
 	if strings.TrimSpace(req.Code) == "" {
 		return errors.New("learner code is required")
 	}
-	if strings.TrimSpace(req.TrustedTests) == "" || isIncompleteEvaluator(req.TrustedTests) {
+	if !req.LearnerTestsOnly && (strings.TrimSpace(req.TrustedTests) == "" || isIncompleteEvaluator(req.TrustedTests)) {
 		return errIncompleteEvaluator
 	}
 	if int64(len(req.Code)) > limits.CodeBytes {

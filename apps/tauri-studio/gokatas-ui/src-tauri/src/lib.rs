@@ -58,11 +58,11 @@ async fn save_kata(id: String, code: String, tests: String, state: tauri::State<
 }
 
 #[tauri::command]
-async fn run_kata(id: String, code: String, tests: String, state: tauri::State<'_, AppState>) -> Result<Value, String> {
+async fn run_kata(id: String, code: String, tests: String, mode: String, state: tauri::State<'_, AppState>) -> Result<Value, String> {
     let port = *state.port.lock().unwrap();
     if port == 0 { return Err("sidecar not ready".into()); }
     let url = format!("http://127.0.0.1:{}/api/kata/{}/run", port, id);
-    let body = serde_json::json!({ "code": code, "tests": tests });
+    let body = serde_json::json!({ "code": code, "tests": tests, "mode": mode });
     state.client.post(&url).json(&body).send().await
         .map_err(|e| e.to_string())?
         .json::<Value>().await

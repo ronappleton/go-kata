@@ -66,6 +66,33 @@ func TestPodmanArgsOmitsEmptyLearnerTests(t *testing.T) {
 	}
 }
 
+func TestPodmanArgsOmitsTrustedEvaluatorInTestOnlyMode(t *testing.T) {
+	runner, err := NewRunner("registry.example/gokatas-runner@sha256:" + strings.Repeat("d", 64))
+	if err != nil {
+		t.Fatal(err)
+	}
+	// Empty trustedPath means the hidden evaluator is not mounted.
+	args := strings.Join(runner.podmanArgs("run-id", "/tmp/run", "", "/tmp/learner"), " ")
+	if strings.Contains(args, "kata_test.go") {
+		t.Fatalf("test-only mode should not mount the trusted evaluator: %s", args)
+	}
+	if !strings.Contains(args, "learner_test.go") {
+		t.Fatalf("test-only mode should still mount learner_test.go: %s", args)
+	}
+}
+
+func TestValidateRequestAllowsEmptyTrustedTestsInTestOnlyMode(t *testing.T) {
+	limits := DefaultLimits()
+	err := validateRequest(Request{
+		KataID:           "001",
+		Code:             "package kata",
+		LearnerTestsOnly: true,
+	}, limits)
+	if err != nil {
+		t.Fatalf("test-only mode should not require trusted tests: %v", err)
+	}
+}
+
 func TestCappedBufferCancelsAtLimit(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()

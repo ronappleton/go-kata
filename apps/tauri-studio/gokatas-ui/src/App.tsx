@@ -45,6 +45,29 @@ function langToMonaco(lang: string): string {
   return LANGUAGE_MAP[lang.toLowerCase()] || "plaintext";
 }
 
+// Starter content for the learner's own test file. This is their private
+// scratchpad — the hidden evaluator runs separately and is not reproduced here.
+function learnerTestsTemplate(lang: string): string {
+  if (lang.toLowerCase() === "go") {
+    return [
+      "package kata",
+      "",
+      "import \"testing\"",
+      "",
+      "// ─────────────────────────────────────────────────────────────",
+      "// This file is YOURS — write your own tests here to iterate on",
+      "// your solution. Hit \"Run my tests\" to execute just this file",
+      "// inside the sandbox and see the results immediately.",
+      "//",
+      "// The kata's hidden evaluator runs separately when you hit \"Run\"",
+      "// (or \"Submit\"), so you don't need to reproduce it here.",
+      "// ─────────────────────────────────────────────────────────────",
+      "",
+    ].join("\n");
+  }
+  return "";
+}
+
 // ── Main App ──
 
 export default function App() {
@@ -118,10 +141,11 @@ export default function App() {
       const detail = await kata.get(k.id);
       setSelectedKata(detail);
       setCode(detail.content.kataGo || "");
-      // Learner tests start empty — the hidden evaluator (kataTest) is injected
-      // server-side by the sandbox. Pre-filling it here caused the same
-      // Test* functions to be declared twice (learner_test.go + kata_test.go).
-      setTests("");
+      // Learner tests are the learner's own scratchpad. The hidden evaluator
+      // (kataTest) is injected server-side by the sandbox, so this file must
+      // never be pre-filled with the evaluator (that caused the same Test*
+      // functions to be declared twice).
+      setTests(learnerTestsTemplate(detail.kata.language || "go"));
       setLanguage(langToMonaco(detail.kata.language || "go"));
       setOutput("");
       setActiveTab("docs");
@@ -142,15 +166,16 @@ export default function App() {
     }
   }, [selectedKata, code, tests]);
 
-  // Run
-  const run = useCallback(async () => {
+  // Run — mode "evaluate" runs the hidden evaluator, mode "test" runs the
+  // learner's own tests only so they can iterate quickly.
+  const run = useCallback(async (mode: "evaluate" | "test" = "evaluate") => {
     if (!selectedKata || running) return;
     setRunning(true);
-    setOutput("Running in sandbox…");
+    setOutput(mode === "test" ? "Running your tests in sandbox…" : "Running in sandbox…");
     setActiveTab("output");
     try {
       await kata.save(selectedKata.kata.id, { code, tests });
-      const result = await kata.run(selectedKata.kata.id, { code, tests });
+      const result = await kata.run(selectedKata.kata.id, { code, tests, mode });
 
       // Status badge and duration
       const emoji = result.passed ? "✅" : result.status === "compile-error" ? "❌" : "⚠️";
@@ -185,7 +210,11 @@ export default function App() {
       }
 
       setOutput(lines.join("\n"));
-      setStatusMsg(result.passed ? "Passed ✓" : "Failed ✗");
+      if (mode === "test") {
+        setStatusMsg(result.passed ? "Your tests passed ✓" : "Your tests failed ✗");
+      } else {
+        setStatusMsg(result.passed ? "Passed ✓" : "Failed ✗");
+      }
       // Refresh progress
       const p = await progress.get();
       setProgressState(p);
@@ -354,12 +383,20 @@ export default function App() {
                 Save
               </button>
               <button
-                onClick={run}
+                onClick={() => run("test")}
+                disabled={running}
+                className="text-xs px-4 py-1.5 rounded-lg font-semibold"
+                style={{ background: "var(--color-surface-hi)", color: "var(--color-accent)", border: "1px solid var(--color-border)" }}
+              >
+                ▶ Run my tests
+              </button>
+              <button
+                onClick={() => run("evaluate")}
                 disabled={running || selectedKata?.kata.evaluatorStatus !== "ready"}
                 className="text-xs px-4 py-1.5 rounded-lg font-bold"
                 style={{ background: running ? "var(--color-surface-hi)" : "var(--color-accent)", color: running ? "var(--color-text-faint)" : "#071014", border: "1px solid transparent" }}
               >
-                {running ? "Running…" : "▶ Run in sandbox"}
+                {running ? "Running…" : "▶ Submit"}
               </button>
             </div>
           )}
@@ -607,7 +644,7 @@ function WorkbenchTab({
           className={`tab-btn ${editorTab === "tests" ? "active" : ""}`}
           onClick={() => setEditorTab("tests")}
         >
-          Learner Tests (kata_test{ext})
+          My Tests (learner_test{ext})
         </button>
       </div>
 

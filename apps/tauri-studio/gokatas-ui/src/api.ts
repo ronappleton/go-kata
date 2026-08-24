@@ -85,8 +85,8 @@ export const kata = {
   get: (id: string) => invoke<KataDetail>("get_kata", { id }),
   save: (id: string, data: { code: string; tests: string; sourceFilename?: string; testFilename?: string }) =>
     invoke<{ status: string }>("save_kata", { id, ...data }),
-  run: (id: string, data: { code: string; tests: string }) =>
-    invoke<RunResult>("run_kata", { id, ...data }),
+  run: (id: string, data: { code: string; tests: string; mode?: string }) =>
+    invoke<RunResult>("run_kata", { id, ...data, mode: data.mode || "evaluate" }),
 };
 
 export const progress = {
