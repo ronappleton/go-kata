@@ -386,7 +386,22 @@ func (s *server) handleRunKata(w http.ResponseWriter, r *http.Request) {
 		TrustedTests: kata.Content.KataTest,
 	})
 
-	writeJSON(w, result)
+	type runResultResponse struct {
+		Status         string   `json:"status"`
+		Passed         bool     `json:"passed"`
+		Duration       string   `json:"duration"`
+		FailedTests    []string `json:"failedTests"`
+		Output         string   `json:"output"`
+		EvaluatorError string   `json:"evaluatorError"`
+	}
+	writeJSON(w, runResultResponse{
+		Status:         string(result.Status),
+		Passed:         result.Passed,
+		Duration:       result.Duration.String(),
+		FailedTests:    result.FailedTests,
+		Output:         result.Output,
+		EvaluatorError: result.EvaluatorError,
+	})
 }
 
 func (s *server) handleProgress(w http.ResponseWriter, r *http.Request) {
