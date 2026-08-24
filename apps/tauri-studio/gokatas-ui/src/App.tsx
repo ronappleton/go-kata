@@ -118,7 +118,10 @@ export default function App() {
       const detail = await kata.get(k.id);
       setSelectedKata(detail);
       setCode(detail.content.kataGo || "");
-      setTests(detail.content.kataTest || "");
+      // Learner tests start empty — the hidden evaluator (kataTest) is injected
+      // server-side by the sandbox. Pre-filling it here caused the same
+      // Test* functions to be declared twice (learner_test.go + kata_test.go).
+      setTests("");
       setLanguage(langToMonaco(detail.kata.language || "go"));
       setOutput("");
       setActiveTab("docs");
