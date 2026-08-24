@@ -386,12 +386,16 @@ func (s *server) handleRunKata(w http.ResponseWriter, r *http.Request) {
 		TrustedTests: kata.Content.KataTest,
 	})
 
+	summary, hint := summarizeRunResult(result)
+
 	type runResultResponse struct {
 		Status         string   `json:"status"`
 		Passed         bool     `json:"passed"`
 		Duration       string   `json:"duration"`
 		FailedTests    []string `json:"failedTests"`
 		Output         string   `json:"output"`
+		Summary        string   `json:"summary"`
+		Hint           string   `json:"hint"`
 		EvaluatorError string   `json:"evaluatorError"`
 	}
 	writeJSON(w, runResultResponse{
@@ -400,6 +404,8 @@ func (s *server) handleRunKata(w http.ResponseWriter, r *http.Request) {
 		Duration:       result.Duration.String(),
 		FailedTests:    result.FailedTests,
 		Output:         result.Output,
+		Summary:        summary,
+		Hint:           hint,
 		EvaluatorError: result.EvaluatorError,
 	})
 }
@@ -494,6 +500,34 @@ func (s *server) handleLint(w http.ResponseWriter, r *http.Request) {
 }
 
 // ── Helpers ──
+
+// summarizeRunResult converts the raw `go test -json` output into a short
+// human-readable summary and a hint for the learner. The raw output is still
+// returned in full, but the frontend can prefer these fields.
+func summarizeRunResult(r evaluator.Result) (summary, hint string) {
+	switch r.Status {
+	case evaluator.StatusPassed:
+		return "All tests passed 🎉", "Nice work — move on to the next kata or try refactoring your solution."
+	case evaluator.StatusCompileError:
+		return "Your code did not compile.", "Check the errors below for the file and line number, then fix the syntax or type mismatch."
+	case evaluator.StatusRuntimePanic:
+		return "Your code panicked at runtime.", "Look for nil dereferences, out-of-range access, or a failed type assertion. The output shows the panic trace."
+	case evaluator.StatusTimeout:
+		return "Your code took too long to run.", "Look for an infinite loop or an algorithm that is too slow for the test inputs."
+	case evaluator.StatusOutputLimit:
+		return "Your code printed too much output.", "Reduce the amount of logging or debug output your solution produces."
+	case evaluator.StatusSandboxError:
+		return "The sandbox could not run your code.", "This is usually an environment problem — try again, or check the runner configuration."
+	case evaluator.StatusPodmanUnavailable:
+		return "The sandbox engine (Podman) is unavailable.", "Install Podman or ensure it is running, then try again."
+	case evaluator.StatusEvaluatorIncomplete:
+		return "This kata's evaluator is not complete yet.", "This kata does not have a full test suite. Its evaluation may not be meaningful."
+	case evaluator.StatusFailed:
+		return "Some tests failed.", "Read the failing test output below and adjust your implementation to satisfy each assertion."
+	default:
+		return "Run finished with status: " + string(r.Status), "Review the output below for details."
+	}
+}
 
 func writeJSON(w http.ResponseWriter, v interface{}) {
 	w.Header().Set("Content-Type", "application/json")

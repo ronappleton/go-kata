@@ -64,6 +64,8 @@ export interface RunResult {
   passed: boolean;
   failedTests: string[];
   output: string;
+  summary: string;
+  hint: string;
   evaluatorError: string;
   duration: string;
 }

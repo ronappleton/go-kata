@@ -148,19 +148,39 @@ export default function App() {
     try {
       await kata.save(selectedKata.kata.id, { code, tests });
       const result = await kata.run(selectedKata.kata.id, { code, tests });
+
+      // Status badge and duration
+      const emoji = result.passed ? "✅" : result.status === "compile-error" ? "❌" : "⚠️";
       const lines = [
-        result.status.toUpperCase(),
-        `Duration: ${result.duration}`,
+        `${emoji}  ${result.status.toUpperCase()}  ·  ${result.duration}`,
       ];
+
+      // Summary from sidecar (human-friendly)
+      if (result.summary) {
+        lines.push("");
+        lines.push(result.summary);
+      }
+
+      // Hint
+      if (result.hint) {
+        lines.push("");
+        lines.push(`💡  ${result.hint}`);
+      }
+
+      // Failed test names
       if (result.failedTests.length > 0) {
+        lines.push("");
         lines.push(`Failing: ${result.failedTests.join(", ")}`);
       }
-      if (result.evaluatorError) {
-        lines.push(`Error: ${result.evaluatorError}`);
-      }
+
+      // Raw output (collapsed behind a separator)
       if (result.output) {
-        lines.push("", result.output);
+        lines.push("");
+        lines.push("────────────────────────────────────────────────────────────");
+        lines.push("Raw output:");
+        lines.push(result.output.trim());
       }
+
       setOutput(lines.join("\n"));
       setStatusMsg(result.passed ? "Passed ✓" : "Failed ✗");
       // Refresh progress
